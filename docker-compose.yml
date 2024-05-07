@@ -12,4 +12,9 @@ services:
     env_file: .env
     volumes:
       - ./web:/var/www/html
-  
+    networks: 
+      - network1
+networks: 
+  network1: 
+    external: 
+      name: ${RED_NOW}
