@@ -10,11 +10,11 @@ class model_sql
         $database = getenv("DB_NAME_isft177");
         $username = getenv("MYSQL_USER");
         $password = getenv("MYSQL_PASSWORD");
-        $PORT="3308";
+        //$PORT="3307";
         $charset = "utf8";
       
         try {
-            $connection = "mysql:host=" . $hostname . ";dbname=" . $database . ";PORT".$PORT.";charset=" . $charset;
+            $connection = "mysql:host=" . $hostname . ";dbname=" . $database . ";charset=" . $charset;
             $options = [
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                 PDO::ATTR_EMULATE_PREPARES => false,
