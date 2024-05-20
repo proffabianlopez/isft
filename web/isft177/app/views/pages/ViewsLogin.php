@@ -17,7 +17,7 @@
             <div class="card">
 
                 <!-- Logo -->
-                <div class="card-header py-4 text-center slider">
+                <div class="card-header py-4 text-center d-flex justify-content-center align-items-center slider">
                     <span><img src="./img/logoisft177.png" alt="logo" height="220"></span>
                 </div>
 
