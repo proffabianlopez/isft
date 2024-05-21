@@ -18,7 +18,4 @@
 <script src="./plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="./plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <script src="./js/datatable.js"></script>
-<!-- Registro on-line -->
-<script src="./js/registroOnLine.js"></script>
-<!-- Examenes -->
-<script src="./js/examenes.js"></script>
+
