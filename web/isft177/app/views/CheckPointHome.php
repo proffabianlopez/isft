@@ -1,12 +1,10 @@
-<?php
-session_start();
-?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
 <?php 
 //   head
-    include_once "./views/modules/head.php";
+    include_once "modules/head.php";
 ?>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -17,26 +15,27 @@ session_start();
 ?>        
 <?php 
 //  <!-- Main Sidebar Container -->
-        //include_once "./views/modules/sidebar.php";
+    include_once "modules/sidebar.php";
 ?>
 <div class="py-4 mb-2"></div>
 <div class="content-wrapper">
 <?php
 /* AQUI DEBEN IR LOS FILTROS DE ROL PARA HABILITAR LAS OPCIONES CORRESPONDIENTES, CON $_SESSION */
     if( (isset($_GET['pages'])) && (isset($_SESSION['fk_rol_id'])) ) {
+
         switch ($_SESSION['fk_rol_id']) {
             case 1:
-                include_once "views/getroles/GetAdminRol.php";
+                include_once "getroles/GetAdminRol.php";
                 break;
-            case 2:
-                include_once "views/getroles/GetPreceptoryRol.php";
+           /* case 2:
+                include_once "getroles/GetPreceptoryRol.php";
                 break;
             case 3:
-                include_once "views/getroles/GetStudentRol.php";
-                break;
+                include_once "getroles/GetStudentRol.php";
+                break; */
         }
     } else {
-        include "views/page/home.php";     
+        include "../views/pages/home.php";     
     }       
 ?>    
 </div>
@@ -44,14 +43,14 @@ session_start();
 /*
 *  <!-- Main Footer -->
 */
-include_once "./views/modules/footer.php";
+include_once "modules/footer.php";
 ?>
 </div>
 <?php 
 /*
 * <!-- SCRIPTS JS -->
 */
-include_once "./views/modules/scripts.php";
+include_once "modules/scripts.php";
 ?>
 </body>
 </html>
