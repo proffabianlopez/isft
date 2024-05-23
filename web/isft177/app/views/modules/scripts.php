@@ -18,4 +18,9 @@
 <script src="./plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="./plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <script src="./js/datatable.js"></script>
+<!---Script para manejar el sweet alert de cerrar session-->
+<script src="../public/js/sweetAlertSession.js"></script>
+<!--ocultar barra lateral--->
+<script src="../public/js/disappearSideBar.js"></script>
+
 

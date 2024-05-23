@@ -32,3 +32,65 @@ body {
         background-position: top right;
     }
 }
+
+/*parte del home.php*/
+
+    .text-left {
+        text-align: left;
+        margin: 0 auto;
+        max-width: 800px;
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .my-3 {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+    .lead {
+        font-size: 1.25rem;
+        font-weight: 300;
+    }
+    .menu-section {
+        padding: 10px;
+        border-left: 5px solid #007bff;
+        margin-bottom: 20px;
+        transition: background-color 0.3s ease;
+    }
+    .menu-section:hover {
+        background-color: #f1f1f1;
+    }
+    .menu-section h4 {
+        font-size: 1.5rem;
+        display: flex;
+        align-items: center;
+    }
+    .menu-section h4 i {
+        margin-right: 10px;
+        color: #007bff;
+    }
+    .menu-section ul {
+        list-style-type: disc;
+        padding-left: 20px;
+    }
+
+    /*Fin del home*/
+
+   
+
+     /* Estilo para ocultar la barra lateral */
+     .main-sidebar.sidebar-hidden {
+        display: none;
+    }
+
+    /* Estilo para mover el contenido principal cuando la barra lateral está oculta */
+    .content-wrapper.sidebar-hidden {
+        margin-left: 0 !important; /* Eliminar el margen izquierdo */
+        transition: margin-left 0.3s ease; /* Agregar una transición suave */
+    }
+
+    /* Estilo para que el contenido de la barra de navegación cubra el espacio dejado por la barra lateral */
+    .main-header.navbar-expanded .content-wrapper {
+        margin-left: 0; /* Eliminar cualquier margen izquierdo */
+    }
