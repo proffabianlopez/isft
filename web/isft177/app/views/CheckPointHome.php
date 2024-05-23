@@ -11,7 +11,7 @@
     <div class="wrapper">
 <?php 
 //  <!-- Navbar -->
-       
+include_once "modules/navbar.php";
 ?>        
 <?php 
 //  <!-- Main Sidebar Container -->
