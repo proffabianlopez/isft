@@ -17,7 +17,7 @@
         </li>
         <!-- Username con opción de cambiar contraseña -->
         <li class="nav-item">
-            <a class="nav-link" href="#" role="button" title="Cerrar Sesión">
+            <a class="nav-link" href="#" role="button">
                 <i class="fas fa-user"></i> Username <!-- Cambiado a Username -->
             </a>
         </li>
