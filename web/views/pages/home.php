@@ -1,6 +1,6 @@
 <section class="container text-center">
     <h3 class="display-4 py-3">Panel de Administración Académica isft177</h3>
-    <img src="./img/isft177_H.png" class="img-fluid mb-3">
+    <img src="public/img/isft177_H.png" class="img-fluid mb-3">
     <p class="lead">Bienvenido a la sección de administración. Aquí puede gestionar todos los aspectos relacionados con carreras, materias y usuarios. Las siguientes funcionalidades estáran disponibles:</p>
     
     <div class="text-left">

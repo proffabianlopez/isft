@@ -39,7 +39,7 @@ class UserController
             window.history.replaceState(null, null, window.location.href);
         }
         
-        window.location="../public/index.php?pages=home";
+        window.location="../index.php?pages=home";
         </script>';
                 }
             } else {
