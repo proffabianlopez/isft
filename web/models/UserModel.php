@@ -1,5 +1,5 @@
 <?php
-include_once '../config/MysqlDb.php'; // Asegúrate de incluir el archivo que contiene la clase model_sql
+include_once 'config/MysqlDb.php'; // Asegúrate de incluir el archivo que contiene la clase model_sql
 class UserModel
 {
     static public function login($email, $password)

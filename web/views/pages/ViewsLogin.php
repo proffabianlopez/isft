@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar sesión</title>
-    <link rel="stylesheet" href="./css/bootstrap.min.css">
-    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="public/css/bootstrap.min.css">
+    <link rel="stylesheet" href="public/css/styles.css">
 </head>
 
 <body class="d-flex justify-content-center align-items-center">
@@ -18,7 +18,7 @@
 
                 <!-- Logo -->
                 <div class="card-header py-4 text-center d-flex justify-content-center align-items-center slider">
-                    <span><img src="./img/logoisft177.png" alt="logo" height="220"></span>
+                    <span><img src="public/img/logoisft177.png" alt="logo" height="220"></span>
                 </div>
 
                 <div class="card-body p-4">
@@ -68,7 +68,7 @@
         <!-- end container -->
     </div>
 
-    <script src="./js/bootstrap.bundle.min.js"></script>
+    <script src="public/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

@@ -14,9 +14,9 @@ if(
 # links simples
       ($_GET['pages'] == "usrProfile") 
     ) { 
-      include "../views/pages/".$_GET['pages'].".php";    
+      include "views/pages/".$_GET['pages'].".php";    
     } elseif ($_GET['pages'] == "logout") {
-      include "../views/pages/logout.php";   
+      include "views/pages/logout.php";   
     } else {
-      include "../views/pages/error404.php";   
+      include "views/pages/error404.php";   
     }
