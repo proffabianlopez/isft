@@ -8,18 +8,31 @@
     </ul>
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-        <!-- Botón para ocultar la barra lateral -->
+    
+      <!-- Username con dropdown para "Mis datos" -->
+      <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fas fa-user"></i> 
+        <?php $data = UserController::sessionDataUser($_SESSION['id_user'])?>
+        <?php echo $data['name_user'] . " " . $data['last_name_user']?> 
+    </a>
+    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+        <a class="dropdown-item" href="index.php?pages=myData">
+            <i class="fas fa-id-card"></i> Mis datos
+        </a>
+        <a class="dropdown-item" href="index.php?page=changePassword">
+            <i class="fas fa-key"></i> Cambiar Contraseña
+        </a>
+    </div>
+</li>
+
+    
+    <!-- Botón para ocultar la barra lateral -->
         <li class="nav-item">
             <button id="toggle-sidebar-btn" class="nav-link" role="button" style="background-color: transparent; border: none;" title="Ocultar Barra Lateral">
                 <i class="fas fa-angle-left" style="margin-right: 5px;"></i> <!-- Icono de flecha hacia la izquierda -->
                 <i class="fas fa-angle-right"></i> <!-- Icono de flecha hacia la derecha -->
             </button>
-        </li>
-        <!-- Username con opción de cambiar contraseña -->
-        <li class="nav-item">
-            <a class="nav-link" href="#" role="button">
-                <i class="fas fa-user"></i> Username <!-- Cambiado a Username -->
-            </a>
         </li>
         <!-- Botón de Cerrar Sesión con SweetAlert -->
         <li class="nav-item">

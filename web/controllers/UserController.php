@@ -18,11 +18,12 @@ class UserController
                 $rol = $verificar['fk_rol_id'];
                 $state = $verificar['state'];
                 // $changed = $verificar['changedpassword'];
-                $_SESSION['email'] = $mail_user;
-                $_SESSION['fk_rol_id'] = $rol;
+               
                 if ($state == 1) {
                     $_SESSION['state'] = $state;
-
+                    $_SESSION['email'] = $mail_user;
+                    $_SESSION['fk_rol_id'] = $rol;
+                    $_SESSION['id_user']=$id_user;
                     //     if ($changed == 0) {
                     //         echo '<script>
                     // if ( window.history.replaceState ) {
@@ -59,4 +60,10 @@ class UserController
 			</script>';
         }
     }
+
+    static public function sessionDataUser($id){
+         $dataUser=UserModel::dataUser($id);
+         return $dataUser;
+    }
+
 }
