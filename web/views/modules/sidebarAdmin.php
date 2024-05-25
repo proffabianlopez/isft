@@ -22,14 +22,6 @@
         </li>            
     </ul>
 </li>
-<li class="nav-item">
-    <a href="#" class="nav-link">
-        <i class="nav-icon fas fa-chalkboard"></i>
-        <p>
-            Gestión de Materias
-            <i class="right fas fa-angle-left"></i>
-        </p>
-    </a>
     <ul class="nav nav-treeview">                 
         <li class="nav-item">
             <a href="index.php?pages=allSubjects" class="nav-link">
@@ -60,5 +52,13 @@
                 <p>Nuevo Administrativo</p>
             </a>
         </li>
+
+        <li class="nav-item">
+            <a href="index.php?pages=manageUser" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Gestionar Usuarios</p>
+            </a>
+        </li>
+
     </ul>
 </li>
