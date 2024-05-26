@@ -66,4 +66,50 @@ class UserController
          return $dataUser;
     }
 
+    static public function newStudent(){
+        if((!empty($_POST['name'])) && (!empty($_POST['lastName'])) && 
+           (!empty($_POST['mail'])) && (!empty($_POST['dni'])) && 
+           (!empty($_POST['fileNumber'])) && (!empty($_POST['gender'])) && 
+           (!empty($_POST['date']))){
+
+            $name = $_POST['name'];
+            $lastname = $_POST['lastName'];
+            $email = $_POST['mail'];
+            $dni = $_POST['dni'];
+            $fileNumber = $_POST['fileNumber'];
+            $gender = $_POST['gender'];
+            $date = $_POST['date'];
+
+            $password = 1234;
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+            $execute = UserModel::newStudent($name, $lastname, $email, $dni, $date, $fileNumber,$hashedPassword, $gender);
+            
+            if($execute){
+                echo '<script>
+                if ( window.history.replaceState ) {
+                    window.history.replaceState(null, null, window.location.href);
+                }
+                window.location="../index.php?pages=newStudent";
+                </script>
+                <div class="alert alert-succes mt-2">Se guardó el registro correctamente</div>';
+            }else{
+                echo '<script>
+                if ( window.history.replaceState ) {
+                    window.history.replaceState(null, null, window.location.href);
+                }
+                window.location="../index.php?pages=newStudent";
+                </script>
+                <div class="alert alert-danger mt-2">Hubo un problema al crearlo</div>';
+            }
+        }else{
+            echo '<script>
+			if ( window.history.replaceState ) {
+				window.history.replaceState(null, null, window.location.href);
+			}
+			</script>
+            <div class="alert alert-danger mt-2">Debes completar los campos</div>';
+        }
+    }
+
 }
