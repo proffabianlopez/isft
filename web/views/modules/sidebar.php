@@ -12,8 +12,8 @@
             <div class="info"><?php
 
 ?>
-                <a href="#" class="d-block">Administrador</a>
-                <div style="color:grey;">(SysAdmin)</div>    
+                <a href="#" class="d-block"> <?php $data = UserController::sessionDataUser($_SESSION['id_user'])?>
+                <?php echo $data['name_rol']?></a>
             </div>
         </div>
         <nav class="mt-2">

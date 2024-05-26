@@ -20,7 +20,7 @@
         <a class="dropdown-item" href="index.php?pages=myData">
             <i class="fas fa-id-card"></i> Mis datos
         </a>
-        <a class="dropdown-item" href="index.php?page=changePassword">
+        <a class="dropdown-item" href="index.php?pages=changePassword">
             <i class="fas fa-key"></i> Cambiar Contraseña
         </a>
     </div>
