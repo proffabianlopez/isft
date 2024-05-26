@@ -35,7 +35,7 @@ include_once "modules/navbar.php";
                 break; */
         }
     } else {
-        include "../views/pages/home.php";     
+        include "views/pages/home.php";     
     }       
 ?>    
 </div>
