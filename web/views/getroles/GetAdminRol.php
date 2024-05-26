@@ -10,6 +10,7 @@ if(
 # links administracion de usuarios           
       ($_GET['pages'] == "newAdmin") || 
       ($_GET['pages'] == "newStudent") || 
+      ($_GET['pages'] == "myData")||
 
 # links simples
       ($_GET['pages'] == "usrProfile") 
