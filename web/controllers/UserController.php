@@ -112,6 +112,8 @@ class UserController
         }
     }
 
+
+    
     static public function newPassword() {
         if (!empty($_POST['currentPassword']) && !empty($_POST['newPassword']) && !empty($_POST['confirmPassword'])) {
             $currentPassword = $_POST['currentPassword'];
@@ -161,6 +163,47 @@ class UserController
         }
     }
     
-    
+    static public function newMail(){
+        if (!empty($_POST['email'])) {
+            $newEmail = trim($_POST['email']);
+            
+            // Obtener el correo electrónico actual del usuario
+            $currentEmail = UserModel::dataUser($_SESSION['id_user']); 
+            
+        
+            if ($newEmail === trim($currentEmail['email'])) {
+                
+                echo '<div class="alert alert-danger mt-2">El correo es existente</div>';
+                return;
+            }
+            
+            
+            if (filter_var($newEmail, FILTER_VALIDATE_EMAIL)) {
+                
+                
+               
+                $execute = UserModel::updateMail($_SESSION['id_user'], $newEmail);
+                
+                if($execute){
+                    echo '<script>
+                            if ( window.history.replaceState ) {
+                                window.history.replaceState(null, null, window.location.href);
+                            }
+                            window.location="../index.php?pages=myData";
+                          </script>';
+                    echo '<div class="alert alert-success mt-2">Se guardó el registro correctamente</div>';
+                    return;
+                } else {
+                    echo '<div class="alert alert-danger mt-2">Error al guardar el registro</div>';
+                }
+            } else {
+                
+                echo '<div class="alert alert-danger mt-2">El correo NO es válido</div>';
+            }
+        } else {
+            
+            echo '<div class="alert alert-danger mt-2">El campo está Vacío</div>';
+        }
+    }
     
 }

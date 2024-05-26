@@ -31,32 +31,34 @@ class UserModel
                  users.file AS file,
                  users.password AS password,
                  users.fk_gender_id AS id_gender,
+                 users.state AS state,
                  genders.details AS gender_detail,
                  users.fk_carrer_id AS id_carrer,
-                 carrers.carrer_name AS carrer_name,
+                 IFNULL(carrers.carrer_name, 'CARRERA NO ASIGNADA') AS carrer_name,
                  users.fk_rol_id AS id_rol,
                  roles.name AS name_rol
              FROM 
                  users
              JOIN 
                  genders ON users.fk_gender_id = genders.id_gender
-             JOIN 
+             LEFT JOIN 
                  carrers ON users.fk_carrer_id = carrers.id_carrer
              JOIN 
                  roles ON users.fk_rol_id = roles.id_rol
              WHERE 
                  users.id_user = ?";
         // Assuming you are using PDO for the prepared statement
-        $stmt = model_sql::connectToDatabase()->prepare($sql);;
-        $stmt->bindParam(1,$id, PDO::PARAM_INT);
+        $stmt = model_sql::connectToDatabase()->prepare($sql);
+        $stmt->bindParam(1, $id, PDO::PARAM_INT);
         if($stmt->execute()){
             return $stmt->fetch(PDO::FETCH_ASSOC);
         }else{
-            print_r($stm->errorInfo());
+            print_r($stmt->errorInfo());
         }
-
+    
         $stmt=null;
     }
+    
     
     static public function newStudent($value1, $value2, $value3, $value4, $value5, $value6, $value7, $value8){
         $sql = "INSERT INTO users (name, last_name, email, dni, startingYear, file, password, 
@@ -75,9 +77,11 @@ class UserModel
         if($stmt->execute()){
             return $stmt;
         }else{
-            print_r($stm->errorInfo());
+            print_r($stmt->errorInfo());
         }
     }
+
+
 
     static public function getPassword($id){
         $sql="Select users.password as password From users
@@ -88,14 +92,14 @@ class UserModel
               if($stmt->execute()){
                   return $stmt->fetch(PDO::FETCH_ASSOC);
               }else{
-                  print_r($stm->errorInfo());
+                  print_r($stmt->errorInfo());
               }
       
               $stmt=null;
 
     }
-
-    static public function updatePassword($id, $newPassword){
+  
+  static public function updatePassword($id, $newPassword){
         
         $sql = "UPDATE users SET password = ? WHERE id_user = ?";
     
@@ -104,6 +108,29 @@ class UserModel
     
         
         $stmt->bindParam(1, $newPassword, PDO::PARAM_STR);
+        $stmt->bindParam(2, $id, PDO::PARAM_INT);
+    
+      
+        if($stmt->execute()){
+            return true; 
+        }else{
+            print_r($stmt->errorInfo()); 
+           
+        }
+    
+        // Liberar el recurso de la sentencia
+        $stmt = null;
+    }
+  
+  static public function updateMail($id, $newMail){
+        
+        $sql = "UPDATE users SET email = ? WHERE id_user = ?";
+    
+        // Preparar la sentencia
+        $stmt = model_sql::connectToDatabase()->prepare($sql);
+    
+        
+        $stmt->bindParam(1, $newMail, PDO::PARAM_STR);
         $stmt->bindParam(2, $id, PDO::PARAM_INT);
     
       
