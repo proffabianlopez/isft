@@ -13,7 +13,7 @@ if(
       ($_GET['pages'] == "myData")||
 
 # links simples
-      ($_GET['pages'] == "usrProfile") 
+      ($_GET['pages'] == "changePassword") 
     ) { 
       include "views/pages/".$_GET['pages'].".php";    
     } elseif ($_GET['pages'] == "logout") {

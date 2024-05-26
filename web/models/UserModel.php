@@ -3,22 +3,23 @@ include_once 'config/MysqlDb.php'; // Asegúrate de incluir el archivo que conti
 class UserModel
 {
     static public function login($email, $password)
-    {
-        $query = "SELECT id_user, email, dni, password, /*changepassword,*/ fk_rol_id, state 
-                  FROM users WHERE email = :email"; // Corregí el error en la consulta SQL
+{
+    $query = "SELECT id_user, email, dni, password, /*changepassword,*/ fk_rol_id, state 
+              FROM users WHERE email = :email";
 
-        $statement = model_sql::connectToDatabase()->prepare($query); // Obtener la conexión a la base de datos
-        $statement->bindParam(':email', $email, PDO::PARAM_STR);
-        $statement->execute();
-        $row = $statement->fetch(PDO::FETCH_ASSOC);
-        if ($row) {
-            if ($password == $row['password']) {
-                return $row;
-            }
+    $statement = model_sql::connectToDatabase()->prepare($query);
+    $statement->bindParam(':email', $email, PDO::PARAM_STR);
+    $statement->execute();
+    $row = $statement->fetch(PDO::FETCH_ASSOC);
+    
+    if ($row) {
+        if (password_verify($password, $row['password'])) {
+            return $row;
         }
-
-        return false;
     }
+
+    return false;
+}
 
     static public function dataUser($id){
         $sql = "SELECT
@@ -80,7 +81,48 @@ class UserModel
         }
     }
 
-    static public function updateMail($id, $newMail){
+
+
+    static public function getPassword($id){
+        $sql="Select users.password as password From users
+              Where id_user=?";
+
+              $stmt = model_sql::connectToDatabase()->prepare($sql);;
+              $stmt->bindParam(1,$id, PDO::PARAM_INT);
+              if($stmt->execute()){
+                  return $stmt->fetch(PDO::FETCH_ASSOC);
+              }else{
+                  print_r($stmt->errorInfo());
+              }
+      
+              $stmt=null;
+
+    }
+  
+  static public function updatePassword($id, $newPassword){
+        
+        $sql = "UPDATE users SET password = ? WHERE id_user = ?";
+    
+        // Preparar la sentencia
+        $stmt = model_sql::connectToDatabase()->prepare($sql);
+    
+        
+        $stmt->bindParam(1, $newPassword, PDO::PARAM_STR);
+        $stmt->bindParam(2, $id, PDO::PARAM_INT);
+    
+      
+        if($stmt->execute()){
+            return true; 
+        }else{
+            print_r($stmt->errorInfo()); 
+           
+        }
+    
+        // Liberar el recurso de la sentencia
+        $stmt = null;
+    }
+  
+  static public function updateMail($id, $newMail){
         
         $sql = "UPDATE users SET email = ? WHERE id_user = ?";
     
@@ -95,7 +137,7 @@ class UserModel
         if($stmt->execute()){
             return true; 
         }else{
-            print_r($stmt->errorInfo()); 
+            print_r($stm->errorInfo()); 
            
         }
     

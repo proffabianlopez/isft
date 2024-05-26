@@ -112,6 +112,57 @@ class UserController
         }
     }
 
+
+    
+    static public function newPassword() {
+        if (!empty($_POST['currentPassword']) && !empty($_POST['newPassword']) && !empty($_POST['confirmPassword'])) {
+            $currentPassword = $_POST['currentPassword'];
+            $newPassword = $_POST['newPassword'];
+            $confirmPassword = $_POST['confirmPassword'];
+    
+            // Verificar que las contraseñas nuevas coincidan
+            if ($newPassword !== $confirmPassword) {
+                echo '<div class="alert alert-danger mt-2">Las contraseñas nuevas no coinciden.</div>';
+                return;
+            }
+    
+            // Verificar la longitud de la nueva contraseña
+            if (strlen($newPassword) < 8) {
+                echo '<div class="alert alert-danger mt-2">La nueva contraseña debe tener al menos 8 caracteres.</div>';
+                return;
+            }
+    
+            // Obtener la contraseña actual del usuario
+            $verifyPassword = UserModel::getPassword($_SESSION['id_user']);
+            $oldPassword = $verifyPassword['password'];
+    
+            // Verificar si la contraseña actual es correcta
+            if (password_verify($currentPassword, $oldPassword)) {
+                // Hash de la nueva contraseña
+                $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+    
+                // Actualizar la contraseña en la base de datos
+                $result = UserModel::updatePassword($_SESSION['id_user'], $hashedPassword);
+    
+                if ($result) {
+                    echo '<script>
+                        if ( window.history.replaceState ) {
+                            window.history.replaceState(null, null, window.location.href);
+                        }
+                        window.location="../index.php?pages=changePassword";
+                        </script>
+                        <div class="alert alert-success mt-2">Se guardó el registro correctamente.</div>';
+                } else {
+                    echo '<div class="alert alert-danger mt-2">Error al actualizar la contraseña. Por favor, inténtalo de nuevo más tarde.</div>';
+                }
+            } else {
+                echo '<div class="alert alert-danger mt-2">La contraseña actual es incorrecta.</div>';
+            }
+        } else {
+            echo '<div class="alert alert-danger mt-2">Por favor, completa todos los campos.</div>';
+        }
+    }
+    
     static public function newMail(){
         if (!empty($_POST['email'])) {
             $newEmail = trim($_POST['email']);
@@ -155,6 +206,4 @@ class UserController
         }
     }
     
-    
-
 }
