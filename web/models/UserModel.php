@@ -57,5 +57,25 @@ class UserModel
         $stmt=null;
     }
     
+    static public function newStudent($value1, $value2, $value3, $value4, $value5, $value6, $value7, $value8){
+        $sql = "INSERT INTO users (name, last_name, email, dni, startingYear, file, password, 
+                                fk_gender_id, fk_carrer_id, fk_rol_id, state)
+                                VALUES (:name, :lastName, :email, :dni, :dateYear, :fileNumber, :password, :gender, null, 3, 1)";
+        $stmt = model_sql::connectToDatabase()->prepare($sql);
+        $stmt->bindParam(':name', $value1, PDO::PARAM_STR);
+        $stmt->bindParam(':lastName', $value2, PDO::PARAM_STR);
+        $stmt->bindParam(':email', $value3, PDO::PARAM_STR);
+        $stmt->bindParam(':dni', $value4, PDO::PARAM_STR);
+        $stmt->bindParam(':dateYear', $value5, PDO::PARAM_STR);
+        $stmt->bindParam(':fileNumber', $value6, PDO::PARAM_STR);
+        $stmt->bindParam(':password', $value7, PDO::PARAM_STR);
+        $stmt->bindParam(':gender', $value8, PDO::PARAM_INT);
+        
+        if($stmt->execute()){
+            return $stmt;
+        }else{
+            print_r($stm->errorInfo());
+        }
+    }
  
 }
