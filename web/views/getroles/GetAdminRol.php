@@ -10,9 +10,10 @@ if(
 # links administracion de usuarios           
       ($_GET['pages'] == "newAdmin") || 
       ($_GET['pages'] == "newStudent") || 
+      
 
 # links simples
-      ($_GET['pages'] == "usrProfile") 
+      ($_GET['pages'] == "changePassword") 
     ) { 
       include "views/pages/".$_GET['pages'].".php";    
     } elseif ($_GET['pages'] == "logout") {
