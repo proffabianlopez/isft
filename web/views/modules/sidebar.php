@@ -42,11 +42,11 @@
                 
                 ?>
                 
-                <?php if ($_SESSION['fk_rol_id'] != 1): ?>
+                <?php if ($_SESSION['change_password'] === 0): ?>
                     <li class="nav-item">
-                        <a href="index.php?pages=usrProfile" class="nav-link">
+                        <a href="index.php?pages=changedPasswordStart" class="nav-link">
                             <i class="nav-icon fas fa-user-cog"></i>
-                            <p>Mis Datos</p>
+                            <p>Cambio por primera vez</p>
                         </a>
                     </li>
                 <?php endif;?>  

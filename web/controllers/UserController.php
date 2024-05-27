@@ -1,6 +1,5 @@
 <?php
 
-
 class UserController
 {
 
@@ -17,22 +16,23 @@ class UserController
                 $id_user = $verificar['id_user'];
                 $rol = $verificar['fk_rol_id'];
                 $state = $verificar['state'];
-                // $changed = $verificar['changedpassword'];
+                $changed = $verificar['change_password'];
                
                 if ($state == 1) {
                     $_SESSION['state'] = $state;
                     $_SESSION['email'] = $mail_user;
                     $_SESSION['fk_rol_id'] = $rol;
                     $_SESSION['id_user']=$id_user;
-                    //     if ($changed == 0) {
-                    //         echo '<script>
-                    // if ( window.history.replaceState ) {
-                    //     window.history.replaceState(null, null, window.location.href);
-                    // }
+                    $_SESSION['change_password'] = $changed;
+                        if ($changed == 0) {
+                            echo '<script>
+                    if ( window.history.replaceState ) {
+                        window.history.replaceState(null, null, window.location.href);
+                    }
 
-                    // window.location="../views/pages/ChangedPassword.php"; //AGREGAR VISTA CHANGEDPASSWORD
-                    // </script>';
-                    //     }
+                    window.location="../index.php?pages=changedPasswordStart"; //AGREGAR VISTA CHANGEDPASSWORD
+                    </script>';
+                        }
 
                     //if borra todos las variables post
                     echo '<script>
@@ -203,6 +203,43 @@ class UserController
         } else {
             
             echo '<div class="alert alert-danger mt-2">El campo está Vacío</div>';
+        }
+    }
+
+    static public function changePasswordStart() {
+        if (!empty($_POST['newPassword']) && !empty($_POST['confirmPassword'])) {
+            $newPassword = $_POST['newPassword'];
+            $confirmPassword = $_POST['confirmPassword'];
+
+            if ($newPassword !== $confirmPassword) {
+                echo '<div class="alert alert-danger mt-2">Las contraseñas nuevas no coinciden.</div>';
+                return;
+            }
+    
+            if (strlen($newPassword) < 8) {
+                echo '<div class="alert alert-danger mt-2">La nueva contraseña debe tener al menos 8 caracteres.</div>';
+                return;
+            }
+    
+            // Hash de la nueva contraseña
+            $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+    
+            $result = UserModel::changePasswordStart($_SESSION['id_user'], $hashedPassword);
+    
+            if ($result) {
+                $_SESSION['change_password'] = 1;
+                echo '<script>
+                            if ( window.history.replaceState ) {
+                                window.history.replaceState(null, null, window.location.href);
+                            }
+                            window.location="../index.php?pages=logout";
+                          </script>';
+            } else {
+                echo '<div class="alert alert-danger mt-2">Error al actualizar la contraseña. Por favor, inténtalo de nuevo más tarde.</div>';
+            }
+    
+        } else {
+            echo '<div class="alert alert-danger mt-2">Por favor, completa todos los campos.</div>';
         }
     }
     

@@ -66,8 +66,16 @@
             <!-- end card -->
         </div>
         <!-- end container -->
-    </div>
-
+        <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-11">
+                <div class="alert alert-info text-center">
+                    <p><b>NOTA: </b>Si es tu primera vez entrando, deberás cambiar la contraseña.</p>  
+                </div>
+            </div>
+        </div>
+        </div>
+    
     <script src="public/js/bootstrap.bundle.min.js"></script>
 </body>
 

@@ -1,10 +1,10 @@
 <?php
-include_once 'config/MysqlDb.php'; // Asegúrate de incluir el archivo que contiene la clase model_sql
+include_once 'config/MysqlDb.php'; 
 class UserModel
 {
     static public function login($email, $password)
 {
-    $query = "SELECT id_user, email, dni, password, /*changepassword,*/ fk_rol_id, state 
+    $query = "SELECT id_user, email, dni, password, change_password, fk_rol_id, state 
               FROM users WHERE email = :email";
 
     $statement = model_sql::connectToDatabase()->prepare($query);
@@ -118,7 +118,6 @@ class UserModel
            
         }
     
-        // Liberar el recurso de la sentencia
         $stmt = null;
     }
   
@@ -126,7 +125,6 @@ class UserModel
         
         $sql = "UPDATE users SET email = ? WHERE id_user = ?";
     
-        // Preparar la sentencia
         $stmt = model_sql::connectToDatabase()->prepare($sql);
     
         
@@ -141,8 +139,27 @@ class UserModel
            
         }
     
-        // Liberar el recurso de la sentencia
         $stmt = null;
     }
  
+    static public function changePasswordStart($id, $newPassword){
+        $sql = "UPDATE users SET password = ?, change_password = 1 WHERE id_user = ?";
+    
+        $stmt = model_sql::connectToDatabase()->prepare($sql);
+    
+        
+        $stmt->bindParam(1, $newPassword, PDO::PARAM_STR);
+        $stmt->bindParam(2, $id, PDO::PARAM_INT);
+    
+      
+        if($stmt->execute()){
+            return true; 
+        }else{
+            print_r($stmt->errorInfo()); 
+           
+        }
+    
+        $stmt = null;
+    }
+
 }
