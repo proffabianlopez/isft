@@ -12,7 +12,7 @@ if(
       ($_GET['pages'] == "newStudent") || 
       ($_GET['pages'] == "myData")||
       ($_GET['pages'] == "changedPasswordStart") ||
-
+      ($_GET['pages'] == "manageUser") || 
 # links simples
       ($_GET['pages'] == "changePassword") 
     ) { 

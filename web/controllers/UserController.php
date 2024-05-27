@@ -252,18 +252,19 @@ class UserController
     {
         if ((!empty($_POST['name'])) && (!empty($_POST['lastName'])) &&
             (!empty($_POST['mail'])) && (!empty($_POST['dni'])) && (!empty($_POST['gender']))
-        ) {
+        && !empty($_POST['roles'])) {
 
             $name = $_POST['name'];
             $lastname = $_POST['lastName'];
             $email = $_POST['mail'];
             $dni = $_POST['dni'];
             $gender = $_POST['gender'];
+            $roles=$_POST['roles'];
 
             $password = 1234;
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-            $execute = UserModel::newAdmin($name, $lastname, $email, $dni, $hashedPassword, $gender);
+            $execute = UserModel::newAdmin($name, $lastname, $email, $dni, $hashedPassword, $gender,$roles);
 
             if ($execute) {
                 echo '<script>
@@ -290,5 +291,10 @@ class UserController
 			</script>
             <div class="alert alert-danger mt-2">Debes completar los campos</div>';
         }
+    }
+
+    static public function countUserType(){
+        $count_rol_type = UserModel::countUserType();
+        return $count_rol_type;
     }
 }
