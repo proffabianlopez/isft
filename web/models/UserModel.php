@@ -165,11 +165,11 @@ class UserModel
         $stmt = null;
     }
 
-    static public function newAdmin($value1, $value2, $value3, $value4, $value5, $value6)
+    static public function newAdmin($value1, $value2, $value3, $value4, $value5, $value6,$value7)
     {
         $sql = "INSERT INTO users (name, last_name, email, dni, startingYear, file, password, 
                                 fk_gender_id, fk_carrer_id, fk_rol_id, state)
-                                VALUES (:name, :lastName, :email, :dni, NULL, NULL, :password, :gender, null, 3, 1)";
+                                VALUES (:name, :lastName, :email, :dni, NULL, NULL, :password, :gender, null, :fk_rol_id, 1)";
         $stmt = model_sql::connectToDatabase()->prepare($sql);
         $stmt->bindParam(':name', $value1, PDO::PARAM_STR);
         $stmt->bindParam(':lastName', $value2, PDO::PARAM_STR);
@@ -177,11 +177,32 @@ class UserModel
         $stmt->bindParam(':dni', $value4, PDO::PARAM_STR);
         $stmt->bindParam(':password', $value5, PDO::PARAM_STR);
         $stmt->bindParam(':gender', $value6, PDO::PARAM_INT);
+        $stmt->bindParam(':fk_rol_id', $value7, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
             return $stmt;
         } else {
             print_r($stmt->errorInfo());
         }
+    }
+
+    static public function countUserType(){
+        $sql = "SELECT 
+        COUNT(CASE WHEN fk_rol_id = '1' THEN 1 END) as countAdmin,
+        COUNT(CASE WHEN fk_rol_id = '2' THEN 1 END) as countPreceptory,
+        COUNT(CASE WHEN fk_rol_id = '3' THEN 1 END) as countStudent
+    FROM 
+        users;
+        ";
+        $stmt = model_sql::connectToDatabase()->prepare($sql);
+
+        if($stmt->execute()){
+            
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+
+        }else {
+            print_r($stmt->errorInfo());
+        }
+        $stmt = null;
     }
 }
