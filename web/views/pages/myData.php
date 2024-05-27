@@ -33,7 +33,7 @@ $user_data=UserController::sessionDataUser($_SESSION['id_user']);
                         <b>Carrera:</b><a class="float-right"><?php echo is_null($user_data['carrer_name']) ? 'CARRERA NO ASIGNADA' : $user_data['carrer_name']; ?></a>
                         </li>
                         <li class="list-group-item">
-                            <b>Rol:</b><a class="float-right"><?php echo $user_data['dni']?></a>
+                            <b>Rol:</b><a class="float-right"><?php echo $user_data['name_rol']?></a>
                         </li>
                     </ul>
                 </div>
