@@ -1,4 +1,4 @@
-<div class="container-x1 py-4">
+<div class="container py-4">
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="card">
@@ -29,23 +29,23 @@
                         </div>
                         <div class="form-group">
                             <label class="py-1 p-2" for="gender">Gender: </label>
-                            <select class="form-control" id="gender" name="gender" > 
-                            <?php
-                                (new GendersController())->gendersSelect();       
-                            ?>
+                            <select class="form-control" id="gender" name="gender">
+                                <?php
+                                (new GendersController())->gendersSelect();
+                                ?>
                             </select>
                         </div>
                         <div class="form-group">
                             <label class="py-1 p-2" for="mail">Fecha de ingreso</label>
                             <input type="date" class="form-control" name="date" placeholder="Ingresa la fecha de ingreso">
                         </div>
-                            <button type="submit" name='loadUser' class="btn btn-primary btn-block">Enviar</button>
-                            <?php
-                            if (isset($_POST['loadUser'])) {
-                                $controller = new UserController();
-                                $controller->newStudent();
-                            }
-                            ?>
+                        <button type="submit" name='loadUser' class="btn btn-primary btn-block">Enviar</button>
+                        <?php
+                        if (isset($_POST['loadUser'])) {
+                            $controller = new UserController();
+                            $controller->newStudent();
+                        }
+                        ?>
                     </form>
                 </div>
             </div>
@@ -57,12 +57,8 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="alert alert-info text-center">
-                <p><b>NOTA: </b>Recordar que, al crear un nuevo usuario, éste tendrá de forma predeterminada la contraseña 1234. Luego deberá cambiarla.</p>  
+                <p><b>NOTA: </b>Recordar que, al crear un nuevo usuario, éste tendrá de forma predeterminada la contraseña 1234. Luego deberá cambiarla.</p>
             </div>
         </div>
     </div>
 </div>
-
-
-<?php
-?>
