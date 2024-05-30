@@ -263,9 +263,8 @@ class UserController
 
             $password = 1234;
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
+             
             $execute = UserModel::newAdmin($name, $lastname, $email, $dni, $hashedPassword, $gender,$roles);
-
             if ($execute) {
                 echo '<script>
                 if ( window.history.replaceState ) {
@@ -293,8 +292,5 @@ class UserController
         }
     }
 
-    static public function countUserType(){
-        $count_rol_type = UserModel::countUserType();
-        return $count_rol_type;
-    }
+   
 }
