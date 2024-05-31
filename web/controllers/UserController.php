@@ -167,31 +167,35 @@ class UserController
         }
     }
 
+   
     static public function newMail()
-    {
-        if (!empty($_POST['email'])) {
-            $newEmail = trim($_POST['email']);
+{
+    if (!empty($_POST['email'])) {
+        $newEmail = trim($_POST['email']);
 
-            // Obtener el correo electrónico actual del usuario
-            $currentEmail = UserModel::dataUser($_SESSION['id_user']);
+        // Obtener el correo electrónico actual del usuario
+        $currentEmail = UserModel::dataUser($_SESSION['id_user']);
 
+        if ($newEmail === trim($currentEmail['email'])) {
+            echo '<div class="alert alert-danger mt-2">El correo es existente</div>';
+            return;
+        }
 
-            if ($newEmail === trim($currentEmail['email'])) {
-
-                echo '<div class="alert alert-danger mt-2">El correo es existente</div>';
-                return;
-            }
-
-
-            if (filter_var($newEmail, FILTER_VALIDATE_EMAIL)) {
-
-
-
+        if (filter_var($newEmail, FILTER_VALIDATE_EMAIL)) {
+            $checkEmailDuplicate = UserModel::checkForDuplicatesEmail($newEmail);
+            if ($checkEmailDuplicate !== false) {
+                echo '<script>
+                    if (window.history.replaceState) {
+                        window.history.replaceState(null, null, window.location.href);
+                    }
+                    </script>
+                    <div class="alert alert-danger mt-2">Ya existe el Email</div>';
+            } else {
                 $execute = UserModel::updateMail($_SESSION['id_user'], $newEmail);
 
                 if ($execute) {
                     echo '<script>
-                            if ( window.history.replaceState ) {
+                            if (window.history.replaceState) {
                                 window.history.replaceState(null, null, window.location.href);
                             }
                             window.location="../index.php?pages=myData";
@@ -201,15 +205,15 @@ class UserController
                 } else {
                     echo '<div class="alert alert-danger mt-2">Error al guardar el registro</div>';
                 }
-            } else {
-
-                echo '<div class="alert alert-danger mt-2">El correo NO es válido</div>';
             }
         } else {
-
-            echo '<div class="alert alert-danger mt-2">El campo está Vacío</div>';
+            echo '<div class="alert alert-danger mt-2">El correo NO es válido</div>';
         }
+    } else {
+        echo '<div class="alert alert-danger mt-2">El campo está Vacío</div>';
     }
+}
+
 
     static public function changePasswordStart()
     {
@@ -248,49 +252,61 @@ class UserController
         }
     }
 
+
+
     static public function newAdmin()
-    {
-        if ((!empty($_POST['name'])) && (!empty($_POST['lastName'])) &&
-            (!empty($_POST['mail'])) && (!empty($_POST['dni'])) && (!empty($_POST['gender']))
-        && !empty($_POST['roles'])) {
+{
+    if ((!empty($_POST['name'])) && (!empty($_POST['lastName'])) &&
+        (!empty($_POST['mail'])) && (!empty($_POST['dni'])) && (!empty($_POST['gender'])) &&
+        !empty($_POST['roles'])) {
 
-            $name = $_POST['name'];
-            $lastname = $_POST['lastName'];
-            $email = $_POST['mail'];
-            $dni = $_POST['dni'];
-            $gender = $_POST['gender'];
-            $roles=$_POST['roles'];
+        $name = $_POST['name'];
+        $lastname = $_POST['lastName'];
+        $email = $_POST['mail'];
+        $dni = $_POST['dni'];
+        $gender = $_POST['gender'];
+        $roles = $_POST['roles'];
 
-            $password = 1234;
-            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-             
-            $execute = UserModel::newAdmin($name, $lastname, $email, $dni, $hashedPassword, $gender,$roles);
+        $password = 1234;
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $checkCountDniOrEmail = UserModel::checkForDuplicates($dni, $email);
+        if ($checkCountDniOrEmail !== false) {
+            echo '<script>
+                if (window.history.replaceState) {
+                    window.history.replaceState(null, null, window.location.href);
+                }
+                </script>
+                <div class="alert alert-danger mt-2">Ya existe el Email o el Dni</div>';
+        } else {
+            $execute = UserModel::newAdmin($name, $lastname, $email, $dni, $hashedPassword, $gender, $roles);
             if ($execute) {
                 echo '<script>
-                if ( window.history.replaceState ) {
-                    window.history.replaceState(null, null, window.location.href);
-                }
-                window.location="../index.php?pages=newAdmin";
-                </script>
-                <div class="alert alert-succes mt-2">Se guardó el registro correctamente</div>';
+                    if (window.history.replaceState) {
+                        window.history.replaceState(null, null, window.location.href);
+                    }
+                    window.location="../index.php?pages=newAdmin";
+                    </script>
+                    <div class="alert alert-succes mt-2">Se guardó el registro correctamente</div>';
             } else {
                 echo '<script>
-                if ( window.history.replaceState ) {
-                    window.history.replaceState(null, null, window.location.href);
-                }
-                window.location="../index.php?pages=newAdmin";
-                </script>
-                <div class="alert alert-danger mt-2">Hubo un problema al crearlo</div>';
+                    if (window.history.replaceState) {
+                        window.history.replaceState(null, null, window.location.href);
+                    }
+                    window.location="../index.php?pages=newAdmin";
+                    </script>
+                    <div class="alert alert-danger mt-2">Hubo un problema al crearlo</div>';
             }
-        } else {
-            echo '<script>
-			if ( window.history.replaceState ) {
-				window.history.replaceState(null, null, window.location.href);
-			}
-			</script>
-            <div class="alert alert-danger mt-2">Debes completar los campos</div>';
         }
+    } else {
+        echo '<script>
+            if (window.history.replaceState) {
+                window.history.replaceState(null, null, window.location.href);
+            }
+            </script>
+            <div class="alert alert-danger mt-2">Debes completar los campos</div>';
     }
+}
+
 
    
 }
