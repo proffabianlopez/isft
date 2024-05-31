@@ -186,23 +186,31 @@ class UserModel
         }
     }
 
-    static public function countUserType(){
-        $sql = "SELECT 
-        COUNT(CASE WHEN fk_rol_id = '1' THEN 1 END) as countAdmin,
-        COUNT(CASE WHEN fk_rol_id = '2' THEN 1 END) as countPreceptory,
-        COUNT(CASE WHEN fk_rol_id = '3' THEN 1 END) as countStudent
-    FROM 
-        users;
-        ";
-        $stmt = model_sql::connectToDatabase()->prepare($sql);
+   
 
-        if($stmt->execute()){
+ static  public function checkForDuplicates($value1, $value2)
+{
+    try {
+        // Verificar si ya existe un registro con el mismo DNI o correo electrónico
+        $checkQuery = "SELECT COUNT(*) FROM users WHERE dni = ? OR email = ?";
+        $checkStatement =model_sql::connectToDatabase()->prepare($checkQuery);
+        $checkStatement->bindParam(1, $value1, PDO::PARAM_STR);
+        $checkStatement->bindParam(2, $value2, PDO::PARAM_STR);
+        $checkStatement->execute();
+
+        $count = $checkStatement->fetchColumn();
+
+        if ($count > 0) {
             
-            return $stmt->fetch(PDO::FETCH_ASSOC);
-
-        }else {
-            print_r($stmt->errorInfo());
+              
+         return true;
         }
-        $stmt = null;
+
+        return false;
+    } catch (PDOException $e) {
+        echo "Error en la validación de duplicados: " . $e->getMessage();
+        return false;
     }
+}
+
 }
