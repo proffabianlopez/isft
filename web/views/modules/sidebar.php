@@ -18,14 +18,7 @@
         </div>
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-            <?php if($data['change_password'] != 0): ?>
-                <li class="nav-item">
-                    <a href="index.php?pages=home" class="nav-link">
-                        <i class="nav-icon fas fa-tachometer-alt"></i>
-                        <p>Inicio</p>
-                    </a>
-                </li>
-                <?php endif; ?>
+           
                 <?php 
                 
                 if ($_SESSION['fk_rol_id'] == 1){
