@@ -68,54 +68,49 @@ class UserController
     }
 
     static public function newStudent()
-{
-   
-    if ((!empty($_POST['name'])) && (!empty($_POST['lastName'])) &&
-        (!empty($_POST['mail'])) && (!empty($_POST['dni'])) &&
-        (!empty($_POST['fileNumber'])) && (!empty($_POST['gender'])) &&
-        (!empty($_POST['date']))
-    ) {
-        $name = $_POST['name'];
-        $lastname = $_POST['lastName'];
-        $email = $_POST['mail'];
-        $dni = $_POST['dni'];
-        $fileNumber = $_POST['fileNumber'];
-        $gender = $_POST['gender'];
-        $date = $_POST['date'];
- 
+    {
 
-        // Hash de la contraseña
-        $hashedPassword = password_hash($generatePassword, PASSWORD_DEFAULT);
-        
-        // Registrar al estudiante
-        $execute = UserModel::newStudent($name, $lastname, $email, $dni, $date, $fileNumber, $hashedPassword, $gender);
+        if ((!empty($_POST['name'])) && (!empty($_POST['lastName'])) &&
+            (!empty($_POST['mail'])) && (!empty($_POST['dni'])) &&
+            (!empty($_POST['gender'])) && (!empty($_POST['date']))
+        ) {
+            $name = $_POST['name'];
+            $lastname = $_POST['lastName'];
+            $email = $_POST['mail'];
+            $dni = $_POST['dni'];
+            $gender = $_POST['gender'];
+            $date = $_POST['date'];
 
-        if ($execute) {
-            echo '<script>
+
+            // Registrar al estudiante
+            $execute = UserModel::newStudent($name, $lastname, $email, $dni, $date, $gender);
+
+            if ($execute) {
+                echo '<script>
                 if (window.history.replaceState) {
                     window.history.replaceState(null, null, window.location.href);
                 }
                 window.location="../index.php?pages=newStudent";
                 </script>
                 <div class="alert alert-succes mt-2">Se guardó el registro correctamente</div>';
-        } else {
-            echo '<script>
+            } else {
+                echo '<script>
                 if (window.history.replaceState) {
                     window.history.replaceState(null, null, window.location.href);
                 }
                 window.location="../index.php?pages=newStudent";
                 </script>
                 <div class="alert alert-danger mt-2">Hubo un problema al crearlo</div>';
-        }
-    } else {
-        echo '<script>
+            }
+        } else {
+            echo '<script>
             if (window.history.replaceState) {
                 window.history.replaceState(null, null, window.location.href);
             }
             </script>
             <div class="alert alert-danger mt-2">Debes completar los campos</div>';
+        }
     }
-}
 
 
 
@@ -169,52 +164,52 @@ class UserController
         }
     }
 
-   
+
     static public function newMail()
-{
-    if (!empty($_POST['email'])) {
-        $newEmail = trim($_POST['email']);
+    {
+        if (!empty($_POST['email'])) {
+            $newEmail = trim($_POST['email']);
 
-        // Obtener el correo electrónico actual del usuario
-        $currentEmail = UserModel::dataUser($_SESSION['id_user']);
+            // Obtener el correo electrónico actual del usuario
+            $currentEmail = UserModel::dataUser($_SESSION['id_user']);
 
-        if ($newEmail === trim($currentEmail['email'])) {
-            echo '<div class="alert alert-danger mt-2">El correo es existente</div>';
-            return;
-        }
+            if ($newEmail === trim($currentEmail['email'])) {
+                echo '<div class="alert alert-danger mt-2">El correo es existente</div>';
+                return;
+            }
 
-        if (filter_var($newEmail, FILTER_VALIDATE_EMAIL)) {
-            $checkEmailDuplicate = UserModel::checkForDuplicatesEmail($newEmail);
-            if ($checkEmailDuplicate !== false) {
-                echo '<script>
+            if (filter_var($newEmail, FILTER_VALIDATE_EMAIL)) {
+                $checkEmailDuplicate = UserModel::checkForDuplicatesEmail($newEmail);
+                if ($checkEmailDuplicate !== false) {
+                    echo '<script>
                     if (window.history.replaceState) {
                         window.history.replaceState(null, null, window.location.href);
                     }
                     </script>
                     <div class="alert alert-danger mt-2">Ya existe el Email</div>';
-            } else {
-                $execute = UserModel::updateMail($_SESSION['id_user'], $newEmail);
+                } else {
+                    $execute = UserModel::updateMail($_SESSION['id_user'], $newEmail);
 
-                if ($execute) {
-                    echo '<script>
+                    if ($execute) {
+                        echo '<script>
                             if (window.history.replaceState) {
                                 window.history.replaceState(null, null, window.location.href);
                             }
                             window.location="../index.php?pages=myData";
                           </script>';
-                    echo '<div class="alert alert-success mt-2">Se guardó el registro correctamente</div>';
-                    return;
-                } else {
-                    echo '<div class="alert alert-danger mt-2">Error al guardar el registro</div>';
+                        echo '<div class="alert alert-success mt-2">Se guardó el registro correctamente</div>';
+                        return;
+                    } else {
+                        echo '<div class="alert alert-danger mt-2">Error al guardar el registro</div>';
+                    }
                 }
+            } else {
+                echo '<div class="alert alert-danger mt-2">El correo NO es válido</div>';
             }
         } else {
-            echo '<div class="alert alert-danger mt-2">El correo NO es válido</div>';
+            echo '<div class="alert alert-danger mt-2">El campo está Vacío</div>';
         }
-    } else {
-        echo '<div class="alert alert-danger mt-2">El campo está Vacío</div>';
     }
-}
 
 
     static public function changePasswordStart()
@@ -253,6 +248,7 @@ class UserController
             echo '<div class="alert alert-danger mt-2">Por favor, completa todos los campos.</div>';
         }
     }
+
 
 
 
@@ -304,9 +300,8 @@ class UserController
         } else {
             $execute = UserModel::newUser($name, $lastname, $email, $dni, $hashedPassword, $gender, $roles);
             if ($execute) {
-
-                $mailController = MailerController::sendNewUser($generatePassword, $email,$name,$lastname);
-                echo '<script>
+                    $mailController = MailerController::sendNewUser($generatePassword, $email, $name, $lastname);
+                    echo '<script>
                     if (window.history.replaceState) {
                         window.history.replaceState(null, null, window.location.href);
                     }
@@ -314,37 +309,36 @@ class UserController
                     window.location="../index.php?pages=newAdmin";
                     </script>
                     <div class="alert alert-succes mt-2">Se guardó el registro correctamente</div>';
-
-            } else {
-                echo '<script>
+                } else {
+                    echo '<script>
                     if (window.history.replaceState) {
                         window.history.replaceState(null, null, window.location.href);
                     }
                     window.location="../index.php?pages=newAdmin";
                     </script>
                     <div class="alert alert-danger mt-2">Hubo un problema al crearlo</div>';
+                }
             }
-        }
-    } else {
-        echo '<script>
+        } else {
+            echo '<script>
             if (window.history.replaceState) {
                 window.history.replaceState(null, null, window.location.href);
             }
             </script>
             <div class="alert alert-danger mt-2">Debes completar los campos</div>';
+        }
     }
-}
 
 
-static public function generateRandomPassword($length){
-    $character='123456789abcdefghijklmnpqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ';
-    $password="";
-    for($i=0;$i<$length;$i++){
-        $index=rand(0,strlen($character)-1);
-        $password.=$character[$index];
-    }    
+    static public function generateRandomPassword($length)
+    {
+        $character = '123456789abcdefghijklmnpqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ';
+        $password = "";
+        for ($i = 0; $i < $length; $i++) {
+            $index = rand(0, strlen($character) - 1);
+            $password .= $character[$index];
+        }
 
-    return $password;
-   
-}
+        return $password;
+    }
 }
