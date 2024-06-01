@@ -74,12 +74,52 @@ class UserController
             (!empty($_POST['mail'])) && (!empty($_POST['dni'])) &&
             (!empty($_POST['gender'])) && (!empty($_POST['date']))
         ) {
-            $name = $_POST['name'];
-            $lastname = $_POST['lastName'];
-            $email = $_POST['mail'];
-            $dni = $_POST['dni'];
+        $name = ucwords(strtolower(trim($_POST['name'])));
+        $lastname = ucwords(strtolower(trim($_POST['lastName'])));
+        if (!preg_match("/^[a-zA-Z]+$/", $name) || !preg_match("/^[a-zA-Z]+$/", $lastname)) {
+            echo '<script>
+                if (window.history.replaceState) {
+                    window.history.replaceState(null, null, window.location.href);
+                }
+                </script>
+                <div class="alert alert-danger mt-2">El nombre y/o apellido solo pueden contener letras.</div>';
+            return;
+        }
+
+        $email = strtolower(trim($_POST['mail']));
+        $email = filter_var($email, FILTER_VALIDATE_EMAIL);
+
+        if ($email === false) {
+            echo '<script>
+                if (window.history.replaceState) {
+                    window.history.replaceState(null, null, window.location.href);
+                }
+                </script>
+                <div class="alert alert-danger mt-2">Email inválido</div>';
+            return;
+        }
+
+        $dni = trim($_POST['dni']);
+        if (!ctype_digit($dni) || strlen($dni) > 8 || strlen($dni) < 6) {
+            echo '<script>
+                if (window.history.replaceState) {
+                    window.history.replaceState(null, null, window.location.href);
+                }
+                </script>
+                <div class="alert alert-danger mt-2">DNI inválido. Debe ser un número entre 6 y 8 dígitos.</div>';
+            return;
+        }
             $gender = $_POST['gender'];
             $date = $_POST['date'];
+            if (!ctype_digit($date) || strlen($date) > 4 || strlen($date) < 4) {
+                echo '<script>
+                    if (window.history.replaceState) {
+                        window.history.replaceState(null, null, window.location.href);
+                    }
+                    </script>
+                    <div class="alert alert-danger mt-2">Año inválido. Recuerde que deben ser 4 números.</div>';
+                return;
+            }
 
 
             // Registrar al estudiante
@@ -228,7 +268,6 @@ class UserController
                 return;
             }
 
-            // Hash de la nueva contraseña
             $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
 
             $result = UserModel::changePasswordStart($_SESSION['id_user'], $hashedPassword);
@@ -260,6 +299,16 @@ class UserController
 
         $name = ucwords(strtolower(trim($_POST['name'])));
         $lastname = ucwords(strtolower(trim($_POST['lastName'])));
+        if (!preg_match("/^[a-zA-Z]+$/", $name) || !preg_match("/^[a-zA-Z]+$/", $lastname)) {
+            echo '<script>
+                if (window.history.replaceState) {
+                    window.history.replaceState(null, null, window.location.href);
+                }
+                </script>
+                <div class="alert alert-danger mt-2">El nombre y/o apellido solo pueden contener letras.</div>';
+            return;
+        }
+
         $email = strtolower(trim($_POST['mail']));
         $email = filter_var($email, FILTER_VALIDATE_EMAIL);
 
