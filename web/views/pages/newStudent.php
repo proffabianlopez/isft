@@ -7,10 +7,10 @@
                 </div>
                 <div class="card-body">
                     <form method='POST'>
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label class="py-1 p-2" for="fileNumber">Número de legajo</label>
                             <input type="text" class="form-control" name="fileNumber" placeholder="Ingresa el legajo">
-                        </div>
+                        </div> -->
                         <div class="form-group">
                             <label class="py-1 p-2" for="dni">DNI</label>
                             <input type="text" class="form-control" name="dni" placeholder="Ingresa el dni">
@@ -37,7 +37,7 @@
                         </div>
                         <div class="form-group">
                             <label class="py-1 p-2" for="mail">Fecha de ingreso</label>
-                            <input type="date" class="form-control" name="date" placeholder="Ingresa la fecha de ingreso">
+                            <input type="text" class="form-control" name="date" placeholder="Ingresa la fecha de ingreso">
                         </div>
                         <button type="submit" name='loadUser' class="btn btn-primary btn-block">Enviar</button>
                         <?php
