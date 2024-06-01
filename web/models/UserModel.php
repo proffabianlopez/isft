@@ -62,20 +62,18 @@ class UserModel
     }
 
 
-    static public function newStudent($value1, $value2, $value3, $value4, $value5, $value6, $value7, $value8)
+    static public function newStudent($value1, $value2, $value3, $value4, $value5, $value6)
     {
         $sql = "INSERT INTO users (name, last_name, email, dni, startingYear, file, password, 
                                 fk_gender_id, fk_carrer_id, fk_rol_id, state)
-                                VALUES (:name, :lastName, :email, :dni, :dateYear, :fileNumber, :password, :gender, null, 3, 1)";
+                                VALUES (:name, :lastName, :email, :dni, :dateYear, null, null, :gender, null, 3, 0)";
         $stmt = model_sql::connectToDatabase()->prepare($sql);
         $stmt->bindParam(':name', $value1, PDO::PARAM_STR);
         $stmt->bindParam(':lastName', $value2, PDO::PARAM_STR);
         $stmt->bindParam(':email', $value3, PDO::PARAM_STR);
         $stmt->bindParam(':dni', $value4, PDO::PARAM_STR);
         $stmt->bindParam(':dateYear', $value5, PDO::PARAM_STR);
-        $stmt->bindParam(':fileNumber', $value6, PDO::PARAM_STR);
-        $stmt->bindParam(':password', $value7, PDO::PARAM_STR);
-        $stmt->bindParam(':gender', $value8, PDO::PARAM_INT);
+        $stmt->bindParam(':gender', $value6, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
             return $stmt;
@@ -166,7 +164,7 @@ class UserModel
         $stmt = null;
     }
 
-    static public function newAdmin($value1, $value2, $value3, $value4, $value5, $value6,$value7)
+    static public function newAdmin($value1, $value2, $value3, $value4, $value5, $value6, $value7)
     {
         $sql = "INSERT INTO users (name, last_name, email, dni, startingYear, file, password, 
                                 fk_gender_id, fk_carrer_id, fk_rol_id, state)
@@ -187,67 +185,66 @@ class UserModel
         }
     }
 
-   
 
- static  public function checkForDuplicates($value1, $value2)
-{
-    try {
-        // Verificar si ya existe un registro con el mismo DNI o correo electrónico
-        $checkQuery = "SELECT COUNT(*) FROM users WHERE dni = ? OR email = ?";
-        $checkStatement =model_sql::connectToDatabase()->prepare($checkQuery);
-        $checkStatement->bindParam(1, $value1, PDO::PARAM_STR);
-        $checkStatement->bindParam(2, $value2, PDO::PARAM_STR);
-        $checkStatement->execute();
 
-        $count = $checkStatement->fetchColumn();
+    static  public function checkForDuplicates($value1, $value2)
+    {
+        try {
+            // Verificar si ya existe un registro con el mismo DNI o correo electrónico
+            $checkQuery = "SELECT COUNT(*) FROM users WHERE dni = ? OR email = ?";
+            $checkStatement = model_sql::connectToDatabase()->prepare($checkQuery);
+            $checkStatement->bindParam(1, $value1, PDO::PARAM_STR);
+            $checkStatement->bindParam(2, $value2, PDO::PARAM_STR);
+            $checkStatement->execute();
 
-        if ($count > 0) {
-            
-              
-         return true;
+            $count = $checkStatement->fetchColumn();
+
+            if ($count > 0) {
+
+
+                return true;
+            }
+
+            return false;
+        } catch (PDOException $e) {
+            echo "Error en la validación de duplicados: " . $e->getMessage();
+            return false;
         }
-
-        return false;
-    } catch (PDOException $e) {
-        echo "Error en la validación de duplicados: " . $e->getMessage();
-        return false;
     }
-}
 
-static  public function checkForDuplicatesEmail($value1)
-{
-    try {
-        // Verificar si ya existe un registro con el mismo DNI o correo electrónico
-        $checkQuery = "SELECT COUNT(*) FROM users WHERE email = ?";
-        $checkStatement =model_sql::connectToDatabase()->prepare($checkQuery);
-        $checkStatement->bindParam(1, $value1, PDO::PARAM_STR);
-        $checkStatement->execute();
+    static  public function checkForDuplicatesEmail($value1)
+    {
+        try {
+            // Verificar si ya existe un registro con el mismo DNI o correo electrónico
+            $checkQuery = "SELECT COUNT(*) FROM users WHERE email = ?";
+            $checkStatement = model_sql::connectToDatabase()->prepare($checkQuery);
+            $checkStatement->bindParam(1, $value1, PDO::PARAM_STR);
+            $checkStatement->execute();
 
-        $count = $checkStatement->fetchColumn();
+            $count = $checkStatement->fetchColumn();
 
-        if ($count > 0) {
-            
-              
-         return true;
+            if ($count > 0) {
+
+
+                return true;
+            }
+
+            return false;
+        } catch (PDOException $e) {
+            echo "Error en la validación de duplicados: " . $e->getMessage();
+            return false;
         }
-
-        return false;
-    } catch (PDOException $e) {
-        echo "Error en la validación de duplicados: " . $e->getMessage();
-        return false;
-    }
-}
-
-static public function getFirstValidCredential(){
-    $sql="SELECT email,token FROM credential_email";
-    $stmt=model_sql::connectToDatabase()->prepare($sql);
-    
-    if ($stmt->execute()) {
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    } else {
-        print_r($stmt->errorInfo());
     }
 
-}
+    static public function getFirstValidCredential()
+    {
+        $sql = "SELECT email,token FROM credential_email";
+        $stmt = model_sql::connectToDatabase()->prepare($sql);
 
+        if ($stmt->execute()) {
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } else {
+            print_r($stmt->errorInfo());
+        }
+    }
 }
