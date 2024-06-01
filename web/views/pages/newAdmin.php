@@ -9,7 +9,7 @@
                     <form method='POST'>
                         <div class="form-group">
                             <label class="py-1 p-2" for="dni">DNI</label>
-                            <input type="text" class="form-control" name="dni" placeholder="Ingresa el dni">
+                            <input type="text" maxlength="8" oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="form-control" name="dni" placeholder="Ingresa el dni">
                         </div>
                         <div class="form-group">
                             <label class="py-1 p-2" for="name">Nombre</label>
@@ -21,7 +21,7 @@
                         </div>
                         <div class="form-group">
                             <label class="py-1 p-2" for="mail">Correo electrónico</label>
-                            <input type="text" class="form-control" name="mail" placeholder="Ingresa el correo electrónico">
+                            <input type="email" class="form-control" name="mail" placeholder="Ingresa el correo electrónico">
                         </div>
                         <div class="form-group">
                             <label class="py-1 p-2" for="gender">Gender: </label>
@@ -43,7 +43,7 @@
                         <?php
                         if (isset($_POST['loadUser'])) {
                             $controller = new UserController();
-                            $controller->newAdmin();
+                            $controller->newUser();
                         }
                         ?>
                     </form>
