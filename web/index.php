@@ -9,6 +9,8 @@ spl_autoload_register(function ($class) {
 	};
 });
 
+require 'vendor/autoload.php';
+
 // require_once '../config/MysqlDb.php';
 
 # CARGO LA PLANTILLA PRINCIPAL

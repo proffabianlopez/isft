@@ -270,7 +270,7 @@ class UserController
         $roles = $_POST['roles'];
 
         $generatePassword = self::generateRandomPassword(14);    
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $hashedPassword = password_hash($generatePassword, PASSWORD_DEFAULT);
         $checkCountDniOrEmail = UserModel::checkForDuplicates($dni, $email);
         if ($checkCountDniOrEmail !== false) {
             echo '<script>
@@ -282,13 +282,17 @@ class UserController
         } else {
             $execute = UserModel::newAdmin($name, $lastname, $email, $dni, $hashedPassword, $gender, $roles);
             if ($execute) {
+
+                $mailController = MailerController::sendNewUser($generatePassword, $email,$name,$lastname);
                 echo '<script>
                     if (window.history.replaceState) {
                         window.history.replaceState(null, null, window.location.href);
                     }
+                    
                     window.location="../index.php?pages=newAdmin";
                     </script>
                     <div class="alert alert-succes mt-2">Se guardó el registro correctamente</div>';
+
             } else {
                 echo '<script>
                     if (window.history.replaceState) {
@@ -311,7 +315,7 @@ class UserController
 
 
 static public function generateRandomPassword($length){
-    $character='123456789abcdefghijklmnpqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ#*{}()';
+    $character='123456789abcdefghijklmnpqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ';
     $password="";
     for($i=0;$i<$length;$i++){
         $index=rand(0,strlen($character)-1);
