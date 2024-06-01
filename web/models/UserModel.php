@@ -166,7 +166,7 @@ class UserModel
         $stmt = null;
     }
 
-    static public function newAdmin($value1, $value2, $value3, $value4, $value5, $value6,$value7)
+    static public function newUser($value1, $value2, $value3, $value4, $value5, $value6,$value7)
     {
         $sql = "INSERT INTO users (name, last_name, email, dni, startingYear, file, password, 
                                 fk_gender_id, fk_carrer_id, fk_rol_id, state)

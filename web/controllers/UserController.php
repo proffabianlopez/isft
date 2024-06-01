@@ -256,16 +256,38 @@ class UserController
 
 
 
-    static public function newAdmin()
+    static public function newUser()
 {
     if ((!empty($_POST['name'])) && (!empty($_POST['lastName'])) &&
         (!empty($_POST['mail'])) && (!empty($_POST['dni'])) && (!empty($_POST['gender'])) &&
         !empty($_POST['roles'])) {
 
-        $name = $_POST['name'];
-        $lastname = $_POST['lastName'];
-        $email = $_POST['mail'];
-        $dni = $_POST['dni'];
+        $name = ucwords(strtolower(trim($_POST['name'])));
+        $lastname = ucwords(strtolower(trim($_POST['lastName'])));
+        $email = strtolower(trim($_POST['mail']));
+        $email = filter_var($email, FILTER_VALIDATE_EMAIL);
+
+        if ($email === false) {
+            echo '<script>
+                if (window.history.replaceState) {
+                    window.history.replaceState(null, null, window.location.href);
+                }
+                </script>
+                <div class="alert alert-danger mt-2">Email inválido</div>';
+            return;
+        }
+
+        $dni = trim($_POST['dni']);
+        if (!ctype_digit($dni) || strlen($dni) > 8 || strlen($dni) < 6) {
+            echo '<script>
+                if (window.history.replaceState) {
+                    window.history.replaceState(null, null, window.location.href);
+                }
+                </script>
+                <div class="alert alert-danger mt-2">DNI inválido. Debe ser un número entre 6 y 8 dígitos.</div>';
+            return;
+        }
+
         $gender = $_POST['gender'];
         $roles = $_POST['roles'];
 
@@ -280,7 +302,7 @@ class UserController
                 </script>
                 <div class="alert alert-danger mt-2">Ya existe el Email o el Dni</div>';
         } else {
-            $execute = UserModel::newAdmin($name, $lastname, $email, $dni, $hashedPassword, $gender, $roles);
+            $execute = UserModel::newUser($name, $lastname, $email, $dni, $hashedPassword, $gender, $roles);
             if ($execute) {
 
                 $mailController = MailerController::sendNewUser($generatePassword, $email,$name,$lastname);
