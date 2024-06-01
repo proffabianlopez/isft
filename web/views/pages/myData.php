@@ -12,6 +12,12 @@ $user_data=UserController::sessionDataUser($_SESSION['id_user']);
                     </div>                    
                     <h3 class="profile-username text-center"><?php  ?></h3>                
                     <ul class="list-group list-group-unbordered mb-3">
+                        
+                        <?if($_SESSION['fk_rol_id']==2 || $_SESSION['fk_rol_id']==3):?>
+                            <li class="list-group-item">
+                                <b>Carrera:</b><a class="float-right"><?php echo $user_data['carrer_name']?></a>
+                            </li>
+                       <?php endif;?>
                         <li class="list-group-item">
                             <b>Nombre y Apellido :</b><a class="float-right"><?php echo $user_data['name_user']." ". $user_data['last_name_user']?></a>
                         </li>
@@ -22,11 +28,6 @@ $user_data=UserController::sessionDataUser($_SESSION['id_user']);
                         <li class="list-group-item">
                             <b>DNI:</b><a class="float-right"><?php echo $user_data['dni']?></a>
                         </li>
-        
-                        <li class="list-group-item">
-                            <b>Estado:</b><a class="float-right"><?php echo ($user_data['state'] == 1) ? 'ACTIVO' : $user_data['state']; ?></a>
-                        </li>
-
                         <li class="list-group-item">
                             <b>Rol:</b><a class="float-right"><?php echo $user_data['name_rol']?></a>
                         </li>
