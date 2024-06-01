@@ -2,13 +2,6 @@
 <?php if($data['change_password'] != 0): ?>
 
     <li class="nav-item">
-                    <a href="index.php?pages=home" class="nav-link">
-                        <i class="nav-icon fas fa-tachometer-alt"></i>
-                        <p>Inicio</p>
-                    </a>
-                </li>
-
-    <li class="nav-item">
     <a href="#" class="nav-link">
         <i class="nav-icon fas fa-users-cog"></i>
         <p>
