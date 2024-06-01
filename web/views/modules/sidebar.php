@@ -9,16 +9,23 @@
             <div class="image">
                 <img src="public/img/usr_login.png" class="img-circle elevation-2" alt="User Image">
             </div>
-            <div class="info"><?php
-
-?>
+            <div class="info">
                 <a href="#" class="d-block"> <?php $data = UserController::sessionDataUser($_SESSION['id_user'])?>
                 <?php echo $data['name_rol']?></a>
             </div>
         </div>
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-           
+            
+            <?php if ($data['change_password'] != 0): ?>
+  
+        <li class="nav-item">
+            <a href="index.php?pages=home" class="nav-link">
+                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <p>Inicio</p>
+            </a>
+        </li>
+        <?php endif; ?>
                 <?php 
                 
                 if ($_SESSION['fk_rol_id'] == 1){
