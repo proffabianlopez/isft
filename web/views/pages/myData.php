@@ -22,21 +22,11 @@ $user_data=UserController::sessionDataUser($_SESSION['id_user']);
                         <li class="list-group-item">
                             <b>DNI:</b><a class="float-right"><?php echo $user_data['dni']?></a>
                         </li>
-                        <?php if ($user_data['role_id'] == 3): ?>
-                            <li class="list-group-item">
-        <                        b>Legajo:</b><a class="float-right"><?php echo  $user_data['file']; ?></a>
-                        </li>
-                        <?php endif; ?>
         
                         <li class="list-group-item">
                             <b>Estado:</b><a class="float-right"><?php echo ($user_data['state'] == 1) ? 'ACTIVO' : $user_data['state']; ?></a>
                         </li>
 
-                        <?php if ($user_data['role_id'] == 2 &&$user_data['role_id'] == 3): ?>
-                            <li class="list-group-item">
-        <                        b>Legajo:</b><a class="float-right"><?php echo  $user_data['carrer_name']; ?></a>
-                        </li>
-                        <?php endif; ?>
                         <li class="list-group-item">
                             <b>Rol:</b><a class="float-right"><?php echo $user_data['name_rol']?></a>
                         </li>

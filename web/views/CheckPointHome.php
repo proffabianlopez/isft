@@ -27,10 +27,10 @@ include_once "modules/navbar.php";
             case 1:
                 include_once "getroles/GetAdminRol.php";
                 break;
-           /* case 2:
+            case 2:
                 include_once "getroles/GetPreceptoryRol.php";
                 break;
-            case 3:
+            /*case 3:
                 include_once "getroles/GetStudentRol.php";
                 break; */
         }
