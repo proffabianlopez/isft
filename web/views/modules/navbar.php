@@ -16,6 +16,7 @@
         <?php $data = UserController::sessionDataUser($_SESSION['id_user'])?>
         <?php echo $data['name_user'] . " " . $data['last_name_user']?> 
     </a>
+    <?php if($data['change_password'] != 0): ?>
     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
         <a class="dropdown-item" href="index.php?pages=myData">
             <i class="fas fa-id-card"></i> Mis datos
@@ -25,6 +26,7 @@
         </a>
     </div>
 </li>
+
 
     
     <!-- Botón para ocultar la barra lateral -->
@@ -40,5 +42,7 @@
                 <i class="fas fa-power-off"></i> <!-- Icono de apagado para cerrar sesión -->
             </a>
         </li>
+        <?php endif; ?>
     </ul>
+
 </nav>

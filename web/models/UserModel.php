@@ -31,6 +31,7 @@ class UserModel
                  users.dni AS dni,
                  users.file AS file,
                  users.password AS password,
+                 users.change_password  AS change_password, 
                  users.fk_gender_id AS id_gender,
                  users.state AS state,
                  genders.details AS gender_detail,
@@ -235,6 +236,18 @@ static  public function checkForDuplicatesEmail($value1)
         echo "Error en la validación de duplicados: " . $e->getMessage();
         return false;
     }
+}
+
+static public function getFirstValidCredential(){
+    $sql="SELECT email,token FROM credential_email";
+    $stmt=model_sql::connectToDatabase()->prepare($sql);
+    
+    if ($stmt->execute()) {
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    } else {
+        print_r($stmt->errorInfo());
+    }
+
 }
 
 }
