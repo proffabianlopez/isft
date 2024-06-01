@@ -68,52 +68,54 @@ class UserController
     }
 
     static public function newStudent()
-    {
-        if ((!empty($_POST['name'])) && (!empty($_POST['lastName'])) &&
-            (!empty($_POST['mail'])) && (!empty($_POST['dni'])) &&
-            (!empty($_POST['fileNumber'])) && (!empty($_POST['gender'])) &&
-            (!empty($_POST['date']))
-        ) {
+{
+   
+    if ((!empty($_POST['name'])) && (!empty($_POST['lastName'])) &&
+        (!empty($_POST['mail'])) && (!empty($_POST['dni'])) &&
+        (!empty($_POST['fileNumber'])) && (!empty($_POST['gender'])) &&
+        (!empty($_POST['date']))
+    ) {
+        $name = $_POST['name'];
+        $lastname = $_POST['lastName'];
+        $email = $_POST['mail'];
+        $dni = $_POST['dni'];
+        $fileNumber = $_POST['fileNumber'];
+        $gender = $_POST['gender'];
+        $date = $_POST['date'];
+ 
 
-            $name = $_POST['name'];
-            $lastname = $_POST['lastName'];
-            $email = $_POST['mail'];
-            $dni = $_POST['dni'];
-            $fileNumber = $_POST['fileNumber'];
-            $gender = $_POST['gender'];
-            $date = $_POST['date'];
+        // Hash de la contraseña
+        $hashedPassword = password_hash($generatePassword, PASSWORD_DEFAULT);
+        
+        // Registrar al estudiante
+        $execute = UserModel::newStudent($name, $lastname, $email, $dni, $date, $fileNumber, $hashedPassword, $gender);
 
-            $password = 1234;
-            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
-            $execute = UserModel::newStudent($name, $lastname, $email, $dni, $date, $fileNumber, $hashedPassword, $gender);
-
-            if ($execute) {
-                echo '<script>
-                if ( window.history.replaceState ) {
+        if ($execute) {
+            echo '<script>
+                if (window.history.replaceState) {
                     window.history.replaceState(null, null, window.location.href);
                 }
                 window.location="../index.php?pages=newStudent";
                 </script>
                 <div class="alert alert-succes mt-2">Se guardó el registro correctamente</div>';
-            } else {
-                echo '<script>
-                if ( window.history.replaceState ) {
+        } else {
+            echo '<script>
+                if (window.history.replaceState) {
                     window.history.replaceState(null, null, window.location.href);
                 }
                 window.location="../index.php?pages=newStudent";
                 </script>
                 <div class="alert alert-danger mt-2">Hubo un problema al crearlo</div>';
-            }
-        } else {
-            echo '<script>
-			if ( window.history.replaceState ) {
-				window.history.replaceState(null, null, window.location.href);
-			}
-			</script>
-            <div class="alert alert-danger mt-2">Debes completar los campos</div>';
         }
+    } else {
+        echo '<script>
+            if (window.history.replaceState) {
+                window.history.replaceState(null, null, window.location.href);
+            }
+            </script>
+            <div class="alert alert-danger mt-2">Debes completar los campos</div>';
     }
+}
 
 
 
@@ -267,7 +269,7 @@ class UserController
         $gender = $_POST['gender'];
         $roles = $_POST['roles'];
 
-        $password = 1234;
+        $generatePassword = self::generateRandomPassword(14);    
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         $checkCountDniOrEmail = UserModel::checkForDuplicates($dni, $email);
         if ($checkCountDniOrEmail !== false) {
@@ -308,5 +310,15 @@ class UserController
 }
 
 
+static public function generateRandomPassword($length){
+    $character='123456789abcdefghijklmnpqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ#*{}()';
+    $password="";
+    for($i=0;$i<$length;$i++){
+        $index=rand(0,strlen($character)-1);
+        $password.=$character[$index];
+    }    
+
+    return $password;
    
+}
 }
