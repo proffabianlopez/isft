@@ -10,16 +10,11 @@
         </p>
     </a>
     <ul class="nav nav-treeview">
-        <li class="nav-item">
-            <a href="index.php?pages=newStudent" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Nuevo Alumno</p>
-            </a>
-        </li>
+        
         <li class="nav-item">
             <a href="index.php?pages=newAdmin" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Nuevo Administrativo</p>
+                <p>Nuevo Usuario</p>
             </a>
         </li>
         <li class="nav-item">
