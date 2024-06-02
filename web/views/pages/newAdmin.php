@@ -3,7 +3,7 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header bg-primary text-white text-center">
-                    <h4>Nuevo administrativo</h4>
+                    <h4>Nuevo Usuario</h4>
                 </div>
                 <div class="card-body">
                     <form method='POST'>
@@ -57,7 +57,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="alert alert-info text-center">
-                <p><b>NOTA: </b>Recordar que, al crear un nuevo usuario, éste tendrá de forma predeterminada la contraseña 1234. Luego deberá cambiarla.</p>
+                <p><b>NOTA: </b>Cuando se crea un nuevo usuario, se le enviarán todos los datos por correo electrónico.</p>
             </div>
         </div>
     </div>
