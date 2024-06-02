@@ -5,11 +5,13 @@ if(
 # links administracion de carreras
       ($_GET['pages'] == "newCarreer") ||           
       ($_GET['pages'] == "allCarreer") ||
-# links administracion de materias           
-      ($_GET['pages'] == "allSubjects") || 
-# links administracion de usuarios           
-      ($_GET['pages'] == "newAdmin") || 
+# links administracion de Personas           
       ($_GET['pages'] == "newStudent") || 
+      ($_GET['pages'] == "listStudent") || 
+      ($_GET['pages'] == "newTeacher") ||
+      ($_GET['pages'] == "listTeacher") ||  
+# links administracion de usuarios           
+      ($_GET['pages'] == "newUser") ||  
       ($_GET['pages'] == "myData")||
       ($_GET['pages'] == "changedPasswordStart") ||
       ($_GET['pages'] == "manageUser") || 
