@@ -11,7 +11,7 @@
         <!-- Username con dropdown para "Mis datos" -->
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-user"></i>
+                <i class="fas fa-user pr-1"></i>
                 <?php $data = UserController::sessionDataUser($_SESSION['id_user']) ?>
                 <?php echo $data['name_user'] . " " . $data['last_name_user'] ?>
             </a>
