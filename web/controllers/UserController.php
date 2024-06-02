@@ -363,7 +363,7 @@ class UserController
                     if (window.history.replaceState) {
                         window.history.replaceState(null, null, window.location.href);
                     }
-                    window.location="../index.php?pages=newAdmin";
+                    window.location="../index.php?pages=newUser";
                     </script>
                     <div class="alert alert-danger mt-2">Hubo un problema al crearlo</div>';
                 }
