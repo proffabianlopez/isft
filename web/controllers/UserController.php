@@ -355,7 +355,7 @@ class UserController
                         window.history.replaceState(null, null, window.location.href);
                     }
                     
-                    window.location="../index.php?pages=newAdmin";
+                    window.location="../index.php?pages=newUser";
                     </script>
                     <div class="alert alert-succes mt-2">Se guardó el registro correctamente</div>';
                 } else {
@@ -390,4 +390,88 @@ class UserController
 
         return $password;
     }
-}
+
+    static public function getAllUser(){
+        return UserModel::getAllUser();
+    }
+
+    static public function eliminatedUser(){
+        if (isset($_POST['id_user'])) {
+            $id = $_POST['id_user'];
+           
+            $execute = UserModel::updateUserState($id); // Agregar el punto y coma (;) aquí
+            
+            if($execute){
+                echo '<script>
+                if (window.history.replaceState) {
+                    window.history.replaceState(null, null, window.location.href);
+                }
+                
+                window.location="../index.php?pages=manageUser";
+                </script>
+                <div class="alert alert-success mt-2">Se borró el registro correctamente</div>'; // Corregir la palabra "success"
+            }else{
+                echo '<script>
+                if (window.history.replaceState) {
+                    window.history.replaceState(null, null, window.location.href);
+                }
+                </script>
+                <div class="alert alert-danger mt-2">No se pudo borrar</div>'; // Corregir la palabra "pudo"
+            }
+        }
+        
+    }
+    static public function disableAccountUser(){
+        if (isset($_GET['id_user'])) { // Cambiar $_POST a $_GET
+            $id = $_GET['id_user']; // Cambiar $_POST a $_GET
+            $execute = UserModel::disableUser($id); // Agregar el punto y coma (;) aquí
+            
+            if($execute){
+                echo '<script>
+                if (window.history.replaceState) {
+                    window.history.replaceState(null, null, window.location.href);
+                }
+                
+                window.location="../index.php?pages=manageUser";
+                </script>
+                <div class="alert alert-success mt-2">Se borró el registro correctamente</div>'; // Corregir la palabra "success"
+            }else{
+                echo '<script>
+                if (window.history.replaceState) {
+                    window.history.replaceState(null, null, window.location.href);
+                }
+                </script>
+                <div class="alert alert-danger mt-2">No se pudo borrar</div>'; // Corregir la palabra "pudo"
+            }
+           
+        }
+    }
+
+
+    static public function enableAccountUser(){
+        if (isset($_GET['id_user'])) { // Cambiar $_POST a $_GET
+            $id = $_GET['id_user']; // Cambiar $_POST a $_GET
+            $execute = UserModel::activateUser($id); // Agregar el punto y coma (;) aquí
+            
+            if($execute){
+                echo '<script>
+                if (window.history.replaceState) {
+                    window.history.replaceState(null, null, window.location.href);
+                }
+                
+                window.location="../index.php?pages=manageUser";
+                </script>
+                <div class="alert alert-success mt-2">Se borró el registro correctamente</div>'; // Corregir la palabra "success"
+            }else{
+                echo '<script>
+                if (window.history.replaceState) {
+                    window.history.replaceState(null, null, window.location.href);
+                }
+                </script>
+                <div class="alert alert-danger mt-2">No se pudo borrar</div>'; // Corregir la palabra "pudo"
+            }
+           
+        }
+    }
+  
+    }

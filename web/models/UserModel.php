@@ -248,4 +248,76 @@ class UserModel
             print_r($stmt->errorInfo());
         }
     }
+
+    static public function getAllUser(){
+        $sql="SELECT users.id_user AS id_user, 
+        users.name AS name, 
+        users.last_name AS last_name, 
+        users.email AS email, 
+        users.fk_rol_id AS id_rol, 
+        users.state AS state
+        FROM users
+        JOIN roles ON users.fk_rol_id = roles.id_rol
+        WHERE users.state = 1 or users.state=2";
+
+            $stmt = model_sql::connectToDatabase()->prepare($sql);
+
+                if($stmt->execute()) {
+
+                     return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                } else {
+
+                    print_r($stmt -> errorInfo());
+
+                    }		
+
+                $stmt = null;
+
+    }
+    static public function updateUserState($id){
+        $sql = "UPDATE users SET state = 0 WHERE id_user = ?";
+        $stmt = model_sql::connectToDatabase()->prepare($sql);
+        $stmt->bindParam(1, $id, PDO::PARAM_INT);
+        if($stmt->execute()) {		 
+            // Devolver true si la actualización se realiza correctamente
+            return true;
+        } else { 
+            // Manejar cualquier error que pueda ocurrir durante la ejecución de la consulta
+            print_r($stmt->errorInfo());
+            return false; // Devolver false en caso de error
+        }		
+        $stmt = null;
+    }
+
+    static public function disableUser($id){
+        $sql = "UPDATE users SET state = 2 WHERE id_user = ?";
+        $stmt = model_sql::connectToDatabase()->prepare($sql);
+        $stmt->bindParam(1, $id, PDO::PARAM_INT);
+        if($stmt->execute()) {		 
+            // Devolver true si la actualización se realiza correctamente
+            return true;
+        } else { 
+            // Manejar cualquier error que pueda ocurrir durante la ejecución de la consulta
+            print_r($stmt->errorInfo());
+            return false; // Devolver false en caso de error
+        }		
+        $stmt = null;
+    }
+
+    static public function activateUser($id){
+        $sql = "UPDATE users SET state = 1 WHERE id_user = ?";
+        $stmt = model_sql::connectToDatabase()->prepare($sql);
+        $stmt->bindParam(1, $id, PDO::PARAM_INT);
+        if($stmt->execute()) {		 
+            // Devolver true si la actualización se realiza correctamente
+            return true;
+        } else { 
+            // Manejar cualquier error que pueda ocurrir durante la ejecución de la consulta
+            print_r($stmt->errorInfo());
+            return false; // Devolver false en caso de error
+        }		
+        $stmt = null;
+    }
+    
 }
