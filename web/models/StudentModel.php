@@ -26,17 +26,18 @@ class StudentModel extends UserModel {
 
     static public function getAllStudent(){
         $sql="SELECT
-        users.id_user As id_user,
+        users.id_user As id_student,
         users.name AS name_student,
         users.last_name AS last_name_student,
         users.email AS email_student,
         users.dni AS dni,
         users.fk_rol_id AS fk_rol_id,
-        carrers.carrer_name AS carrers,
         carrers.carrer_name AS carrer_name
         FROM users
         JOIN carrers ON users.fk_carrer_id=carrers.id_carrer
-        WHERE users.fk_rol_id=3;";
+        WHERE 
+        users.fk_rol_id = 3
+        AND users.state IN (1, 2)";
 
             $stmt = model_sql::connectToDatabase()->prepare($sql);
 
@@ -53,6 +54,41 @@ class StudentModel extends UserModel {
                 $stmt = null;
 
     }
+
+    static public function updateStudentState($id){
+        $sql = "UPDATE users SET state = 0 WHERE id_user = ?";
+        $stmt = model_sql::connectToDatabase()->prepare($sql);
+        $stmt->bindParam(1, $id, PDO::PARAM_INT);
+        if($stmt->execute()) {		 
+            // Devolver true si la actualización se realiza correctamente
+            return true;
+        } else { 
+            // Manejar cualquier error que pueda ocurrir durante la ejecución de la consulta
+            print_r($stmt->errorInfo());
+            return false; // Devolver false en caso de error
+        }		
+        $stmt = null;
+    }
+    static public function updateStudentData($name, $last_name, $email, $carrera, $id_student){
+        $sql = "UPDATE users SET name = :name, last_name = :last_name, email = :email, fk_carrer_id = :carrer_id WHERE id_user = :id_student";
+        $stmt = model_sql::connectToDatabase()->prepare($sql);
+        $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+        $stmt->bindParam(':last_name', $last_name, PDO::PARAM_STR);
+        $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+        $stmt->bindParam(':carrer_id', $carrera, PDO::PARAM_INT);
+        $stmt->bindParam(':id_student', $id_student, PDO::PARAM_INT);
+    
+        if($stmt->execute()) {		 
+            // Devolver true si la actualización se realiza correctamente
+            return true;
+        } else { 
+            // Manejar cualquier error que pueda ocurrir durante la ejecución de la consulta
+            print_r($stmt->errorInfo());
+            return false; // Devolver false en caso de error
+        }		
+        $stmt = null;
+    }
+    
 
 }
 

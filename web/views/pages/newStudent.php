@@ -54,7 +54,7 @@
                             <input type="text" maxlength="4" oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="form-control" name="date" placeholder="Ingrese la fecha de ingreso" required>
                         </div>
                         <div class="d-flex justify-content-center align-items-center">
-                            <button type="submit" name='loadUser' class="btn bg-custom btn-block w-50">Crear alumno</button>
+                            <button type="submit" name='loadUser' class="btn bg-custom btn-block w-50 btn-warning">Crear alumno</button>
                         </div>
 
                         <?php

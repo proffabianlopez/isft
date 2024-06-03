@@ -398,15 +398,7 @@ class UserController
      
         $name = ucwords(strtolower(trim($_POST['name'])));
         $lastname = ucwords(strtolower(trim($_POST['last_name'])));
-        // if (!preg_match("/^[a-zA-Z]+$/", $name) || !preg_match("/^[a-zA-Z]+$/", $last_name)) {
-        //     echo '<script>
-        //         if (window.history.replaceState) {
-        //             window.history.replaceState(null, null, window.location.href);
-        //         }
-        //         </script>
-        //         <div class="alert alert-danger mt-2">El nombre y/o apellido solo pueden contener letras.</div>';
-        //     return;
-        // }
+      
 
         $email = strtolower(trim($_POST['email']));
         $email = filter_var($email, FILTER_VALIDATE_EMAIL);
