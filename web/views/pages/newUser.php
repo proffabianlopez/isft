@@ -5,7 +5,7 @@
                 <div class="card-header bg-custom text-black text-center">
                     <h4 class="my-1 font-weight-bold">Nuevo usuario</h4>
                 </div>
-                <div class="card-body background-logo">
+                <div class="card-body">
                     <form method='POST'>
                         <div class="row px-2">
                             <div class="col-sm-6">
@@ -38,7 +38,7 @@
                             </select>
                         </div>
                         <div class="form-group px-2">
-                            <label class="py-1" for="roles">Rol <span class="text-danger">*</span></label>
+                            <label class="pt-1" for="roles">Rol <span class="text-danger">*</span></label>
                             <select class="form-control" id="roles" name="roles" required>
                                 <?php
                                 (new RolesController())->rolesSelect();
