@@ -250,15 +250,20 @@ class UserModel
     }
 
     static public function getAllUser(){
-        $sql="SELECT users.id_user AS id_user, 
+        $sql="SELECT 
+        users.id_user AS id_user, 
         users.name AS name, 
         users.last_name AS last_name, 
         users.email AS email, 
-        users.fk_rol_id AS id_rol, 
+        users.fk_rol_id AS id_rol,
+        roles.name AS name_rol, 
         users.state AS state
-        FROM users
-        JOIN roles ON users.fk_rol_id = roles.id_rol
-        WHERE users.state = 1 or users.state=2";
+    FROM 
+        users
+    JOIN 
+        roles ON users.fk_rol_id = roles.id_rol
+    WHERE 
+        users.state = 1 OR users.state = 2";
 
             $stmt = model_sql::connectToDatabase()->prepare($sql);
 
@@ -309,6 +314,26 @@ class UserModel
         $sql = "UPDATE users SET state = 1 WHERE id_user = ?";
         $stmt = model_sql::connectToDatabase()->prepare($sql);
         $stmt->bindParam(1, $id, PDO::PARAM_INT);
+        if($stmt->execute()) {		 
+            // Devolver true si la actualización se realiza correctamente
+            return true;
+        } else { 
+            // Manejar cualquier error que pueda ocurrir durante la ejecución de la consulta
+            print_r($stmt->errorInfo());
+            return false; // Devolver false en caso de error
+        }		
+        $stmt = null;
+    }
+
+    static public function updateUserData($name,$last_name,$email,$fk_rol_id,$id_user){
+        $sql = "UPDATE users SET name  = :name,last_name=:last_name,email=:email,fk_rol_id=:fk_id WHERE id_user = :id_user";
+        $stmt = model_sql::connectToDatabase()->prepare($sql);
+        $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+        $stmt->bindParam(':last_name', $last_name, PDO::PARAM_STR);
+        $stmt->bindParam(':email',$email, PDO::PARAM_STR);
+        $stmt->bindParam(':fk_id', $fk_rol_id, PDO::PARAM_INT);
+        $stmt->bindParam(':id_user', $id_user, PDO::PARAM_INT);
+    
         if($stmt->execute()) {		 
             // Devolver true si la actualización se realiza correctamente
             return true;

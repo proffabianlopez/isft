@@ -25,8 +25,7 @@
 <?php 
 	if (isset($_GET['subfolder'])) {
 	# links administracion de materias
-		if (($_GET['subfolder'] == "listUser") || 
-      		($_GET['subfolder'] == "eliminatedUser")
+		if (($_GET['subfolder'] == "listUser") 
       		) {
 			include "views/subfolder/".$_GET['subfolder'].".php";
 		}
