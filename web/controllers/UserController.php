@@ -421,7 +421,9 @@ class UserController
         }
         
     }
-    static public function disableAccountUser(){
+    
+    
+        static public function disableAccountUser(){
         if (isset($_GET['id_user'])) { // Cambiar $_POST a $_GET
             $id = $_GET['id_user']; // Cambiar $_POST a $_GET
             $execute = UserModel::disableUser($id); // Agregar el punto y coma (;) aquí
@@ -473,5 +475,62 @@ class UserController
            
         }
     }
-  
+
+    static public function editarUser(){
+      
+     
+        $name = ucwords(strtolower(trim($_POST['name'])));
+        $lastname = ucwords(strtolower(trim($_POST['last_name'])));
+        // if (!preg_match("/^[a-zA-Z]+$/", $name) || !preg_match("/^[a-zA-Z]+$/", $last_name)) {
+        //     echo '<script>
+        //         if (window.history.replaceState) {
+        //             window.history.replaceState(null, null, window.location.href);
+        //         }
+        //         </script>
+        //         <div class="alert alert-danger mt-2">El nombre y/o apellido solo pueden contener letras.</div>';
+        //     return;
+        // }
+
+        $email = strtolower(trim($_POST['email']));
+        $email = filter_var($email, FILTER_VALIDATE_EMAIL);
+
+        if ($email === false) {
+            echo '<script>
+                if (window.history.replaceState) {
+                    window.history.replaceState(null, null, window.location.href);
+                }
+                </script>
+                <div class="alert alert-danger mt-2">Email inválido</div>';
+            return;
+        }
+
+        $roles = $_POST['roles'];
+        $id = $_POST['id_user'];
+
+            $execute = UserModel::updateUserData($name, $lastname, $email, $roles,$id);
+            if ($execute) {
+                    
+                    echo '<script>
+                    if (window.history.replaceState) {
+                        window.history.replaceState(null, null, window.location.href);
+                    }
+                    
+                    window.location="../index.php?pages=manageUser&subfolder=listUser";
+                    </script>
+                    <div class="alert alert-succes mt-2">Se guardó el registro correctamente</div>';
+                } else {
+                    echo '<script>
+                    if (window.history.replaceState) {
+                        window.history.replaceState(null, null, window.location.href);
+                    }
+                    window.location="../index.php?pages=newUser";
+                    </script>
+                    <div class="alert alert-danger mt-2">Hubo un problema al crearlo</div>';
+                }
+            }
+       
+          
+        
     }
+  
+    
