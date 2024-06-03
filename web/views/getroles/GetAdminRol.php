@@ -7,7 +7,7 @@ if(
       ($_GET['pages'] == "allCarreer") ||
 # links administracion de Personas           
       ($_GET['pages'] == "newStudent") || 
-      ($_GET['pages'] == "listStudent") || 
+      
       ($_GET['pages'] == "newTeacher") ||
       ($_GET['pages'] == "listTeacher") ||  
 # links administracion de usuarios           
@@ -15,6 +15,7 @@ if(
       ($_GET['pages'] == "myData")||
       ($_GET['pages'] == "changedPasswordStart") ||
       ($_GET['pages'] == "manageUser") || 
+      ($_GET['pages'] == "manageStudent") || 
 # links simples
       ($_GET['pages'] == "changePassword") 
     ) { 

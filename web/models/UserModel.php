@@ -61,30 +61,6 @@ class UserModel
         $stmt = null;
     }
 
-
-    static public function newStudent($value1, $value2, $value3, $value4, $value5, $value6)
-    {
-        $sql = "INSERT INTO users (name, last_name, email, dni, startingYear, file, password, 
-                                fk_gender_id, fk_carrer_id, fk_rol_id, state)
-                                VALUES (:name, :lastName, :email, :dni, :dateYear, null, null, :gender, null, 3, 0)";
-        $stmt = model_sql::connectToDatabase()->prepare($sql);
-        $stmt->bindParam(':name', $value1, PDO::PARAM_STR);
-        $stmt->bindParam(':lastName', $value2, PDO::PARAM_STR);
-        $stmt->bindParam(':email', $value3, PDO::PARAM_STR);
-        $stmt->bindParam(':dni', $value4, PDO::PARAM_STR);
-        $stmt->bindParam(':dateYear', $value5, PDO::PARAM_STR);
-        $stmt->bindParam(':gender', $value6, PDO::PARAM_INT);
-
-        if ($stmt->execute()) {
-            return $stmt;
-        } else {
-            print_r($stmt->errorInfo());
-        }
-    }
-
-
-
-
     static public function getPassword($id)
     {
         $sql = "Select users.password as password From users
@@ -250,20 +226,22 @@ class UserModel
     }
 
     static public function getAllUser(){
-        $sql="SELECT 
-        users.id_user AS id_user, 
-        users.name AS name, 
-        users.last_name AS last_name, 
-        users.email AS email, 
-        users.fk_rol_id AS id_rol,
-        roles.name AS name_rol, 
-        users.state AS state
-    FROM 
+        $sql="SELECT
+        users.id_user AS id_student,
+        users.name AS name_student,
+        users.last_name AS last_name_student,
+        users.email AS email_student,
+        users.dni AS dni,
+        users.fk_rol_id AS fk_rol_id,
+        carrers.carrer_name AS carrer_name
+    FROM
         users
-    JOIN 
-        roles ON users.fk_rol_id = roles.id_rol
-    WHERE 
-        users.state = 1 OR users.state = 2";
+    JOIN
+        carrers ON users.fk_carrer_id = carrers.id_carrer
+    WHERE
+        users.fk_rol_id = 3
+        AND users.state IN (1, 2);
+    ";
 
             $stmt = model_sql::connectToDatabase()->prepare($sql);
 
