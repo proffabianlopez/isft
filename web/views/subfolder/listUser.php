@@ -2,27 +2,27 @@
 <div class="card">
     <div class="card-body">
         <div class="table-responsive">
-            <table id="example3" class="table table-bordered table-striped table-hover">
+            <table id="example3" class="table table-bordered table-striped table-hover" style="width: 80%; margin: 0 auto;">
                 <thead class="bg-yellow text-white"> 
                     <tr>            
-                        <th>Nombre</th>
-                        <th>Apellido</th>
-                        <th>Email</th>
-                        <th>Rol</th>
-                        <th>Estado</th>
-                        <th>Acciones</th>
+                        <th class="text-center">Nombre</th>
+                        <th class="text-center">Apellido</th>
+                        <th class="text-center">Email</th>
+                        <th class="text-center">Rol</th>
+                        <th class="text-center">Estado</th>
+                        <th class="text-center">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>   
                     <?php foreach ($dataUser as $user): ?>
                         <tr class="<?php echo ($user['state'] == 1) ? 'bg-white' : 'bg-light'; ?>">
-                            <td><?php echo $user['name']; ?></td>
-                            <td><?php echo $user['last_name']; ?></td>
-                            <td><?php echo $user['email']; ?></td>
-                            <td><?php echo $user['name_rol']; ?></td>
-                            <td><?php echo $user['state'] == 1 ? 'Activo' : 'Inactivo'; ?></td>
+                            <td class="text-center"><?php echo $user['name']; ?></td>
+                            <td class="text-center"><?php echo $user['last_name']; ?></td>
+                            <td class="text-center"><?php echo $user['email']; ?></td>
+                            <td class="text-center"><?php echo $user['name_rol']; ?></td>
+                            <td class="text-center"><?php echo $user['state'] == 1 ? 'Activo' : 'Inactivo'; ?></td>
                             <?php if (isset($_GET['pages']) && ($_GET['pages'] == 'manageUser')): ?>
-                            <td>
+                            <td class="text-center">
                                 <a href="#confirmDeleteModal<?php echo $user['id_user']; ?>" class="btn btn-danger delete-user" data-toggle="modal">
                                     <i class="fas fa-trash-alt"></i>
                                 </a>
@@ -43,6 +43,7 @@
         </div>
     </div>
 </div>
+
 <?php if(isset($_GET['action'])){
     if($_GET['action']=="deshabilitar_cuenta"){
       $controller=new UserController();

@@ -94,3 +94,18 @@ body {
     .main-header.navbar-expanded .content-wrapper {
         margin-left: 0; /* Eliminar cualquier margen izquierdo */
     }
+
+    /*estilos para las datatable*/
+    .custom-table-container {
+        width: 80%; /* Puedes ajustar este valor según tus necesidades */
+        margin: 0 auto; /* Esto centrará el contenedor horizontalmente */
+    }
+    
+    .custom-table-container th,
+    .custom-table-container td {
+        text-align: center; /* Centra el texto en las celdas */
+    }
+    
+    .custom-table-container .btn {
+        margin: 2px; /* Agrega un pequeño margen entre los botones */
+    }

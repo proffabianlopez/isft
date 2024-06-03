@@ -46,7 +46,7 @@
                             </select>
                         </div>
                         <div class="d-flex justify-content-center align-items-center">
-                            <button type="submit" name='loadUser' class="btn bg-custom btn-block w-50">Crear usuario</button>
+                            <button type="submit" name='loadUser' class="btn bg-custom btn-block w-50 btn-warning">Crear usuario</button>
                         </div>
                         <?php
                         if (isset($_POST['loadUser'])) {

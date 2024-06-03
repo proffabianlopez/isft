@@ -227,21 +227,19 @@ class UserModel
 
     static public function getAllUser(){
         $sql="SELECT
-        users.id_user AS id_student,
-        users.name AS name_student,
-        users.last_name AS last_name_student,
-        users.email AS email_student,
-        users.dni AS dni,
+        users.id_user AS id_user,
+        users.name AS name,
+        users.last_name AS last_name,
+        users.email AS email,
         users.fk_rol_id AS fk_rol_id,
-        carrers.carrer_name AS carrer_name
+        roles.name AS name_rol,
+        users.state AS state
     FROM
         users
     JOIN
-        carrers ON users.fk_carrer_id = carrers.id_carrer
+        roles ON users.fk_rol_id = roles.id_rol
     WHERE
-        users.fk_rol_id = 3
-        AND users.state IN (1, 2);
-    ";
+        (users.state = 1 OR (users.state = 2 AND users.fk_rol_id <> 3))";
 
             $stmt = model_sql::connectToDatabase()->prepare($sql);
 

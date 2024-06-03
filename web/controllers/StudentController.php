@@ -104,4 +104,73 @@ class StudentController  {
         return StudentModel::getAllStudent();
     }
 
+    static public function eliminatedStudent(){
+        if (isset($_POST['id_student'])) {
+            $id = $_POST['id_student'];
+           
+            $execute = StudentModel::updateStudentState($id); // Agregar el punto y coma (;) aquí
+            
+            if($execute){
+                echo '<script>
+                if (window.history.replaceState) {
+                    window.history.replaceState(null, null, window.location.href);
+                }
+                
+                window.location="../index.php?pages=manageStudent";
+                </script>
+                <div class="alert alert-success mt-2">Se borró el registro correctamente</div>'; 
+            }else{
+                echo '<script>
+                if (window.history.replaceState) {
+                    window.history.replaceState(null, null, window.location.href);
+                }
+                </script>
+                <div class="alert alert-danger mt-2">No se pudo borrar</div>'; 
+            }
+        }
+        
+    }
+
+    static public function editStudent(){
+        $name = ucwords(strtolower(trim($_POST['name_student'])));
+        $lastname = ucwords(strtolower(trim($_POST['last_name_student'])));
+        
+
+        $email = strtolower(trim($_POST['email_student']));
+        $email = filter_var($email, FILTER_VALIDATE_EMAIL);
+
+        if ($email === false) {
+            echo '<script>
+                if (window.history.replaceState) {
+                    window.history.replaceState(null, null, window.location.href);
+                }
+                </script>
+                <div class="alert alert-danger mt-2">Email inválido</div>';
+            return;
+        }
+
+        $id_carrer = $_POST['carrer'];
+        $id_student = $_POST['id_student'];
+            $execute = StudentModel::updateStudentData($name, $lastname, $email, $id_carrer,$id_student);
+            if ($execute) {
+                    
+                    echo '<script>
+                    if (window.history.replaceState) {
+                        window.history.replaceState(null, null, window.location.href);
+                    }
+                    
+                    window.location="../index.php?pages=manageStudent&subfolder=listStudent";
+                    </script>
+                    <div class="alert alert-succes mt-2">Se guardó el registro correctamente</div>';
+                } else {
+                    echo '<script>
+                    if (window.history.replaceState) {
+                        window.history.replaceState(null, null, window.location.href);
+                    }
+                    window.location="../index.php?pages=newStudent";
+                    </script>
+                    <div class="alert alert-danger mt-2">Hubo un problema al crearlo</div>';
+                }
+            }
+
 }
