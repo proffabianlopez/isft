@@ -239,7 +239,7 @@ class UserModel
     JOIN
         roles ON users.fk_rol_id = roles.id_rol
     WHERE
-        (users.state = 1 OR (users.state = 2 AND users.fk_rol_id <> 3))";
+        (users.state = 1 OR (users.state = 2 AND users.fk_rol_id <> 3 AND users.fk_rol_id <> 4))";
 
             $stmt = model_sql::connectToDatabase()->prepare($sql);
 
