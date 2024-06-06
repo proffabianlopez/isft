@@ -38,7 +38,7 @@
                             </select>
                         </div>
                         <div class="d-flex justify-content-center align-items-center">
-                            <button type="submit" name='loadTeacher' class="btn bg-custom btn-block w-50 btn-warning">Crear alumno</button>
+                            <button type="submit" name='loadTeacher' class="btn bg-custom btn-block w-50 btn-warning">Crear profesor</button>
                         </div>
 
                         <?php
