@@ -189,13 +189,14 @@ class UserModel
         }
     }
 
-    static  public function checkForDuplicatesEmail($value1)
+    static  public function checkForDuplicatesEmail($id, $email)
     {
         try {
             // Verificar si ya existe un registro con el mismo DNI o correo electrónico
-            $checkQuery = "SELECT COUNT(*) FROM users WHERE email = ?";
+            $checkQuery = "SELECT COUNT(*) FROM users WHERE email = ? AND id_user <> ?";
             $checkStatement = model_sql::connectToDatabase()->prepare($checkQuery);
-            $checkStatement->bindParam(1, $value1, PDO::PARAM_STR);
+            $checkStatement->bindParam(1, $email, PDO::PARAM_STR);
+            $checkStatement->bindParam(2, $id, PDO::PARAM_INT);
             $checkStatement->execute();
 
             $count = $checkStatement->fetchColumn();
