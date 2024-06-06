@@ -100,7 +100,7 @@
                         <input type="email" class="form-control" id="email" name="email_student" required value="<?php echo $student['email_student']; ?>">
                     </div>
                     <div class="form-group">
-                        <label for="roles">Carreraw</label>
+                        <label for="roles">Carrera</label>
                         <select class="form-control" id="carrer" name="carrer" required>
                             <?php (new CarrerController())->carrerSelect();?>
                         </select>
