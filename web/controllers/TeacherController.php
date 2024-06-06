@@ -46,7 +46,7 @@ class TeacherController{
         $gender = $_POST['gender'];
 
             // Filtra el duplicado del DNI
-         $checkCountDniOrEmail = TeacherModel::checkForDuplicates($dni, $email);
+        $checkCountDniOrEmail = TeacherModel::checkForDuplicates($dni, $email);
 
         if ($checkCountDniOrEmail !== false) {
             echo '<script>
@@ -85,5 +85,63 @@ class TeacherController{
             <div class="alert alert-danger mt-2">Debes completar los campos</div>';
         }
     }
+
+    static public function getAllTeachers(){
+        return TeacherModel::getAllTeachers();
+    }
+
+    static public function editTeacher(){
+        $name = ucwords(strtolower(trim($_POST['name_teacher'])));
+        $lastname = ucwords(strtolower(trim($_POST['last_name_teacher'])));
+        
+
+        $email = strtolower(trim($_POST['email_teacher']));
+        $email = filter_var($email, FILTER_VALIDATE_EMAIL);
+
+        if ($email === false) {
+            echo '<script>
+                if (window.history.replaceState) {
+                    window.history.replaceState(null, null, window.location.href);
+                }
+                </script>
+                <div class="alert alert-danger mt-2">Email inválido</div>';
+            return;
+        }
+
+        $id_teacher = $_POST['id_teacher'];
+        $checkCountEmail = TeacherModel::checkForDuplicatesEmail($id_teacher, $email);
+
+        if ($checkCountEmail !== false) {
+            echo '<script>
+                if (window.history.replaceState) {
+                    window.history.replaceState(null, null, window.location.href);
+                }
+                </script>
+                <div class="alert alert-danger mt-2">Ya existe el email</div>';
+                return;
+        }
+
+        $execute = TeacherModel::updateTeacherData($name, $lastname, $email, $id_teacher);
+        if ($execute) {
+                
+                echo '<script>
+                if (window.history.replaceState) {
+                    window.history.replaceState(null, null, window.location.href);
+                }
+                
+                window.location="../index.php?pages=manageTeacher&subfolder=listTeacher";
+                </script>
+                <div class="alert alert-succes mt-2">Se guardó el registro correctamente</div>';
+            } else {
+                echo '<script>
+                if (window.history.replaceState) {
+                    window.history.replaceState(null, null, window.location.href);
+                }
+                window.location="../index.php?pages=manageTeacher&subfolder=listTeacher";
+                </script>
+                <div class="alert alert-danger mt-2">Hubo un problema al editar</div>';
+            }
+            }
+
 }
 ?>
