@@ -2,22 +2,12 @@
  <?php if ($data['change_password'] != 0) : ?>
 
     <li class="nav-item mb-1">
-    <a href="#" class="nav-link">
+    <a href="index.php?pages=manageUser" class="nav-link">
         <i class="fas fa-users-cog nav-icon"></i>
-        <p>
-            Gestión de Usuarios
-            <i class="right fas fa-angle-left"></i>
-        </p>
+        <p>Gestión de Usuarios</p>
     </a>
-    <ul class="nav nav-treeview">
-        <li class="nav-item mb-1">
-            <a href="index.php?pages=manageUser" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Gestionar Usuarios</p>
-            </a>
-        </li>
-    </ul>
 </li>
+
 <li class="nav-item mb-1">
     <a href="#" class="nav-link">
         <i class="fas fa-graduation-cap nav-icon"></i>
@@ -39,45 +29,20 @@
             </a>
         </li>
     </ul>
-</li>
+  </li>
 <li class="nav-item mb-1">
-    <a href="#" class="nav-link">
+    <a href="index.php?pages=manageStudent" class="nav-link">
         <i class="fas fa-user-graduate nav-icon"></i>
-        <p>Alumnos
-            <i class="right fas fa-angle-left"></i>
-        </p>
+        <p>Alumnos</p>
     </a>
-    <ul class="nav nav-treeview">
-        <li class="nav-item mb-1">
-            <a href="index.php?pages=manageStudent" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Todos los Alumnos</p>
-            </a>
-        </li>
-    </ul>
-</li>
+</li> 
+
 <li class="nav-item mb-1">
-    <a href="#" class="nav-link">
+    <a href="index.php?pages=manageTeacher" class="nav-link">
         <i class="fas fa-user-tie nav-icon"></i>
-        <p>
-            Profesores
-            <i class="right fas fa-angle-left"></i>
-        </p>
+        <p>Profesores</p>
     </a>
-    <ul class="nav nav-treeview">
-        <li class="nav-item mb-1">
-            <a href="index.php?pages=newTeacher" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Nuevo Profesor</p>
-            </a>
-        </li>
-        <li class="nav-item mb-1">
-            <a href="index.php?pages=manageTeacher" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Todos los Profesores</p>
-            </a>
-        </li>
-    </ul>
+</li>
 </li>
 
 
