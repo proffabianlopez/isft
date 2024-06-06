@@ -23,9 +23,7 @@
                             <td class="text-center"><?php echo $user['state'] == 1 ? 'Activo' : 'Inactivo'; ?></td>
                             <?php if (isset($_GET['pages']) && ($_GET['pages'] == 'manageUser')): ?>
                                 <td class="text-center">
-    <a href="#confirmDeleteModal<?php echo $user['id_user']; ?>" class="btn btn-danger delete-user" data-toggle="modal">
-        <i class="fas fa-trash-alt"></i>
-    </a>
+   
     <a href="#editUserModal<?php echo $user['id_user']; ?>" class="btn btn-primary edit-user" data-toggle="modal">
         <i class="fas fa-edit"></i>
     </a>
