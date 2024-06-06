@@ -9,13 +9,13 @@ if(
       ($_GET['pages'] == "newStudent") || 
       
       ($_GET['pages'] == "newTeacher") ||
-      ($_GET['pages'] == "listTeacher") ||  
 # links administracion de usuarios           
       ($_GET['pages'] == "newUser") ||  
       ($_GET['pages'] == "myData")||
       ($_GET['pages'] == "changedPasswordStart") ||
       ($_GET['pages'] == "manageUser") || 
       ($_GET['pages'] == "manageStudent") || 
+      ($_GET['pages'] == "manageTeacher") || 
 # links simples
       ($_GET['pages'] == "changePassword") 
     ) { 

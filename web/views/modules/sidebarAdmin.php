@@ -94,7 +94,7 @@
                          </a>
                      </li>
                      <li class="nav-item mb-1">
-                         <a href="index.php?pages=listTeacher" class="nav-link">
+                         <a href="index.php?pages=manageTeacher" class="nav-link">
                              <i class="far fa-circle nav-icon"></i>
                              <p>Todos los Profesores</p>
                          </a>
