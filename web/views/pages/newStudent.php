@@ -56,7 +56,7 @@
                         <div class="d-flex justify-content-center align-items-center">
                             <button type="submit" name='loadUser' class="btn bg-custom btn-block w-50 btn-warning">Crear alumno</button>
                         </div>
-
+                        
                         <?php
                         if (isset($_POST['loadUser'])) {
                             $controller = new StudentController();
@@ -64,6 +64,10 @@
                         }
                         ?>
                     </form>
+                    <br>
+                    <?php $message=new MessageController();
+                        $message->showMessageVerify('message',"Se creó correctamente al estudiante")?>
+
                 </div>
             </div>
         </div>
