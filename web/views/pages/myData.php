@@ -39,19 +39,32 @@ $user_data = UserController::sessionDataUser($_SESSION['id_user']);
                 <div class="card-header bg-custom">
                     <h3 class="card-title py-1">Datos de Contacto</h3>
                 </div>
+                
                 <div class="card-body">
                     <form method="POST">
+                    <div class="form-group">
+                            <label for="newEmail">Nuevo Nombre</label>
+                            <input type="text" class="form-control" id="newEmail" name="name" required value="<?php echo $user_data['name_user'] ?>">
+                        </div>
                         <div class="form-group">
-                            <label for="newEmail"><? ?>Nuevo Correo Electrónico:</label>
+                            <label for="newEmail">Nuevo Apellido</label>
+                            <input type="text" class="form-control" id="newEmail" name="last_name" required value="<?php echo $user_data['last_name_user'] ?>">
+                        </div>    
+                        <div class="form-group">
+                            <label for="newEmail">Nuevo Correo Electrónico:</label>
                             <input type="email" class="form-control" id="newEmail" name="email" required value="<?php echo $user_data['email'] ?>">
                         </div>
+                        <div class="form-group">
+                            <label for="newEmail">Nuevo Dni</label>
+                            <input type="text" class="form-control" id="newEmail" name="dni" required value="<?php echo $user_data['dni'] ?>">
+                        </div> 
                         <div class="d-flex justify-content-center align-items-center pt-4">
-                            <button type="submit" class="btn bg-custom btn-warning btn-block w-50" name="Enviar">Actualizar correo electrónico</button>
+                            <button type="submit" class="btn bg-custom btn-warning btn-block w-50" name="Enviar">Actualizar Datos</button>
                         </div>
                         <?php
                         if (isset($_POST['Enviar'])) {
                             $controller = new UserController();
-                            $controller->newMail();
+                            $controller->updateData();
                         }
                         ?>
                     </form>

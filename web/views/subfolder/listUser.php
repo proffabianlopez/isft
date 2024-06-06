@@ -22,19 +22,21 @@
                             <td class="text-center"><?php echo $user['name_rol']; ?></td>
                             <td class="text-center"><?php echo $user['state'] == 1 ? 'Activo' : 'Inactivo'; ?></td>
                             <?php if (isset($_GET['pages']) && ($_GET['pages'] == 'manageUser')): ?>
-                            <td class="text-center">
-                                <a href="#confirmDeleteModal<?php echo $user['id_user']; ?>" class="btn btn-danger delete-user" data-toggle="modal">
-                                    <i class="fas fa-trash-alt"></i>
-                                </a>
-                                <a href="#editUserModal<?php echo $user['id_user']; ?>" class="btn btn-primary edit-user" data-toggle="modal">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <?php if ($user['state'] == 1): ?>
-                                    <a href="index.php?pages=manageUser&action=deshabilitar_cuenta&id_user=<?php echo $user['id_user']?>" class="btn btn-success" title="Deshabilitar cuenta"><i class="fas fa-toggle-on"></i></a>
-                                <?php else: ?>
-                                    <a href="index.php?pages=manageUser&action=habilitar_cuenta&id_user=<?php echo $user['id_user']?>" class="btn btn-danger" title="Habilitar cuenta"><i class="fas fa-toggle-off"></i></a>
-                                <?php endif; ?>
-                            </td>
+                                <td class="text-center">
+    <a href="#confirmDeleteModal<?php echo $user['id_user']; ?>" class="btn btn-danger delete-user" data-toggle="modal">
+        <i class="fas fa-trash-alt"></i>
+    </a>
+    <a href="#editUserModal<?php echo $user['id_user']; ?>" class="btn btn-primary edit-user" data-toggle="modal">
+        <i class="fas fa-edit"></i>
+    </a>
+    <?php if ($user['state'] == 1): ?>
+        <a href="index.php?pages=manageUser&action=deshabilitar_cuenta&id_user=<?php echo $user['id_user']?>" class="btn btn-success" title="Deshabilitar cuenta"><i class="fas fa-toggle-on"></i></a>
+    <?php else: ?>
+        <a href="index.php?pages=manageUser&action=habilitar_cuenta&id_user=<?php echo $user['id_user']?>" class="btn btn-danger" title="Habilitar cuenta"><i class="fas fa-toggle-off"></i></a>
+    <?php endif; ?>
+    <a href="index.php?pages=changePassword&id_user=<?php echo $user['id_user']?>" class="btn btn-warning" title="Cambiar contraseña"><i class="fas fa-key"></i></a>
+</td>
+
                             <?php endif; ?>
                         </tr>
                     <?php endforeach; ?>

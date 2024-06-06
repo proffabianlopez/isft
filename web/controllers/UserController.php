@@ -122,10 +122,33 @@ class UserController
     }
 
 
-    static public function newMail()
+    static public function updateData()
     {
-        if (!empty($_POST['email'])) {
+        if (!empty($_POST['email'])&&!empty($_POST['name'])&&!empty($_POST['last_name'])&&!empty($_POST['dni'])) {
             $newEmail = trim($_POST['email']);
+            $name = ucwords(strtolower(trim($_POST['name'])));
+            $lastname = ucwords(strtolower(trim($_POST['last_name'])));
+            
+            if (!preg_match("/^[a-zA-Z]+$/", $name) || !preg_match("/^[a-zA-Z]+$/", $lastname)) {
+                echo '<script>
+                    if (window.history.replaceState) {
+                        window.history.replaceState(null, null, window.location.href);
+                    }
+                    </script>
+                    <div class="alert alert-danger mt-2">El nombre y/o apellido solo pueden contener letras.</div>';
+                return;
+            }
+
+            $dni = trim($_POST['dni']);
+            if (!ctype_digit($dni) || strlen($dni) > 8 || strlen($dni) < 6) {
+                echo '<script>
+                    if (window.history.replaceState) {
+                        window.history.replaceState(null, null, window.location.href);
+                    }
+                    </script>
+                    <div class="alert alert-danger mt-2">DNI inválido. Debe ser un número entre 6 y 8 dígitos.</div>';
+                return;
+            }
 
             // Obtener el correo electrónico actual del usuario
             $currentEmail = UserModel::dataUser($_SESSION['id_user']);
@@ -136,7 +159,7 @@ class UserController
             }
 
             if (filter_var($newEmail, FILTER_VALIDATE_EMAIL)) {
-                $checkEmailDuplicate = UserModel::checkForDuplicatesEmail($newEmail);
+                $checkEmailDuplicate = UserModel::checkForDuplicates($newEmail,$dni,$_SESSION['id_user']);
                 if ($checkEmailDuplicate !== false) {
                     echo '<script>
                     if (window.history.replaceState) {
@@ -145,7 +168,7 @@ class UserController
                     </script>
                     <div class="alert alert-danger mt-2">Ya existe el Email</div>';
                 } else {
-                    $execute = UserModel::updateMail($_SESSION['id_user'], $newEmail);
+                    $execute = UserModel::updateData($name,$lastname,$newEmail,$dni,$_SESSION['id_user']);
 
                     if ($execute) {
                         echo '<script>
