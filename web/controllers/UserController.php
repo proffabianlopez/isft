@@ -456,8 +456,42 @@ class UserController
                 }
             }
        
-          
+            static public function sendNewAleatoryPasswordEmail(){
+                if (isset($_GET['id_user'])) { 
+                    $id = $_GET['id_user']; 
+                    $changedPassword = UserModel::updateChangedPassword($id);
+            
+                    if($changedPassword){
+                        $dataUser = UserModel::dataUser($id);
+                        $emailData = $dataUser['email']; 
+                        $generatePassword = self::generateRandomPassword(14);    
+                        $hashedPassword = password_hash($generatePassword, PASSWORD_DEFAULT);
+                        $mailSend = MailerController::generateNewPasswordviaEmail($emailData, $hashedPassword);
+                        
+                        // Verificar si el correo se envió correctamente
+                        if ($mailSend) {
+                            echo '<script>
+                            if (window.history.replaceState) {
+                                window.history.replaceState(null, null, window.location.href);
+                            }
+                            
+                            window.location="../index.php?pages=manageUser&message=correcto";
+                            </script>
+                            ';
+                        } else {
+                            echo '<script>
+                            if (window.history.replaceState) {
+                                window.history.replaceState(null, null, window.location.href);
+                            }
+                            <div class="alert alert-danger mt-2">No se pudo mandar el email</div>';
+                        }
+                    }
+                } 
+            }
+            
+
+            
         
     }
   
-    
+

@@ -324,5 +324,20 @@ class UserModel
         }		
         $stmt = null;
     }
+
+    static public function updateChangedPassword($id){
+        $sql = "UPDATE users SET change_password = 0 WHERE id_user = ?";
+        $stmt = model_sql::connectToDatabase()->prepare($sql);
+        $stmt->bindParam(1, $id, PDO::PARAM_INT);
+        if($stmt->execute()) {		 
+            // Devolver true si la actualización se realiza correctamente
+            return true;
+        } else { 
+            // Manejar cualquier error que pueda ocurrir durante la ejecución de la consulta
+            print_r($stmt->errorInfo());
+            return false; // Devolver false en caso de error
+        }		
+        $stmt = null;
+    }
     
 }
