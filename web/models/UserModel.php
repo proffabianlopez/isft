@@ -99,17 +99,20 @@ class UserModel
         $stmt = null;
     }
 
-    static public function updateMail($id, $newMail)
+    static public function updateData($newName,$newLastName,$newEmail,$newDni,$id)
     {
 
-        $sql = "UPDATE users SET email = ? WHERE id_user = ?";
+        $sql = "UPDATE users SET name = ?,last_name=?,email=?,dni=? WHERE id_user = ?";
 
         $stmt = model_sql::connectToDatabase()->prepare($sql);
 
 
-        $stmt->bindParam(1, $newMail, PDO::PARAM_STR);
-        $stmt->bindParam(2, $id, PDO::PARAM_INT);
-
+      
+        $stmt->bindParam(1, $newName, PDO::PARAM_STR);
+        $stmt->bindParam(2, $newLastName, PDO::PARAM_STR);
+        $stmt->bindParam(3, $newEmail, PDO::PARAM_STR);
+        $stmt->bindParam(4, $newDni, PDO::PARAM_STR);
+        $stmt->bindParam(5, $id, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
             return true;
@@ -168,7 +171,7 @@ class UserModel
     {
         try {
             // Verificar si ya existe un registro con el mismo DNI o correo electrónico
-            $checkQuery = "SELECT COUNT(*) FROM users WHERE dni = ? OR email = ?";
+            $checkQuery = "SELECT COUNT(*) FROM users WHERE dni = ? OR email = ? ";
             $checkStatement = model_sql::connectToDatabase()->prepare($checkQuery);
             $checkStatement->bindParam(1, $value1, PDO::PARAM_STR);
             $checkStatement->bindParam(2, $value2, PDO::PARAM_STR);
