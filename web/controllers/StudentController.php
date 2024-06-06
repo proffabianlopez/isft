@@ -79,7 +79,7 @@ class StudentController  {
                 if (window.history.replaceState) {
                     window.history.replaceState(null, null, window.location.href);
                 }
-                window.location="../index.php?pages=newStudent";
+                window.location="../index.php?pages=newStudent&message=correcto";
                 </script>
                 <div class="alert alert-succes mt-2">Se guardó el registro correctamente</div>';
             } else {

@@ -55,6 +55,9 @@
                         }
                         ?>
                     </form>
+                    <br>
+                    <?php $message=new MessageController();
+                        $message->showMessageVerify('message',"Se creó correctamente el usuario")?>
                 </div>
             </div>
         </div>

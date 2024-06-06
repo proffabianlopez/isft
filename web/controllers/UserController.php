@@ -150,16 +150,11 @@ class UserController
                 return;
             }
 
-            // Obtener el correo electrónico actual del usuario
-            $currentEmail = UserModel::dataUser($_SESSION['id_user']);
-
-            if ($newEmail === trim($currentEmail['email'])) {
-                echo '<div class="alert alert-danger mt-2">El correo es existente</div>';
-                return;
-            }
+        
+          
 
             if (filter_var($newEmail, FILTER_VALIDATE_EMAIL)) {
-                $checkEmailDuplicate = UserModel::checkForDuplicates($newEmail,$dni,$_SESSION['id_user']);
+                $checkEmailDuplicate = UserModel::checkForDuplicates($newEmail,$dni);
                 if ($checkEmailDuplicate !== false) {
                     echo '<script>
                     if (window.history.replaceState) {
@@ -295,7 +290,7 @@ class UserController
                         window.history.replaceState(null, null, window.location.href);
                     }
                     
-                    window.location="../index.php?pages=newUser";
+                    window.location="../index.php?pages=newUser&message=correcto";
                     </script>
                     <div class="alert alert-succes mt-2">Se guardó el registro correctamente</div>';
                 } else {
@@ -376,7 +371,7 @@ class UserController
                 
                 window.location="../index.php?pages=manageUser";
                 </script>
-                <div class="alert alert-success mt-2">Se borró el registro correctamente</div>'; // Corregir la palabra "success"
+                <div class="alert alert-success mt-2">Se desabilito la cuenta</div>'; // Corregir la palabra "success"
             }else{
                 echo '<script>
                 if (window.history.replaceState) {
