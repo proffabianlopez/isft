@@ -15,28 +15,28 @@
                 </thead>
                 <tbody>   
                     <?php foreach ($dataUser as $user): ?>
-                        <tr class="<?php echo ($user['state'] == 1) ? 'bg-white' : 'bg-light'; ?>">
-                            <td class="text-center"><?php echo $user['name']; ?></td>
-                            <td class="text-center"><?php echo $user['last_name']; ?></td>
-                            <td class="text-center"><?php echo $user['email']; ?></td>
-                            <td class="text-center"><?php echo $user['name_rol']; ?></td>
-                            <td class="text-center"><?php echo $user['state'] == 1 ? 'Activo' : 'Inactivo'; ?></td>
-                            <?php if (isset($_GET['pages']) && ($_GET['pages'] == 'manageUser')): ?>
-                                <td class="text-center">
-   
-    <a href="#editUserModal<?php echo $user['id_user']; ?>" class="btn btn-primary edit-user" data-toggle="modal">
-        <i class="fas fa-edit"></i>
-    </a>
-    <?php if ($user['state'] == 1): ?>
-        <a href="index.php?pages=manageUser&action=deshabilitar_cuenta&id_user=<?php echo $user['id_user']?>" class="btn btn-success" title="Deshabilitar cuenta"><i class="fas fa-toggle-on"></i></a>
-    <?php else: ?>
-        <a href="index.php?pages=manageUser&action=habilitar_cuenta&id_user=<?php echo $user['id_user']?>" class="btn btn-danger" title="Habilitar cuenta"><i class="fas fa-toggle-off"></i></a>
-    <?php endif; ?>
-    <a href="index.php?pages=manageUser&action=generar_password&id_user=<?php echo $user['id_user']?>" class="btn btn-warning" title="Generar nueva contraseña"><i class="fas fa-key"></i></a>
-</td>
-
-                            <?php endif; ?>
-                        </tr>
+                        <?php if($_SESSION['id_user'] != $user['id_user']): ?>
+                            <tr class="<?php echo ($user['state'] == 1) ? 'bg-white' : 'bg-light'; ?>">
+                                <td class="text-center"><?php echo $user['name']; ?></td>
+                                <td class="text-center"><?php echo $user['last_name']; ?></td>
+                                <td class="text-center"><?php echo $user['email']; ?></td>
+                                <td class="text-center"><?php echo $user['name_rol']; ?></td>
+                                <td class="text-center"><?php echo $user['state'] == 1 ? 'Activo' : 'Inactivo'; ?></td>
+                                <?php if (isset($_GET['pages']) && ($_GET['pages'] == 'manageUser')): ?>
+                                    <td class="text-center">
+                                        <a href="#editUserModal<?php echo $user['id_user']; ?>" class="btn btn-primary edit-user" data-toggle="modal">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <?php if ($user['state'] == 1): ?>
+                                            <a href="index.php?pages=manageUser&action=deshabilitar_cuenta&id_user=<?php echo $user['id_user']?>" class="btn btn-success" title="Deshabilitar cuenta"><i class="fas fa-toggle-on"></i></a>
+                                        <?php else: ?>
+                                            <a href="index.php?pages=manageUser&action=habilitar_cuenta&id_user=<?php echo $user['id_user']?>" class="btn btn-danger" title="Habilitar cuenta"><i class="fas fa-toggle-off"></i></a>
+                                        <?php endif; ?>
+                                        <a href="index.php?pages=manageUser&action=generar_password&id_user=<?php echo $user['id_user']?>" class="btn btn-warning" title="Generar nueva contraseña"><i class="fas fa-key"></i></a>
+                                    </td>
+                                <?php endif; ?>
+                            </tr>
+                        <?php endif; ?>
                     <?php endforeach; ?>
                 </tbody>                
             </table>
