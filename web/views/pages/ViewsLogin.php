@@ -7,6 +7,7 @@
     <title>Iniciar sesión</title>
     <link rel="stylesheet" href="public/css/bootstrap.min.css">
     <link rel="stylesheet" href="public/css/styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.0/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 
 <body class="d-flex justify-content-center align-items-center">
@@ -37,9 +38,12 @@
                         <div class="pt-3 mb-3">
                             <!-- <a href="pages-recoverpw.html" class="text-muted float-end"><small>¿Olvidaste tu contraseña?</small></a> -->
                             <label for="password" class="form-label fw-medium pl-2">Contraseña</label>
-                            <div class="input-group input-group-merge">
-                                <input type="password" id="password" class="form-control" placeholder="Ingrese su contraseña" name="password">
-                            </div>
+                                <div class="input-group input-group-merge">
+                                     <input type="password" id="password" class="form-control" placeholder="Ingrese su contraseña" name="password">
+                                          <button class="btn btn-outline-primary" type="button" id="togglePassword" data-bs-toggle="button">
+                                              <i class="bi bi-eye-slash"></i>
+                                              </button>
+                                </div>
                         </div>
 
                         <!-- <div class="mb-3 mb-3">
@@ -75,7 +79,8 @@
             </div>
         </div>
         </div>
-    
+
+    <script src="public/js/showEyePassword.js"></script>
     <script src="public/js/bootstrap.bundle.min.js"></script>
 </body>
 
