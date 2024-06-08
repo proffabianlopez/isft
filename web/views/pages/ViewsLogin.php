@@ -39,8 +39,8 @@
                             <!-- <a href="pages-recoverpw.html" class="text-muted float-end"><small>¿Olvidaste tu contraseña?</small></a> -->
                             <label for="password" class="form-label fw-medium pl-2">Contraseña</label>
                                 <div class="input-group input-group-merge">
-                                     <input type="password" id="password" class="form-control" placeholder="Ingrese su contraseña" name="password">
-                                          <button class="btn btn-outline-primary" type="button" id="togglePassword" data-bs-toggle="button">
+                                     <input type="password"  class="form-control password" placeholder="Ingrese su contraseña" name="password">
+                                          <button class="btn btn-outline-primary togglePassword" type="button"  data-bs-toggle="button">
                                               <i class="bi bi-eye-slash"></i>
                                               </button>
                                 </div>
