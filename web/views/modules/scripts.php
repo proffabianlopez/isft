@@ -22,5 +22,6 @@
 <script src="public/js/sweetAlertSession.js"></script>
 <!--ocultar barra lateral--->
 <script src="public/js/disappearSideBar.js"></script>
+<script src="public/js/generarContraseñaAlert.js"></script>
 
 

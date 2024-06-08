@@ -31,8 +31,9 @@
                                             <a href="index.php?pages=manageUser&action=deshabilitar_cuenta&id_user=<?php echo $user['id_user']?>" class="btn btn-success" title="Deshabilitar cuenta"><i class="fas fa-toggle-on"></i></a>
                                         <?php else: ?>
                                             <a href="index.php?pages=manageUser&action=habilitar_cuenta&id_user=<?php echo $user['id_user']?>" class="btn btn-danger" title="Habilitar cuenta"><i class="fas fa-toggle-off"></i></a>
-                                        <?php endif; ?>
-                                        <a href="index.php?pages=manageUser&action=generar_password&id_user=<?php echo $user['id_user']?>" class="btn btn-warning" title="Generar nueva contraseña"><i class="fas fa-key"></i></a>
+                                         <?php endif; ?>
+                                         <a href="#" class="btn btn-warning" onclick="generatePassword(<?php echo $user['id_user']?>)" title="Generar nueva contraseña"><i class="fas fa-key"></i></a>
+
                                     </td>
                                 <?php endif; ?>
                             </tr>
@@ -44,15 +45,7 @@
     </div>
 </div>
 
-<div class="container mt-2">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="alert alert-info text-center">
-                <p class="my-1"><b>NOTA: </b>recuerde cuando se aprete en generar nueva contraseña se le enviaria un email al usuario</p>
-            </div>
-        </div>
-    </div>
-</div>
+
 
 <?php if(isset($_GET['action'])){
     if($_GET['action']=="deshabilitar_cuenta"){
