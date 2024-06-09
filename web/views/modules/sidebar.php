@@ -20,7 +20,7 @@
 
                     <li class="nav-item mb-1">
                         <a href="index.php?pages=home" class="nav-link">
-                            <i class="nav-icon fas fa-tachometer-alt"></i>
+                            <i class="fas fa-home nav-icon"></i>
                             <p>Inicio</p>
                         </a>
                     </li>
