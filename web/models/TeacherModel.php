@@ -66,5 +66,19 @@ class TeacherModel extends UserModel {
         $stmt = null;
     }
 
+    static public function changeStateTeacher($id){
+        $sql = "UPDATE users SET state = 1 WHERE id_user = ?";
+        $stmt = model_sql::connectToDatabase()->prepare($sql);
+        $stmt->bindParam(1, $id, PDO::PARAM_INT);
+        if ($stmt->execute()) {
+
+            return true;
+        } else {
+            print_r($stmt->errorInfo());
+            return false; 
+        }
+        $stmt = null;
+    }
+
 }
 ?>

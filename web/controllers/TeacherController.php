@@ -143,5 +143,65 @@ class TeacherController{
             }
             }
 
+    static public function generateAccountTeacher() {
+        if (isset($_GET['id_teacher'])) {
+            $id_teacher = $_GET['id_teacher'];
+    
+            $dataTeacher = TeacherModel::dataUser($id_teacher);
+    
+            $name = $dataTeacher['name_user'];
+            $lastname = $dataTeacher['last_name_user'];
+            $email = $dataTeacher['email'];
+            $state = $dataTeacher['state'];
+            $generatePassword = UserController::generateRandomPassword(14);
+            $hashedPassword = password_hash($generatePassword, PASSWORD_DEFAULT);
+    
+            $changeState = TeacherModel::changeStateTeacher($id_teacher);
+            if($state == 1){
+                echo'<script>
+                if (window.history.replaceState) {
+                    window.history.replaceState(null, null, window.location.href);
+                }
+                alert("No se pudo crear el usuario.")</script>';
+            return;
+            }
+            if ($changeState) {
+                $newPassword = TeacherModel::updatePassword($id_teacher, $hashedPassword);
+                if ($newPassword) {
+                    $execute = MailerController::sendNewUser($generatePassword, $email, $name, $lastname);
+                    if ($execute) {
+                        echo '<script>
+                            if (window.history.replaceState) {
+                                window.history.replaceState(null, null, window.location.href);
+                            }
+                            window.location="../index.php?pages=manageTeacher&message=correcto";
+                            </script>';
+                    } else {
+                        echo '<script>
+                            if (window.history.replaceState) {
+                                window.history.replaceState(null, null, window.location.href);
+                            }
+                            alert("No se pudo enviar el email.");
+                            </script>';
+                    }
+                } else {
+                    echo '<script>
+                        if (window.history.replaceState) {
+                            window.history.replaceState(null, null, window.location.href);
+                        }
+                        alert("No se pudo actualizar la contraseña.");
+                        </script>';
+                }
+            } else {
+                echo '<script>
+                    if (window.history.replaceState) {
+                        window.history.replaceState(null, null, window.location.href);
+                    }
+                    alert("No se pudo cambiar el estado del profesor.");
+                    </script>';
+            }
+        }
+    }
+            
 }
 ?>
