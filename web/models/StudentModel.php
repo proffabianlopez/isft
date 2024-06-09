@@ -7,7 +7,7 @@ class StudentModel extends UserModel
     static public function newStudent($value1, $value2, $value3, $value4, $value5, $value6, $value7)
     {
         $sql = "INSERT INTO users (name, last_name, email, dni, startingYear, file, password, 
-                                fk_gender_id, fk_carrer_id, fk_rol_id, state)
+                                fk_gender_id, fk_career_id, fk_rol_id, state)
                                 VALUES (:name, :lastName, :email, :dni, :dateYear, null, null, :gender, :carrer, 3, 2)";
         $stmt = model_sql::connectToDatabase()->prepare($sql);
         $stmt->bindParam(':name', $value1, PDO::PARAM_STR);
@@ -33,10 +33,11 @@ class StudentModel extends UserModel
         users.last_name AS last_name_student,
         users.email AS email_student,
         users.dni AS dni,
+        users.startingYear AS startingYear,
         users.fk_rol_id AS fk_rol_id,
         careers.career_name AS career_name
         FROM users
-        JOIN careers ON users.fk_carrer_id=careers.id_career
+        JOIN careers ON users.fk_career_id=careers.id_career
         WHERE 
         users.fk_rol_id = 3
         AND users.state IN (1, 2)";
@@ -71,7 +72,7 @@ class StudentModel extends UserModel
     }
     static public function updateStudentData($name, $last_name, $email, $carrera, $id_student)
     {
-        $sql = "UPDATE users SET name = :name, last_name = :last_name, email = :email, fk_carrer_id = :carrer_id WHERE id_user = :id_student";
+        $sql = "UPDATE users SET name = :name, last_name = :last_name, email = :email, fk_career_id = :carrer_id WHERE id_user = :id_student";
         $stmt = model_sql::connectToDatabase()->prepare($sql);
         $stmt->bindParam(':name', $name, PDO::PARAM_STR);
         $stmt->bindParam(':last_name', $last_name, PDO::PARAM_STR);

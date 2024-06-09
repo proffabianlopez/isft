@@ -48,6 +48,9 @@
                         }
                         ?>
                     </form>
+                    <br>
+                    <?php $message = new MessageController();
+                    $message->showMessageVerify('message', "Se creó correctamente al profesor") ?>
                 </div>
             </div>
         </div>

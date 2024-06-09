@@ -125,7 +125,8 @@
                 <p><strong>Apellido:</strong> <?php echo $student['last_name_student']; ?></p>
                 <p><strong>Email:</strong> <?php echo $student['email_student']; ?></p>
                 <p><strong>DNI:</strong> <?php echo $student['dni']; ?></p>
-                <p><strong>Carrera:</strong> <?php echo $student['carrer_name']; ?></p>
+                <p><strong>Carrera:</strong> <?php echo $student['career_name']; ?></p>
+                <p><strong>Año de ingreso:</strong> <?php echo $student['startingYear']; ?></p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>

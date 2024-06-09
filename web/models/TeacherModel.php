@@ -4,7 +4,7 @@ class TeacherModel extends UserModel {
     static public function newTeacher($value1, $value2, $value3, $value4, $value5)
     {
         $sql = "INSERT INTO users (name, last_name, email, dni, startingYear, file, password, 
-                                fk_gender_id, fk_carrer_id, fk_rol_id, state)
+                                fk_gender_id, fk_career_id, fk_rol_id, state)
                                 VALUES (:name, :lastName, :email, :dni, null, null, null, :gender, null, 4, 2)";
         $stmt = model_sql::connectToDatabase()->prepare($sql);
         $stmt->bindParam(':name', $value1, PDO::PARAM_STR);
@@ -58,12 +58,10 @@ class TeacherModel extends UserModel {
         $stmt->bindParam(':id_teacher', $id_teacher, PDO::PARAM_INT);
     
         if($stmt->execute()) {		 
-            // Devolver true si la actualización se realiza correctamente
             return true;
         } else { 
-            // Manejar cualquier error que pueda ocurrir durante la ejecución de la consulta
             print_r($stmt->errorInfo());
-            return false; // Devolver false en caso de error
+            return false; 
         }		
         $stmt = null;
     }

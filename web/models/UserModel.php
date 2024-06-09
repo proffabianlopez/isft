@@ -35,7 +35,7 @@ class UserModel
                  users.fk_gender_id AS id_gender,
                  users.state AS state,
                  genders.details AS gender_detail,
-                 users.fk_carrer_id AS id_carrer,
+                 users.fk_career_id AS id_carrer,
                  IFNULL(careers.career_name, 'CARRERA NO ASIGNADA') AS career_name,
                  users.fk_rol_id AS id_rol,
                  roles.name AS name_rol
@@ -44,7 +44,7 @@ class UserModel
              JOIN 
                  genders ON users.fk_gender_id = genders.id_gender
              LEFT JOIN 
-                 careers ON users.fk_carrer_id = careers.id_career
+                 careers ON users.fk_career_id = careers.id_career
              JOIN 
                  roles ON users.fk_rol_id = roles.id_rol
              WHERE 
@@ -147,7 +147,7 @@ class UserModel
     static public function newUser($value1, $value2, $value3, $value4, $value5, $value6, $value7)
     {
         $sql = "INSERT INTO users (name, last_name, email, dni, startingYear, file, password, 
-                                fk_gender_id, fk_carrer_id, fk_rol_id, state)
+                                fk_gender_id, fk_career_id, fk_rol_id, state)
                                 VALUES (:name, :lastName, :email, :dni, NULL, NULL, :password, :gender, null, :fk_rol_id, 1)";
         $stmt = model_sql::connectToDatabase()->prepare($sql);
         $stmt->bindParam(':name', $value1, PDO::PARAM_STR);
