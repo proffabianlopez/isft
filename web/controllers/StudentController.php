@@ -172,5 +172,64 @@ class StudentController  {
                     <div class="alert alert-danger mt-2">Hubo un problema al crearlo</div>';
                 }
             }
+            static public function generateAccountStudent() {
+                if (isset($_GET['id_student'])) {
+                    $id_student = $_GET['id_student'];
+            
+                    $dataStudent = StudentModel::dataUser($id_student);
+            
+                    $name = $dataStudent['name_user'];
+                    $lastname = $dataStudent['last_name_user'];
+                    $email = $dataStudent['email'];
+                    $state = $dataStudent['state'];
+                    $generatePassword = UserController::generateRandomPassword(14);
+                    $hashedPassword = password_hash($generatePassword, PASSWORD_DEFAULT);
+            
+                    $changeState = StudentModel::changeStateStudent($id_student);
+                    if($state == 1){
+                        echo'<script>
+                        if (window.history.replaceState) {
+                            window.history.replaceState(null, null, window.location.href);
+                        }
+                        alert("No se pudo crear el usuario, ya existe.")</script>';
+                    return;
+                    }
+                    if ($changeState) {
+                        $newPassword = StudentModel::updatePassword($id_student, $hashedPassword);
+                        if ($newPassword) {
+                            $execute = MailerController::sendNewUser($generatePassword, $email, $name, $lastname);
+                            if ($execute) {
+                                echo '<script>
+                                    if (window.history.replaceState) {
+                                        window.history.replaceState(null, null, window.location.href);
+                                    }
+                                    window.location="../index.php?pages=manageStudent&message=correcto";
+                                    </script>';
+                            } else {
+                                echo '<script>
+                                    if (window.history.replaceState) {
+                                        window.history.replaceState(null, null, window.location.href);
+                                    }
+                                    alert("No se pudo enviar el email.");
+                                    </script>';
+                            }
+                        } else {
+                            echo '<script>
+                                if (window.history.replaceState) {
+                                    window.history.replaceState(null, null, window.location.href);
+                                }
+                                alert("No se pudo actualizar la contraseña.");
+                                </script>';
+                        }
+                    } else {
+                        echo '<script>
+                            if (window.history.replaceState) {
+                                window.history.replaceState(null, null, window.location.href);
+                            }
+                            alert("No se pudo cambiar el estado del Alumno.");
+                            </script>';
+                    }
+                }
+            }
 
 }
