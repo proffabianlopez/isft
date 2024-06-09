@@ -9,7 +9,7 @@ class CareerController
 		$showCarrer = CareerModel::showCareer();
 
 		foreach ($showCarrer as $key => $value) {
-			echo '<option value="' . $value['id_carrer'] . '">' . $value['carrer_name'] . '</option>';
+			echo '<option value="' . $value['id_career'] . '">' . $value['career_name'] . '</option>';
 		}
 	}
 
