@@ -6,11 +6,12 @@ class CareerModel
 
 	static public function showCareer()
 	{
-		$sql = " SELECT carrers.id_carrer AS id_carrer,
-		carrers.carrer_name AS carrer_name,
-		carrers.description AS description,
-		carrers.abbreviation AS abbreviation
-		FROM carrers;
+		$sql = " SELECT careers.id_career AS id_career,
+		careers.career_name AS career_name,
+		careers.description AS description,
+		careers.abbreviation AS abbreviation,
+		careers.state AS state
+		FROM careers;
 		";
 		$stmt = model_sql::connectToDatabase()->prepare($sql);
 
@@ -27,7 +28,7 @@ class CareerModel
 
 	static public function newCareer($value1, $value2, $value3)
 	{
-		$sql = "INSERT INTO carrers (carrer_name, description, abbreviation, state)
+		$sql = "INSERT INTO careers (career_name, description, abbreviation, state)
 									VALUES (:careerName, :description, :abbreviation, 0)";
 		$stmt = model_sql::connectToDatabase()->prepare($sql);
 		$stmt->bindParam(':careerName', $value1, PDO::PARAM_STR);

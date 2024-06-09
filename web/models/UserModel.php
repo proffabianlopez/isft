@@ -36,7 +36,7 @@ class UserModel
                  users.state AS state,
                  genders.details AS gender_detail,
                  users.fk_carrer_id AS id_carrer,
-                 IFNULL(carrers.carrer_name, 'CARRERA NO ASIGNADA') AS carrer_name,
+                 IFNULL(careers.career_name, 'CARRERA NO ASIGNADA') AS career_name,
                  users.fk_rol_id AS id_rol,
                  roles.name AS name_rol
              FROM 
@@ -44,7 +44,7 @@ class UserModel
              JOIN 
                  genders ON users.fk_gender_id = genders.id_gender
              LEFT JOIN 
-                 carrers ON users.fk_carrer_id = carrers.id_carrer
+                 careers ON users.fk_carrer_id = careers.id_career
              JOIN 
                  roles ON users.fk_rol_id = roles.id_rol
              WHERE 
@@ -99,7 +99,7 @@ class UserModel
         $stmt = null;
     }
 
-    static public function updateData($newName,$newLastName,$newEmail,$newDni,$id)
+    static public function updateData($newName, $newLastName, $newEmail, $newDni, $id)
     {
 
         $sql = "UPDATE users SET name = ?,last_name=?,email=?,dni=? WHERE id_user = ?";
@@ -107,7 +107,7 @@ class UserModel
         $stmt = model_sql::connectToDatabase()->prepare($sql);
 
 
-      
+
         $stmt->bindParam(1, $newName, PDO::PARAM_STR);
         $stmt->bindParam(2, $newLastName, PDO::PARAM_STR);
         $stmt->bindParam(3, $newEmail, PDO::PARAM_STR);
@@ -144,7 +144,7 @@ class UserModel
     }
 
 
-    static public function newUser($value1, $value2, $value3, $value4, $value5, $value6,$value7)
+    static public function newUser($value1, $value2, $value3, $value4, $value5, $value6, $value7)
     {
         $sql = "INSERT INTO users (name, last_name, email, dni, startingYear, file, password, 
                                 fk_gender_id, fk_carrer_id, fk_rol_id, state)
@@ -229,8 +229,9 @@ class UserModel
         }
     }
 
-    static public function getAllUser(){
-        $sql="SELECT
+    static public function getAllUser()
+    {
+        $sql = "SELECT
         users.id_user AS id_user,
         users.name AS name,
         users.last_name AS last_name,
@@ -245,116 +246,117 @@ class UserModel
     WHERE
         (users.state = 1 OR (users.state = 2 AND users.fk_rol_id <> 3 AND users.fk_rol_id <> 4))";
 
-            $stmt = model_sql::connectToDatabase()->prepare($sql);
+        $stmt = model_sql::connectToDatabase()->prepare($sql);
 
-                if($stmt->execute()) {
+        if ($stmt->execute()) {
 
-                     return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } else {
 
-                } else {
+            print_r($stmt->errorInfo());
+        }
 
-                    print_r($stmt -> errorInfo());
-
-                    }		
-
-                $stmt = null;
-
+        $stmt = null;
     }
-    static public function updateUserState($id){
+    static public function updateUserState($id)
+    {
         $sql = "UPDATE users SET state = 0 WHERE id_user = ?";
         $stmt = model_sql::connectToDatabase()->prepare($sql);
         $stmt->bindParam(1, $id, PDO::PARAM_INT);
-        if($stmt->execute()) {		 
+        if ($stmt->execute()) {
             // Devolver true si la actualización se realiza correctamente
             return true;
-        } else { 
+        } else {
             // Manejar cualquier error que pueda ocurrir durante la ejecución de la consulta
             print_r($stmt->errorInfo());
             return false; // Devolver false en caso de error
-        }		
+        }
         $stmt = null;
     }
 
-    static public function disableUser($id){
+    static public function disableUser($id)
+    {
         $sql = "UPDATE users SET state = 2 WHERE id_user = ?";
         $stmt = model_sql::connectToDatabase()->prepare($sql);
         $stmt->bindParam(1, $id, PDO::PARAM_INT);
-        if($stmt->execute()) {		 
+        if ($stmt->execute()) {
             // Devolver true si la actualización se realiza correctamente
             return true;
-        } else { 
+        } else {
             // Manejar cualquier error que pueda ocurrir durante la ejecución de la consulta
             print_r($stmt->errorInfo());
             return false; // Devolver false en caso de error
-        }		
+        }
         $stmt = null;
     }
 
-    static public function activateUser($id){
+    static public function activateUser($id)
+    {
         $sql = "UPDATE users SET state = 1 WHERE id_user = ?";
         $stmt = model_sql::connectToDatabase()->prepare($sql);
         $stmt->bindParam(1, $id, PDO::PARAM_INT);
-        if($stmt->execute()) {		 
+        if ($stmt->execute()) {
             // Devolver true si la actualización se realiza correctamente
             return true;
-        } else { 
+        } else {
             // Manejar cualquier error que pueda ocurrir durante la ejecución de la consulta
             print_r($stmt->errorInfo());
             return false; // Devolver false en caso de error
-        }		
+        }
         $stmt = null;
     }
 
-    static public function updateUserData($name,$last_name,$email,$fk_rol_id,$id_user){
+    static public function updateUserData($name, $last_name, $email, $fk_rol_id, $id_user)
+    {
         $sql = "UPDATE users SET name  = :name,last_name=:last_name,email=:email,fk_rol_id=:fk_id WHERE id_user = :id_user";
         $stmt = model_sql::connectToDatabase()->prepare($sql);
         $stmt->bindParam(':name', $name, PDO::PARAM_STR);
         $stmt->bindParam(':last_name', $last_name, PDO::PARAM_STR);
-        $stmt->bindParam(':email',$email, PDO::PARAM_STR);
+        $stmt->bindParam(':email', $email, PDO::PARAM_STR);
         $stmt->bindParam(':fk_id', $fk_rol_id, PDO::PARAM_INT);
         $stmt->bindParam(':id_user', $id_user, PDO::PARAM_INT);
-    
-        if($stmt->execute()) {		 
+
+        if ($stmt->execute()) {
             // Devolver true si la actualización se realiza correctamente
             return true;
-        } else { 
+        } else {
             // Manejar cualquier error que pueda ocurrir durante la ejecución de la consulta
             print_r($stmt->errorInfo());
             return false; // Devolver false en caso de error
-        }		
+        }
         $stmt = null;
     }
 
-    static public function updateChangedPassword($id){
+    static public function updateChangedPassword($id)
+    {
         $sql = "UPDATE users SET change_password = 0 WHERE id_user = ?";
         $stmt = model_sql::connectToDatabase()->prepare($sql);
         $stmt->bindParam(1, $id, PDO::PARAM_INT);
-        if($stmt->execute()) {		 
+        if ($stmt->execute()) {
             // Devolver true si la actualización se realiza correctamente
             return true;
-        } else { 
+        } else {
             // Manejar cualquier error que pueda ocurrir durante la ejecución de la consulta
             print_r($stmt->errorInfo());
             return false; // Devolver false en caso de error
-        }		
+        }
         $stmt = null;
     }
 
-    static public function updateNewPassword($password, $id){
+    static public function updateNewPassword($password, $id)
+    {
         $sql = "UPDATE users SET password = ? WHERE id_user = ?";
         $stmt = model_sql::connectToDatabase()->prepare($sql);
         $stmt->bindParam(1, $password, PDO::PARAM_STR);
         $stmt->bindParam(2, $id, PDO::PARAM_INT); // Enlaza el segundo parámetro correctamente
-        if($stmt->execute()) {		 
+        if ($stmt->execute()) {
             // Devolver true si la actualización se realiza correctamente
             return true;
-        } else { 
+        } else {
             // Manejar cualquier error que pueda ocurrir durante la ejecución de la consulta
             print_r($stmt->errorInfo());
             return false; // Devolver false en caso de error
-        }		
+        }
         $stmt = null;
     }
-    
-    
 }
