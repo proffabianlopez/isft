@@ -9,7 +9,8 @@ class CareerModel
 		$sql = " SELECT careers.id_career AS id_career,
 		careers.career_name AS career_name,
 		careers.description AS description,
-		careers.abbreviation AS abbreviation
+		careers.abbreviation AS abbreviation,
+		careers.state AS state
 		FROM careers;
 		";
 		$stmt = model_sql::connectToDatabase()->prepare($sql);

@@ -79,4 +79,9 @@ class CareerController
             <div class="alert alert-danger mt-2">Debes completar los campos.</div>';
 		}
 	}
+
+	static public function getCareersData()
+	{
+		return CareerModel::showCareer();
+	}
 }
