@@ -11,7 +11,7 @@ $user_data = UserController::sessionDataUser($_SESSION['id_user']);
                 <div class="card-body">
                     <div class="row justify-content-center align-items-center">
                         <div class="col-md-4 text-center mb-4 mb-md-0">
-                            <img class="img-fluid rounded-circle" src="public/img/isft177_logo_chico.png" alt="User profile picture">
+                            <img class="img-fluid" src="public/img/isft177_logo_chico.png" alt="User profile picture">
                         </div>
                         <div class="col-md-8">
                             <ul class="list-group">
@@ -43,20 +43,20 @@ $user_data = UserController::sessionDataUser($_SESSION['id_user']);
                 <div class="card-body">
                     <form method="POST">
                         <div class="form-group">
-                            <label for="newName">Nuevo Nombre:</label>
+                            <label for="newName">Nuevo nombre:</label>
                             <input type="text" class="form-control" id="newName" name="name" required value="<?php echo $user_data['name_user'] ?>">
                         </div>
                         <div class="form-group">
-                            <label for="newLastName">Nuevo Apellido:</label>
+                            <label for="newLastName">Nuevo apellido:</label>
                             <input type="text" class="form-control" id="newLastName" name="last_name" required value="<?php echo $user_data['last_name_user'] ?>">
                         </div>
                         <div class="form-group">
-                            <label for="newEmail">Nuevo Correo Electrónico:</label>
+                            <label for="newEmail">Nuevo correo electrónico:</label>
                             <input type="email" class="form-control" id="newEmail" name="email" required value="<?php echo $user_data['email'] ?>">
                         </div>
                         <div class="form-group">
                             <label for="newDni">Nuevo DNI:</label>
-                            <input type="text" class="form-control" id="newDni" name="dni" required value="<?php echo $user_data['dni'] ?>">
+                            <input type="text" maxlength="8" oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="form-control" id="newDni" name="dni" required value="<?php echo $user_data['dni'] ?>">
                         </div>
                         <div class="text-center">
                             <button type="submit" class="btn btn-warning btn-block" name="Enviar">Actualizar Datos</button>
