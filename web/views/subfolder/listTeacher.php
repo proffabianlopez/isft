@@ -21,16 +21,11 @@
                                     <i class="fas fa-eye"></i>
                                 </a>
 
-                                <a href="#confirmDeleteModal<?php echo $teacher['id_teacher']; ?>" class="btn btn-danger delete-user" data-toggle="modal" title="Eliminar (cambiar contraseña)">
-                                    <i class="fas fa-trash-alt"></i>
-                                </a>
                                 <a href="#editUserModal<?php echo $teacher['id_teacher']; ?>" class="btn btn-primary edit-user" data-toggle="modal" title="Editar">
                                     <i class="fas fa-edit"></i>
                                 </a>
 
-                                <a href="index.php?pages=manageTeacher&action=activar_cuenta&id_user=<?php echo $user['id_user']?>" class="btn btn-info" title="Generar cuenta Usuario (en construcción)">
-                                    <i class="fas fa-user-plus"></i>
-                                </a>
+                                <a href="#" class="btn btn-info" onclick="generateUser(<?php echo $teacher['id_teacher']?>)" title="Generar nuevo usuario"><i class="fas fa-user-plus"></i></a>
                                 
                             </td>
                             <?php endif; ?>
@@ -45,35 +40,6 @@
 
 <?php foreach ($dataTeacher as $teacher): ?>
  
-    <!-- Modal eliminar usuario, 
-    falta cambiar por el de cambio contraseña  -->
-
-<!-- <div class="modal fade" id="confirmDeleteModal<?php /*echo $student['id_student'];*/ ?>" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header alert alert-danger">
-                <h5 class="modal-title" id="confirmDeleteModalLabel"><strong>Confirmar eliminación</strong></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p style="font-size: 18px;">¿Estás seguro de que deseas eliminar este Alumno?</p>
-                <p style="font-size: 16px;"><strong>Nombre:</strong> <?php /*echo $student['name_student'];*/ ?></p>
-                <p style="font-size: 16px;"><strong>Apellido:</strong> <?php /*echo $student['last_name_student']; */?></p>
-                
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                <form method="POST">
-                    <input type="hidden" name="id_student" value="<?php /*echo $student['id_student'];*/ ?>">
-                    <button type="submit" name="del_student" class="btn btn-danger">Eliminar</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div> -->
-
 
 <!-- Modal de edición de usuario -->
 <div class="modal fade" id="editUserModal<?php echo $teacher['id_teacher']; ?>" tabindex="-1" role="dialog" aria-labelledby="editUserModalLabel" aria-hidden="true">
@@ -147,4 +113,12 @@ if (isset($_POST['savechange'])) {
     $controller->editTeacher();
     
 }
+
+if(isset($_GET['action'])){
+    if($_GET['action']=="activar_cuenta"){
+        $controller = new TeacherController();
+        $controller->generateAccountTeacher();
+    }
+}
 ?>
+

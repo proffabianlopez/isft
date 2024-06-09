@@ -23,5 +23,6 @@
 <!--ocultar barra lateral--->
 <script src="public/js/disappearSideBar.js"></script>
 <script src="public/js/generarContraseñaAlert.js"></script>
+<script src="public/js/generateAccountTeacher.js"></script>
 
 
