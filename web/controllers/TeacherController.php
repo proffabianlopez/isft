@@ -162,7 +162,7 @@ class TeacherController{
                 if (window.history.replaceState) {
                     window.history.replaceState(null, null, window.location.href);
                 }
-                alert("No se pudo crear el usuario.")</script>';
+                alert("No se pudo crear el usuario, ya existe.")</script>';
             return;
             }
             if ($changeState) {
