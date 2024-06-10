@@ -41,4 +41,28 @@ class CareerModel
 			print_r($stmt->errorInfo());
 		}
 	}
+
+	static public function nameCareer($id)
+	{
+		$sql = " SELECT careers.id_career AS id_career,
+		careers.career_name AS name_career,
+		careers.description AS description,
+		careers.abbreviation AS abbreviation,
+		careers.state AS state
+		FROM careers
+		where id_career=?
+		";
+		$stmt = model_sql::connectToDatabase()->prepare($sql);
+		$stmt->bindParam(1, $id, PDO::PARAM_INT);
+
+		if ($stmt->execute()) {
+
+			return $stmt->fetchAll(PDO::FETCH_ASSOC);
+		} else {
+
+			print_r($stmt->errorInfo());
+		}
+
+		$stmt = null;
+	}
 }

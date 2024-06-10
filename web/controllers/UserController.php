@@ -505,9 +505,9 @@ class UserController
                 // Verifica si se pasó el parámetro id_career
                 if(isset($id)){
                     // Decodifica el valor de id_career
-                    $id_career_decoded = base64_decode($id);//decodifica
+                    $id_career = $id;//decodifica
                     
-                    return UserModel::dataUserCareer($id_career_decoded);
+                    return UserModel::dataUserCareer($id_career);
                     
                     
                     // Luego, puedes devolver los datos que hayas obtenido

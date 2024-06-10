@@ -7,7 +7,7 @@ $data = CareerController::getCareersData();
         <?php foreach ($data as $key => $value) : ?>
             <div class="col-lg-6">
                
-                    <a href="index.php?pages=toolsCareer&id_career=<?php echo base64_encode($value['id_career']) ?>&name_career=<?php echo base64_encode($value['career_name']) ?>&state=<?php echo base64_encode($value['state']) ?>"> 
+                    <a href="index.php?pages=toolsCareer&id_career=<?php echo $value['id_career']?>&name_career=<?php echo $value['career_name'] ?>&state=<?php echo $value['state'] ?>"> 
                     <div class="small-box bg-secondary">
                         <?php if ($value['state'] == 'inactive') : ?>
                             <div class="ribbon-wrapper ribbon-xl">
