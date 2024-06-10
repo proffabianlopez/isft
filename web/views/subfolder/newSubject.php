@@ -1,5 +1,6 @@
 <?php 
-if ((isset($_GET['name_career'])) && (isset($_GET['id_career']))) {  
+// Verificar si se ha seleccionado una carrera y su nombre está presente en la URL
+if (isset($_GET['name_career']) && isset($_GET['id_career'])&&isset($_GET['state'])) {  
 ?>
 <br>
 <h2 class="text-center mt-1 mb-3 py-2 lead">Crear Materias</h2>
@@ -35,14 +36,16 @@ if ((isset($_GET['name_career'])) && (isset($_GET['id_career']))) {
                                 ?>
                             </select>
                         </div>
-                        
                         <div class="d-flex justify-content-center align-items-center">
                             <button type="submit" name='confirmNewSubject' class="btn bg-custom btn-block w-50 btn-warning">Crear nueva materia</button>
                         </div>
                     </form>
-                  <?php
+                    <br>
+                    <?php
+                    // Mostrar el mensaje de éxito si se ha creado una nueva materia
                     $messageController = new MessageController();
-                    $messageController->showMessageVerify('message', 'La materia se creó correctamente.');?>
+                    $messageController->showMessageVerify('message', 'La materia se creó correctamente.');
+                    ?>
                 </div>
             </div>
         </div>
@@ -52,20 +55,13 @@ if ((isset($_GET['name_career'])) && (isset($_GET['id_career']))) {
 }
 ?>
 <?php
+
 if (isset($_POST['confirmNewSubject'])) {
     $controller = new SubjectController();
-    $newcreate=$controller->newSubject($_GET['id_career'], $_GET['name_career']);
-    if($newcreate){
-      
-            // Mostrar el mensaje de éxito y actualizar la URL
-            echo '<script>
-                if (window.history.replaceState) {
-                window.history.replaceState(null, null, window.location.href);
+    $controller->newSubject($_GET['id_career'],$_GET['name_career'],$_GET['state']);
+    
 
-                }
-                window.location = "index.php?pages=manageSubject&id_career=' . $_GET['id_career'] . '&name_career=' . $_GET['name_career'] . '&state=' . $_GET['state'] . '&subfolder=newSubject&subject=correcto";
-            </script>';
-        
-    }
-}
+ }
+
+
 ?>
