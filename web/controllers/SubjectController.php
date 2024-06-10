@@ -15,7 +15,6 @@ class SubjectController{
    
     
     static public function newSubject($id, $name,$state) {
-        // Decodificar los parámetros id y name
         $id_career = $id;
         $name_career =$name;
         $state =$state;
