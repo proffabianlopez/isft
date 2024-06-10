@@ -4,11 +4,11 @@
 		<?php if (base64_decode($_GET['state']) == 0): ?>
 		<?php if ( (isset($_GET['subfolder'])) && ($_GET['subfolder'] == 'newSubject')): ?>		
 		<li class="nav-item">
-			<a class="nav-link active" href="index.php?pages=managerSubject&id_career=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['name_career'] ?>&state=<?php echo $_GET['state'] ?>&subfolder=newSubject">Crear Nueva Materia</a>
+			<a class="nav-link active" href="index.php?pages=manageSubject&id_career=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['name_career'] ?>&state=<?php echo $_GET['state'] ?>&subfolder=newSubject">Crear Nueva Materia</a>
 		</li>
 		<?php else: ?>
 		<li class="nav-item">
-			<a class="nav-link" href="index.php?pages=managerSubject&id_career=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['name_career'] ?>&state=<?php echo $_GET['state'] ?>&subfolder=newSubject">Crear Nueva Materia</a>
+			<a class="nav-link" href="index.php?pages=manageSubject&id_career=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['name_career'] ?>&state=<?php echo $_GET['state'] ?>&subfolder=newSubject">Crear Nueva Materia</a>
 		</li>
 		<?php endif ?>
 		<?php endif ?>
