@@ -498,6 +498,25 @@ class UserController
                     }
                 }
             }
+
+            //hay que usar decode primero para desencriptar el id career que viene de la vista
+            
+            static public function dataUserCareer($id){
+                // Verifica si se pasó el parámetro id_career
+                if(isset($id)){
+                    // Decodifica el valor de id_career
+                    $id_career_decoded = base64_decode($id);//decodifica
+                    
+                    return UserModel::dataUserCareer($id_career_decoded);
+                    
+                    
+                    // Luego, puedes devolver los datos que hayas obtenido
+                    return $datos_de_la_carrera;
+                } else {
+                    
+                    return "No se proporcionó un ID de carrera";
+                }
+            }
             
             
 
