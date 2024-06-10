@@ -359,4 +359,44 @@ class UserModel
         }
         $stmt = null;
     }
+
+    static public function dataUserCareer($id)
+    {
+        $sql = "SELECT
+                 users.id_user AS id_user,
+                 users.name AS name_user,
+                 users.last_name AS last_name_user,
+                 users.email AS email,
+                 users.dni AS dni,
+                 users.file AS file,
+                 users.password AS password,
+                 users.change_password  AS change_password, 
+                 users.fk_gender_id AS id_gender,
+                 users.state AS state,
+                 genders.details AS gender_detail,
+                 users.fk_career_id AS id_carrer,
+                 IFNULL(careers.career_name, 'CARRERA NO ASIGNADA') AS career_name,
+                 users.fk_rol_id AS id_rol,
+                 roles.name AS name_rol
+             FROM 
+                 users
+             JOIN 
+                 genders ON users.fk_gender_id = genders.id_gender
+             LEFT JOIN 
+                 careers ON users.fk_career_id = careers.id_career
+             JOIN 
+                 roles ON users.fk_career_id = careers.id_career
+             WHERE 
+                 fk_rol_id=2 and users.fk_career_id = ?";
+        // Assuming you are using PDO for the prepared statement
+        $stmt = model_sql::connectToDatabase()->prepare($sql);
+        $stmt->bindParam(1, $id, PDO::PARAM_INT);
+        if ($stmt->execute()) {
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } else {
+            print_r($stmt->errorInfo());
+        }
+
+        $stmt = null;
+    }
 }

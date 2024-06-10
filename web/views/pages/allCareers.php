@@ -6,13 +6,13 @@ $data = CareerController::getCareersData();
     <div class="row py-4">
         <?php foreach ($data as $key => $value) : ?>
             <div class="col-lg-6">
-                <a href="#">
-                    <!-- <a href="index.php?pagina=carrerasHerramientas&carrera=<?php echo base64_encode($value['id_career']) ?>&name=<?php echo base64_encode($value['career_name']) ?>&state=<?php echo base64_encode($value['state']) ?>"> -->
+               
+                    <a href="index.php?pages=toolsCareer&id_career=<?php echo base64_encode($value['id_career']) ?>&name_career=<?php echo base64_encode($value['career_name']) ?>&state=<?php echo base64_encode($value['state']) ?>"> 
                     <div class="small-box bg-secondary">
                         <?php if ($value['state'] == 'inactive') : ?>
                             <div class="ribbon-wrapper ribbon-xl">
                                 <div class="ribbon bg-danger">
-                                    Inactive
+                                    Inactivo
                                 </div>
                             </div>
                         <?php endif ?>
@@ -27,12 +27,8 @@ $data = CareerController::getCareersData();
                             <b>Herramientas</b><i class="fas fa-tools ml-2"></i>
                         </div>
                     </div>
-                    <!-- </a> -->
-                </a>
+                     </a>
             </div>
         <?php endforeach ?>
-    </div>
-    <div class="alert alert-info mt-4">
-        <p><b>NOTA: </b>Con tu Rol de Preceptor serás el administrador de las carreras que des de alta en el sistema y de sus materias correspondientes.</p>
     </div>
 </section>
