@@ -89,21 +89,26 @@
         </div>
 
         <div class="col-lg-6">
-        <div class="small-box badge-danger">
-            <div class="inner">
-                <?php $dataPreceCareer=UserController::dataUserCareer($_GET['id_career'])?>
-                <h3>Preceptor asignado</h3> 
-                <p><?php echo $dataPreceCareer['name_user']." ".$dataPreceCareer['last_name_user']?></p> 
-            </div>
-            <div class="icon">
-                <i class="fas fa-user-tie"></i> <!-- Icono modificado -->
-            </div>
-            <div class="small-box-footer">
-                Gestionar Preceptores<i class="fas fa-arrow-circle-right ml-2"></i>
-            </div>
+    <div class="small-box badge-danger">
+        <div class="inner">
+            <h3>Preceptores asignados</h3> 
+            <?php 
+            // Obtener los datos de todos los preceptores asignados a la carrera
+            $dataPreceCareers = UserController::dataUserCareer($_GET['id_career']);
+            ?>
+            <!-- Mostrar la lista de preceptores -->
+            <ul>
+                <?php foreach ($dataPreceCareers as $dataPreceCareer): ?>
+                    <li><?php echo $dataPreceCareer['name_user'] . " " . $dataPreceCareer['last_name_user']; ?></li>
+                <?php endforeach; ?>
+            </ul>
         </div>
-    </a>
+        <div class="icon">
+            <i class="fas fa-user-tie"></i>
+        </div>
+    </div>
 </div>
+
         
         <?php endif?>
         <?php if (base64_decode($_GET['state']) == 0): ?>

@@ -84,4 +84,13 @@ class CareerController
 	{
 		return CareerModel::showCareer();
 	}
+
+	static public function getNameCareer($id)
+	{
+		$id_career = base64_decode($id);
+		return CareerModel::nameCareer($id_career);
+	}
+
+
+	
 }
