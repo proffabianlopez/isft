@@ -21,3 +21,4 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <!--Nuestro csss-->
 <link rel="stylesheet" href="public/css/styles.css">
+<link rel="stylesheet" href="public/css/modal_career.css">

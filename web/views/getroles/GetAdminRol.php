@@ -3,19 +3,17 @@
 if (
       ($_GET['pages'] == "home") ||
       # links administracion de carreras
-      ($_GET['pages'] == "newCareer") ||
       ($_GET['pages'] == "allCareers") ||
       ($_GET['pages'] == "toolsCareer") ||
       ($_GET['pages'] == "manageSubject") ||
       ($_GET['pages'] == "manageCorrelatives") ||
-      ($_GET['pages'] == "assignamentPreceptor") ||
-      ($_GET['pages'] == "viewsSubject") ||
+      ($_GET['pages'] == "assignmentPreceptor") ||
       ($_GET['pages'] == "viewsCorrelatives") ||
       ($_GET['pages'] == "careerFinishReview") ||
       ($_GET['pages'] == "careerEdit") ||
       ($_GET['pages'] == "careerVerifyCheck") ||
       ($_GET['pages'] == "careerInfo") ||
-      ($_GET['pages']=="manageCourse")  ||
+      ($_GET['pages']=="manageSubjectStudent")  ||
       # links administracion de Personas           
       ($_GET['pages'] == "newStudent") ||
 

@@ -88,8 +88,8 @@
 
         <?php else:?>
             <div class="col-lg-6">
-            <a href="index.php?pages=viewsSubject&id_career=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['name_career'] ?>&state=<?php echo $_GET['state'] ?>">
-                <div class="small-box bg-primary">
+            <a href="index.php?pages=manageSubject&id_career=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['name_career'] ?>&state=<?php echo $_GET['state'] ?>">
+            <div class="small-box bg-primary">
                     <div class="inner">
                         <h3>Materias</h3>
                         <p>Ver Materias</p>
@@ -105,8 +105,8 @@
         </div>
 
         <div class="col-lg-6">
-            <a href="index.php?pages=viewsCorrelatives&id_career=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['name_career'] ?>&estate=<?php echo $_GET['state'] ?>">
-                <div class="small-box bg-secondary">
+        <a href="index.php?pages=manageCorrelatives&id_career=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['name_career'] ?>&state=<?php echo $_GET['state'] ?>">
+        <div class="small-box bg-secondary">
                     <div class="inner">
                         <h3>Correlativas</h3>
                         <p>Ver Correlativas</p>
@@ -115,7 +115,7 @@
                         <i class="fas fa-network-wired"></i>
                     </div>                
                     <div class="small-box-footer">
-                        Gestionar Correlativas<i class="fas fa-arrow-circle-right ml-2"></i>
+                        Ver Correlativas<i class="fas fa-arrow-circle-right ml-2"></i>
                     </div>
                 </div>            
             </a>
@@ -141,6 +141,24 @@
         </div>
     </div>
 </div>
+<div class="col-lg-6">
+    <a href="index.php?pages=manageSubjectStudent&id_career=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['name_career'] ?>&state=<?php echo $_GET['state'] ?>">
+        <div class="small-box bg-info">
+            <div class="inner text-white">
+                <h3>Cursada</h3>
+                <p>Asignar Alumnos a la Materia</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-chalkboard-teacher"></i>
+            </div>                
+            <div class="small-box-footer text-white">
+                Asignar Alumnos<i class="fas fa-arrow-circle-right ml-2"></i>
+            </div>
+        </div>            
+    </a>
+</div>
+
+
 
 <div class="col-lg-6">
             <a href="index.php?pages=careerVerifyCheck&id_carrera=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['name_career'] ?>&state=<?php echo $_GET['state'] ?>">

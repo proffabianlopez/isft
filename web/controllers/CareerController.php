@@ -58,7 +58,7 @@ class CareerController
                 if (window.history.replaceState) {
                     window.history.replaceState(null, null, window.location.href);
                 }
-                window.location="../index.php?pages=newCareer&message=correcto";
+                window.location="../index.php?pages=allCareers&message=correcto";
                 </script>
                 <div class="alert alert-succes mt-2">Se creó la carrera correctamente.</div>';
 			} else {
