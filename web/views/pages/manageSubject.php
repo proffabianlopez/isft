@@ -29,8 +29,10 @@
 	if (isset($_GET['subfolder'])) {
 	# links administracion de materias
 		if (($_GET['subfolder'] == "listSubject") || 
-      		($_GET['subfolder'] == "newSubject") ||       		
-      		($_GET['subfolder'] == "assigmentTeacher")
+      		($_GET['subfolder'] == "newSubject") ||
+			  ($_GET['subfolder'] == "subjectTeacher") || 
+      		($_GET['subfolder'] == "assigmentTeacher") || 
+      		($_GET['subfolder'] == "assigmentTeacherQuit")       		
       		
       		) {
 			include "views/subfolder/".$_GET['subfolder'].".php";

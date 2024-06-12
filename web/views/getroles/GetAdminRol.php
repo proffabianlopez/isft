@@ -13,7 +13,6 @@ if (
       ($_GET['pages'] == "careerEdit") ||
       ($_GET['pages'] == "careerVerifyCheck") ||
       ($_GET['pages'] == "careerInfo") ||
-      ($_GET['pages']=="manageSubjectStudent")  ||
       # links administracion de Personas           
       ($_GET['pages'] == "newStudent") ||
 
