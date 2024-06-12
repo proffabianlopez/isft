@@ -40,19 +40,65 @@ class SubjectController{
         }
     }
     
-    
-    
+
     static public function getAllSubject($id){
         return SubjectModel::showSubject($id);
 
     }
-
-
-
+   
     
     
+    static public function updateSubject($id_career, $name_career, $state) {
+        $name_subject = trim($_POST['subject_name']);
+        $details_subject = trim($_POST['detail']);
+        $id_subject = $_POST['id_subject'];
+    
+        // Validar que solo se ingresen letras o números
+        if (!preg_match("/^[a-zA-Z0-9\s]+$/", $name_subject) || !preg_match("/^[a-zA-Z0-9\s]+$/", $details_subject)) {
+            echo '<script>
+                if (window.history.replaceState) {
+                    window.history.replaceState(null, null, window.location.href);
+                }
+                </script>
+                <div class="alert alert-danger mt-2">El nombre y/o detalles solo pueden contener letras y números.</div>';
+            return;
+        }
+    
+        $update = SubjectModel::updateSubjectData($name_subject, $details_subject, $id_subject);
+    
+        if ($update) {
+            // Si la actualización fue exitosa, redirige
+            echo '<script>
+                if (window.history.replaceState) {
+                    window.history.replaceState(null, null, window.location.href);
+                }
+                window.location="index.php?pages=manageSubject&id_career=' . $id_career . '&name_career=' . $name_career . '&state=' . $state . '&subfolder=listSubject&message=correcto";
+            </script>';
+        }
+    }
+    
+    static public function eliminatedSubject($id_career,$name_career,$state){
+        $id_subject=$_POST['id_subject']; // Obtener id_subject desde el formulario POST
+        $delete=SubjectModel::deletedSubject($id_subject); // Cambiar el nombre de la función a la que llamas aquí
+        if ($delete) {
+            echo '<script>
+            if (window.history.replaceState) {
+                window.history.replaceState(null, null, window.location.href);
+            }
+            
+             window.location="index.php?pages=manageSubject&id_career=' . $id_career . '&name_career=' . $name_career . '&state=' . $state . '&subfolder=listSubject&message=correcto";
+            </script>';
+        }
+    }
+    
+    
+    
 
+    
 }
+       
+
+
 
 
 ?>
