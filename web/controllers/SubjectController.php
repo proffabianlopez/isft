@@ -13,11 +13,10 @@ class SubjectController{
         
 
    
-    
-    static public function newSubject($id, $name,$state) {
+    static public function newSubject($id, $name, $state) {
         $id_career = $id;
-        $name_career =$name;
-        $state =$state;
+        $name_career = $name;
+        $state = $state;
         if (!empty($_POST['name_subject']) && !empty($_POST['details']) && !empty($_POST['id_year'])) {
             // Recoger los datos del formulario
             $name_subject = ucwords(strtolower(trim($_POST['name_subject'])));
@@ -25,18 +24,31 @@ class SubjectController{
             $id_year = $_POST['id_year'];
     
             // Llamar al método del modelo para crear una nueva materia
-            $createNewSubject = SubjectModel::newSubject($name_subject, $details_subject, $id_year, $id_career);
+            $lastInsertedId = SubjectModel::newSubject($name_subject, $details_subject, $id_year, $id_career);
     
-            if ($createNewSubject) {
+            if ($lastInsertedId) {
+              
+                AssignmentModel::assignSubjectToTeacher($lastInsertedId);
+    
                 echo '<script>
-            window.location.href = "index.php?pages=manageSubject&id_career=' . $id_career . '&name_career=' . $name_career . '&state=' . $state . '&subfolder=newSubject&message=correcto";
+                window.location.href = "index.php?pages=manageSubject&id_career=' . $id_career . '&name_career=' . $name_career . '&state=' . $state . '&subfolder=newSubject&message=correcto";
                 </script>';
-             
+            } else {
+                // Manejo de error si la inserción falla
+                echo "La inserción de la materia falló.";
             }
         }
     }
     
     
+    
+    static public function getAllSubject($id){
+        return SubjectModel::showSubject($id);
+
+    }
+
+
+
     
     
 
