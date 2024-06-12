@@ -47,7 +47,7 @@ class SubjectController{
     }
    
     
-    
+    //logica para controlar el boton de edicion de materia y poder editar datos
     static public function updateSubject($id_career, $name_career, $state) {
         $name_subject = trim($_POST['subject_name']);
         $details_subject = trim($_POST['detail']);
@@ -77,6 +77,7 @@ class SubjectController{
         }
     }
     
+    //logica del boton de eliminar materia
     static public function eliminatedSubject($id_career,$name_career,$state){
         $id_subject=$_POST['id_subject']; // Obtener id_subject desde el formulario POST
         $delete=SubjectModel::deletedSubject($id_subject); // Cambiar el nombre de la función a la que llamas aquí
