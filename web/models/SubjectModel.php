@@ -71,8 +71,44 @@ careers.id_career = ? AND subjects.state=1";
 		$stmt = null;
 	}
 	
+	static public function updateSubjectData($name, $details, $id_subject)
+	{
+		$sql = "UPDATE subjects SET name_subject = :name_subject, details = :details WHERE id_subject = :id_subject";
+		$stmt = model_sql::connectToDatabase()->prepare($sql);
+		$stmt->bindParam(':name_subject', $name, PDO::PARAM_STR);
+		$stmt->bindParam(':details', $details, PDO::PARAM_STR); // Aquí se corrigió $last_name por $details
+		$stmt->bindParam(':id_subject', $id_subject, PDO::PARAM_INT);
+	
+		if ($stmt->execute()) {
+			// Devolver true si la actualización se realiza correctamente
+			return true;
+		} else {
+			// Manejar cualquier error que pueda ocurrir durante la ejecución de la consulta
+			print_r($stmt->errorInfo());
+			return false; // Devolver false en caso de error
+		}
+		$stmt = null;
+	}
 
-		
+	static public function deletedSubject($id_subject)
+	{
+		$sql = "UPDATE subjects SET state = 0 WHERE id_subject = :id_subject";
+		$stmt = model_sql::connectToDatabase()->prepare($sql);
+		$stmt->bindParam(':id_subject', $id_subject, PDO::PARAM_INT);
+	
+		if ($stmt->execute()) {
+			// Devolver true si la actualización se realiza correctamente
+			return true;
+		} else {
+			// Manejar cualquier error que pueda ocurrir durante la ejecución de la consulta
+			print_r($stmt->errorInfo());
+			return false; // Devolver false en caso de error
+		}
+		$stmt = null;
+	}
+
+	
+	
 
 	
 }

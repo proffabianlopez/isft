@@ -15,7 +15,6 @@ if (
       ($_GET['pages'] == "careerInfo") ||
       # links administracion de Personas           
       ($_GET['pages'] == "newStudent") ||
-
       ($_GET['pages'] == "newTeacher") ||
       # links administracion de usuarios           
       ($_GET['pages'] == "newUser") ||
