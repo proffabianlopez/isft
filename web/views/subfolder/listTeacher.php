@@ -25,7 +25,7 @@
                                         <i class="fas fa-edit"></i>
                                     </a>
 
-                                    <a href="#" class="btn btn-info" onclick="generateUser(<?php echo $teacher['id_teacher'] ?>)" title="Generar nuevo usuario"><i class="fas fa-user-plus"></i></a>
+                                    <!-- <a href="#" class="btn btn-info" onclick="generateUser(<?php //echo $teacher['id_teacher'] ?>)" title="Generar nuevo usuario"><i class="fas fa-user-plus"></i></a> -->
 
                                 </td>
                             <?php endif; ?>
@@ -96,23 +96,17 @@
 
 <?php endforeach; ?>
 
-<?php
-// if (isset($_POST['del_student'])) {
-//     $controller= new StudentController();
-//     $controller->eliminatedStudent();
-// }
-?>
 
 <?php
 if (isset($_POST['savechange'])) {
     $controller = new TeacherController();
     $controller->editTeacher();
 }
-
-if (isset($_GET['action'])) {
-    if ($_GET['action'] == "activar_cuenta") {
-        $controller = new TeacherController();
-        $controller->generateAccountTeacher();
-    }
-}
+//por el momento no usaremos la creacion de usuarios en profesores
+// if (isset($_GET['action'])) {
+//     if ($_GET['action'] == "activar_cuenta") {
+//         $controller = new TeacherController();
+//         $controller->generateAccountTeacher();
+//     }
+// }
 ?>
