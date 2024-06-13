@@ -54,15 +54,15 @@ class SubjectController{
         $id_subject = $_POST['id_subject'];
     
         // Validar que solo se ingresen letras o números
-        if (!preg_match("/^[a-zA-Z0-9\s]+$/", $name_subject) || !preg_match("/^[a-zA-Z0-9\s]+$/", $details_subject)) {
-            echo '<script>
-                if (window.history.replaceState) {
-                    window.history.replaceState(null, null, window.location.href);
-                }
-                </script>
-                <div class="alert alert-danger mt-2">El nombre y/o detalles solo pueden contener letras y números.</div>';
-            return;
-        }
+        // if (!preg_match("/^[a-zA-Z0-9\s]+$/", $name_subject) || !preg_match("/^[a-zA-Z0-9\s]+$/", $details_subject)) {
+        //     echo '<script>
+        //         if (window.history.replaceState) {
+        //             window.history.replaceState(null, null, window.location.href);
+        //         }
+        //         </script>
+        //         <div class="alert alert-danger mt-2">El nombre y/o detalles solo pueden contener letras y números.</div>';
+        //     return;
+        // }
     
         $update = SubjectModel::updateSubjectData($name_subject, $details_subject, $id_subject);
     
