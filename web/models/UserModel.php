@@ -99,18 +99,14 @@ class UserModel
         $stmt = null;
     }
 
-    static public function updateData($newName, $newLastName, $newEmail, $newDni, $id)
+    static public function updateData($newName, $newLastName, $newDni, $id)
     {
-
-        $sql = "UPDATE users SET name = ?,last_name=?,email=?,dni=? WHERE id_user = ?";
+        $sql = "UPDATE users SET name = ?,last_name=?,dni=? WHERE id_user = ?";
 
         $stmt = model_sql::connectToDatabase()->prepare($sql);
 
-
-
         $stmt->bindParam(1, $newName, PDO::PARAM_STR);
         $stmt->bindParam(2, $newLastName, PDO::PARAM_STR);
-        $stmt->bindParam(3, $newEmail, PDO::PARAM_STR);
         $stmt->bindParam(4, $newDni, PDO::PARAM_STR);
         $stmt->bindParam(5, $id, PDO::PARAM_INT);
 
@@ -306,13 +302,12 @@ class UserModel
         $stmt = null;
     }
 
-    static public function updateUserData($name, $last_name, $email, $fk_rol_id, $id_user)
+    static public function updateUserData($name, $last_name, $fk_rol_id, $id_user)
     {
-        $sql = "UPDATE users SET name  = :name,last_name=:last_name,email=:email,fk_rol_id=:fk_id WHERE id_user = :id_user";
+        $sql = "UPDATE users SET name  = :name,last_name=:last_name,fk_rol_id=:fk_id WHERE id_user = :id_user";
         $stmt = model_sql::connectToDatabase()->prepare($sql);
         $stmt->bindParam(':name', $name, PDO::PARAM_STR);
         $stmt->bindParam(':last_name', $last_name, PDO::PARAM_STR);
-        $stmt->bindParam(':email', $email, PDO::PARAM_STR);
         $stmt->bindParam(':fk_id', $fk_rol_id, PDO::PARAM_INT);
         $stmt->bindParam(':id_user', $id_user, PDO::PARAM_INT);
 
@@ -361,8 +356,8 @@ class UserModel
     }
 
     static public function dataUserCareer($id)
-{
-    $sql = "SELECT
+    {
+        $sql = "SELECT
     users.id_user AS id_user,
     users.name AS name_user,
     users.last_name AS last_name_user,
@@ -391,16 +386,15 @@ WHERE
 GROUP BY
     id_user, name_user, last_name_user, email, dni, file, password, change_password, id_gender, state, gender_detail, id_career, career_name, id_rol, name_rol";
 
-    // Assuming you are using PDO for the prepared statement
-    $stmt = model_sql::connectToDatabase()->prepare($sql);
-    $stmt->bindParam(1, $id, PDO::PARAM_INT);
-    if ($stmt->execute()) {
-        return $stmt->fetchAll(PDO::FETCH_ASSOC); // Fetch all rows
-    } else {
-        print_r($stmt->errorInfo());
+        // Assuming you are using PDO for the prepared statement
+        $stmt = model_sql::connectToDatabase()->prepare($sql);
+        $stmt->bindParam(1, $id, PDO::PARAM_INT);
+        if ($stmt->execute()) {
+            return $stmt->fetchAll(PDO::FETCH_ASSOC); // Fetch all rows
+        } else {
+            print_r($stmt->errorInfo());
+        }
+
+        $stmt = null;
     }
-
-    $stmt = null;
-}
-
 }
