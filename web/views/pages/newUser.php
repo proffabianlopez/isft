@@ -7,6 +7,7 @@
                 </div>
                 <div class="card-body">
                     <form method='POST'>
+                        <p class="form-group px-2 py-2">Los campos con (<span class="text-danger">*</span>) son obligatorios.</p>
                         <div class="row px-2">
                             <div class="col-sm-6">
                                 <div class="form-group">
@@ -46,7 +47,7 @@
                             </select>
                         </div>
                         <div class="d-flex justify-content-center align-items-center">
-                            <button type="submit" name='loadUser' class="btn bg-custom btn-block w-50 btn-warning">Crear usuario</button>
+                            <button type="submit" name='loadUser' class="btn bg-custom btn-block w-50 btn-warning">Crear</button>
                         </div>
                         <?php
                         if (isset($_POST['loadUser'])) {
@@ -56,8 +57,8 @@
                         ?>
                     </form>
                     <br>
-                    <?php $message=new MessageController();
-                        $message->showMessageVerify('message',"Se creó correctamente el usuario")?>
+                    <?php $message = new MessageController();
+                    $message->showMessageVerify('message', "Se creó correctamente el usuario") ?>
                 </div>
             </div>
         </div>

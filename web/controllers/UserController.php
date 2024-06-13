@@ -67,7 +67,7 @@ class UserController
         return $dataUser;
     }
 
-    
+
 
 
 
@@ -121,70 +121,55 @@ class UserController
         }
     }
 
-
     static public function updateData()
     {
-        if (!empty($_POST['email'])&&!empty($_POST['name'])&&!empty($_POST['last_name'])&&!empty($_POST['dni'])) {
-            $newEmail = trim($_POST['email']);
+        if (!empty($_POST['name']) && !empty($_POST['last_name']) && !empty($_POST['dni'])) {
             $name = ucwords(strtolower(trim($_POST['name'])));
             $lastname = ucwords(strtolower(trim($_POST['last_name'])));
-            
+
+            // Validación de nombre y apellido
             if (!preg_match("/^[a-zA-Z]+$/", $name) || !preg_match("/^[a-zA-Z]+$/", $lastname)) {
                 echo '<script>
-                    if (window.history.replaceState) {
-                        window.history.replaceState(null, null, window.location.href);
-                    }
-                    </script>
-                    <div class="alert alert-danger mt-2">El nombre y/o apellido solo pueden contener letras.</div>';
+                if (window.history.replaceState) {
+                    window.history.replaceState(null, null, window.location.href);
+                }
+                </script>
+                <div class="alert alert-danger mt-2">El nombre y/o apellido solo pueden contener letras.</div>';
                 return;
             }
 
+            // Validación de DNI
             $dni = trim($_POST['dni']);
             if (!ctype_digit($dni) || strlen($dni) > 8 || strlen($dni) < 6) {
                 echo '<script>
-                    if (window.history.replaceState) {
-                        window.history.replaceState(null, null, window.location.href);
-                    }
-                    </script>
-                    <div class="alert alert-danger mt-2">DNI inválido. Debe ser un número entre 6 y 8 dígitos.</div>';
+                if (window.history.replaceState) {
+                    window.history.replaceState(null, null, window.location.href);
+                }
+                </script>
+                <div class="alert alert-danger mt-2">DNI inválido. Debe ser un número entre 6 y 8 dígitos.</div>';
                 return;
             }
 
-        
-          
+            // Actualización de datos sin incluir el email
+            $execute = UserModel::updateData($name, $lastname, $dni, $_SESSION['id_user']);
 
-            if (filter_var($newEmail, FILTER_VALIDATE_EMAIL)) {
-                $checkEmailDuplicate = UserModel::checkForDuplicates($newEmail,$dni);
-                if ($checkEmailDuplicate !== false) {
-                    echo '<script>
-                    if (window.history.replaceState) {
-                        window.history.replaceState(null, null, window.location.href);
-                    }
-                    </script>
-                    <div class="alert alert-danger mt-2">Ya existe el Email</div>';
-                } else {
-                    $execute = UserModel::updateData($name,$lastname,$newEmail,$dni,$_SESSION['id_user']);
-
-                    if ($execute) {
-                        echo '<script>
-                            if (window.history.replaceState) {
-                                window.history.replaceState(null, null, window.location.href);
-                            }
-                            window.location="../index.php?pages=myData";
-                          </script>';
-                        echo '<div class="alert alert-success mt-2">Se guardó el registro correctamente</div>';
-                        return;
-                    } else {
-                        echo '<div class="alert alert-danger mt-2">Error al guardar el registro</div>';
-                    }
+            if ($execute) {
+                echo '<script>
+                if (window.history.replaceState) {
+                    window.history.replaceState(null, null, window.location.href);
                 }
+                window.location="../index.php?pages=myData";
+              </script>';
+                echo '<div class="alert alert-success mt-2">Se guardó el registro correctamente</div>';
+                return;
             } else {
-                echo '<div class="alert alert-danger mt-2">El correo NO es válido</div>';
+                echo '<div class="alert alert-danger mt-2">Error al guardar el registro</div>';
             }
         } else {
             echo '<div class="alert alert-danger mt-2">El campo está Vacío</div>';
         }
     }
+
 
 
     static public function changePasswordStart()
@@ -227,63 +212,64 @@ class UserController
 
 
     static public function newUser()
-{
-    if ((!empty($_POST['name'])) && (!empty($_POST['lastName'])) &&
-        (!empty($_POST['mail'])) && (!empty($_POST['dni'])) && (!empty($_POST['gender'])) &&
-        !empty($_POST['roles'])) {
+    {
+        if ((!empty($_POST['name'])) && (!empty($_POST['lastName'])) &&
+            (!empty($_POST['mail'])) && (!empty($_POST['dni'])) && (!empty($_POST['gender'])) &&
+            !empty($_POST['roles'])
+        ) {
 
-        $name = ucwords(strtolower(trim($_POST['name'])));
-        $lastname = ucwords(strtolower(trim($_POST['lastName'])));
-        if (!preg_match("/^[a-zA-Z]+$/", $name) || !preg_match("/^[a-zA-Z]+$/", $lastname)) {
-            echo '<script>
+            $name = ucwords(strtolower(trim($_POST['name'])));
+            $lastname = ucwords(strtolower(trim($_POST['lastName'])));
+            if (!preg_match("/^[a-zA-Z]+$/", $name) || !preg_match("/^[a-zA-Z]+$/", $lastname)) {
+                echo '<script>
                 if (window.history.replaceState) {
                     window.history.replaceState(null, null, window.location.href);
                 }
                 </script>
                 <div class="alert alert-danger mt-2">El nombre y/o apellido solo pueden contener letras.</div>';
-            return;
-        }
+                return;
+            }
 
-        $email = strtolower(trim($_POST['mail']));
-        $email = filter_var($email, FILTER_VALIDATE_EMAIL);
+            $email = strtolower(trim($_POST['mail']));
+            $email = filter_var($email, FILTER_VALIDATE_EMAIL);
 
-        if ($email === false) {
-            echo '<script>
+            if ($email === false) {
+                echo '<script>
                 if (window.history.replaceState) {
                     window.history.replaceState(null, null, window.location.href);
                 }
                 </script>
                 <div class="alert alert-danger mt-2">Email inválido</div>';
-            return;
-        }
+                return;
+            }
 
-        $dni = trim($_POST['dni']);
-        if (!ctype_digit($dni) || strlen($dni) > 8 || strlen($dni) < 6) {
-            echo '<script>
+            $dni = trim($_POST['dni']);
+            if (!ctype_digit($dni) || strlen($dni) > 8 || strlen($dni) < 6) {
+                echo '<script>
                 if (window.history.replaceState) {
                     window.history.replaceState(null, null, window.location.href);
                 }
                 </script>
                 <div class="alert alert-danger mt-2">DNI inválido. Debe ser un número entre 6 y 8 dígitos.</div>';
-            return;
-        }
+                return;
+            }
 
-        $gender = $_POST['gender'];
-        $roles = $_POST['roles'];
+            $gender = $_POST['gender'];
+            $roles = $_POST['roles'];
 
-        $generatePassword = self::generateRandomPassword(14);    
-        $hashedPassword = password_hash($generatePassword, PASSWORD_DEFAULT);
-        $checkCountDniOrEmail = UserModel::checkForDuplicates($dni, $email);
-        if ($checkCountDniOrEmail !== false) {
-            echo '<script>
+            $generatePassword = self::generateRandomPassword(14);
+            $hashedPassword = password_hash($generatePassword, PASSWORD_DEFAULT);
+            $checkCountDniOrEmail = UserModel::checkForDuplicates($dni, $email);
+            if ($checkCountDniOrEmail !== false) {
+                echo '<script>
                 if (window.history.replaceState) {
                     window.history.replaceState(null, null, window.location.href);
                 }
                 </script>
                 <div class="alert alert-danger mt-2">Ya existe el Email o el Dni</div>';
-        } else {
-            $execute = UserModel::newUser($name, $lastname, $email, $dni, $hashedPassword, $gender, $roles);
-            if ($execute) {
+            } else {
+                $execute = UserModel::newUser($name, $lastname, $email, $dni, $hashedPassword, $gender, $roles);
+                if ($execute) {
                     $mailController = MailerController::sendNewUser($generatePassword, $email, $name, $lastname);
                     echo '<script>
                     if (window.history.replaceState) {
@@ -326,17 +312,19 @@ class UserController
         return $password;
     }
 
-    static public function getAllUser(){
+    static public function getAllUser()
+    {
         return UserModel::getAllUser();
     }
 
-    static public function eliminatedUser(){
+    static public function eliminatedUser()
+    {
         if (isset($_POST['id_user'])) {
             $id = $_POST['id_user'];
-           
+
             $execute = UserModel::updateUserState($id); // Agregar el punto y coma (;) aquí
-            
-            if($execute){
+
+            if ($execute) {
                 echo '<script>
                 if (window.history.replaceState) {
                     window.history.replaceState(null, null, window.location.href);
@@ -345,7 +333,7 @@ class UserController
                 window.location="../index.php?pages=manageUser";
                 </script>
                 <div class="alert alert-success mt-2">Se borró el registro correctamente</div>'; // Corregir la palabra "success"
-            }else{
+            } else {
                 echo '<script>
                 if (window.history.replaceState) {
                     window.history.replaceState(null, null, window.location.href);
@@ -354,16 +342,16 @@ class UserController
                 <div class="alert alert-danger mt-2">No se pudo borrar</div>'; // Corregir la palabra "pudo"
             }
         }
-        
     }
-    
-    
-        static public function disableAccountUser(){
+
+
+    static public function disableAccountUser()
+    {
         if (isset($_GET['id_user'])) { // Cambiar $_POST a $_GET
             $id = $_GET['id_user']; // Cambiar $_POST a $_GET
             $execute = UserModel::disableUser($id); // Agregar el punto y coma (;) aquí
-            
-            if($execute){
+
+            if ($execute) {
                 echo '<script>
                 if (window.history.replaceState) {
                     window.history.replaceState(null, null, window.location.href);
@@ -372,7 +360,7 @@ class UserController
                 window.location="../index.php?pages=manageUser";
                 </script>
                 <div class="alert alert-success mt-2">Se desabilito la cuenta</div>'; // Corregir la palabra "success"
-            }else{
+            } else {
                 echo '<script>
                 if (window.history.replaceState) {
                     window.history.replaceState(null, null, window.location.href);
@@ -380,17 +368,17 @@ class UserController
                 </script>
                 <div class="alert alert-danger mt-2">No se pudo borrar</div>'; // Corregir la palabra "pudo"
             }
-           
         }
     }
 
 
-    static public function enableAccountUser(){
+    static public function enableAccountUser()
+    {
         if (isset($_GET['id_user'])) { // Cambiar $_POST a $_GET
             $id = $_GET['id_user']; // Cambiar $_POST a $_GET
             $execute = UserModel::activateUser($id); // Agregar el punto y coma (;) aquí
-            
-            if($execute){
+
+            if ($execute) {
                 echo '<script>
                 if (window.history.replaceState) {
                     window.history.replaceState(null, null, window.location.href);
@@ -399,7 +387,7 @@ class UserController
                 window.location="../index.php?pages=manageUser";
                 </script>
                 <div class="alert alert-success mt-2">Se borró el registro correctamente</div>'; // Corregir la palabra "success"
-            }else{
+            } else {
                 echo '<script>
                 if (window.history.replaceState) {
                     window.history.replaceState(null, null, window.location.href);
@@ -407,121 +395,100 @@ class UserController
                 </script>
                 <div class="alert alert-danger mt-2">No se pudo borrar</div>'; // Corregir la palabra "pudo"
             }
-           
         }
     }
 
-    static public function editarUser(){
-      
-     
+    static public function editarUser()
+    {
         $name = ucwords(strtolower(trim($_POST['name'])));
         $lastname = ucwords(strtolower(trim($_POST['last_name'])));
-      
-
-        $email = strtolower(trim($_POST['email']));
-        $email = filter_var($email, FILTER_VALIDATE_EMAIL);
-
-        if ($email === false) {
-            echo '<script>
-                if (window.history.replaceState) {
-                    window.history.replaceState(null, null, window.location.href);
-                }
-                </script>
-                <div class="alert alert-danger mt-2">Email inválido</div>';
-            return;
-        }
 
         $roles = $_POST['roles'];
         $id = $_POST['id_user'];
 
-            $execute = UserModel::updateUserData($name, $lastname, $email, $roles,$id);
-            if ($execute) {
-                    
-                    echo '<script>
+        $execute = UserModel::updateUserData($name, $lastname, $roles, $id);
+        if ($execute) {
+
+            echo '<script>
                     if (window.history.replaceState) {
                         window.history.replaceState(null, null, window.location.href);
                     }
-                    
+
                     window.location="../index.php?pages=manageUser&subfolder=listUser";
                     </script>
                     <div class="alert alert-succes mt-2">Se guardó el registro correctamente</div>';
-                } else {
-                    echo '<script>
+        } else {
+            echo '<script>
                     if (window.history.replaceState) {
                         window.history.replaceState(null, null, window.location.href);
                     }
                     window.location="../index.php?pages=newUser";
                     </script>
                     <div class="alert alert-danger mt-2">Hubo un problema al crearlo</div>';
-                }
-            }
-       
-            static public function sendNewAleatoryPasswordEmail() {
-                if (isset($_GET['id_user'])) {
-                    $id = $_GET['id_user'];
-                    $changedPassword = UserModel::updateChangedPassword($id);
-            
-                    if ($changedPassword) {
-                        $dataUser = UserModel::dataUser($id);
-                        $emailData = $dataUser['email'];
-                        $generatePassword = self::generateRandomPassword(14);
-                        $hashedPassword = password_hash($generatePassword, PASSWORD_DEFAULT);
-                        
-                        // Actualizar la nueva contraseña y verificar si se realiza correctamente
-                        $updateNewPassword = UserModel::updateNewPassword($hashedPassword, $id);
-                        if ($updateNewPassword) {
-                            // Enviar correo electrónico con la nueva contraseña
-                            $mailSend = MailerController::generateNewPasswordviaEmail($emailData, $generatePassword);
-                            if ($mailSend) {
-                                echo '<script>
+        }
+    }
+
+    static public function sendNewAleatoryPasswordEmail()
+    {
+        if (isset($_GET['id_user'])) {
+            $id = $_GET['id_user'];
+            $changedPassword = UserModel::updateChangedPassword($id);
+
+            if ($changedPassword) {
+                $dataUser = UserModel::dataUser($id);
+                $emailData = $dataUser['email'];
+                $generatePassword = self::generateRandomPassword(14);
+                $hashedPassword = password_hash($generatePassword, PASSWORD_DEFAULT);
+
+                // Actualizar la nueva contraseña y verificar si se realiza correctamente
+                $updateNewPassword = UserModel::updateNewPassword($hashedPassword, $id);
+                if ($updateNewPassword) {
+                    // Enviar correo electrónico con la nueva contraseña
+                    $mailSend = MailerController::generateNewPasswordviaEmail($emailData, $generatePassword);
+                    if ($mailSend) {
+                        echo '<script>
                                     if (window.history.replaceState) {
                                         window.history.replaceState(null, null, window.location.href);
                                     }
                                     window.location="../index.php?pages=manageUser&message=correcto";
                                     </script>';
-                            } else {
-                                echo '<script>
+                    } else {
+                        echo '<script>
                                     if (window.history.replaceState) {
                                         window.history.replaceState(null, null, window.location.href);
                                     }
                                     alert("No se pudo enviar el email.");
                                     </script>';
-                            }
-                        } else {
-                            echo '<script>
+                    }
+                } else {
+                    echo '<script>
                                 if (window.history.replaceState) {
                                     window.history.replaceState(null, null, window.location.href);
                                 }
                                 alert("No se pudo actualizar la contraseña.");
                                 </script>';
-                        }
-                    }
                 }
             }
-
-            //hay que usar decode primero para desencriptar el id career que viene de la vista
-            
-            static public function dataUserCareer($id){
-                // Verifica si se pasó el parámetro id_career
-                if(isset($id)){
-                    // Decodifica el valor de id_career
-                    $id_career = $id;//decodifica
-                    
-                    return UserModel::dataUserCareer($id_career);
-                    
-                    
-                    // Luego, puedes devolver los datos que hayas obtenido
-                    return $datos_de_la_carrera;
-                } else {
-                    
-                    return "No se proporcionó un ID de carrera";
-                }
-            }
-            
-            
-
-            
-        
+        }
     }
-  
 
+    //hay que usar decode primero para desencriptar el id career que viene de la vista
+
+    static public function dataUserCareer($id)
+    {
+        // Verifica si se pasó el parámetro id_career
+        if (isset($id)) {
+            // Decodifica el valor de id_career
+            $id_career = $id; //decodifica
+
+            return UserModel::dataUserCareer($id_career);
+
+
+            // Luego, puedes devolver los datos que hayas obtenido
+            // return $datos_de_la_carrera; //ESTA LÍNEA ME DA ERROR. CORREGIR
+        } else {
+
+            return "No se proporcionó un ID de carrera";
+        }
+    }
+}

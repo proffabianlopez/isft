@@ -1,4 +1,3 @@
-
 <?php
 $data = CareerController::getCareersData();
 ?>
@@ -7,7 +6,7 @@ $data = CareerController::getCareersData();
     <div class="row py-4">
         <?php foreach ($data as $key => $value) : ?>
             <div class="col-lg-6">
-                <a href="index.php?pages=toolsCareer&id_career=<?php echo $value['id_career']?>&name_career=<?php echo $value['career_name'] ?>&state=<?php echo $value['state'] ?>"> 
+                <a href="index.php?pages=toolsCareer&id_career=<?php echo $value['id_career'] ?>&name_career=<?php echo $value['career_name'] ?>&state=<?php echo $value['state'] ?>">
                     <div class="small-box bg-secondary">
                         <?php if ($value['state'] == 'inactive') : ?>
                             <div class="ribbon-wrapper ribbon-xl">
@@ -41,24 +40,25 @@ $data = CareerController::getCareersData();
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-warning text-white">
-                <h5 class="modal-title" id="createCareerModalLabel">Crear Nueva Carrera</h5>
+                <h5 class="modal-title" id="createCareerModalLabel">Crear nueva carrera</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
+                <p class="form-group px-2 py-2">Los campos con (<span class="text-danger">*</span>) son obligatorios.</p>
                 <form id="createCareerForm" method="post">
                     <div class="form-group">
-                        <label for="careerName">Nombre de la Carrera</label>
+                        <label for="careerName">Nombre <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="careerName" name="careerName" placeholder="Ingrese el nombre de la carrera" required>
                     </div>
                     <div class="form-group">
-                        <label for="careerTitle">Título</label>
+                        <label for="careerTitle">Título <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="careerTitle" name="description" placeholder="Ingrese el título de la carrera" required>
                     </div>
                     <div class="form-group">
-                        <label for="careerAbbreviation">Abreviación</label>
-                        <input type="text" class="form-control" id="careerAbbreviation" name="abbreviation" placeholder="Abreviatura para legajo" required>
+                        <label for="careerAbbreviation">Abreviación <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="careerAbbreviation" name="abbreviation" pattern="[A-Za-z]{2}" title="Solo se permiten letras y máximo 2 caracteres" placeholder="Abreviatura para el legajo" required>
                     </div>
                 </form>
             </div>
@@ -67,11 +67,11 @@ $data = CareerController::getCareersData();
                 <button type="submit" form="createCareerForm" class="btn btn-warning" name="loadCareer">Guardar</button>
             </div>
             <?php
-                        if (isset($_POST['loadCareer'])) {
-                            $controller = new CareerController();
-                            $controller->newCareer();
-                        }
-                        ?>
+            if (isset($_POST['loadCareer'])) {
+                $controller = new CareerController();
+                $controller->newCareer();
+            }
+            ?>
         </div>
     </div>
 </div>

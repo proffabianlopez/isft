@@ -70,13 +70,12 @@ class StudentModel extends UserModel
         }
         $stmt = null;
     }
-    static public function updateStudentData($name, $last_name, $email, $carrera, $id_student)
+    static public function updateStudentData($name, $last_name, $carrera, $id_student)
     {
-        $sql = "UPDATE users SET name = :name, last_name = :last_name, email = :email, fk_career_id = :carrer_id WHERE id_user = :id_student";
+        $sql = "UPDATE users SET name = :name, last_name = :last_name, fk_career_id = :carrer_id WHERE id_user = :id_student";
         $stmt = model_sql::connectToDatabase()->prepare($sql);
         $stmt->bindParam(':name', $name, PDO::PARAM_STR);
         $stmt->bindParam(':last_name', $last_name, PDO::PARAM_STR);
-        $stmt->bindParam(':email', $email, PDO::PARAM_STR);
         $stmt->bindParam(':carrer_id', $carrera, PDO::PARAM_INT);
         $stmt->bindParam(':id_student', $id_student, PDO::PARAM_INT);
 
@@ -91,7 +90,8 @@ class StudentModel extends UserModel
         $stmt = null;
     }
 
-    static public function changeStateStudent($id){
+    static public function changeStateStudent($id)
+    {
         $sql = "UPDATE users SET state = 1 WHERE id_user = ?";
         $stmt = model_sql::connectToDatabase()->prepare($sql);
         $stmt->bindParam(1, $id, PDO::PARAM_INT);
@@ -100,7 +100,7 @@ class StudentModel extends UserModel
             return true;
         } else {
             print_r($stmt->errorInfo());
-            return false; 
+            return false;
         }
         $stmt = null;
     }
