@@ -121,9 +121,10 @@ class UserController
         }
     }
 
+    //recibe datos desde el formulario de mydata.php para poder editar los datos del usuario
     static public function updateData()
     {
-        if (!empty($_POST['name']) && !empty($_POST['last_name']) && !empty($_POST['dni'])) {
+        if (!empty($_POST['name']) && !empty($_POST['last_name'])) {
             $name = ucwords(strtolower(trim($_POST['name'])));
             $lastname = ucwords(strtolower(trim($_POST['last_name'])));
 
@@ -138,20 +139,10 @@ class UserController
                 return;
             }
 
-            // Validación de DNI
-            $dni = trim($_POST['dni']);
-            if (!ctype_digit($dni) || strlen($dni) > 8 || strlen($dni) < 6) {
-                echo '<script>
-                if (window.history.replaceState) {
-                    window.history.replaceState(null, null, window.location.href);
-                }
-                </script>
-                <div class="alert alert-danger mt-2">DNI inválido. Debe ser un número entre 6 y 8 dígitos.</div>';
-                return;
-            }
+           
 
             // Actualización de datos sin incluir el email
-            $execute = UserModel::updateData($name, $lastname, $dni, $_SESSION['id_user']);
+            $execute = UserModel::updateData($name, $lastname, $_SESSION['id_user']);
 
             if ($execute) {
                 echo '<script>
