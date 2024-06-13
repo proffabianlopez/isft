@@ -4,25 +4,25 @@
 		<?php if ($_GET['state'] == 0): ?>
 		<?php if ( (isset($_GET['subfolder'])) && ($_GET['subfolder'] == 'newSubject')): ?>		
 		<li class="nav-item">
-			<a class="nav-link active" href="index.php?pages=manageSubject&id_career=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['name_career'] ?>&state=<?php echo $_GET['state'] ?>&subfolder=newSubject">Crear Nueva Materia</a>
+			<a class="nav-link active" href="index.php?pages=manageSubject&id_career=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['name_career'] ?>&state=<?php echo $_GET['state'] ?>&subfolder=newSubject">Crear nueva materia</a>
 		</li>
 		<?php else: ?>
 		<li class="nav-item">
-			<a class="nav-link" href="index.php?pages=manageSubject&id_career=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['name_career'] ?>&state=<?php echo $_GET['state'] ?>&subfolder=newSubject">Crear Nueva Materia</a>
+			<a class="nav-link" href="index.php?pages=manageSubject&id_career=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['name_career'] ?>&state=<?php echo $_GET['state'] ?>&subfolder=newSubject">Crear nueva materia</a>
 		</li>
 		<?php endif ?>
 		<?php endif ?>
 		<?php if ( (isset($_GET['subfolder'])) && ($_GET['subfolder'] == 'listSubject') ): ?>		
 		<li class="nav-item">
-			<a class="nav-link active" href="index.php?pages=manageSubject&id_career=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['name_career'] ?>&state=<?php echo $_GET['state'] ?>&subfolder=listSubject">Ver Listado de Materias</a>
+			<a class="nav-link active" href="index.php?pages=manageSubject&id_career=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['name_career'] ?>&state=<?php echo $_GET['state'] ?>&subfolder=listSubject">Ver listado de materias</a>
 		</li>
 		<?php else: ?>
 		<li class="nav-item">
-			<a class="nav-link" href="index.php?pages=manageSubject&id_career=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['name_career'] ?>&state=<?php echo $_GET['state'] ?>&subfolder=listSubject">Ver Listado de Materias</a>
+			<a class="nav-link" href="index.php?pages=manageSubject&id_career=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['name_career'] ?>&state=<?php echo $_GET['state'] ?>&subfolder=listSubject">Ver listado de mterias</a>
 		</li>
 		<?php endif ?>		
 		<li class="nav-item">
-			<a href="index.php?pages=toolsCareer&id_career=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['name_career'] ?>&state=<?php echo $_GET['state'] ?>" class="nav-link">volver a herramientas<i class="fas fa-arrow-circle-left ml-2"></i></a>
+			<a href="index.php?pages=toolsCareer&id_career=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['name_career'] ?>&state=<?php echo $_GET['state'] ?>" class="nav-link">Volver a herramientas<i class="fas fa-arrow-circle-left ml-2"></i></a>
 		</li>
 	</ul>
 	<?php 

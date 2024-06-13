@@ -3,7 +3,7 @@
 if (isset($_GET['name_career']) && isset($_GET['id_career'])&&isset($_GET['state'])) {  
 ?>
 <br>
-<h2 class="text-center mt-1 mb-3 py-2 lead">Crear Materias</h2>
+
 <div class="container pt-4 pb-3">
     <div class="row justify-content-center">
         <div>
@@ -17,13 +17,13 @@ if (isset($_GET['name_career']) && isset($_GET['id_career'])&&isset($_GET['state
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label class="pt-1" for="name">Nombre de la materia <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" name="name_subject" placeholder="Ingrese el nombre de la Materia" required>
+                                    <input type="text" class="form-control" name="name_subject" placeholder="Ingrese el nombre" maxlength="100" required>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="pt-1" for="lastName">Detalle<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" name="details" placeholder="Observaciones" required>
+                                    <label class="pt-1" for="lastName">Carga horaria<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" name="details" placeholder="Carga horaria anual" maxlength="3" oninput="this.value = this.value.replace(/[^0-9]/g, '');" required>
                                 </div>
                             </div>
                         </div>
@@ -37,7 +37,7 @@ if (isset($_GET['name_career']) && isset($_GET['id_career'])&&isset($_GET['state
                             </select>
                         </div>
                         <div class="d-flex justify-content-center align-items-center">
-                            <button type="submit" name='confirmNewSubject' class="btn bg-custom btn-block w-50 btn-warning">Crear nueva materia</button>
+                            <button type="submit" name='confirmNewSubject' class="btn bg-custom btn-block w-50 btn-warning">Crear</button>
                         </div>
                     </form>
                     <br>

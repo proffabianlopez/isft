@@ -114,9 +114,9 @@ if( (isset($_GET['name_career'])) && (isset($_GET['id_career'])) && (isset($_GET
                         <input type="hidden" name="id_subject" value="<?php echo $subject['id_subject'] ?>">
                         <div class="form-group">
                             <label for="subject_name">Nombre de la Materia:</label>
-                            <input type="text" class="form-control mb-3" id="subject_name" name="subject_name" value="<?php echo $subject['name_subject'] ?>">
+                            <input type="text" class="form-control mb-3" id="subject_name" name="subject_name" value="<?php echo $subject['name_subject'] ?>" maxlength="100" required>
                             <label for="detail">Carga Horaria:</label>
-                            <input type="text" class="form-control" id="detail" name="detail" value="<?php echo $subject['details'] ?>" placeholder="Ingrese carga horaria, por ejemplo: 2hrs">
+                            <input type="text" class="form-control" id="detail" name="detail" value="<?php echo $subject['details'] ?>" maxlength="3" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" required>
                         </div>
                         <div class="text-center">
                             <button type="submit" class="btn btn-warning" name="savechange">Guardar Cambios</button>
