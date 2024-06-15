@@ -2,6 +2,7 @@
 
 class CorrelativeModel
 {
+    //Esta es para mostrar las materias en forma de select
     static public function showSubjectCorrelative($id)
     {
         $sql = " SELECT subjects.id_subject  AS id_subject,
@@ -24,6 +25,7 @@ class CorrelativeModel
         $stmt = null;
     }
 
+    //Inserta los ID de materia y correlativa en la tabla correlatives
     static public function newCorrelative($value1, $value2)
     {
         $sql = "INSERT INTO correlatives (fk_correlative_id, fk_subject_id, state)
@@ -44,6 +46,8 @@ class CorrelativeModel
         }
     }
 
+    //Esta sólo muestra los datos uno abajo del otro y asi poder editar
+    // las correlativas más adelante.
     static public function showDataCorrelative($id)
     {
         $sql = "SELECT 
@@ -79,6 +83,8 @@ class CorrelativeModel
         }
     }
 
+    //Esta función muestra todas las correlativas de la materia una al lado de la otra
+    // separada por guión y concatenadas.
     static public function showMultipleCorrelatives($id)
     {
         $sql = "SELECT 
@@ -94,7 +100,7 @@ JOIN
 JOIN 
     careers ON c1.fk_career_id = careers.id_career
 WHERE 
-    c1.id_subject = ?
+    c1.fk_career_id = ?
 GROUP BY
     c1.id_subject
 "; // Corregir aquí el alias de la tabla subjects
@@ -114,5 +120,45 @@ GROUP BY
 
             return false;
         }
+    }
+
+    //Esta es para editar los ID de la tabla correlativas
+    static public function editCorrelative($id_subject, $id_correlative, $id)
+    {
+        $sql = "UPDATE correlatives
+            SET fk_subject_id = :new_fk_subject_id,
+                fk_correlative_id = :new_fk_correlative_id
+            WHERE id_correlative = :id_correlative_pivot";
+        $stmt = model_sql::connectToDatabase()->prepare($sql);
+        $stmt->bindParam(':new_fk_subject_id', $id_subject, PDO::PARAM_INT);
+        $stmt->bindParam(':new_fk_correlative_id', $id_correlative, PDO::PARAM_INT); // corregido
+        $stmt->bindParam(':id_correlative_pivot', $id, PDO::PARAM_INT); // corregido
+
+        if ($stmt->execute()) {
+            // Devolver true si la actualización se realiza correctamente
+            return true;
+        } else {
+            // Manejar cualquier error que pueda ocurrir durante la ejecución de la consulta
+            print_r($stmt->errorInfo());
+            return false; // Devolver false en caso de error
+        }
+        $stmt = null;
+    }
+
+    //Elimina el campo de la tabla correlativas
+    static public function deleteCorrelative($id_correlative)
+    {
+        $sql = "DELETE FROM correlatives WHERE id_correlative = :id_correlative";
+        $stmt = model_sql::connectToDatabase()->prepare($sql);
+        $stmt->bindParam(':id_correlative', $id_correlative, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            return true; // Devolver true si la eliminación se realiza correctamente
+        } else {
+            // Manejar cualquier error que pueda ocurrir durante la ejecución de la consulta
+            print_r($stmt->errorInfo());
+            return false; // Devolver false en caso de error
+        }
+        $stmt = null;
     }
 }

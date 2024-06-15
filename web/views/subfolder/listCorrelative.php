@@ -1,6 +1,6 @@
 <?php
 if ((isset($_GET['name_career'])) && (isset($_GET['id_career'])) && (isset($_GET['state']))) {
-    $correlatives = CorrelativeController::listCorrelative($_GET["id_career"]);
+    $correlatives = CorrelativeController::listMultipleCorrelatives($_GET["id_career"]);
 ?>
     <div class="d-flex justify-content-center">
         <div class="card w-75">
@@ -23,7 +23,7 @@ if ((isset($_GET['name_career'])) && (isset($_GET['id_career'])) && (isset($_GET
                         <?php foreach ($correlatives as $correlative) : ?>
                             <tr>
                                 <td><?php echo $correlative['name_subject'] ?></td>
-                                <td><?php echo $correlative['name_correlative_subject'] ?></td>
+                                <td><?php echo $correlative['correlatives'] ?></td>
                             </tr>
 
             </div>
@@ -38,6 +38,6 @@ if ((isset($_GET['name_career'])) && (isset($_GET['id_career'])) && (isset($_GET
 <?php
 }
 if (isset($_POST['correlative_pdf'])) {
-    // (new ControladorPDF())->ctrPdfCorrelativas($data, $_GET['name']);
+    // (new PdfController())->PdfCorrelatives($data, $_GET['name_career']);
 }
 ?>
