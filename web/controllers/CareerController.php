@@ -87,10 +87,58 @@ class CareerController
 
 	static public function getNameCareer($id)
 	{
-		$id_career = base64_decode($id);
+		$id_career = $id;
 		return CareerModel::nameCareer($id_career);
 	}
 
+	static public function editCareer($id, $name, $state)
+    {
+        $id_career = $id;
+        $name_career = $name;
+        $state_career = $state;
+        
+        $careerName = ucwords(trim($_POST['name_career']));
+        $title = ucfirst(trim($_POST['title']));
+        $abbreviation = strtoupper(trim($_POST['abbreviation']));
+        
+		if (!preg_match("/^[a-zA-ZáéíóúÁÉÍÓÚ\s]+$/", $careerName)) {
+			echo '<script>
+			if (window.history.replaceState) {
+				window.history.replaceState(null, null, window.location.href);
+			}
+			</script>
+			<div class="alert alert-danger mt-2">El nombre de la carrera sólo puede contener letras y espacios.</div>';
+			return;
+		}
+
+		if (!preg_match("/^[a-zA-ZáéíóúÁÉÍÓÚ\s]+$/", $title)) {
+			echo '<script>
+			if (window.history.replaceState) {
+				window.history.replaceState(null, null, window.location.href);
+			}
+			</script>
+			<div class="alert alert-danger mt-2">La descripción sólo puede contener letras y espacios.</div>';
+			return;
+		}
+
+		$abbreviation = strtoupper(trim($_POST['abbreviation']));
+			if (!preg_match("/^[A-Z]{2}$/", $abbreviation)) {
+				echo '<script>
+                if (window.history.replaceState) {
+                    window.history.replaceState(null, null, window.location.href);
+                }
+                </script>
+                <div class="alert alert-danger mt-2">Abreviación de carrera inválida.</div>';
+				return;
+			}
+  
+        $execute = CareerModel::editCareer($careerName, $title, $abbreviation, $id_career);
+
+        if ($execute) {
+            // Redireccionar u otro flujo de trabajo después de la actualización exitosa
+            echo '<script>window.location.href = "index.php?pages=toolsCareer&id_career=' . $id_career . '&name_career=' . urlencode($name_career) . '&state=' . $state . '";</script>';
+        }
+    }
 
 	
 }
