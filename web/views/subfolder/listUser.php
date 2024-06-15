@@ -5,8 +5,8 @@
             <table id="example3" class="table table-bordered table-striped table-hover" style="width: 80%; margin: 0 auto;">
                 <thead class="bg-yellow text-white">
                     <tr>
-                        <th class="text-center">Nombre</th>
                         <th class="text-center">Apellido</th>
+                        <th class="text-center">Nombre</th>
                         <th class="text-center">Email</th>
                         <th class="text-center">Rol</th>
                         <th class="text-center">Estado</th>
@@ -17,8 +17,8 @@
                     <?php foreach ($dataUser as $user) : ?>
                         <?php if ($_SESSION['id_user'] != $user['id_user']) : ?>
                             <tr class="<?php echo ($user['state'] == 1) ? 'bg-white' : 'bg-light'; ?>">
-                                <td class="text-center"><?php echo $user['name']; ?></td>
                                 <td class="text-center"><?php echo $user['last_name']; ?></td>
+                                <td class="text-center"><?php echo $user['name']; ?></td>
                                 <td class="text-center"><?php echo $user['email']; ?></td>
                                 <td class="text-center"><?php echo $user['name_rol']; ?></td>
                                 <td class="text-center"><?php echo $user['state'] == 1 ? 'Activo' : 'Inactivo'; ?></td>
@@ -105,15 +105,14 @@
                 </div>
                 <div class="modal-body">
                     <form method="POST">
-
                         <input type="hidden" name="id_user" value="<?php echo $user['id_user']; ?>">
-                        <div class="form-group">
-                            <label for="nombre">Nombre</label>
-                            <input type="text" class="form-control" id="nam" pattern="[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+" title="Solo se permiten letras y espacios" name="name" required value="<?php echo $user['name']; ?>">
-                        </div>
                         <div class="form-group">
                             <label for="apellido">Apellido</label>
                             <input type="text" class="form-control" id="last_name" pattern="[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+" title="Solo se permiten letras y espacios" name="last_name" value="<?php echo $user['last_name']; ?>">
+                        </div>
+                        <div class="form-group">
+                            <label for="nombre">Nombre</label>
+                            <input type="text" class="form-control" id="nam" pattern="[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+" title="Solo se permiten letras y espacios" name="name" required value="<?php echo $user['name']; ?>">
                         </div>
                         <div class="form-group">
                             <label for="roles">Rol</label>

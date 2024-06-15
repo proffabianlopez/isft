@@ -5,16 +5,16 @@
             <table id="example3" class="table table-bordered table-striped table-hover custom-table-container" style="width: 80%; margin: 0 auto;">
                 <thead class="bg-yellow text-white">
                     <tr class="text-center">
-                        <th>Nombre</th>
                         <th>Apellido</th>
+                        <th>Nombre</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($dataTeacher as $teacher) : ?>
                         <tr>
-                            <td class="text-center"><?php echo $teacher['name_teacher']; ?></td>
                             <td class="text-center"><?php echo $teacher['last_name_teacher']; ?></td>
+                            <td class="text-center"><?php echo $teacher['name_teacher']; ?></td>
                             <?php if (isset($_GET['pages']) && ($_GET['pages'] == 'manageTeacher')) : ?>
                                 <td class="text-center">
                                     <a href="#viewUserModal<?php echo $teacher['id_teacher']; ?>" class="btn btn-success view-user" data-toggle="modal" title="Ver detalles">
@@ -25,7 +25,8 @@
                                         <i class="fas fa-edit"></i>
                                     </a>
 
-                                    <!-- <a href="#" class="btn btn-info" onclick="generateUser(<?php //echo $teacher['id_teacher'] ?>)" title="Generar nuevo usuario"><i class="fas fa-user-plus"></i></a> -->
+                                    <!-- <a href="#" class="btn btn-info" onclick="generateUser(<?php //echo $teacher['id_teacher'] 
+                                                                                                ?>)" title="Generar nuevo usuario"><i class="fas fa-user-plus"></i></a> -->
 
                                 </td>
                             <?php endif; ?>
@@ -56,12 +57,12 @@
 
                         <input type="hidden" name="id_teacher" value="<?php echo $teacher['id_teacher']; ?>">
                         <div class="form-group">
-                            <label for="nombre">Nombre</label>
-                            <input type="text" class="form-control" id="nam" pattern="[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+" title="Solo se permiten letras y espacios" name="name_teacher" required value="<?php echo $teacher['name_teacher']; ?>">
-                        </div>
-                        <div class="form-group">
                             <label for="apellido">Apellido</label>
                             <input type="text" class="form-control" id="last_name_teacher" pattern="[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+" title="Solo se permiten letras y espacios" name="last_name_teacher" value="<?php echo $teacher['last_name_teacher']; ?>">
+                        </div>
+                        <div class="form-group">
+                            <label for="nombre">Nombre</label>
+                            <input type="text" class="form-control" id="nam" pattern="[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+" title="Solo se permiten letras y espacios" name="name_teacher" required value="<?php echo $teacher['name_teacher']; ?>">
                         </div>
                         <button type="submit" name="savechange" class="btn btn-warning">Guardar cambios</button>
                     </form>
@@ -81,8 +82,8 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p><strong>Nombre:</strong> <?php echo $teacher['name_teacher']; ?></p>
                     <p><strong>Apellido:</strong> <?php echo $teacher['last_name_teacher']; ?></p>
+                    <p><strong>Nombre:</strong> <?php echo $teacher['name_teacher']; ?></p>
                     <p><strong>Email:</strong> <?php echo $teacher['email_teacher']; ?></p>
                     <p><strong>DNI:</strong> <?php echo $teacher['dni']; ?></p>
                 </div>

@@ -15,14 +15,14 @@
                         <div class="row px-2">
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="pt-1" for="name">Nombre <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" name="name" placeholder="Ingrese el nombre" required>
+                                    <label class="pt-1" for="lastName">Apellido <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" name="lastName" placeholder="Ingrese el apellido" required>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="pt-1" for="lastName">Apellido <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" name="lastName" placeholder="Ingrese el apellido" required>
+                                    <label class="pt-1" for="name">Nombre <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" name="name" placeholder="Ingrese el nombre" required>
                                 </div>
                             </div>
                         </div>
@@ -51,8 +51,8 @@
                             </select>
                         </div>
                         <div class="form-group px-2">
-                            <label class="pt-1" for="mail">Año de ingreso a la carrera <span class="text-danger">*</span></label>
-                            <input type="text" maxlength="4" oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="form-control" name="date" placeholder="Ingrese la fecha de ingreso" required>
+                            <label class="pt-1" for="cohorte">Cohorte <span class="text-danger">*</span></label>
+                            <input type="text" maxlength="4" oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="form-control" name="date" placeholder="Ingrese el cohorte" required>
                         </div>
                         <div class="d-flex justify-content-center align-items-center">
                             <button type="submit" name='loadUser' class="btn bg-custom btn-block w-50 btn-warning">Crear</button>

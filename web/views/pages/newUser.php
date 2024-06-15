@@ -11,14 +11,14 @@
                         <div class="row px-2">
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="pt-1" for="name">Nombre <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" name="name" placeholder="Ingrese el nombre" required>
+                                    <label class="pt-1" for="lastName">Apellido <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" name="lastName" placeholder="Ingrese el apellido" required>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="pt-1" for="lastName">Apellido <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" name="lastName" placeholder="Ingrese el apellido" required>
+                                    <label class="pt-1" for="name">Nombre <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" name="name" placeholder="Ingrese el nombre" required>
                                 </div>
                             </div>
                         </div>

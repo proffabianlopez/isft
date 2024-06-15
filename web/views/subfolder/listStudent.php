@@ -5,16 +5,16 @@
             <table id="example3" class="table table-bordered table-striped table-hover custom-table-container" style="width: 80%; margin: 0 auto;">
                 <thead class="bg-yellow text-white">
                     <tr class="text-center">
-                        <th>Nombre</th>
                         <th>Apellido</th>
+                        <th>Nombre</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($dataStudent as $student) : ?>
                         <tr>
-                            <td class="text-center"><?php echo $student['name_student']; ?></td>
                             <td class="text-center"><?php echo $student['last_name_student']; ?></td>
+                            <td class="text-center"><?php echo $student['name_student']; ?></td>
                             <?php if (isset($_GET['pages']) && ($_GET['pages'] == 'manageStudent')) : ?>
                                 <td class="text-center">
                                     <a href="#viewUserModal<?php echo $student['id_student']; ?>" class="btn btn-success view-user" data-toggle="modal" title="Ver detalles">
@@ -53,15 +53,14 @@
                 </div>
                 <div class="modal-body">
                     <form method="POST">
-
                         <input type="hidden" name="id_student" value="<?php echo $student['id_student']; ?>">
-                        <div class="form-group">
-                            <label for="nombre">Nombre</label>
-                            <input type="text" class="form-control" id="nam" pattern="[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+" title="Solo se permiten letras y espacios" name="name_student" required value="<?php echo $student['name_student']; ?>">
-                        </div>
                         <div class="form-group">
                             <label for="apellido">Apellido</label>
                             <input type="text" class="form-control" id="last_name_student" pattern="[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+" title="Solo se permiten letras y espacios" name="last_name_student" value="<?php echo $student['last_name_student']; ?>">
+                        </div>
+                        <div class="form-group">
+                            <label for="nombre">Nombre</label>
+                            <input type="text" class="form-control" id="nam" pattern="[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+" title="Solo se permiten letras y espacios" name="name_student" required value="<?php echo $student['name_student']; ?>">
                         </div>
                         <div class="form-group">
                             <label for="roles">Carrera</label>
@@ -87,12 +86,12 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p><strong>Nombre:</strong> <?php echo $student['name_student']; ?></p>
                     <p><strong>Apellido:</strong> <?php echo $student['last_name_student']; ?></p>
+                    <p><strong>Nombre:</strong> <?php echo $student['name_student']; ?></p>
                     <p><strong>Email:</strong> <?php echo $student['email_student']; ?></p>
                     <p><strong>DNI:</strong> <?php echo $student['dni']; ?></p>
                     <p><strong>Carrera:</strong> <?php echo $student['career_name']; ?></p>
-                    <p><strong>Año de ingreso:</strong> <?php echo $student['startingYear']; ?></p>
+                    <p><strong>Cohorte:</strong> <?php echo $student['startingYear']; ?></p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
