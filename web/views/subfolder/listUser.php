@@ -117,7 +117,8 @@
                         <div class="form-group">
                             <label for="roles">Rol</label>
                             <select class="form-control" id="roles" name="roles" required>
-                                <?php (new RolesController())->rolesSelect(); ?>
+                                <option value="<?php echo $user['fk_rol_id'] ?>"><?php echo $user["name_rol"] ?></option>
+                                <?php (new RolesController())->allRolesSelect(); ?>
                             </select>
                         </div>
                         <button type="submit" name="savechange" class="btn btn-warning">Guardar cambios</button>
