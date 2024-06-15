@@ -35,12 +35,13 @@ class StudentModel extends UserModel
         users.dni AS dni,
         users.startingYear AS startingYear,
         users.fk_rol_id AS fk_rol_id,
-        careers.career_name AS career_name
+        careers.career_name AS career_name,
+        careers.id_career AS id_career
         FROM users
         JOIN careers ON users.fk_career_id=careers.id_career
         WHERE 
         users.fk_rol_id = 3
-        AND users.state IN (1, 2)";
+        AND users.state IN (1, 2);";
 
         $stmt = model_sql::connectToDatabase()->prepare($sql);
 

@@ -1,16 +1,25 @@
-<?php 
+<?php
 
-class RolesController {
+class RolesController
+{
 
-	public function rolesSelect() {
+	public function rolesSelect()
+	{
 
 		$roles = RolesModel::roles();
-		
+
 		foreach ($roles as $key => $value) {
-			echo '<option value="'.$value['id_rol'].'">'.$value['name'].'</option>';
+			echo '<option value="' . $value['id_rol'] . '">' . $value['name'] . '</option>';
 		}
-		
 	}
 
+	public function allRolesSelect()
+	{
 
+		$roles = RolesModel::allRoles();
+
+		foreach ($roles as $key => $value) {
+			echo '<option value="' . $value['id_rol'] . '">' . $value['name'] . '</option>';
+		}
+	}
 }

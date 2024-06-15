@@ -65,6 +65,7 @@
                         <div class="form-group">
                             <label for="roles">Carrera</label>
                             <select class="form-control" id="carrer" name="carrer" required>
+                                <option value="<?php echo $student['id_career'] ?>"><?php echo $student["career_name"] ?></option>
                                 <?php (new CareerController())->careerSelect(); ?>
                             </select>
                         </div>
