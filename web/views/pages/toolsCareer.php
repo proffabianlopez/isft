@@ -2,7 +2,6 @@
 <section class="container-fluid py-3">
     <h2 class="text-center mt-1 mb-3 py-2 lead">Herramientas de la Carrera:  <?php echo $_GET['name_career']  ?></h2>
     <div class="row">
-    <?php if ($_GET['state'] == 0): ?>
     <div class="col-lg-6">
             <a href="index.php?pages=manageSubject&id_career=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['name_career'] ?>&state=<?php echo $_GET['state'] ?>">
                 <div class="small-box bg-primary">
@@ -70,7 +69,7 @@
             </a>
         </div>
         <div class="col-lg-6">
-            <a href="index.php?pages=careerEdit&id_carrera=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['name_career'] ?>&state=<?php echo $_GET['state'] ?>">
+            <a href="index.php?pages=careerEdit&id_career=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['name_career'] ?>&state=<?php echo $_GET['state'] ?>">
                 <div class="small-box bg-light">                
                     <div class="inner">
                         <h3>Editar</h3>
@@ -86,61 +85,8 @@
             </a>
         </div>
 
-        <?php else:?>
-            <div class="col-lg-6">
-            <a href="index.php?pages=manageSubject&id_career=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['name_career'] ?>&state=<?php echo $_GET['state'] ?>">
-            <div class="small-box bg-primary">
-                    <div class="inner">
-                        <h3>Materias</h3>
-                        <p>Ver Materias</p>
-                    </div>
-                    <div class="icon">
-                        <i class="fas fa-chalkboard"></i>
-                    </div>                
-                    <div class="small-box-footer">
-                        Ver Materias<i class="fas fa-arrow-circle-right ml-2"></i>
-                    </div>                
-                </div>
-            </a>
-        </div>
+     <?php    if ($_GET['state'] == 1):?>
 
-        <div class="col-lg-6">
-        <a href="index.php?pages=manageCorrelatives&id_career=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['name_career'] ?>&state=<?php echo $_GET['state'] ?>">
-        <div class="small-box bg-secondary">
-                    <div class="inner">
-                        <h3>Correlativas</h3>
-                        <p>Ver Correlativas</p>
-                    </div>
-                    <div class="icon">
-                        <i class="fas fa-network-wired"></i>
-                    </div>                
-                    <div class="small-box-footer">
-                        Ver Correlativas<i class="fas fa-arrow-circle-right ml-2"></i>
-                    </div>
-                </div>            
-            </a>
-        </div>
-
-        <div class="col-lg-6">
-    <div class="small-box badge-danger">
-        <div class="inner">
-            <h3>Preceptores asignados</h3> 
-            <?php 
-            // Obtener los datos de todos los preceptores asignados a la carrera
-            $dataPreceCareers = UserController::dataUserCareer($_GET['id_career']);
-            ?>
-            <!-- Mostrar la lista de preceptores -->
-            <ul>
-                <?php foreach ($dataPreceCareers as $dataPreceCareer): ?>
-                    <li><?php echo $dataPreceCareer['name_user'] . " " . $dataPreceCareer['last_name_user']; ?></li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
-        <div class="icon">
-            <i class="fas fa-user-tie"></i>
-        </div>
-    </div>
-</div>
 <div class="col-lg-6">
     <a href="index.php?pages=manageSubjectStudent&id_career=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['name_career'] ?>&state=<?php echo $_GET['state'] ?>">
         <div class="small-box bg-info">
@@ -159,23 +105,6 @@
 </div>
 
 
-
-<div class="col-lg-6">
-            <a href="index.php?pages=careerVerifyCheck&id_carrera=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['name_career'] ?>&state=<?php echo $_GET['state'] ?>">
-                <div class="small-box bg-success">
-                    <div class="inner">
-                        <h3>Estado</h3>
-                        <p>Verificar estado de la carrera</p>
-                    </div>
-                    <div class="icon">
-                        <i class="fas fa-retweet"></i>
-                    </div>                
-                    <div class="small-box-footer">
-                        Modificar estado<i class="fas fa-arrow-circle-right ml-2"></i>
-                    </div>                
-                </div>
-            </a>
-        </div>
         <div class="col-lg-6">
             <a href="index.php?pages=careerInfo&id_career=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['career_name'] ?>&state=<?php echo $_GET['state'] ?>">
                 <div class="small-box bg-white">
