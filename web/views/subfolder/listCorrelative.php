@@ -2,6 +2,7 @@
 if ((isset($_GET['name_career'])) && (isset($_GET['id_career'])) && (isset($_GET['state']))) {
     $correlatives = CorrelativeController::listMultipleCorrelatives($_GET["id_career"]);
 ?>
+    <br><br>
     <div class="d-flex justify-content-center">
         <div class="card w-75">
             <div class="card-body">
