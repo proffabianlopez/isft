@@ -18,7 +18,7 @@ if (isset($_GET['name_career']) && isset($_GET['id_career']) && isset($_GET['sta
                             <td><?php echo $data['full_name'] ?></td>
                             <td>
                                 <!-- Botón para abrir el modal de Ver preceptores -->
-                                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modal_<?php echo $data['id_user'] ?>" title="Ver información">
+                                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modal_<?php echo $data['id_preceptor'] ?>" title="Ver información">
                                     <i class="fas fa-eye"></i>
                                 </button>
                                 
@@ -51,7 +51,7 @@ if (isset($_GET['name_career']) && isset($_GET['id_career']) && isset($_GET['sta
 
 <!-- Modales -->
 <?php foreach ($datasPreceptor as $data): ?>
-    <div class="modal fade" id="modal_<?php echo $data['id_user'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modal_<?php echo $data['id_preceptor'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-warning">
