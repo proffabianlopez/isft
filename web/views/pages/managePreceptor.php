@@ -1,5 +1,5 @@
 <section class="container-fluid py-3 text-center">
-    <h2 class="text-center mt-1 mb-3 py-2 lead">Gestión de Materias: <?php echo $_GET['name_career'] ?></h2>
+    <h2 class="text-center mt-1 mb-3 py-2 lead">Gestión de Preceptores: <?php echo $_GET['name_career'] ?></h2>
     <ul class="nav nav-pills nav-fill mb-2">
         <?php if (isset($_GET['subfolder']) && ($_GET['subfolder'] == 'listPreceptor')) : ?>
             <li class="nav-item">
