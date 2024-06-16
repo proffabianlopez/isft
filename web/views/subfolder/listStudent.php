@@ -54,6 +54,7 @@
                 <div class="modal-body">
                     <form method="POST">
                         <input type="hidden" name="id_student" value="<?php echo $student['id_student']; ?>">
+                        <input type="hidden" name="id_career_person" value="<?php echo $student['id_career_person']; ?>">
                         <div class="form-group">
                             <label for="apellido">Apellido</label>
                             <input type="text" class="form-control" id="last_name_student" pattern="[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+" title="Solo se permiten letras y espacios" name="last_name_student" value="<?php echo $student['last_name_student']; ?>">

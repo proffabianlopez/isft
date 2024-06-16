@@ -9,8 +9,9 @@ class StudentController
         if ((!empty($_POST['name'])) && (!empty($_POST['lastName'])) &&
             (!empty($_POST['mail'])) && (!empty($_POST['dni'])) &&
             (!empty($_POST['gender'])) && (!empty($_POST['date']))
-            && (!empty($_POST['carrer']))
+            
         ) {
+           
             $name = ucwords(strtolower(trim($_POST['name'])));
             $lastname = ucwords(strtolower(trim($_POST['lastName'])));
             if (!preg_match("/^[a-zA-Z]+$/", $name) || !preg_match("/^[a-zA-Z]+$/", $lastname)) {
@@ -48,7 +49,7 @@ class StudentController
             }
             $gender = $_POST['gender'];
             $date = $_POST['date'];
-            $id_carrer = $_POST['carrer'];
+            $id_career=$_POST['carrer'];
 
             if (!ctype_digit($date) || strlen($date) > 4 || strlen($date) < 4) {
                 echo '<script>
@@ -73,9 +74,13 @@ class StudentController
                 <div class="alert alert-danger mt-2">Ya existe el Email o el Dni</div>';
                 return;
             }
-            $execute = StudentModel::newStudent($name, $lastname, $email, $dni, $date, $gender, $id_carrer);
 
+            $execute = StudentModel::newStudent($name, $lastname, $email, $dni, $date, $gender);
+            
+           
             if ($execute) {
+                AssignmentModel::insertCareerPerson($id_career,$execute);
+                
                 echo '<script>
                 if (window.history.replaceState) {
                     window.history.replaceState(null, null, window.location.href);
@@ -139,10 +144,14 @@ class StudentController
         $lastname = ucwords(strtolower(trim($_POST['last_name_student'])));
 
 
-        $id_carrer = $_POST['carrer'];
+        
         $id_student = $_POST['id_student'];
-        $execute = StudentModel::updateStudentData($name, $lastname, $id_carrer, $id_student);
+        $id_career_person=$_POST['id_career_person'];
+        $id_career=$_POST['carrer'];
+
+        $execute = StudentModel::updateStudentData($name, $lastname, $id_student);
         if ($execute) {
+            AssignmentModel::updateCareerStudent($id_career,$id_career_person);
 
             echo '<script>
                     if (window.history.replaceState) {

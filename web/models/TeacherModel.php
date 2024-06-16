@@ -5,8 +5,8 @@ class TeacherModel extends UserModel
     static public function newTeacher($value1, $value2, $value3, $value4, $value5)
     {
         $sql = "INSERT INTO users (name, last_name, email, dni, startingYear, file, password, 
-                                fk_gender_id, fk_career_id, fk_rol_id, state)
-                                VALUES (:name, :lastName, :email, :dni, null, null, null, :gender, null, 4, 2)";
+                                fk_gender_id,fk_rol_id, state)
+                                VALUES (:name, :lastName, :email, :dni, null, null, null, :gender, 4, 2)";
         $stmt = model_sql::connectToDatabase()->prepare($sql);
         $stmt->bindParam(':name', $value1, PDO::PARAM_STR);
         $stmt->bindParam(':lastName', $value2, PDO::PARAM_STR);
