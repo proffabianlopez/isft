@@ -93,6 +93,50 @@ class AssignmentModel {
 		$stmt = null;
 		
 	}
+	// PARA SABER SI ALGUN  PRECEPTOR NO ESTA ASIGNADO
+	static public function preceptorNoAssig($id)
+{
+    $sql = "SELECT users.id_user, users.name, users.last_name, career_person.fk_career_id AS id_career
+            FROM users
+            LEFT JOIN career_person ON users.id_user = career_person.fk_user_id
+            WHERE users.id_user = :id_user AND users.fk_rol_id = 2 AND career_person.fk_career_id IS NULL";
+    
+    $stmt = model_sql::connectToDatabase()->prepare($sql);
+    $stmt->bindParam(':id_user', $id, PDO::PARAM_INT); // Assuming id_user is an integer, use PARAM_INT
+    
+    if ($stmt->execute()) {
+        return $stmt->fetch(PDO::FETCH_ASSOC); // Fetch single row since we expect only one result
+    } else {
+        print_r($stmt->errorInfo());
+        return null; // Return null or handle error as needed
+    }
+
+    $stmt = null;
+}
+
+static public function preceptorAssig($id_career, $id_user)
+{
+    $sql = "SELECT users.id_user, users.name, users.last_name
+            FROM users 
+            INNER JOIN career_person ON users.id_user = career_person.fk_user_id
+            WHERE users.id_user = :id_user AND users.fk_rol_id = 2 AND career_person.fk_career_id = :id_career";
+    
+    $stmt = model_sql::connectToDatabase()->prepare($sql);
+    $stmt->bindParam(':id_career', $id_career, PDO::PARAM_INT);
+    $stmt->bindParam(':id_user', $id_user, PDO::PARAM_INT);
+    
+    if ($stmt->execute()) {
+        return $stmt->fetch(PDO::FETCH_ASSOC); // Fetch single row since we expect only one result
+    } else {
+        print_r($stmt->errorInfo());
+        return null; // Return null or handle error as needed
+    }
+
+    $stmt = null;
+}
+
+
+
 
 }
 

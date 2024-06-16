@@ -352,4 +352,25 @@ class UserModel
         }
         $stmt = null;
     }
+
+    // TRAE TODOS LOS DATOS DE LOS PRECEPTORES CONCATENA NOM Y APELLIDO
+    static public function getAllPreceptor()
+    {
+        $sql = "SELECT users.id_user AS id_preceptor,
+		CONCAT(users.name,' ',users.last_name) AS full_name
+            FROM users
+            WHERE users.fk_rol_id=2";
+
+        $stmt = model_sql::connectToDatabase()->prepare($sql);
+
+        if ($stmt->execute()) {
+
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } else {
+
+            print_r($stmt->errorInfo());
+        }
+
+        $stmt = null;
+    }
 }

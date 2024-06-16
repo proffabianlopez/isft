@@ -7,7 +7,7 @@ if (
       ($_GET['pages'] == "toolsCareer") ||
       ($_GET['pages'] == "manageSubject") ||
       ($_GET['pages'] == "manageCorrelatives") ||
-      ($_GET['pages'] == "assignmentPreceptor") ||
+      ($_GET['pages'] == "managePreceptor") ||
       ($_GET['pages'] == "viewsCorrelatives") ||
       ($_GET['pages'] == "careerFinishReview") ||
       ($_GET['pages'] == "careerEdit") ||

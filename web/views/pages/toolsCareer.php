@@ -36,7 +36,7 @@
             </a>
         </div>
         <div class="col-lg-6">
-    <a href="index.php?pages=assignamentPreceptor&id_career=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['name_career'] ?>&state=<?php echo $_GET['state'] ?>">
+    <a href="index.php?pages=managePreceptor&id_career=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['name_career'] ?>&state=<?php echo $_GET['state'] ?>">
         <div class="small-box badge-danger">
             <div class="inner">
                 <h3>Asignar Preceptores</h3> 
