@@ -4,27 +4,32 @@ include_once 'config/MysqlDb.php'; // Asegúrate de incluir el archivo que conti
 class StudentModel extends UserModel
 {
 
-    static public function newStudent($value1, $value2, $value3, $value4, $value5, $value6, $value7)
-    {
-        $sql = "INSERT INTO users (name, last_name, email, dni, startingYear, file, password, 
-                                fk_gender_id, fk_career_id, fk_rol_id, state)
-                                VALUES (:name, :lastName, :email, :dni, :dateYear, null, null, :gender, :carrer, 3, 2)";
-        $stmt = model_sql::connectToDatabase()->prepare($sql);
-        $stmt->bindParam(':name', $value1, PDO::PARAM_STR);
-        $stmt->bindParam(':lastName', $value2, PDO::PARAM_STR);
-        $stmt->bindParam(':email', $value3, PDO::PARAM_STR);
-        $stmt->bindParam(':dni', $value4, PDO::PARAM_STR);
-        $stmt->bindParam(':dateYear', $value5, PDO::PARAM_STR);
-        $stmt->bindParam(':gender', $value6, PDO::PARAM_INT);
-        $stmt->bindParam(':carrer', $value7, PDO::PARAM_INT);
+    static public function newStudent($value1, $value2, $value3, $value4, $value5, $value6)
+{
+    $sql = "INSERT INTO users (name, last_name, email, dni, startingYear, file, password, 
+                            fk_gender_id, fk_rol_id, state)
+                            VALUES (:name, :lastName, :email, :dni, :dateYear, null, null, :gender, 3, 2)";
 
-        if ($stmt->execute()) {
-            return $stmt;
-        } else {
-            print_r($stmt->errorInfo());
-        }
+    $pdo = model_sql::connectToDatabase(); // Obtener la conexión PDO
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':name', $value1, PDO::PARAM_STR);
+    $stmt->bindParam(':lastName', $value2, PDO::PARAM_STR);
+    $stmt->bindParam(':email', $value3, PDO::PARAM_STR);
+    $stmt->bindParam(':dni', $value4, PDO::PARAM_STR);
+    $stmt->bindParam(':dateYear', $value5, PDO::PARAM_STR);
+    $stmt->bindParam(':gender', $value6, PDO::PARAM_INT);
+
+    $success = $stmt->execute(); // Ejecutar la consulta de inserción
+
+    if ($success) {
+        $lastInsertedId = $pdo->lastInsertId();
+        return $lastInsertedId; // Devolver el ID generado
+    } else {
+        print_r($stmt->errorInfo());
+        return false;
     }
-
+}
+    // trae los datos de la tabla career_person
     static public function getAllStudent()
     {
         $sql = "SELECT
@@ -35,13 +40,15 @@ class StudentModel extends UserModel
         users.dni AS dni,
         users.startingYear AS startingYear,
         users.fk_rol_id AS fk_rol_id,
-        careers.career_name AS career_name,
-        careers.id_career AS id_career
-        FROM users
-        JOIN careers ON users.fk_career_id=careers.id_career
+		careers.career_name AS career_name,
+        careers.id_career AS  id_career,
+        career_person.id_career_person AS id_career_person
+        FROM career_person
+		JOIN careers ON career_person.fk_career_id=careers.id_career
+        JOIN users ON career_person.fk_user_id= users.id_user
         WHERE 
         users.fk_rol_id = 3
-        AND users.state IN (1, 2);";
+        AND users.state IN (1, 2)";
 
         $stmt = model_sql::connectToDatabase()->prepare($sql);
 
@@ -71,13 +78,12 @@ class StudentModel extends UserModel
         }
         $stmt = null;
     }
-    static public function updateStudentData($name, $last_name, $carrera, $id_student)
+    static public function updateStudentData($name, $last_name, $id_student)
     {
-        $sql = "UPDATE users SET name = :name, last_name = :last_name, fk_career_id = :carrer_id WHERE id_user = :id_student";
+        $sql = "UPDATE users SET name = :name, last_name = :last_name WHERE id_user = :id_student";
         $stmt = model_sql::connectToDatabase()->prepare($sql);
         $stmt->bindParam(':name', $name, PDO::PARAM_STR);
         $stmt->bindParam(':last_name', $last_name, PDO::PARAM_STR);
-        $stmt->bindParam(':carrer_id', $carrera, PDO::PARAM_INT);
         $stmt->bindParam(':id_student', $id_student, PDO::PARAM_INT);
 
         if ($stmt->execute()) {

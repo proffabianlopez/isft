@@ -18,7 +18,7 @@ class AssignmentModel {
 
         $stmt = null;
 	}
- 
+	// Esta funcion trae toda la info de la materia
 	static public function infoGetSubjectData($id)
 		{
 			$sql = "SELECT 
@@ -56,8 +56,45 @@ class AssignmentModel {
 			$stmt = null;
 		}
 
-    
+    // Esta consulta va a inserta en la tabla de person_career, para insertar a los estudiantes una carrera.
+
+	static public function insertCareerPerson($careerId, $userId)
+{
+    $sql = "INSERT INTO career_person(fk_career_id, fk_user_id) VALUES (:fk_career_id, :fk_user_id)";
+    $stmt = model_sql::connectToDatabase()->prepare($sql);
+
+    $stmt->bindParam(":fk_career_id", $careerId, PDO::PARAM_INT);
+    $stmt->bindParam(":fk_user_id", $userId, PDO::PARAM_INT);
+
+    if ($stmt->execute()) {
+        return true;
+    } else {
+        print_r($stmt->errorInfo());
+        return false;
     }
+    $stmt = null; // Liberar el statement
+}
+	static public function updateCareerStudent($id_career,$id_career_person){
+
+		$sql = "UPDATE career_person SET fk_career_id = :fk_career_id WHERE id_career_person = :id_career_person";
+		$stmt = model_sql::connectToDatabase()->prepare($sql);
+		$stmt->bindParam(':fk_career_id', $id_career, PDO::PARAM_STR);
+		$stmt->bindParam(':id_career_person', $id_career_person, PDO::PARAM_STR); // Aquí se corrigió $last_name por $details
+		
+	
+		if ($stmt->execute()) {
+			// Devolver true si la actualización se realiza correctamente
+			return true;
+		} else {
+			// Manejar cualquier error que pueda ocurrir durante la ejecución de la consulta
+			print_r($stmt->errorInfo());
+			return false; // Devolver false en caso de error
+		}
+		$stmt = null;
+		
+	}
+
+}
 
 
 ?>
