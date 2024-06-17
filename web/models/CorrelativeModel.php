@@ -9,7 +9,7 @@ class CorrelativeModel
        subjects.name_subject AS name_subject
         FROM subjects
         JOIN careers ON subjects.fk_career_id = careers.id_career
-        WHERE careers.id_career = ? ";
+        WHERE careers.id_career = ?  AND subjects.state=1";
 
         $stmt = model_sql::connectToDatabase()->prepare($sql);
         $stmt->bindParam(1, $id, PDO::PARAM_INT);
