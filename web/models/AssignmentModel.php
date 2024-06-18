@@ -113,10 +113,10 @@ class AssignmentModel {
 
     $stmt = null;
 }
-
+//ASignar un preceptor
 static public function preceptorAssig($id_career, $id_user)
 {
-    $sql = "SELECT users.id_user, users.name, users.last_name
+    $sql = " SELECT users.id_user, users.name, users.last_name,career_person.fk_career_id AS id_career
             FROM users 
             INNER JOIN career_person ON users.id_user = career_person.fk_user_id
             WHERE users.id_user = :id_user AND users.fk_rol_id = 2 AND career_person.fk_career_id = :id_career";
@@ -135,8 +135,83 @@ static public function preceptorAssig($id_career, $id_user)
     $stmt = null;
 }
 
+	// QUita el preceptor de la carrera asignada
+	static public function deleteAssign($id){
+
+		$sql = "DELETE FROM career_person WHERE id_career_person = :id_career_person";
+		$stmt = model_sql::connectToDatabase()->prepare($sql);
+        $stmt->bindParam(':id_career_person', $id, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            return true; // Devolver true si la eliminación se realiza correctamente
+        } else {
+            // Manejar cualquier error que pueda ocurrir durante la ejecución de la consulta
+            print_r($stmt->errorInfo());
+            return false; // Devolver false en caso de error
+        }
+        $stmt = null;
 
 
+	}
+	// CAPTURA EL ID DE CAREER PERSON
+	static public function captureId_Career_Person($id_preceptor,$id_career)
+{
+    $sql = "SELECT career_person.id_career_person AS career_person,
+			career_person.fk_user_id AS id_preceptor,
+            career_person.fk_career_id AS id_career
+			FROM career_person
+			WHERE career_person.fk_user_id =:id_preceptor AND career_person.fk_career_id = :id_career";
+    
+    $stmt = model_sql::connectToDatabase()->prepare($sql);
+    $stmt->bindParam(':id_preceptor', $id_preceptor, PDO::PARAM_INT);
+    $stmt->bindParam(':id_career', $id_career, PDO::PARAM_INT);
+    
+    if ($stmt->execute()) {
+        return $stmt->fetch(PDO::FETCH_ASSOC); // Fetch single row since we expect only one result
+    } else {
+        print_r($stmt->errorInfo());
+        return null; // Return null or handle error as needed
+    }
+
+    $stmt = null;
+}
+
+static public function preceptor_career($id_preceptor)
+{
+    $sql = "SELECT users.id_user AS id_preceptor,
+                   CONCAT(users.name, ' ', users.last_name) AS full_name,
+                   careers.career_name AS career
+            FROM users
+            LEFT JOIN career_person ON users.id_user = career_person.fk_user_id
+            LEFT JOIN careers ON career_person.fk_career_id = careers.id_career
+            WHERE users.fk_rol_id = 2
+              AND users.id_user = :id_preceptor";
+    
+    $stmt = model_sql::connectToDatabase()->prepare($sql);
+    $stmt->bindParam(':id_preceptor', $id_preceptor, PDO::PARAM_INT);
+    
+    if ($stmt->execute()) {
+        return $stmt->fetchAll(PDO::FETCH_ASSOC); // Fetch all rows as associative array
+    } else {
+        print_r($stmt->errorInfo());
+        return null; // Handle error as needed
+    }
+}
+static public function preceptorAccountCareer($id_user)
+{
+    $sql = "SELECT COUNT(*) AS count_assigned FROM career_person WHERE fk_user_id = :id_user";
+    
+    $stmt = model_sql::connectToDatabase()->prepare($sql);
+    $stmt->bindParam(':id_user', $id_user, PDO::PARAM_INT);
+    
+    if ($stmt->execute()) {
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['count_assigned'];
+    } else {
+        print_r($stmt->errorInfo());
+        return -1; // Return -1 or handle error as needed
+    }
+}
 
 }
 
