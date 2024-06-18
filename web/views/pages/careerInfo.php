@@ -34,6 +34,8 @@ if( (isset($_GET['id_career'])) && (isset($_GET['name_career'])) && (isset($_GET
 
 <?php
 }
-// if (isset($_POST['pdf'])) {
-//     (new PdfController()) ->pdfDataCareer();
-// }
+ if (isset($_POST['pdf_career'])) {
+    (new PdfController()) ->pdfDataCareer($data,$preceptor,$dataCountStudent);
+ }
+
+?>
