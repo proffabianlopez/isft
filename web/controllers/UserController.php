@@ -267,7 +267,7 @@ class UserController
                         window.history.replaceState(null, null, window.location.href);
                     }
                     
-                    window.location="../index.php?pages=newUser&message=correcto";
+                    window.location="../index.php?pages=manageUser&subfolder=newUser&message=correcto";
                     </script>
                     <div class="alert alert-succes mt-2">Se guardó el registro correctamente</div>';
                 } else {
@@ -275,7 +275,7 @@ class UserController
                     if (window.history.replaceState) {
                         window.history.replaceState(null, null, window.location.href);
                     }
-                    window.location="../index.php?pages=newUser";
+                    window.location="../index.php?pages=manageUser&subfolder=newUser";
                     </script>
                     <div class="alert alert-danger mt-2">Hubo un problema al crearlo</div>';
                 }

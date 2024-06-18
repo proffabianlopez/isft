@@ -66,7 +66,7 @@ class TeacherController
                 if (window.history.replaceState) {
                     window.history.replaceState(null, null, window.location.href);
                 }
-                window.location="../index.php?pages=newTeacher&message=correcto";
+                window.location="../index.php?pages=manageTeacher&subfolder=newTeacher&message=correcto";
                 </script>
                 <div class="alert alert-succes mt-2">Se guardó el registro correctamente</div>';
             } else {
@@ -74,7 +74,7 @@ class TeacherController
                 if (window.history.replaceState) {
                     window.history.replaceState(null, null, window.location.href);
                 }
-                window.location="../index.php?pages=newTeacher";
+                window.location="../index.php?pages=manageTeacher&subfolder=newTeacher";
                 </script>
                 <div class="alert alert-danger mt-2">Hubo un problema al crearlo</div>';
             }

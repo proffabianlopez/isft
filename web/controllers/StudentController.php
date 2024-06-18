@@ -85,7 +85,7 @@ class StudentController
                 if (window.history.replaceState) {
                     window.history.replaceState(null, null, window.location.href);
                 }
-                window.location="../index.php?pages=newStudent&message=correcto";
+                window.location="../index.php?pages=manageStudent&subfolder=newStudent&message=correcto";
                 </script>
                 <div class="alert alert-succes mt-2">Se guardó el registro correctamente</div>';
             } else {
@@ -93,7 +93,7 @@ class StudentController
                 if (window.history.replaceState) {
                     window.history.replaceState(null, null, window.location.href);
                 }
-                window.location="../index.php?pages=newStudent";
+                window.location="../index.php?pages=manageStudent&subfolder=newStudent";
                 </script>
                 <div class="alert alert-danger mt-2">Hubo un problema al crearlo</div>';
             }
