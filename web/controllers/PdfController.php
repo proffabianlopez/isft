@@ -34,7 +34,38 @@ class PdfController {
         }
     }
     
+    static public function  dataCareerPdfCorrelatives($career,$id_career){
+        $header = array('Para rendir', 'Debe aprobar');
+        $correlatives = CorrelativeController::listMultipleCorrelatives($_GET['id_career']);
+        $data = array();
+        foreach ($correlatives as $correlative) {
+            $data[] = array(
+                'para_rendir' => $correlative['name_subject'],
+                'debe_aprobar' => $correlative['correlatives']
+            );
+        }
+    
+        // Llamamos al método en el modelo para generar el PDF
+        $ruta = PdfModel::dataCareerPdfCorrelatives($header, $data, $career);
+    
+        // Forzamos la descarga del archivo generado
+        if (file_exists($ruta)) {
+            header('Content-Description: File Transfer');
+            header('Content-Type: application/pdf');
+            header('Content-Disposition: attachment; filename="Correlativas-' . $career . '.pdf"');
+            header('Content-Length: ' . filesize($ruta));
+            ob_clean();  // Limpiar el búfer de salida para asegurar que no haya contenido extra
+            flush();
+            readfile($ruta);
+            unlink($ruta); // Opcional: borrar el archivo después de descargarlo
+            exit;
+        } else {
+            die('El archivo PDF no existe.');
+        }
     }
+
+
+}
     
       
 

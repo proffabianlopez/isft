@@ -37,8 +37,69 @@ class PdfModel{
     
         return $route;
     }
+    static public function dataCareerPdfCorrelatives($header, $data, $career) {
+        $pdf = new FPDF();
+        $pdf->AddPage();
+        $pdf->Image('public/img/isft177_H.png', 10, 10, 0, -300);
+        $pdf->Ln(30);
+        $pdf->Line(10, 35, 200, 35);
+        $pdf->SetFont('Arial', 'B', 12);
+        $pdf->Cell(0, 8, utf8_decode("Sistema de Correlatividad de: " . $career), 1, 0, 'L');
+        $pdf->Ln(8);
+    
+        // Configuración de la tabla
+        $pdf->SetFillColor(100, 140, 140);
+        $pdf->SetTextColor(255);
+        $pdf->SetDrawColor(0);
+        $pdf->SetLineWidth(.3);
+        $pdf->SetFont('Arial', 'B', 12);
+    
+        // Cabecera de la tabla
+        $w = array(95, 95);
+        for ($i = 0; $i < count($header); $i++) {
+            $pdf->Cell($w[$i], 10, $header[$i], 1, 0, 'C', true);
+        }
+        $pdf->Ln();
+    
+        // Restauración de colores y fuentes para los datos
+        $pdf->SetFillColor(224, 235, 255);
+        $pdf->SetTextColor(0);
+        $pdf->SetFont('Arial', '', 10);
+    
+        // Muestra los datos
+        $fill = false;
+        foreach ($data as $key => $value) {
+            $debe_aprobar = explode('-', $value['debe_aprobar']);
+            $maxLines = max(count($debe_aprobar), 1); // Asegura que haya al menos una línea para evitar celdas vacías
+    
+            // Determina la altura de la celda basada en la cantidad de líneas que mostrará
+            $cellHeight = 6 * $maxLines;
+    
+            // Primera columna: materia para rendir
+            $pdf->Cell($w[0], $cellHeight, utf8_decode($value['para_rendir']), 'LR', 0, 'L', $fill);
+    
+            // Segunda columna: correlatividades
+            $correlatividades = implode("\n", $debe_aprobar); // Convierte correlatividades en una sola cadena con saltos de línea
+            $pdf->MultiCell($w[1], 6, utf8_decode($correlatividades), 'LR', 'L', $fill);
+    
+            $fill = !$fill;
+        }
+    
+        // Línea de cierre de la tabla
+        $pdf->Cell(array_sum($w), 0, '', 'T');
+    
+        // Generación del archivo PDF y retorno de la ruta
+        $ruta = "fpdf/" . "Correlativas-" . $career;
+        $pdf->Output('F', $ruta);
+        
+        return $ruta;
+    }
+    
+    
+    
     
 }
+   
     
 
 ?>

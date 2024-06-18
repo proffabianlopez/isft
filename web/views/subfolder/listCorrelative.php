@@ -39,6 +39,6 @@ if ((isset($_GET['name_career'])) && (isset($_GET['id_career'])) && (isset($_GET
 <?php
 }
 if (isset($_POST['correlative_pdf'])) {
-    // (new PdfController())->PdfCorrelatives($data, $_GET['name_career']);
+    (new PdfController())->dataCareerPdfCorrelatives($_GET['name_career'],$_GET['id_career']);
 }
 ?>
