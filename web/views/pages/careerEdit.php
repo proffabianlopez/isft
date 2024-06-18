@@ -24,7 +24,7 @@ if (isset($_GET['id_career']) && isset($_GET['name_career']) && isset($_GET['sta
                         </div>
                         <div class="form-group">
                             <label for="up_resolucion">Abreviatura:</label>
-                            <input type="text" class="form-control" id="careerAbbreviation" name="abbreviation" pattern="[A-Za-z]{2}" title="Solo se permiten letras y máximo 2 caracteres" value="<?php echo htmlspecialchars($info['abbreviation'] ?? '') ?>" required>
+                            <input type="text" class="form-control" id="careerAbbreviation" name="abbreviation" maxlength="2" pattern="[A-Za-z]{2}" title="Solo se permiten letras y máximo 2 caracteres" value="<?php echo htmlspecialchars($info['abbreviation'] ?? '') ?>" required>
                         </div>
 
                         <hr>

@@ -23,9 +23,9 @@ class SubjectController{
             $details_subject = trim($_POST['details']);
             $id_year = $_POST['id_year'];
 
-            if (preg_match('/[0-9]/', $name_subject) || strlen($name_subject) > 100) {
+            if (!preg_match('/^[A-Za-zÀ-ÿ0-9\s]+$/', $name_subject) || strlen($name_subject) > 100) {
                 echo '<script>
-                    alert("El nombre de la materia no puede contener números.");
+                    alert("El nombre de la materia no puede contener caracteres especiales, y debe tener una longitud máxima de 100 caracteres.");
                     window.history.back();
                     </script>';
                 return;
