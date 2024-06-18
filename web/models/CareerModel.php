@@ -94,6 +94,86 @@ class CareerModel
             return false;
         }
     }
+
+    //trae info de la carrera catidad de materias y carga horaria en total
+	static public function careerInfo($id)
+{
+    $sql = "SELECT 
+                careers.id_career,
+                careers.career_name AS name_career,
+                careers.description AS title,
+                careers.abbreviation AS abbreviation,
+                COUNT(subjects.id_subject) AS total_subject,
+                SUM(subjects.details) AS total_hours
+            FROM 
+                subjects
+                JOIN careers ON subjects.fk_career_id = careers.id_career
+            WHERE 
+                careers.id_career = ?
+            GROUP BY 
+                careers.id_career, careers.career_name, careers.description, careers.abbreviation";
+    
+    $stmt = model_sql::connectToDatabase()->prepare($sql);
+    $stmt->bindParam(1, $id, PDO::PARAM_INT);
+
+    if ($stmt->execute()) {
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    } else {
+        print_r($stmt->errorInfo());
+    }
+
+    $stmt = null;
+}
+
+static public function carrerInfoPreceptor($id){
+	$sql = "SELECT 
+    careers.id_career,
+    careers.career_name,
+    GROUP_CONCAT(CONCAT(users.name, ' ', users.last_name) SEPARATOR ' - ') AS preceptores
+FROM 
+    careers
+LEFT JOIN 
+    career_person ON careers.id_career = career_person.fk_career_id
+LEFT JOIN 
+    users ON career_person.fk_user_id = users.id_user
+WHERE 
+    careers.id_career = ? 
+    AND users.fk_rol_id = 2
+GROUP BY 
+    careers.id_career, careers.career_name;
+";
+			$stmt = model_sql::connectToDatabase()->prepare($sql);
+			$stmt->bindParam(1, $id, PDO::PARAM_INT);
+			if ($stmt->execute()) {
+				return $stmt->fetchAll(PDO::FETCH_ASSOC); // Fetch all rows
+			} else {
+				print_r($stmt->errorInfo());
+			}
+		
+			$stmt = null;
+}
+
+//cuenta los estudiantes inscriptos  a una carrera
+static public function careerCountStudent($id)
+{
+    $sql = "  SELECT COUNT(users.fk_rol_id=2) AS total_student FROM career_person
+ JOIN users ON career_person.fk_user_id=users.id_user
+ WHERE career_person.fk_career_id=?
+    
+    ";
+    
+    $stmt = model_sql::connectToDatabase()->prepare($sql);
+    $stmt->bindParam(1, $id, PDO::PARAM_INT);
+
+    if ($stmt->execute()) {
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    } else {
+        print_r($stmt->errorInfo());
+    }
+
+    $stmt = null;
+}
+
 }
 
 
