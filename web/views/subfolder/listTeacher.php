@@ -44,7 +44,7 @@
 
     <!-- Modal de edición de profesor -->
     <div class="modal fade" id="editUserModal<?php echo $teacher['id_teacher']; ?>" tabindex="-1" role="dialog" aria-labelledby="editUserModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header alert alert-warning">
                     <h5 class="modal-title" id="editUserModalLabel"><strong>Editar profesor</strong></h5>
