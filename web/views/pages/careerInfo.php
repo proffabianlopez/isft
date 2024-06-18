@@ -7,11 +7,9 @@ if( (isset($_GET['id_career'])) && (isset($_GET['name_career'])) && (isset($_GET
 <section class="container py-3">
     <div class="card mx-auto" style="max-width: 600px;">
         <div class="card-body">
-            <h2 class="text-center mt-1 mb-3 lead">Datos de Carrera</h2>
+        <h2 class="text-center font-weight-bold mt-1 mb-3 lead">Datos de Carrera</h2>
             <img src="public/img/isft177_H.png" class="card-img-top img-fluid mx-auto d-block" alt="logo ISFT Nº 177">
             <h5 class="card-title text-center py-2"><strong>Nombre: </strong><?php echo htmlspecialchars($data['name_career']); ?></h5>
-            <p class="card-text text-center"><strong>Título: </strong><?php echo htmlspecialchars($data['title']); ?></p>
-            <p class="card-text text-center"><strong>Abreviatura: </strong><?php echo htmlspecialchars($data['abbreviation']); ?></p>
             <hr>
             <div class="text-center">
                 <?php foreach($dataPreceptor as $preceptor): ?>
