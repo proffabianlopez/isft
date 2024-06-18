@@ -26,4 +26,10 @@ $(function () {
       "autoWidth": false,
       "responsive": true,
     });
-});
+    $("#example4").DataTable({
+      "responsive": true, 
+      "lengthChange": false, 
+      "autoWidth": false,
+      "buttons": ["csv", "excel", "print", "colvis"]
+  }).buttons().container().appendTo('#example4_wrapper .col-md-6:eq(0)');
+  });
