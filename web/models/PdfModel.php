@@ -89,10 +89,10 @@ class PdfModel{
         $pdf->Cell(array_sum($w), 0, '', 'T');
     
         // Generación del archivo PDF y retorno de la ruta
-        $ruta = "fpdf/" . "Correlativas-" . $career;
-        $pdf->Output('F', $ruta);
+        $route = "fpdf/" . "Correlativas-" . $career;
+        $pdf->Output('F', $route);
         
-        return $ruta;
+        return $route;
     }
     
     

@@ -46,18 +46,18 @@ class PdfController {
         }
     
         // Llamamos al método en el modelo para generar el PDF
-        $ruta = PdfModel::dataCareerPdfCorrelatives($header, $data, $career);
+        $route = PdfModel::dataCareerPdfCorrelatives($header, $data, $career);
     
         // Forzamos la descarga del archivo generado
-        if (file_exists($ruta)) {
+        if (file_exists($route)) {
             header('Content-Description: File Transfer');
             header('Content-Type: application/pdf');
             header('Content-Disposition: attachment; filename="Correlativas-' . $career . '.pdf"');
-            header('Content-Length: ' . filesize($ruta));
+            header('Content-Length: ' . filesize($route));
             ob_clean();  // Limpiar el búfer de salida para asegurar que no haya contenido extra
             flush();
-            readfile($ruta);
-            unlink($ruta); // Opcional: borrar el archivo después de descargarlo
+            readfile($route);
+            unlink($route); // Opcional: borrar el archivo después de descargarlo
             exit;
         } else {
             die('El archivo PDF no existe.');
