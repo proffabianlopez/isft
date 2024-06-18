@@ -85,6 +85,23 @@
             </a>
         </div>
 
+        <div class="col-lg-6">
+            <a href="index.php?pages=careerInfo&id_career=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['career_name'] ?>&state=<?php echo $_GET['state'] ?>">
+                <div class="small-box bg-white">
+                    <div class="inner">
+                        <h3>Info</h3>
+                        <p>Ver información de la carrera</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-info"></i>
+                    </div>
+                    <div class="small-box-footer">
+                        Ver Info<i class="fas fa-arrow-circle-right ml-2"></i>
+                    </div>                
+                </div>
+            </a>
+        </div>
+
      <?php    if ($_GET['state'] == 1):?>
 
 <div class="col-lg-6">
@@ -103,27 +120,7 @@
         </div>            
     </a>
 </div>
-
-
-        <div class="col-lg-6">
-            <a href="index.php?pages=careerInfo&id_career=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['career_name'] ?>&state=<?php echo $_GET['state'] ?>">
-                <div class="small-box bg-white">
-                    <div class="inner">
-                        <h3>Info</h3>
-                        <p>Ver información de la carrera</p>
-                    </div>
-                    <div class="icon">
-                        <i class="fas fa-info"></i>
-                    </div>
-                    <div class="small-box-footer">
-                        Ver Info<i class="fas fa-arrow-circle-right ml-2"></i>
-                    </div>                
-                </div>
-            </a>
-        </div>
-
-        
-        <?php endif?>
+<?php endif?>
         
 </section>
 <?php endif ?>
