@@ -6,7 +6,7 @@ if ((isset($_GET['name_career'])) && (isset($_GET['id_career'])) && (isset($_GET
     <div class="d-flex justify-content-center">
         <div class="card w-75">
             <div class="card-body">
-                <table class="table table-bordered table-striped table-responsive-sm" id="example1">
+                <table class="table table-bordered table-striped table-responsive-sm" id="example4">
                     <thead>
                         <tr>
                             <th colspan="6">

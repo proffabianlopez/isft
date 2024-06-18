@@ -69,8 +69,8 @@ class PdfModel{
         // Muestra los datos
         $fill = false;
         foreach ($data as $key => $value) {
-            $debe_aprobar = explode('-', $value['debe_aprobar']);
-            $maxLines = max(count($debe_aprobar), 1); // Asegura que haya al menos una línea para evitar celdas vacías
+            $must_approve = explode('-', $value['debe_aprobar']);
+            $maxLines = max(count($must_approve), 1); // Asegura que haya al menos una línea para evitar celdas vacías
     
             // Determina la altura de la celda basada en la cantidad de líneas que mostrará
             $cellHeight = 6 * $maxLines;
@@ -79,8 +79,8 @@ class PdfModel{
             $pdf->Cell($w[0], $cellHeight, utf8_decode($value['para_rendir']), 'LR', 0, 'L', $fill);
     
             // Segunda columna: correlatividades
-            $correlatividades = implode("\n", $debe_aprobar); // Convierte correlatividades en una sola cadena con saltos de línea
-            $pdf->MultiCell($w[1], 6, utf8_decode($correlatividades), 'LR', 'L', $fill);
+            $correlatives = implode("\n", $must_approve); // Convierte correlatividades en una sola cadena con saltos de línea
+            $pdf->MultiCell($w[1], 6, utf8_decode($correlatives), 'LR', 'L', $fill);
     
             $fill = !$fill;
         }
