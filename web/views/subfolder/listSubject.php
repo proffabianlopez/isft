@@ -71,7 +71,7 @@ if( (isset($_GET['name_career'])) && (isset($_GET['id_career'])) && (isset($_GET
                                         </div>
                                         <div class="mb-3">
                                             <h5><strong>Carga Horaria:</strong></h5>
-                                            <p><?php echo htmlspecialchars($subject['details']); ?></p>
+                                            <p><?php echo htmlspecialchars($subject['details']); ?> hs</p>
                                         </div>
                                         <div class="mb-3">
                                             <h5><strong>Profesores:</strong></h5>
