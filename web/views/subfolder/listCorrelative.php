@@ -11,8 +11,11 @@ if ((isset($_GET['name_career'])) && (isset($_GET['id_career'])) && (isset($_GET
                         <tr>
                             <th colspan="6">
                                 <form method="post">
-                                    <button type="submit" name="correlative_pdf" class="btn btn-danger">Descargar Correlativas en PDF <i class="far fa-file-pdf ml-2"></i></button>
-                                </form>
+                                <button type="submit" name="correlative_pdf" class="btn btn-danger" title="Descargar PDF de correlativas">
+                                     <i class="far fa-file-pdf mr-1"></i> Descargar PDF
+                                </button>
+
+                            </form>
                             </th>
                         </tr>
                         <tr>
