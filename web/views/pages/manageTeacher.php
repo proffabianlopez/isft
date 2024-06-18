@@ -1,12 +1,12 @@
 <section class="container-fluid py-3 text-center">
     <ul class="nav nav-pills">
-        <?php if (isset($_GET['pages']) && ($_GET['pages'] == 'newTeacher')) : ?>
+        <?php if (isset($_GET['subfolder']) && ($_GET['subfolder'] == 'newTeacher')) : ?>
             <li class="nav-item">
-                <a class="nav-link active" href="index.php?pages=newTeacher">Crear nuevo profesor</a>
+                <a class="nav-link active" href="index.php?pages=manageTeacher&subfolder=newTeacher">Crear nuevo profesor</a>
             </li>
         <?php else : ?>
             <li class="nav-item">
-                <a class="nav-link" href="index.php?pages=newTeacher">Crear nuevo profesor</a>
+                <a class="nav-link" href="index.php?pages=manageTeacher&subfolder=newTeacher">Crear nuevo profesor</a>
             </li>
         <?php endif; ?>
 
@@ -24,7 +24,7 @@
 
 <?php
 if (isset($_GET['subfolder'])) {
-    if (($_GET['subfolder'] == "listTeacher")) {
+    if (($_GET['subfolder'] == "listTeacher" || $_GET['subfolder'] == "newTeacher")) {
         include "views/subfolder/" . $_GET['subfolder'] . ".php";
     }
 } else {
