@@ -1,6 +1,6 @@
 <?php
 include_once 'config/MysqlDb.php'; // Asegúrate de incluir el archivo que contiene la clase model_sql
-
+//crea un nuevo estudiante
 class StudentModel extends UserModel
 {
 
@@ -38,6 +38,7 @@ class StudentModel extends UserModel
         users.last_name AS last_name_student,
         users.email AS email_student,
         users.dni AS dni,
+        users.file AS legajo,
         users.startingYear AS startingYear,
         users.fk_rol_id AS fk_rol_id,
 		careers.career_name AS career_name,
@@ -63,6 +64,7 @@ class StudentModel extends UserModel
         $stmt = null;
     }
 
+    //era como para borrar al estudiante
     static public function updateStudentState($id)
     {
         $sql = "UPDATE users SET state = 0 WHERE id_user = ?";
@@ -78,6 +80,8 @@ class StudentModel extends UserModel
         }
         $stmt = null;
     }
+
+    //actualiza la informacion del estudiante
     static public function updateStudentData($name, $last_name, $id_student)
     {
         $sql = "UPDATE users SET name = :name, last_name = :last_name WHERE id_user = :id_student";
@@ -97,6 +101,7 @@ class StudentModel extends UserModel
         $stmt = null;
     }
 
+    //es para que el estudiante tenga estado 1 y pueda entrar como usuario
     static public function changeStateStudent($id)
     {
         $sql = "UPDATE users SET state = 1 WHERE id_user = ?";
@@ -108,6 +113,27 @@ class StudentModel extends UserModel
         } else {
             print_r($stmt->errorInfo());
             return false;
+        }
+        $stmt = null;
+    }
+
+
+
+    //es para actualizar o asignar legajo al alumno
+    static public function updateLegajo($file,$id)
+    {
+        $sql = "UPDATE users SET file = :legajo WHERE id_user = :id_student";
+        $stmt = model_sql::connectToDatabase()->prepare($sql);
+        $stmt->bindParam(':legajo', $file, PDO::PARAM_STR);
+        $stmt->bindParam(':id_student', $id, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            // Devolver true si la actualización se realiza correctamente
+            return true;
+        } else {
+            // Manejar cualquier error que pueda ocurrir durante la ejecución de la consulta
+            print_r($stmt->errorInfo());
+            return false; // Devolver false en caso de error
         }
         $stmt = null;
     }
