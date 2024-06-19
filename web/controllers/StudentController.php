@@ -3,6 +3,7 @@
 class StudentController
 {
 
+    //logica controlador para crear un nuevo estudiante
     static public function newStudent()
     {
 
@@ -106,11 +107,12 @@ class StudentController
             <div class="alert alert-danger mt-2">Debes completar los campos</div>';
         }
     }
+    //trae todo los datos del estudiante
     static public function getAllStudent()
     {
         return StudentModel::getAllStudent();
     }
-
+    //para eliminar un registro de estudiante
     static public function eliminatedStudent()
     {
         if (isset($_POST['id_student'])) {
@@ -138,6 +140,7 @@ class StudentController
         }
     }
 
+    //para editar los datos del estudiante
     static public function editStudent()
     {
         $name = ucwords(strtolower(trim($_POST['name_student'])));
@@ -171,6 +174,7 @@ class StudentController
                     <div class="alert alert-danger mt-2">Hubo un problema al crearlo</div>';
         }
     }
+    //para crear la cuenta del estudiante usuario
     static public function generateAccountStudent()
     {
         if (isset($_GET['id_student'])) {
@@ -231,4 +235,49 @@ class StudentController
             }
         }
     }
+
+    //logica para darle al estudiante un legajo
+    static public function AssingnamentLegajo() {
+        if (!empty($_POST['student_id']) && !empty($_POST['career_id']) && !empty($_POST['file'])) {
+            // Obtener datos del formulario
+            $id_student = $_POST['student_id'];
+            $id_career = $_POST['career_id'];
+            $file = $_POST['file'];
+    
+            // Obtener abreviatura de la carrera
+            $data_career = CareerModel::careerInfo($id_career);
+            $abbreviation = $data_career['abbreviation'];
+    
+            // Concatenar abreviatura al nombre del archivo
+            $file_with_abbreviation = $abbreviation . $file;
+    
+            // Actualizar legajo en la base de datos
+            $execute = StudentModel::updateLegajo($file_with_abbreviation, $id_student);
+    
+            if ($execute) {
+                // Redireccionar con mensaje de éxito si la actualización fue exitosa
+                echo '<script>
+                    if (window.history.replaceState) {
+                        window.history.replaceState(null, null, window.location.href);
+                    }
+                    window.location="../index.php?pages=manageStudent&message=correcto";
+                    </script>';
+            } else {
+                // Redireccionar con mensaje de error si hubo un problema en la actualización
+                echo '<script>
+                    if (window.history.replaceState) {
+                        window.history.replaceState(null, null, window.location.href);
+                    }
+                    window.location="../index.php?pages=newStudent";
+                    </script>
+                    <div class="alert alert-danger mt-2">Hubo un problema al asignar legajo</div>';
+            }
+    
+        } else {
+            // Mostrar mensaje si algún campo está vacío
+            echo '<div class="alert alert-danger mt-2">No puede estar vacío el legajo</div>';
+        }
+    }
+    
+
 }
