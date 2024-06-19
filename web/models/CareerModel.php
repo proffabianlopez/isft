@@ -29,7 +29,7 @@ class CareerModel
 	static public function newCareer($value1, $value2, $value3)
 	{
 		$sql = "INSERT INTO careers (career_name, description, abbreviation, state)
-									VALUES (:careerName, :description, :abbreviation, 0)";
+									VALUES (:careerName, :description, :abbreviation, 1)";
 		$stmt = model_sql::connectToDatabase()->prepare($sql);
 		$stmt->bindParam(':careerName', $value1, PDO::PARAM_STR);
 		$stmt->bindParam(':description', $value2, PDO::PARAM_STR);
@@ -173,6 +173,47 @@ static public function careerCountStudent($id)
 
     $stmt = null;
 }
+
+    static public function enableStateCareer($id_career) {
+        $sql = "UPDATE careers
+                SET state = 1
+                WHERE id_career = :id_career";
+        
+        try {
+            $stmt = model_sql::connectToDatabase()->prepare($sql);
+            $stmt->bindParam(':id_career', $id_career, PDO::PARAM_INT);
+            
+            if ($stmt->execute()) {
+                return true; 
+            } else {
+                return false; 
+            }
+        } catch (PDOException $e) {
+            // Manejar cualquier excepción de PDO (por ejemplo, imprimir el mensaje de error)
+            echo "Error en la consulta: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    static public function disableStateCareer($id_career) {
+        $sql = "UPDATE careers
+                SET state = 0
+                WHERE id_career = :id_career";
+        
+        try {
+            $stmt = model_sql::connectToDatabase()->prepare($sql);
+            $stmt->bindParam(':id_career', $id_career, PDO::PARAM_INT);
+            
+            if ($stmt->execute()) {
+                return true; 
+            } else {
+                return false; 
+            }
+        } catch (PDOException $e) {
+            echo "Error en la consulta: " . $e->getMessage();
+            return false;
+        }
+    }
 
 }
 
