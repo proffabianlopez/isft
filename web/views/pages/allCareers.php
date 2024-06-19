@@ -2,7 +2,7 @@
 $data = CareerController::getCareersData();
 ?>
 <section class="container-fluid py-3">
-    <h1 class="text-center mt-1 mb-3 py-2">Gestionar Carreras del Instituto</h1>
+    <h1 class="text-center mt-1 mb-3 py-2">Carreras del Instituto</h1>
     <div class="row py-4">
         <?php foreach ($data as $key => $value) : ?>
             <div class="col-lg-6">
@@ -11,12 +11,12 @@ $data = CareerController::getCareersData();
                         <?php if ($value['state'] == 'inactive') : ?>
                             <div class="ribbon-wrapper ribbon-xl">
                                 <div class="ribbon bg-danger">
-                                    Inactivo
+                                    Deshabilitado
                                 </div>
                             </div>
                         <?php endif ?>
                         <div class="inner">
-                            <h3>Gestionar Carrera</h3>
+                            <h3>Gestionar</h3>
                             <h5 class="mb-4"><?php echo $value['career_name'] ?></h5>
                         </div>
                         <div class="icon">
