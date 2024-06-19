@@ -10,7 +10,7 @@ if( (isset($_GET['id_career'])) && (isset($_GET['name_career'])) && (isset($_GET
         <h2 class="text-center font-weight-bold mt-1 mb-3 lead">Datos de Carrera</h2>
             <img src="public/img/isft177_H.png" class="card-img-top img-fluid mx-auto d-block" alt="logo ISFT Nº 177">
             <h5 class="card-title text-center py-2"><strong>Nombre: </strong><?php echo htmlspecialchars($data['name_career']); ?></h5>
-            <hr>
+            <br><hr>
             <div class="text-center">
                 <?php foreach($dataPreceptor as $preceptor): ?>
                     <p class="card-text"><strong>Preceptor: </strong><?php echo htmlspecialchars($preceptor['preceptores']); ?></p>

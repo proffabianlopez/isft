@@ -9,15 +9,9 @@ if (
       ($_GET['pages'] == "manageCorrelatives") ||
       ($_GET['pages'] == "managePreceptor") ||
       ($_GET['pages'] == "viewsCorrelatives") ||
-      ($_GET['pages'] == "careerFinishReview") ||
       ($_GET['pages'] == "careerEdit") ||
-      ($_GET['pages'] == "careerVerifyCheck") ||
       ($_GET['pages'] == "careerInfo") ||
-      # links administracion de Personas           
-      ($_GET['pages'] == "newStudent") ||
-      ($_GET['pages'] == "newTeacher") ||
       # links administracion de usuarios           
-      ($_GET['pages'] == "newUser") ||
       ($_GET['pages'] == "myData") ||
       ($_GET['pages'] == "changedPasswordStart") ||
       ($_GET['pages'] == "manageUser") ||
