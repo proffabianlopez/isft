@@ -40,8 +40,8 @@
         <a href="index.php?pages=managePreceptor&id_career=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['name_career'] ?>&state=<?php echo $_GET['state'] ?>">
             <div class="small-box badge-warning">
                 <div class="inner">
-                    <h3>Asignar Preceptores</h3> 
-                    <p>Gestionar Preceptores para la Carrera</p> 
+                    <h3>Preceptores</h3> 
+                    <p>Gestionar Preceptores,quita y agrega a la carrera</p> 
                 </div>
                 <div class="icon">
                     <i class="fas fa-user-tie"></i> 

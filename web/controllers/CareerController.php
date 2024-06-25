@@ -189,4 +189,8 @@ class CareerController
 		return CareerModel::careerPreceptor($id);
 	}
 	
+	static public function careerPreceptorControllerListAssigned($id){
+		return CareerModel::careerPreceptorAssigned($id);
+	}
+
 }
