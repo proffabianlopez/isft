@@ -182,11 +182,10 @@ GROUP BY
 //cuenta los estudiantes inscriptos  a una carrera
 static public function careerCountStudent($id)
 {
-    $sql = "  SELECT COUNT(users.fk_rol_id=2) AS total_student FROM career_person
- JOIN users ON career_person.fk_user_id=users.id_user
- WHERE career_person.fk_career_id=?
-    
-    ";
+    $sql = " SELECT SUM(users.fk_rol_id=3) AS total_student
+FROM career_person
+JOIN users ON career_person.fk_user_id=users.id_user
+WHERE career_person.fk_career_id=? ";
     
     $stmt = model_sql::connectToDatabase()->prepare($sql);
     $stmt->bindParam(1, $id, PDO::PARAM_INT);
