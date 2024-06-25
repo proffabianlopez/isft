@@ -1,4 +1,6 @@
-<?php
+
+<?php if ($_SESSION['fk_rol_id'] == 1): ?>
+    <?php
 $data = CareerController::getCareersData();
 ?>
 <section class="container-fluid py-3">
@@ -75,3 +77,33 @@ $data = CareerController::getCareersData();
         </div>
     </div>
 </div>
+<?php endif ?>
+        <!-- Vista de Preceptor por Carrera -->
+<?php if ($_SESSION['fk_rol_id'] == 2): ?>
+    <?php
+    $data = CareerController::careerPreceptorController($_SESSION['id_user']);
+    ?>
+    <section class="container-fluid py-3">
+        <h1 class="text-center mt-1 mb-3 py-2">Carreras del Instituto</h1>
+        <div class="row py-4">
+            <?php foreach ($data as $key => $value) : ?>
+                <div class="col-lg-6">
+                    <a href="index.php?pages=toolsCareer&id_career=<?php echo $value['id_career'] ?>&name_career=<?php echo $value['career_name'] ?>&state=<?php echo $value['state'] ?>">
+                        <div class="small-box bg-secondary">
+                            <div class="inner">
+                                <h3>Gestionar</h3>
+                                <h5 class="mb-4"><?php echo $value['career_name'] ?></h5>
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-university"></i>
+                            </div>
+                            <div class="small-box-footer">
+                                <b>Herramientas</b><i class="fas fa-tools ml-2"></i>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            <?php endforeach ?>
+        </div>
+    </section>
+<?php endif ?>
