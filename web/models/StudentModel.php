@@ -29,7 +29,7 @@ class StudentModel extends UserModel
         return false;
     }
 }
-    // trae los datos de la tabla career_person
+    // trae los datos de los estudiantes de la tabla career person
     static public function getAllStudent()
     {
         $sql = "SELECT
@@ -62,6 +62,44 @@ class StudentModel extends UserModel
         }
 
         $stmt = null;
+    }
+
+    //trae solo los datos de los alumnos que administra el preceptor
+    static public function getAllStudentCareerPreceptor($id)
+    {
+        $sql = "SELECT
+                    users.id_user As id_student,
+                    users.name AS name_student,
+                    users.last_name AS last_name_student,
+                    users.email AS email_student,
+                    users.dni AS dni,
+                    users.file AS legajo,
+                    users.fk_rol_id AS fk_rol_id,
+                    users.startingYear AS startingYear,
+                    careers.career_name AS career_name,
+                    careers.id_career AS  id_career,
+                                        career_person.id_career_person AS id_career_person
+                    FROM career_person
+                            JOIN careers ON career_person.fk_career_id=careers.id_career
+                            JOIN users ON career_person.fk_user_id= users.id_user
+                            WHERE 
+                            users.fk_rol_id = 3 and careers.id_career=?
+                            AND users.state IN (1, 2)
+                    ";
+
+                    $stmt = model_sql::connectToDatabase()->prepare($sql);
+                    $stmt->bindParam(1, $id, PDO::PARAM_INT);
+
+
+                    if ($stmt->execute()) {
+
+                        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+                    } else {
+
+                        print_r($stmt->errorInfo());
+                    }
+
+                    $stmt = null;
     }
 
     //era como para borrar al estudiante

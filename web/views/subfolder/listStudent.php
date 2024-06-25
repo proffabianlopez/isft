@@ -1,4 +1,8 @@
+<?php if($_SESSION['fk_rol_id']==1):?>
 <?php $dataStudent = StudentController::getAllStudent(); ?>
+<?else :?>
+<?php $dataStudent=StudentController::getStudentCareerPreceptor($_SESSION['id_user']);?>
+<?php endif?>
 <div class="card">
     <div class="card-body">
         <div class="table-responsive">

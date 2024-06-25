@@ -3,10 +3,22 @@
 class CareerController
 {
 
+	//trae todas las carreras en un select
 	public function careerSelect()
 	{
 
 		$showCarrer = CareerModel::showCareer();
+
+		foreach ($showCarrer as $key => $value) {
+			echo '<option value="' . $value['id_career'] . '">' . $value['career_name'] . '</option>';
+		}
+	}
+
+	//hace la consulta al modelo para traerme las carreras que administra el preceptor
+	public function careerSelectPreceptor($id)
+	{
+
+		$showCarrer = CareerModel::showCareerPreceptor($id);
 
 		foreach ($showCarrer as $key => $value) {
 			echo '<option value="' . $value['id_career'] . '">' . $value['career_name'] . '</option>';
