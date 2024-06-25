@@ -174,27 +174,6 @@ static public function careerCountStudent($id)
     $stmt = null;
 }
 
-    static public function enableStateCareer($id_career) {
-        $sql = "UPDATE careers
-                SET state = 1
-                WHERE id_career = :id_career";
-        
-        try {
-            $stmt = model_sql::connectToDatabase()->prepare($sql);
-            $stmt->bindParam(':id_career', $id_career, PDO::PARAM_INT);
-            
-            if ($stmt->execute()) {
-                return true; 
-            } else {
-                return false; 
-            }
-        } catch (PDOException $e) {
-            // Manejar cualquier excepción de PDO (por ejemplo, imprimir el mensaje de error)
-            echo "Error en la consulta: " . $e->getMessage();
-            return false;
-        }
-    }
-
     static public function disableStateCareer($id_career) {
         $sql = "UPDATE careers
                 SET state = 0
