@@ -42,6 +42,7 @@
                                 ?>
                             </select>
                         </div>
+                        <?php if($_SESSION['fk_rol_id']==1):?>
                         <div class="form-group px-2">
                             <label class="pt-1" for="carrer">Carrera <span class="text-danger">*</span></label>
                             <select class="form-control" id="carrer" name="carrer" required>
@@ -50,6 +51,16 @@
                                 ?>
                             </select>
                         </div>
+                        <?php else:?>
+                            <div class="form-group px-2">
+                            <label class="pt-1" for="carrer">Carrera <span class="text-danger">*</span></label>
+                            <select class="form-control" id="carrer" name="carrer" required>
+                                <?php
+                                (new CareerController())->careerSelectPreceptor($_SESSION['id_user']);
+                                ?>
+                            </select>
+                        </div>
+                        <?php endif?>
                         <div class="form-group px-2">
                             <label class="pt-1" for="cohorte">Cohorte <span class="text-danger">*</span></label>
                             <input type="text" maxlength="4" oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="form-control" name="date" placeholder="Ingrese el cohorte" required>

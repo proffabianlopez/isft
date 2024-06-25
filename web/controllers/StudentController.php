@@ -278,6 +278,24 @@ class StudentController
             echo '<div class="alert alert-danger mt-2">No puede estar vacío el legajo</div>';
         }
     }
+
+    //traer datos de los alumnos que maneja el preceptor segun las carreras que administre
+        static public function getStudentCareerPreceptor($id) {
+            $careers = CareerModel::careerPreceptor($id);
+    
+            if ($careers) {
+                $dataStudents = [];
+                foreach ($careers as $career) {
+                    $students = StudentModel::getAllStudentCareerPreceptor($career['id_career']);
+                    $dataStudents = array_merge($dataStudents, $students);
+                }
+                return $dataStudents;
+            } else {
+                return [];
+            }
+        }
+    
+    
     
 
 }

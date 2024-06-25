@@ -4,6 +4,7 @@ include_once 'config/MysqlDb.php'; // Asegúrate de incluir el archivo que conti
 class CareerModel
 {
 
+    //muestra todas las carreras existentes
 	static public function showCareer()
 	{
 		$sql = " SELECT careers.id_career AS id_career,
@@ -11,9 +12,34 @@ class CareerModel
 		careers.description AS description,
 		careers.abbreviation AS abbreviation,
 		careers.state AS state
-		FROM careers;
+		FROM careers
+        WHERE state=1;
 		";
 		$stmt = model_sql::connectToDatabase()->prepare($sql);
+
+		if ($stmt->execute()) {
+
+			return $stmt->fetchAll(PDO::FETCH_ASSOC);
+		} else {
+
+			print_r($stmt->errorInfo());
+		}
+
+		$stmt = null;
+	}
+
+    //muestra la carreras ligadas al preceptor
+    static public function showCareerPreceptor($id)
+	{
+		$sql = " SELECT careers.id_career AS id_career, 
+       careers.career_name AS career_name,
+       careers.state as state
+        FROM career_person
+        JOIN careers ON career_person.fk_career_id = careers.id_career
+        JOIN users ON career_person.fk_user_id = users.id_user
+        WHERE users.id_user = ? and careers.state=1";
+		$stmt = model_sql::connectToDatabase()->prepare($sql);
+        $stmt->bindParam(1, $id, PDO::PARAM_INT);
 
 		if ($stmt->execute()) {
 
@@ -194,6 +220,7 @@ static public function careerCountStudent($id)
         }
     }
 
+    //trae los datos del preceptor y las carreras que administra
     static public function careerPreceptor($id)
     {
         $sql = "SELECT 
