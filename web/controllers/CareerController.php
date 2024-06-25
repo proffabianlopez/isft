@@ -140,27 +140,7 @@ class CareerController
         }
     }
 
-	static public function enableStateCareer() {
-		$id_career_actual = $_POST['id_career_actual'];
-		$execute = CareerModel::enableStateCareer($id_career_actual);
-
-		if ($execute) {
-			echo '<script>
-			if (window.history.replaceState) {
-				window.history.replaceState(null, null, window.location.href);
-			}
-			window.location="index.php?pages=allCareers";
-			</script>
-			<div class="alert alert-success mt-2">El estado de la carrera se ha actualizado correctamente.</div>';
-		} else {
-			echo '<script>
-			if (window.history.replaceState) {
-				window.history.replaceState(null, null, window.location.href);
-			}
-			</script>
-			<div class="alert alert-danger mt-2">No se pudo actualizar el estado de la carrera.</div>';
-		}
-    }
+	
 
     static public function disableStateCareer() {
 		$id_career_actual = $_POST['id_career_actual'];
