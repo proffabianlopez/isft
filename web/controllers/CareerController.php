@@ -184,5 +184,9 @@ class CareerController
 		}
     }
 
+	// ejecuta la consulta del modelo de preceptor por carrera
+	static public function careerPreceptorController($id){
+		return CareerModel::careerPreceptor($id);
+	}
 	
 }

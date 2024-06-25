@@ -215,6 +215,32 @@ static public function careerCountStudent($id)
         }
     }
 
+    static public function careerPreceptor($id)
+    {
+        $sql = "SELECT 
+            careers.id_career AS id_career,
+            careers.career_name AS career_name,
+            careers.state AS state
+            FROM career_person
+            JOIN careers ON career_person.fk_career_id = careers.id_career
+            JOIN users ON career_person.fk_user_id = users.id_user
+            WHERE users.id_user = ? AND careers.state = 1";
+    
+        $stmt = model_sql::connectToDatabase()->prepare($sql);
+        $stmt->bindParam(1, $id, PDO::PARAM_INT);
+    
+        if ($stmt->execute()) {
+            return $stmt->fetchAll(PDO::FETCH_ASSOC); // Usamos fetchAll para obtener todas las filas
+        } else {
+            print_r($stmt->errorInfo());
+            return false; // Devolvemos false en caso de error
+        }
+    
+        $stmt = null;
+    }
+    
+
+
 }
 
 
