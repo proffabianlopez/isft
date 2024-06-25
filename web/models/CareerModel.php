@@ -239,6 +239,33 @@ static public function careerCountStudent($id)
         $stmt = null;
     }
     
+    // Preceptores asignados a la carrera
+    static public function careerPreceptorAssigned($id)
+    {
+        $sql = "SELECT 
+	careers.career_name AS career_name,
+    careers.state AS state,
+    users.name AS name,
+    users.last_name AS last_name,
+    users.dni AS dni,
+    users.id_user AS id_preceptor
+    FROM career_person
+    JOIN careers ON career_person.fk_career_id=careers.id_career
+    JOIN users ON career_person.fk_user_id=users.id_user
+    WHERE careers.state=1 AND careers.id_career=1 AND users.fk_rol_id=2";
+    
+        $stmt = model_sql::connectToDatabase()->prepare($sql);
+        $stmt->bindParam(1, $id, PDO::PARAM_INT);
+    
+        if ($stmt->execute()) {
+            return $stmt->fetchAll(PDO::FETCH_ASSOC); // Usamos fetchAll para obtener todas las filas
+        } else {
+            print_r($stmt->errorInfo());
+            return false; // Devolvemos false en caso de error
+        }
+    
+        $stmt = null;
+    }
 
 
 }
