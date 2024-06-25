@@ -257,7 +257,7 @@ WHERE career_person.fk_career_id=? ";
     FROM career_person
     JOIN careers ON career_person.fk_career_id=careers.id_career
     JOIN users ON career_person.fk_user_id=users.id_user
-    WHERE careers.state=1 AND careers.id_career=1 AND users.fk_rol_id=2";
+    WHERE careers.state=1 AND careers.id_career=? AND users.fk_rol_id=2";
     
         $stmt = model_sql::connectToDatabase()->prepare($sql);
         $stmt->bindParam(1, $id, PDO::PARAM_INT);
