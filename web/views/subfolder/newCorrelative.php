@@ -2,36 +2,40 @@
 if ((isset($_GET['name_career'])) && (isset($_GET['id_career'])) && (isset($_GET['state']))) {
     $correlatives = CorrelativeController::listCorrelative($_GET["id_career"]);
 ?>
-   <div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-6 col-md-8 col-sm-10">
-            <div class="card card-primary">
-                <div class="card-body">
-                    <form method="post">
-                        <div class="form-group">
-                            <label for="para_rendir">Para rendir... (Materia)</label>
-                            <select class="custom-select" name="toRender">
-                                <option selected>Seleccione una materia</option>
-                                <?php (new CorrelativeController())->correlativeSelect($_GET["id_career"]); ?>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="debe_aprobar">Debe aprobar... (Correlativa)</label>
-                            <select class="custom-select" name="subjectApproved">
-                                <option selected>Seleccione correlativa</option>
-                                <?php (new CorrelativeController())->correlativeSelect($_GET["id_career"]); ?>
-                            </select>
-                        </div>
-                        <hr>
-                        <div class="form-group d-flex justify-content-center">
-                            <button type="submit" class="btn btn-warning btn-block w-50" name="loadCorrelative">Crear</button>
-                        </div>
-                    </form>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-8 col-sm-10">
+                <div class="card card-primary">
+                    <div class="card-body">
+                        <form method="post">
+                            <div class="form-group">
+                                <label for="para_rendir">Para rendir... (Materia)</label>
+                                <select class="custom-select" name="toRender">
+                                    <option selected>Seleccione una materia</option>
+                                    <?php (new CorrelativeController())->correlativeSelect($_GET["id_career"]); ?>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="debe_aprobar">Debe aprobar... (Correlativa)</label>
+                                <select class="custom-select" name="subjectApproved">
+                                    <option selected>Seleccione correlativa</option>
+                                    <?php (new CorrelativeController())->correlativeSelect($_GET["id_career"]); ?>
+                                </select>
+                            </div>
+                            <hr>
+                            <div class="form-group d-flex justify-content-center">
+                                <button type="submit" class="btn btn-warning btn-block w-50" name="loadCorrelative">Crear</button>
+                            </div>
+                        </form>
+                        <?php $message = new MessageController();
+                        $message->show_messages_error('message', "No se puede seleccionar la misma materia para armar la correlativa") ?>
+                        <?php $message = new MessageController();
+                        $message->show_messages_error('correlative', "Esta correlativa ya existe") ?>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
     <div class="d-flex justify-content-center">
         <div class="card w-75">
             <div class="card-body">
