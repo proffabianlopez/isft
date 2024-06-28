@@ -21,14 +21,25 @@ class CorrelativeController
         $id_subject = $_POST["toRender"];
         $id_correlative = $_POST["subjectApproved"];
 
-        $execute = CorrelativeModel::newCorrelative($id_correlative, $id_subject);
+        if ($id_subject != $id_correlative) {
+            $result = CorrelativeModel::addSubjectCorrelative($id_correlative, $id_subject);
 
-        if ($execute) {
+            if ($result === "La relación se ha insertado correctamente.") {
+                echo '<script>
+            window.location.href = "index.php?pages=manageCorrelatives&id_career=' . $id_career . '&name_career=' . $name_career . '&state=' . $state . '&subfolder=newCorrelative&message=correcto";
+            </script>';
+            } else {
+                echo '<script>
+            window.location.href = "index.php?pages=manageCorrelatives&id_career=' . $id_career . '&name_career=' . $name_career . '&state=' . $state . '&subfolder=newCorrelative&correlative=error";
+            </script>';
+            }
+        } else {
             echo '<script>
-                window.location.href = "index.php?pages=manageCorrelatives&id_career=' . $id_career . '&name_career=' . $name_career . '&state=' . $state . '&subfolder=newCorrelative&message=correcto";
-                </script>';
+        window.location.href = "index.php?pages=manageCorrelatives&id_career=' . $id_career . '&name_career=' . $name_career . '&state=' . $state . '&subfolder=newCorrelative&message=error";
+        </script>';
         }
     }
+
 
     //Muestra las correlativas
     static public function listCorrelative($id)

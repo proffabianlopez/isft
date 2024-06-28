@@ -26,25 +26,53 @@ class CorrelativeModel
     }
 
     //Inserta los ID de materia y correlativa en la tabla correlatives
-    static public function newCorrelative($value1, $value2)
+    //También verifica si ya se registró la correlativa y sino la inserta
+    static public function addSubjectCorrelative($subject_id_1, $subject_id_2)
     {
-        $sql = "INSERT INTO correlatives (fk_correlative_id, fk_subject_id, state)
-            VALUES (:id_correlative, :id_subject, 1)";
-        $pdo = model_sql::connectToDatabase(); // Obtener la conexión PDO
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(':id_correlative', $value1, PDO::PARAM_INT);
-        $stmt->bindParam(':id_subject', $value2, PDO::PARAM_INT);
+        // Conexión a la base de datos
+        $pdo = model_sql::connectToDatabase();
 
-        $success = $stmt->execute(); // Ejecutar la consulta de inserción
+        try {
+            // Verificar si la relación inversa ya existe
+            $query = "
+            SELECT COUNT(*) AS count
+            FROM correlatives
+            WHERE (fk_subject_id = :subject_id_1 AND fk_correlative_id = :subject_id_2)
+               OR (fk_subject_id = :subject_id_2 AND fk_correlative_id = :subject_id_1)
+        ";
+            $stmt = $pdo->prepare($query);
+            $stmt->bindParam(':subject_id_1', $subject_id_1, PDO::PARAM_INT);
+            $stmt->bindParam(':subject_id_2', $subject_id_2, PDO::PARAM_INT);
+            $stmt->execute();
+            $count = $stmt->fetchColumn();
 
-        if ($success) {
-            // Obtener el ID generado después de la inserción
-            return $stmt;
-        } else {
-            print_r($stmt->errorInfo());
-            return false;
+            if ($count == 0) {
+                // Si no existe la relación inversa, insertar la nueva relación
+                $insert_query = "
+                INSERT INTO correlatives (fk_subject_id, fk_correlative_id, state)
+                VALUES (:subject_id_1, :subject_id_2, 'active')
+            ";
+                $insert_stmt = $pdo->prepare($insert_query);
+                $insert_stmt->bindParam(':subject_id_1', $subject_id_1, PDO::PARAM_INT);
+                $insert_stmt->bindParam(':subject_id_2', $subject_id_2, PDO::PARAM_INT);
+
+                if ($insert_stmt->execute()) {
+                    return "La relación se ha insertado correctamente.";
+                } else {
+                    return "Error al insertar la relación.";
+                }
+            } else {
+                return "La relación inversa ya existe. No se puede insertar.";
+            }
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+            return "Error en la base de datos.";
+        } finally {
+            $stmt = null;
+            $insert_stmt = null;
         }
     }
+
 
     //Esta sólo muestra los datos uno abajo del otro y asi poder editar
     // las correlativas más adelante.
