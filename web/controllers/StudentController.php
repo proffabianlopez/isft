@@ -10,9 +10,9 @@ class StudentController
         if ((!empty($_POST['name'])) && (!empty($_POST['lastName'])) &&
             (!empty($_POST['mail'])) && (!empty($_POST['dni'])) &&
             (!empty($_POST['gender'])) && (!empty($_POST['date']))
-            
+
         ) {
-           
+
             $name = ucwords(strtolower(trim($_POST['name'])));
             $lastname = ucwords(strtolower(trim($_POST['lastName'])));
             if (!preg_match("/^[a-zA-Z]+$/", $name) || !preg_match("/^[a-zA-Z]+$/", $lastname)) {
@@ -21,7 +21,11 @@ class StudentController
                     window.history.replaceState(null, null, window.location.href);
                 }
                 </script>
-                <div class="alert alert-danger mt-2">El nombre y/o apellido solo pueden contener letras.</div>';
+                <div class="col-sm-12 pt-3">
+                    <div class="d-flex justify-content-center align-items-center">             
+                        <div class="alert alert-danger mt-2">El nombre y/o apellido solo pueden contener letras.</div>
+                    </div>
+                </div>';
                 return;
             }
 
@@ -34,7 +38,11 @@ class StudentController
                     window.history.replaceState(null, null, window.location.href);
                 }
                 </script>
-                <div class="alert alert-danger mt-2">Email inválido</div>';
+                <div class="col-sm-12 pt-3">
+                    <div class="d-flex justify-content-center align-items-center">                
+                        <div class="alert alert-danger mt-2">Email inválido</div>
+                    </div>
+                </div>';
                 return;
             }
 
@@ -45,12 +53,16 @@ class StudentController
                     window.history.replaceState(null, null, window.location.href);
                 }
                 </script>
-                <div class="alert alert-danger mt-2">DNI inválido. Debe ser un número entre 6 y 8 dígitos.</div>';
+                <div class="col-sm-12 pt-3">
+                    <div class="d-flex justify-content-center align-items-center">                
+                        <div class="alert alert-danger mt-2">DNI inválido. Debe ser un número entre 6 y 8 dígitos.</div>
+                    </div>
+                </div>';
                 return;
             }
             $gender = $_POST['gender'];
             $date = $_POST['date'];
-            $id_career=$_POST['carrer'];
+            $id_career = $_POST['carrer'];
 
             if (!ctype_digit($date) || strlen($date) > 4 || strlen($date) < 4) {
                 echo '<script>
@@ -58,7 +70,11 @@ class StudentController
                         window.history.replaceState(null, null, window.location.href);
                     }
                     </script>
-                    <div class="alert alert-danger mt-2">Año inválido. Recuerde que deben ser 4 números.</div>';
+                    <div class="col-sm-12 pt-3">
+                        <div class="d-flex justify-content-center align-items-center">                
+                            <div class="alert alert-danger mt-2">Año inválido. Recuerde que deben ser 4 números.</div>
+                        </div>
+                    </div>';
                 return;
             }
 
@@ -72,23 +88,31 @@ class StudentController
                     window.history.replaceState(null, null, window.location.href);
                 }
                 </script>
-                <div class="alert alert-danger mt-2">Ya existe el Email o el Dni</div>';
+                <div class="col-sm-12 pt-3">
+                    <div class="d-flex justify-content-center align-items-center">                
+                        <div class="alert alert-danger mt-2">Ya existe el Email o el Dni</div>
+                    </div>
+                </div>';
                 return;
             }
 
             $execute = StudentModel::newStudent($name, $lastname, $email, $dni, $date, $gender);
-            
-           
+
+
             if ($execute) {
-                AssignmentModel::insertCareerPerson($id_career,$execute);
-                
+                AssignmentModel::insertCareerPerson($id_career, $execute);
+
                 echo '<script>
                 if (window.history.replaceState) {
                     window.history.replaceState(null, null, window.location.href);
                 }
                 window.location="../index.php?pages=manageStudent&subfolder=newStudent&message=correcto";
                 </script>
-                <div class="alert alert-succes mt-2">Se guardó el registro correctamente</div>';
+                <div class="col-sm-12 pt-3">
+                    <div class="d-flex justify-content-center align-items-center">                
+                        <div class="alert alert-succes mt-2">Se guardó el registro correctamente</div>
+                    </div>
+                </div>';
             } else {
                 echo '<script>
                 if (window.history.replaceState) {
@@ -96,7 +120,11 @@ class StudentController
                 }
                 window.location="../index.php?pages=manageStudent&subfolder=newStudent";
                 </script>
-                <div class="alert alert-danger mt-2">Hubo un problema al crearlo</div>';
+                <div class="col-sm-12 pt-3">
+                    <div class="d-flex justify-content-center align-items-center">                
+                        <div class="alert alert-danger mt-2">Hubo un problema al crearlo</div>
+                    </div>
+                </div>';
             }
         } else {
             echo '<script>
@@ -104,7 +132,11 @@ class StudentController
                 window.history.replaceState(null, null, window.location.href);
             }
             </script>
-            <div class="alert alert-danger mt-2">Debes completar los campos</div>';
+            <div class="col-sm-12 pt-3">
+                    <div class="d-flex justify-content-center align-items-center">                
+                        <div class="alert alert-danger mt-2">Debes completar los campos</div>
+                    </div>
+                </div>';
         }
     }
     //trae todo los datos del estudiante
@@ -147,14 +179,14 @@ class StudentController
         $lastname = ucwords(strtolower(trim($_POST['last_name_student'])));
 
 
-        
+
         $id_student = $_POST['id_student'];
-        $id_career_person=$_POST['id_career_person'];
-        $id_career=$_POST['carrer'];
+        $id_career_person = $_POST['id_career_person'];
+        $id_career = $_POST['carrer'];
 
         $execute = StudentModel::updateStudentData($name, $lastname, $id_student);
         if ($execute) {
-            AssignmentModel::updateCareerStudent($id_career,$id_career_person);
+            AssignmentModel::updateCareerStudent($id_career, $id_career_person);
 
             echo '<script>
                     if (window.history.replaceState) {
@@ -237,23 +269,24 @@ class StudentController
     }
 
     //logica para darle al estudiante un legajo
-    static public function AssingnamentLegajo() {
+    static public function AssingnamentLegajo()
+    {
         if (!empty($_POST['student_id']) && !empty($_POST['career_id']) && !empty($_POST['file'])) {
             // Obtener datos del formulario
             $id_student = $_POST['student_id'];
             $id_career = $_POST['career_id'];
             $file = $_POST['file'];
-    
+
             // Obtener abreviatura de la carrera
             $data_career = CareerModel::careerInfo($id_career);
             $abbreviation = $data_career['abbreviation'];
-    
+
             // Concatenar abreviatura al nombre del archivo
             $file_with_abbreviation = $abbreviation . $file;
-    
+
             // Actualizar legajo en la base de datos
             $execute = StudentModel::updateLegajo($file_with_abbreviation, $id_student);
-    
+
             if ($execute) {
                 // Redireccionar con mensaje de éxito si la actualización fue exitosa
                 echo '<script>
@@ -272,7 +305,6 @@ class StudentController
                     </script>
                     <div class="alert alert-danger mt-2">Hubo un problema al asignar legajo</div>';
             }
-    
         } else {
             // Mostrar mensaje si algún campo está vacío
             echo '<div class="alert alert-danger mt-2">No puede estar vacío el legajo</div>';
@@ -280,22 +312,19 @@ class StudentController
     }
 
     //traer datos de los alumnos que maneja el preceptor segun las carreras que administre
-        static public function getStudentCareerPreceptor($id) {
-            $careers = CareerModel::careerPreceptor($id);
-    
-            if ($careers) {
-                $dataStudents = [];
-                foreach ($careers as $career) {
-                    $students = StudentModel::getAllStudentCareerPreceptor($career['id_career']);
-                    $dataStudents = array_merge($dataStudents, $students);
-                }
-                return $dataStudents;
-            } else {
-                return [];
-            }
-        }
-    
-    
-    
+    static public function getStudentCareerPreceptor($id)
+    {
+        $careers = CareerModel::careerPreceptor($id);
 
+        if ($careers) {
+            $dataStudents = [];
+            foreach ($careers as $career) {
+                $students = StudentModel::getAllStudentCareerPreceptor($career['id_career']);
+                $dataStudents = array_merge($dataStudents, $students);
+            }
+            return $dataStudents;
+        } else {
+            return [];
+        }
+    }
 }

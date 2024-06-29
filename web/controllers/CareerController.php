@@ -4,24 +4,24 @@ class CareerController
 {
 
 	//trae todas las carreras en un select
-	public function careerSelect()
+	public function careerSelect($selectedCareer)
 	{
-
 		$showCarrer = CareerModel::showCareer();
 
-		foreach ($showCarrer as $key => $value) {
-			echo '<option value="' . $value['id_career'] . '">' . $value['career_name'] . '</option>';
+		foreach ($showCarrer as $value) {
+			$selected = $value['id_career'] == $selectedCareer ? 'selected' : '';
+			echo '<option value="' . $value['id_career'] . '" ' . $selected . '>' . $value['career_name'] . '</option>';
 		}
 	}
 
 	//hace la consulta al modelo para traerme las carreras que administra el preceptor
-	public function careerSelectPreceptor($id)
+	public function careerSelectPreceptor($id, $selectedCareer)
 	{
-
 		$showCarrer = CareerModel::showCareerPreceptor($id);
 
-		foreach ($showCarrer as $key => $value) {
-			echo '<option value="' . $value['id_career'] . '">' . $value['career_name'] . '</option>';
+		foreach ($showCarrer as $value) {
+			$selected = $value['id_career'] == $selectedCareer ? 'selected' : '';
+			echo '<option value="' . $value['id_career'] . '" ' . $selected . '>' . $value['career_name'] . '</option>';
 		}
 	}
 
@@ -104,15 +104,15 @@ class CareerController
 	}
 
 	static public function editCareer($id, $name, $state)
-    {
-        $id_career = $id;
-        $name_career = $name;
-        $state_career = $state;
-        
-        $careerName = ucwords(trim($_POST['name_career']));
-        $title = ucfirst(trim($_POST['title']));
-        $abbreviation = strtoupper(trim($_POST['abbreviation']));
-        
+	{
+		$id_career = $id;
+		$name_career = $name;
+		$state_career = $state;
+
+		$careerName = ucwords(trim($_POST['name_career']));
+		$title = ucfirst(trim($_POST['title']));
+		$abbreviation = strtoupper(trim($_POST['abbreviation']));
+
 		if (!preg_match("/^[a-zA-ZáéíóúÁÉÍÓÚ\s]+$/", $careerName)) {
 			echo '<script>
 			if (window.history.replaceState) {
@@ -134,27 +134,28 @@ class CareerController
 		}
 
 		$abbreviation = strtoupper(trim($_POST['abbreviation']));
-			if (!preg_match("/^[A-Z]{2}$/", $abbreviation)) {
-				echo '<script>
+		if (!preg_match("/^[A-Z]{2}$/", $abbreviation)) {
+			echo '<script>
                 if (window.history.replaceState) {
                     window.history.replaceState(null, null, window.location.href);
                 }
                 </script>
                 <div class="alert alert-danger mt-2">Abreviación de carrera inválida.</div>';
-				return;
-			}
-  
-        $execute = CareerModel::editCareer($careerName, $title, $abbreviation, $id_career);
+			return;
+		}
 
-        if ($execute) {
-            // Redireccionar u otro flujo de trabajo después de la actualización exitosa
-            echo '<script>window.location.href = "index.php?pages=toolsCareer&id_career=' . $id_career . '&name_career=' . urlencode($name_career) . '&state=' . $state . '";</script>';
-        }
-    }
+		$execute = CareerModel::editCareer($careerName, $title, $abbreviation, $id_career);
 
-	
+		if ($execute) {
+			// Redireccionar u otro flujo de trabajo después de la actualización exitosa
+			echo '<script>window.location.href = "index.php?pages=toolsCareer&id_career=' . $id_career . '&name_career=' . urlencode($name_career) . '&state=' . $state . '";</script>';
+		}
+	}
 
-    static public function disableStateCareer() {
+
+
+	static public function disableStateCareer()
+	{
 		$id_career_actual = $_POST['id_career_actual'];
 		$execute = CareerModel::disableStateCareer($id_career_actual);
 
@@ -174,15 +175,16 @@ class CareerController
 			</script>
 			<div class="alert alert-danger mt-2">No se pudo deshabilitar la carrera.</div>';
 		}
-    }
+	}
 
 	// ejecuta la consulta del modelo de preceptor por carrera
-	static public function careerPreceptorController($id){
+	static public function careerPreceptorController($id)
+	{
 		return CareerModel::careerPreceptor($id);
 	}
-	
-	static public function careerPreceptorControllerListAssigned($id){
+
+	static public function careerPreceptorControllerListAssigned($id)
+	{
 		return CareerModel::careerPreceptorAssigned($id);
 	}
-
 }
