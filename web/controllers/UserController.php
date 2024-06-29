@@ -139,7 +139,7 @@ class UserController
                 return;
             }
 
-           
+
 
             // Actualización de datos sin incluir el email
             $execute = UserModel::updateData($name, $lastname, $_SESSION['id_user']);
@@ -217,7 +217,11 @@ class UserController
                     window.history.replaceState(null, null, window.location.href);
                 }
                 </script>
-                <div class="alert alert-danger mt-2">El nombre y/o apellido solo pueden contener letras.</div>';
+                <div class="col-sm-12 pt-3">
+                    <div class="d-flex justify-content-center align-items-center">             
+                        <div class="alert alert-danger mt-2">El nombre y/o apellido solo pueden contener letras.</div>
+                    </div>
+                </div>';
                 return;
             }
 
@@ -230,7 +234,11 @@ class UserController
                     window.history.replaceState(null, null, window.location.href);
                 }
                 </script>
-                <div class="alert alert-danger mt-2">Email inválido</div>';
+                <div class="col-sm-12 pt-3">
+                    <div class="d-flex justify-content-center align-items-center">             
+                        <div class="alert alert-danger mt-2">Email inválido</div>
+                    </div>
+                </div>';
                 return;
             }
 
@@ -241,7 +249,11 @@ class UserController
                     window.history.replaceState(null, null, window.location.href);
                 }
                 </script>
-                <div class="alert alert-danger mt-2">DNI inválido. Debe ser un número entre 6 y 8 dígitos.</div>';
+                <div class="col-sm-12 pt-3">
+                    <div class="d-flex justify-content-center align-items-center">             
+                        <div class="alert alert-danger mt-2">DNI inválido. Debe ser un número entre 6 y 8 dígitos.</div>
+                    </div>
+                </div>';
                 return;
             }
 
@@ -257,7 +269,11 @@ class UserController
                     window.history.replaceState(null, null, window.location.href);
                 }
                 </script>
-                <div class="alert alert-danger mt-2">Ya existe el Email o el Dni</div>';
+                <div class="col-sm-12 pt-3">
+                    <div class="d-flex justify-content-center align-items-center">             
+                        <div class="alert alert-danger mt-2">Ya existe el Email o el Dni</div>
+                    </div>
+                </div>';
             } else {
                 $execute = UserModel::newUser($name, $lastname, $email, $dni, $hashedPassword, $gender, $roles);
                 if ($execute) {
@@ -269,7 +285,11 @@ class UserController
                     
                     window.location="../index.php?pages=manageUser&subfolder=newUser&message=correcto";
                     </script>
-                    <div class="alert alert-succes mt-2">Se guardó el registro correctamente</div>';
+                    <div class="col-sm-12 pt-3">
+                    <div class="d-flex justify-content-center align-items-center">             
+                        <div class="alert alert-succes mt-2">Se guardó el registro correctamente</div>
+                    </div>
+                </div>';
                 } else {
                     echo '<script>
                     if (window.history.replaceState) {
@@ -277,7 +297,11 @@ class UserController
                     }
                     window.location="../index.php?pages=manageUser&subfolder=newUser";
                     </script>
-                    <div class="alert alert-danger mt-2">Hubo un problema al crearlo</div>';
+                    <div class="col-sm-12 pt-3">
+                        <div class="d-flex justify-content-center align-items-center">             
+                            <div class="alert alert-danger mt-2">Hubo un problema al crearlo</div>
+                        </div>
+                    </div>';
                 }
             }
         } else {
@@ -286,7 +310,11 @@ class UserController
                 window.history.replaceState(null, null, window.location.href);
             }
             </script>
-            <div class="alert alert-danger mt-2">Debes completar los campos</div>';
+            <div class="col-sm-12 pt-3">
+                <div class="d-flex justify-content-center align-items-center">             
+                    <div class="alert alert-danger mt-2">Debes completar los campos</div>
+                </div>
+            </div>';
         }
     }
 
@@ -463,7 +491,8 @@ class UserController
         }
     }
     //TRAE TODOS LOS DATOS DEL PRECEPTOR
-    static public function showPreceptor(){
+    static public function showPreceptor()
+    {
         return UserModel::getAllPreceptor();
     }
 }
