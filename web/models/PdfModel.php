@@ -37,6 +37,8 @@ class PdfModel{
     
         return $route;
     }
+
+    //modelo para crear el pdf de correlativas
     static public function dataCareerPdfCorrelatives($header, $data, $career) {
         $pdf = new FPDF();
         $pdf->AddPage();
@@ -95,10 +97,62 @@ class PdfModel{
         return $route;
     }
     
+    //modelo para crear o armar el pdf de materias
+
+    static public function dataCareerPdfSubject($header, $data, $career) {
+        $pdf = new FPDF();
+        $pdf->AddPage();
+        $pdf->Image('public/img/isft177_H.png', 10, 10, 0, -300);
+        $pdf->Ln(30);
+        $pdf->Line(10, 35, 200, 35);
+        $pdf->SetFont('Arial', 'B', 12);
+        $pdf->Cell(0, 8, utf8_decode("Materias de: " . $career), 1, 0, 'C');
+        $pdf->Ln(8);
+    
+        // Configuración de la tabla
+        $pdf->SetDrawColor(0);
+        $pdf->SetLineWidth(.3);
+        $pdf->SetFont('Arial', 'B', 12);
+    
+        // Cabecera de la tabla
+        $w = array(70, 60, 60); // Anchos de las columnas ajustados
+        for ($i = 0; $i < count($header); $i++) {
+            $pdf->Cell($w[$i], 10, utf8_decode($header[$i]), 1, 0, 'C', false);
+        }
+        $pdf->Ln();
+    
+        // Restauración de colores y fuentes para los datos
+        $pdf->SetTextColor(0);
+        $pdf->SetFont('Arial', '', 10);
+    
+        // Muestra los datos
+        $fill = false;
+        foreach ($data as $key => $value) {
+            $pdf->Cell($w[0], 6, utf8_decode($value['Materia']), 1, 0, 'L', $fill);
+            $pdf->Cell($w[1], 6, utf8_decode($value['Año']), 1, 0, 'C', $fill);
+            $pdf->Cell($w[2], 6, utf8_decode($value['Carga Horaria']), 1, 0, 'C', $fill);
+            $pdf->Ln();
+              // Cambiar color de fondo al final de cada fila
+            $pdf->SetFillColor(240); // Gris claro
+            $pdf->Cell(array_sum($w), 0, '', 'T', 1, '', true);
+            $fill = !$fill;
+        }
+    
+        // Línea de cierre de la tabla
+        $pdf->Cell(array_sum($w), 0, '', 'T');
+    
+        // Generación del archivo PDF y retorno de la ruta
+        $route = "fpdf/" . "Correlativas-" . $career . ".pdf";
+        $pdf->Output('F', $route);
+        
+        return $route;
+    }
+
+    }
     
     
     
-}
+
    
     
 

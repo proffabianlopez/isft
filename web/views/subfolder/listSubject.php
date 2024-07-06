@@ -2,44 +2,58 @@
 if ((isset($_GET['name_career'])) && (isset($_GET['id_career'])) && (isset($_GET['state']))) {
     $subjects = SubjectController::getAllSubject($_GET['id_career']);
 ?>
-    <div class="card">
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered" style="width: 80%; margin: 0 auto;" id="example3">
-                    <thead>
-                        <tr class="bg-warning">
-                            <th>Materias</th>
-                            <th>Año</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($subjects as $subject) : ?>
-                            <tr>
-                                <td><?php echo $subject['name_subject'] ?></td>
-                                <td><?php echo $subject['year_subject'] . " " . $subject['year_detail'] ?></td>
-                                <td>
-                                    <!-- Botón para abrir el modal -->
-                                    <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modal_<?php echo $subject['id_subject'] ?>" title="ver info">
-                                        <i class="fas fa-eye"></i>
+   <div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" style="width: 80%; margin: 0 auto;" id="example3">
+                <thead>
+                    <tr>
+                        <th colspan="6">
+                            <form method="post">
+                                <input type="hidden" name="subject_pdf" value="1">
+                                <button type="submit" class="btn btn-danger" title="Descargar PDF de Materias">
+                                    <i class="far fa-file-pdf mr-1"></i> Descargar PDF
+                                </button>
+                            </form>
+                        </th>
+                    </tr>
+                  
+                    <tr class="bg-warning">
+                        <th>Materias</th>
+                        <th>Año</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($subjects as $subject) : ?>
+                        <tr>
+                            <td><?php echo $subject['name_subject'] ?></td>
+                            <td><?php echo $subject['year_subject'] . " " . $subject['year_detail'] ?></td>
+                            <td>
+                                <!-- Botón para abrir el modal -->
+                                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modal_<?php echo $subject['id_subject'] ?>" title="ver info">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <?php if ($_SESSION['fk_rol_id'] == 1) : ?>
+                                    <!-- Botón para abrir el modal de editar -->
+                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal_edit_<?php echo $subject['id_subject'] ?>" title="editar materia">
+                                        <i class="fas fa-edit"></i>
                                     </button>
-                                    <?php if ($_SESSION['fk_rol_id'] == 1) : ?>
-                                        <!-- Botón para abrir el modal de editar -->
-                                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal_edit_<?php echo $subject['id_subject'] ?>" title="editar materia">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#confirmDeleteModal_<?php echo $subject['id_subject'] ?>">
-                                            <i class="fas fa-trash-alt"></i> <!-- Icono de eliminar -->
-                                        </button>
-                                    <?php endif ?>
-                                </td>
-                            </tr>
-                        <?php endforeach ?>
-                    </tbody>
-                </table>
-            </div>
+                                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#confirmDeleteModal_<?php echo $subject['id_subject'] ?>">
+                                        <i class="fas fa-trash-alt"></i> <!-- Icono de eliminar -->
+                                    </button>
+                                <?php endif ?>
+                            </td>
+                        </tr>
+                    <?php endforeach ?>
+                </tbody>
+            </table>
         </div>
     </div>
+</div>
+<?php if(isset($_POST['subject_pdf'])){
+                         (new PdfController())->dataCareerPdfSubject($_GET['name_career'],$_GET['id_career']);
+}?>
 <?php } ?>
 <!-- Modales -->
 <?php foreach ($subjects as $subject) : ?>
