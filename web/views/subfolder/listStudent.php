@@ -41,6 +41,8 @@
                             </td>
                         </tr>
                     <?php endforeach; ?>
+                    <?php $message = new MessageController();
+                        $message->show_messages_error('legajo', "No se permiten Legajos Duplicados");?>
                 </tbody>
             </table>
         </div>
