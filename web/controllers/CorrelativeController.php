@@ -22,7 +22,7 @@ class CorrelativeController
         $id_correlative = $_POST["subjectApproved"];
 
         if ($id_subject != $id_correlative) {
-            $result = CorrelativeModel::addSubjectCorrelative($id_correlative, $id_subject);
+            $result = CorrelativeModel::addSubjectCorrelative($id_subject, $id_correlative); // RREBISAR DESPUES
 
             if ($result === "La relación se ha insertado correctamente.") {
                 echo '<script>
