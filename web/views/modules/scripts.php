@@ -25,5 +25,4 @@
 <script src="public/js/generarContraseñaAlert.js"></script>
 <script src="public/js/generateAccountTeacher.js"></script>
 <script src="public/js/generateAccountStudent.js"></script>
-
-
+<script src="public/js/inDevelopment.js"></script>

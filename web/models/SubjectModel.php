@@ -34,21 +34,22 @@ class SubjectModel
 		$stmt->bindParam(':details', $value2, PDO::PARAM_STR);
 		$stmt->bindParam(':fk_year_subject', $value3, PDO::PARAM_INT);
 		$stmt->bindParam(':fk_career_id', $value4, PDO::PARAM_INT);
-		
+
 		$success = $stmt->execute(); // Ejecutar la consulta de inserción
-		
+
 		if ($success) {
 			// Obtener el ID generado después de la inserción
-			
+
 			return true; // Devolver el ID generado
 		} else {
 			print_r($stmt->errorInfo());
 			return false;
 		}
 	}
-	
 
-	static public function showSubject($id) {
+
+	static public function showSubject($id)
+	{
 		$sql = "SELECT
 subjects.id_subject AS id_subject,
 subjects.name_subject,
@@ -71,9 +72,9 @@ careers.id_career = ? AND subjects.state=1";
 		}
 		$stmt = null;
 	}
-	
+
 	//edita parte de las materias
-	static public function updateSubjectData($name, $details,$id_year, $id_subject)
+	static public function updateSubjectData($name, $details, $id_year, $id_subject)
 	{
 		$sql = "UPDATE subjects SET name_subject = :name_subject,details = :details,fk_year_subject=:fk_year_subject WHERE id_subject = :id_subject";
 		$stmt = model_sql::connectToDatabase()->prepare($sql);
@@ -81,7 +82,7 @@ careers.id_career = ? AND subjects.state=1";
 		$stmt->bindParam(':details', $details, PDO::PARAM_STR); // Aquí se corrigió $last_name por $details
 		$stmt->bindParam(':fk_year_subject', $id_year, PDO::PARAM_INT);
 		$stmt->bindParam(':id_subject', $id_subject, PDO::PARAM_INT);
-	
+
 		if ($stmt->execute()) {
 			// Devolver true si la actualización se realiza correctamente
 			return true;
@@ -99,7 +100,7 @@ careers.id_career = ? AND subjects.state=1";
 		$sql = "UPDATE subjects SET state = 0 WHERE id_subject = :id_subject";
 		$stmt = model_sql::connectToDatabase()->prepare($sql);
 		$stmt->bindParam(':id_subject', $id_subject, PDO::PARAM_INT);
-	
+
 		if ($stmt->execute()) {
 			// Devolver true si la actualización se realiza correctamente
 			return true;
@@ -112,11 +113,13 @@ careers.id_career = ? AND subjects.state=1";
 	}
 
 	//modelo para traer las materias por carrera y de forma asc por año
-		static public function SubjectCareerAsc($id_career){
-			$sql="SELECT 
+	static public function SubjectCareerAsc($id_career)
+	{
+		$sql = "SELECT 
 		subjects.name_subject AS name_subject,
 		CONCAT(yearSubject.year, ' ', yearSubject.detail) AS yearSubject,
-		subjects.details AS hours
+		subjects.details AS hours, 
+        subjects.state AS state
 	FROM 
 		subjects
 	JOIN 
@@ -124,23 +127,38 @@ careers.id_career = ? AND subjects.state=1";
 	JOIN 
 		careers ON subjects.fk_career_id = careers.id_career
 	WHERE 
-		careers.id_career = ?
+		careers.id_career = ? AND subjects.state = 1
 	ORDER BY 
 		yearSubject ASC";
 
-	$stmt = model_sql::connectToDatabase()->prepare($sql);
-	$stmt->bindParam(1, $id_career, PDO::PARAM_INT);
-	if ($stmt->execute()) {
-		return $stmt->fetchAll(PDO::FETCH_ASSOC);
-	} else {
-		print_r($stmt->errorInfo());
+		$stmt = model_sql::connectToDatabase()->prepare($sql);
+		$stmt->bindParam(1, $id_career, PDO::PARAM_INT);
+		if ($stmt->execute()) {
+			return $stmt->fetchAll(PDO::FETCH_ASSOC);
+		} else {
+			print_r($stmt->errorInfo());
+		}
+		$stmt = null;
 	}
-	$stmt = null;
 
+	static public function getIdSubject($id)
+	{
+		$sql = "SELECT subjects.id_subject AS id_subject,
+                   subjects.name_subject AS name_subject,
+                   subjects.fk_year_subject AS id_year
+            FROM subjects
+            WHERE subjects.id_subject = ? AND subjects.state = 1";
 
+		$stmt = model_sql::connectToDatabase()->prepare($sql);
+		$stmt->bindParam(1, $id, PDO::PARAM_INT);
+
+		if ($stmt->execute()) {
+			return $stmt->fetch(PDO::FETCH_ASSOC);  // Fetch a single row
+		} else {
+			print_r($stmt->errorInfo());
+			return null;
+		}
+
+		$stmt = null;
 	}
-	
-	
-
-	
 }
