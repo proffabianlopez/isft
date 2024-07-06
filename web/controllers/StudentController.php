@@ -271,23 +271,32 @@ class StudentController
     //logica para darle al estudiante un legajo
     static public function AssingnamentLegajo()
     {
-        if (!empty($_POST['student_id']) && !empty($_POST['career_id']) && !empty($_POST['file'])) {
+        if (!empty($_POST['student_id']) && !empty($_POST['career_id']) && isset($_POST['file'])) {
             // Obtener datos del formulario
             $id_student = $_POST['student_id'];
             $id_career = $_POST['career_id'];
             $file = $_POST['file'];
-
+    
+            // Validar y completar el número de legajo con ceros a la izquierda si es necesario
+            $file = str_pad($file, 4, '0', STR_PAD_LEFT);
+    
+            // Verificar que el legajo no supere los 4 dígitos
+            if (strlen($file) > 4) {
+                echo '<div class="alert alert-danger mt-2">El legajo no puede tener más de 4 dígitos</div>';
+                return;
+            }
+    
             // Obtener abreviatura de la carrera
             $data_career = CareerModel::careerInfo($id_career);
             $abbreviation = $data_career['abbreviation'];
-
+    
             // Concatenar abreviatura al nombre del archivo
             $file_with_abbreviation = $abbreviation . $file;
-
+    
             // Actualizar legajo en la base de datos
             $execute = StudentModel::updateLegajo($file_with_abbreviation, $id_student);
-
-            if ($execute) {
+    
+            if ($execute === true) {
                 // Redireccionar con mensaje de éxito si la actualización fue exitosa
                 echo '<script>
                     if (window.history.replaceState) {
@@ -295,21 +304,32 @@ class StudentController
                     }
                     window.location="../index.php?pages=manageStudent&message=correcto";
                     </script>';
-            } else {
-                // Redireccionar con mensaje de error si hubo un problema en la actualización
+            } elseif ($execute === false) {
+                // Redireccionar con mensaje de error si el legajo ya existe
                 echo '<script>
                     if (window.history.replaceState) {
                         window.history.replaceState(null, null, window.location.href);
                     }
-                    window.location="../index.php?pages=newStudent";
+                    window.location="../index.php?pages=manageStudent&subfolder=listStudent&legajo=error";
+                    </script>
+                    <div class="alert alert-danger mt-2">El legajo ya está en uso por otro estudiante</div>';
+            } else {
+                // Manejar otros posibles errores
+                echo '<script>
+                    if (window.history.replaceState) {
+                        window.history.replaceState(null, null, window.location.href);
+                    }
+                    window.location="../index.php?pages=manageStudent&subfolder=listStudent";
                     </script>
                     <div class="alert alert-danger mt-2">Hubo un problema al asignar legajo</div>';
             }
         } else {
             // Mostrar mensaje si algún campo está vacío
-            echo '<div class="alert alert-danger mt-2">No puede estar vacío el legajo</div>';
+            echo '<div class="alert alert-danger mt-2">Debes completar todos los campos</div>';
         }
     }
+    
+
 
     //traer datos de los alumnos que maneja el preceptor segun las carreras que administre
     static public function getStudentCareerPreceptor($id)

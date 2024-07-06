@@ -158,21 +158,38 @@ class StudentModel extends UserModel
 
 
     //es para actualizar o asignar legajo al alumno
-    static public function updateLegajo($file,$id)
+    static public function updateLegajo($file, $id)
     {
-        $sql = "UPDATE users SET file = :legajo WHERE id_user = :id_student";
-        $stmt = model_sql::connectToDatabase()->prepare($sql);
-        $stmt->bindParam(':legajo', $file, PDO::PARAM_STR);
-        $stmt->bindParam(':id_student', $id, PDO::PARAM_INT);
-
-        if ($stmt->execute()) {
-            // Devolver true si la actualización se realiza correctamente
-            return true;
+        // Conectar a la base de datos
+        $pdo = model_sql::connectToDatabase();
+    
+        // Consulta para verificar si el legajo ya existe
+        $sql_check = 'SELECT COUNT(*) FROM users WHERE file = :legajo AND id_user != :id_student';
+        $stmt_check = $pdo->prepare($sql_check);
+        $stmt_check->bindParam(':legajo', $file, PDO::PARAM_STR);
+        $stmt_check->bindParam(':id_student', $id, PDO::PARAM_INT);
+        $stmt_check->execute();
+        $count = $stmt_check->fetchColumn();
+    
+        if ($count > 0) {
+            // El legajo ya existe para otro usuario
+            return false;
         } else {
-            // Manejar cualquier error que pueda ocurrir durante la ejecución de la consulta
-            print_r($stmt->errorInfo());
-            return false; // Devolver false en caso de error
+            // Consulta para actualizar el legajo del alumno
+            $sql_update = "UPDATE users SET file = :legajo WHERE id_user = :id_student";
+            $stmt_update = $pdo->prepare($sql_update);
+            $stmt_update->bindParam(':legajo', $file, PDO::PARAM_STR);
+            $stmt_update->bindParam(':id_student', $id, PDO::PARAM_INT);
+    
+            if ($stmt_update->execute()) {
+                // Devolver true si la actualización se realiza correctamente
+                return true;
+            } else {
+                // Manejar cualquier error que pueda ocurrir durante la ejecución de la consulta
+                print_r($stmt_update->errorInfo());
+                return false; // Devolver false en caso de error
+            }
         }
-        $stmt = null;
     }
+    
 }
