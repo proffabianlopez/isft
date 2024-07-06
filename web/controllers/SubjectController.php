@@ -103,6 +103,7 @@ class SubjectController{
         $id_subject=$_POST['id_subject']; // Obtener id_subject desde el formulario POST
         $delete=SubjectModel::deletedSubject($id_subject); // Cambiar el nombre de la función a la que llamas aquí
         if ($delete) {
+            $deleteCorrelative=CorrelativeModel::deleteCorrelativeForSubject($id_subject);
             echo '<script>
             if (window.history.replaceState) {
                 window.history.replaceState(null, null, window.location.href);
