@@ -29,49 +29,61 @@ class CorrelativeModel
     //También verifica si ya se registró la correlativa y sino la inserta
     static public function addSubjectCorrelative($subject_id_1, $subject_id_2)
     {
-        // Conexión a la base de datos
         $pdo = model_sql::connectToDatabase();
 
-        try {
-            // Verificar si la relación inversa ya existe
-            $query = "
-            SELECT COUNT(*) AS count
-            FROM correlatives
-            WHERE (fk_subject_id = :subject_id_1 AND fk_correlative_id = :subject_id_2)
-               OR (fk_subject_id = :subject_id_2 AND fk_correlative_id = :subject_id_1)
+        if ($pdo === null) {
+            echo "Error: No se pudo establecer la conexión a la base de datos.";
+            return "Error en la base de datos.";
+        }
+
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        // Verificar si la relación inversa ya existe
+        $query = "
+        SELECT COUNT(*) AS count
+        FROM correlatives
+        WHERE (fk_subject_id = ? AND fk_correlative_id = ?)
+        OR (fk_subject_id = ? AND fk_correlative_id = ?)
         ";
-            $stmt = $pdo->prepare($query);
-            $stmt->bindParam(':subject_id_1', $subject_id_1, PDO::PARAM_INT);
-            $stmt->bindParam(':subject_id_2', $subject_id_2, PDO::PARAM_INT);
-            $stmt->execute();
+
+        $stmt = $pdo->prepare($query);
+        $stmt->bindParam(1, $subject_id_1, PDO::PARAM_INT);
+        $stmt->bindParam(2, $subject_id_2, PDO::PARAM_INT);
+        $stmt->bindParam(3, $subject_id_2, PDO::PARAM_INT);
+        $stmt->bindParam(4, $subject_id_1, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
             $count = $stmt->fetchColumn();
 
             if ($count == 0) {
                 // Si no existe la relación inversa, insertar la nueva relación
                 $insert_query = "
                 INSERT INTO correlatives (fk_subject_id, fk_correlative_id, state)
-                VALUES (:subject_id_1, :subject_id_2, 'active')
-            ";
+                VALUES (?, ?, 1)
+                ";
                 $insert_stmt = $pdo->prepare($insert_query);
-                $insert_stmt->bindParam(':subject_id_1', $subject_id_1, PDO::PARAM_INT);
-                $insert_stmt->bindParam(':subject_id_2', $subject_id_2, PDO::PARAM_INT);
+                $insert_stmt->bindParam(1, $subject_id_1, PDO::PARAM_INT);
+                $insert_stmt->bindParam(2, $subject_id_2, PDO::PARAM_INT);
 
                 if ($insert_stmt->execute()) {
                     return "La relación se ha insertado correctamente.";
                 } else {
+                    print_r($insert_stmt->errorInfo());
                     return "Error al insertar la relación.";
                 }
             } else {
                 return "La relación inversa ya existe. No se puede insertar.";
             }
-        } catch (PDOException $e) {
-            echo "Error: " . $e->getMessage();
-            return "Error en la base de datos.";
-        } finally {
-            $stmt = null;
-            $insert_stmt = null;
+        } else {
+            print_r($stmt->errorInfo());
+            return "Error al verificar la relación inversa.";
         }
+
+        $stmt = null;
+        $insert_stmt = null;
+        $pdo = null;
     }
+
 
 
     //Esta sólo muestra los datos uno abajo del otro y asi poder editar
@@ -208,8 +220,9 @@ GROUP BY
     }
 
     //muestras las correlativas asignadas a las materias por id
-    static public function showCorrelativeForSubject($id_subject){
-        $sql="SELECT 
+    static public function showCorrelativeForSubject($id_subject)
+    {
+        $sql = "SELECT 
     c1.id_subject AS id_subject,
     c1.name_subject AS name_subject,
     GROUP_CONCAT(c2.name_subject ORDER BY c2.name_subject SEPARATOR ' - ') AS correlatives
@@ -227,7 +240,7 @@ GROUP BY
     c1.id_subject
 ";
 
-  $pdo = model_sql::connectToDatabase();
+        $pdo = model_sql::connectToDatabase();
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(1, $id_subject, PDO::PARAM_INT);
 
@@ -242,7 +255,5 @@ GROUP BY
 
             return false;
         }
-
     }
-
 }
