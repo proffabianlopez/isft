@@ -1,6 +1,7 @@
 <?php  
 class SubjectController{
 
+    //muestra los años de la materia
     public function yearSelect()
 	{
 
@@ -10,9 +11,21 @@ class SubjectController{
 			echo '<option value="' . $value['id_year_subject'] . '">' . $value['year'] .'</option>';
 		}
 	}
+
+    //muestra los años de loa materia que no coincidan con el año actual de la materia
+    public function yearSelectSubject($currentYearId)
+    {
+        $showSubject = SubjectModel::showYearSubject();
+    
+        foreach ($showSubject as $key => $value) {
+            if ($value['id_year_subject'] != $currentYearId) {
+                echo '<option value="' . $value['id_year_subject'] . '">' . $value['year'] . '</option>';
+            }
+        }
+    }
         
 
-   
+   //logica para crear una nueva materia
     static public function newSubject($id, $name, $state) {
         $id_career = $id;
         $name_career = $name;
@@ -40,11 +53,11 @@ class SubjectController{
             }
     
             // Llamar al método del modelo para crear una nueva materia
-            $lastInsertedId = SubjectModel::newSubject($name_subject, $details_subject, $id_year, $id_career);
+            $subject = SubjectModel::newSubject($name_subject, $details_subject, $id_year, $id_career);
     
-            if ($lastInsertedId) {
+            if ($subject) {
               
-                AssignmentModel::assignSubjectToTeacher($lastInsertedId);
+               
     
                 echo '<script>
                 window.location.href = "index.php?pages=manageSubject&id_career=' . $id_career . '&name_career=' . $name_career . '&state=' . $state . '&subfolder=newSubject&message=correcto";
@@ -56,7 +69,7 @@ class SubjectController{
         }
     }
     
-
+    //trae todas las materias existentes de la carrera
     static public function getAllSubject($id){
         return SubjectModel::showSubject($id);
 
@@ -85,7 +98,8 @@ class SubjectController{
                 </script>';
             return;
         }
-    
+
+     
         $update = SubjectModel::updateSubjectData($name_subject, $details_subject,$id_year,$id_subject);
     
         if ($update) {
