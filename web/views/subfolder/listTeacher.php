@@ -58,11 +58,11 @@
                         <input type="hidden" name="id_teacher" value="<?php echo $teacher['id_teacher']; ?>">
                         <div class="form-group">
                             <label for="apellido">Apellido</label>
-                            <input type="text" class="form-control" id="last_name_teacher" pattern="[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+" title="Solo se permiten letras y espacios" name="last_name_teacher" value="<?php echo $teacher['last_name_teacher']; ?>">
+                            <input type="text" maxlength="128" class="form-control" id="last_name_teacher"  name="last_name_teacher" value="<?php echo $teacher['last_name_teacher']; ?>">
                         </div>
                         <div class="form-group">
                             <label for="nombre">Nombre</label>
-                            <input type="text" class="form-control" id="nam" pattern="[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+" title="Solo se permiten letras y espacios" name="name_teacher" required value="<?php echo $teacher['name_teacher']; ?>">
+                            <input type="text" maxlength="128" class="form-control" id="nam" pattern="[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+" title="Solo se permiten letras y espacios" name="name_teacher" required value="<?php echo $teacher['name_teacher']; ?>">
                         </div>
                         <button type="submit" name="savechange" class="btn btn-warning">Guardar cambios</button>
                     </form>
