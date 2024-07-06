@@ -2,6 +2,7 @@
     <section class="container-fluid py-3">
         <h2 class="text-center mt-1 mb-3 py-2 lead">Gestión de Correlativas: <?php echo $_GET['name_career'] ?></h2>
         <ul class="nav nav-pills nav-justified mb-2">
+            <?php if ($_SESSION['fk_rol_id'] == 1) :?>
                 <?php if ((isset($_GET['subfolder'])) && ($_GET['subfolder'] == 'newCorrelative')) : ?>
                     <li class="nav-item">
                         <a class="nav-link active" href="index.php?pages=manageCorrelatives&id_career=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['name_career'] ?>&state=<?php echo $_GET['state'] ?>&subfolder=newCorrelative">Crear nueva correlativa</a>
@@ -11,6 +12,7 @@
                         <a class="nav-link" href="index.php?pages=manageCorrelatives&id_career=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['name_career'] ?>&state=<?php echo $_GET['state'] ?>&subfolder=newCorrelative">Crear nueva correlativa</a>
                     </li>
                 <?php endif ?>
+            <?php endif ?>
             <?php if ((isset($_GET['subfolder'])) && ($_GET['subfolder'] == 'listCorrelative')) : ?>
                 <li class="nav-item">
                     <a class="nav-link active" href="index.php?pages=manageCorrelatives&id_career=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['name_career'] ?>&state=<?php echo $_GET['state'] ?>&subfolder=listCorrelative">Ver listado de correlativas</a>
