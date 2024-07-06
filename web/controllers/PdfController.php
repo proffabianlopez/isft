@@ -34,6 +34,7 @@ class PdfController {
         }
     }
     
+    //controlador para manejar los datos de las correlativas
     static public function  dataCareerPdfCorrelatives($career,$id_career){
         $header = array('Para rendir', 'Debe aprobar');
         $correlatives = CorrelativeController::listMultipleCorrelatives($_GET['id_career']);
@@ -64,7 +65,39 @@ class PdfController {
         }
     }
 
-
+    //controlador para controlar los datos de la materia
+    public function dataCareerPdfSubject($career, $id_career) {
+        $header = array('Materia', 'Año','Carga Horaria');
+        $subjects = SubjectModel::SubjectCareerAsc($id_career);
+        $data = array();
+        
+        foreach ($subjects as $subject) {
+            $data[] = array(
+                'Materia' => $subject['name_subject'],
+                'Año' => $subject['yearSubject'],
+                'Carga Horaria' => $subject['hours'].""."hs",
+            );
+        }
+    
+        // Llamar al método en el modelo para generar el PDF
+        $route = PdfModel::dataCareerPdfSubject($header, $data, $career);
+    
+        // Forzar la descarga del archivo generado
+        if (file_exists($route)) {
+            header('Content-Description: File Transfer');
+            header('Content-Type: application/pdf');
+            header('Content-Disposition: attachment; filename="subject-' . $career . '.pdf"');
+            header('Content-Length: ' . filesize($route));
+            ob_clean();
+            flush();
+            readfile($route);
+            unlink($route); // Opcional: borrar el archivo después de descargarlo
+            exit;
+        } else {
+            die('El archivo PDF no existe.');
+        }
+    }
+    
 }
     
       

@@ -93,6 +93,7 @@ careers.id_career = ? AND subjects.state=1";
 		$stmt = null;
 	}
 
+	//modelo para poder cambiar el estado a la materia y aparentar que se elimino
 	static public function deletedSubject($id_subject)
 	{
 		$sql = "UPDATE subjects SET state = 0 WHERE id_subject = :id_subject";
@@ -110,6 +111,34 @@ careers.id_career = ? AND subjects.state=1";
 		$stmt = null;
 	}
 
+	//modelo para traer las materias por carrera y de forma asc por año
+		static public function SubjectCareerAsc($id_career){
+			$sql="SELECT 
+		subjects.name_subject AS name_subject,
+		CONCAT(yearSubject.year, ' ', yearSubject.detail) AS yearSubject,
+		subjects.details AS hours
+	FROM 
+		subjects
+	JOIN 
+		yearSubject ON subjects.fk_year_subject = yearSubject.id_year_subject
+	JOIN 
+		careers ON subjects.fk_career_id = careers.id_career
+	WHERE 
+		careers.id_career = ?
+	ORDER BY 
+		yearSubject ASC";
+
+	$stmt = model_sql::connectToDatabase()->prepare($sql);
+	$stmt->bindParam(1, $id_career, PDO::PARAM_INT);
+	if ($stmt->execute()) {
+		return $stmt->fetchAll(PDO::FETCH_ASSOC);
+	} else {
+		print_r($stmt->errorInfo());
+	}
+	$stmt = null;
+
+
+	}
 	
 	
 
