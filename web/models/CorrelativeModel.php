@@ -189,4 +189,22 @@ GROUP BY
         }
         $stmt = null;
     }
+
+    //borras las correlativas asociadas por materias
+    static public function deleteCorrelativeForSubject($id_subject)
+    {
+        $sql = "DELETE FROM correlatives WHERE fk_subject_id =:id_subject";
+        $stmt = model_sql::connectToDatabase()->prepare($sql);
+        $stmt->bindParam(':id_subject', $id_subject, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            return true; // Devolver true si la eliminación se realiza correctamente
+        } else {
+            // Manejar cualquier error que pueda ocurrir durante la ejecución de la consulta
+            print_r($stmt->errorInfo());
+            return false; // Devolver false en caso de error
+        }
+        $stmt = null;
+    }
+
 }

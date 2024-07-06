@@ -133,25 +133,26 @@ if ((isset($_GET['name_career'])) && (isset($_GET['id_career'])) && (isset($_GET
 <!-- Modal de confirmación para eliminar materia -->
 <?php if ($_SESSION['fk_rol_id'] == 1) : ?>
     <?php foreach ($subjects as $subject) : ?>
-        <div class="modal fade" id="confirmDeleteModal_<?php echo $subject['id_subject'] ?>" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+        <div class="modal fade" id="confirmDeleteModal_<?php echo $subject['id_subject'] ?>" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel_<?php echo $subject['id_subject'] ?>" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
                 <div class="modal-content">
                     <div class="modal-header bg-danger text-white">
-                        <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Eliminación</h5>
+                        <h5 class="modal-title" id="confirmDeleteModalLabel_<?php echo $subject['id_subject'] ?>">Confirmar Eliminación</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="modal-body">
-                        <p class="text-center">¿Estás seguro de que deseas eliminar la siguiente materia?</p>
-                        <h5 class="text-center mt-4 mb-4"><?php echo $subject['name_subject'] ?></h5>
-                        <p class="text-center">Esta acción no se puede deshacer.</p>
+                    <div class="modal-body text-center">
+                        <p>¿Estás seguro de que deseas eliminar la siguiente materia?</p>
+                        <h5 class="mt-4 mb-4 font-weight-bold"><?php echo $subject['name_subject'] ?></h5>
+                        <p class="alert alert-danger">Esto también eliminará las correlativas asociadas a esta materia.</p>
+                        <p>Esta acción no se puede deshacer.</p>
+                    </div>
+                    <div class="modal-footer">
                         <form method="post">
                             <input type="hidden" name="id_subject" value="<?php echo $subject['id_subject'] ?>">
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                <button type="submit" class="btn btn-danger" name="deleteButton">Eliminar</button>
-                            </div>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-danger" name="deleteButton">Eliminar</button>
                         </form>
                     </div>
                 </div>
@@ -159,6 +160,7 @@ if ((isset($_GET['name_career'])) && (isset($_GET['id_career'])) && (isset($_GET
         </div>
     <?php endforeach ?>
 <?php endif ?>
+
 
 <?php
 $id_career = $_GET['id_career'];
