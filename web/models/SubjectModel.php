@@ -71,12 +71,14 @@ careers.id_career = ? AND subjects.state=1";
 		$stmt = null;
 	}
 	
-	static public function updateSubjectData($name, $details, $id_subject)
+	//edita parte de las materias
+	static public function updateSubjectData($name, $details,$id_year, $id_subject)
 	{
-		$sql = "UPDATE subjects SET name_subject = :name_subject, details = :details WHERE id_subject = :id_subject";
+		$sql = "UPDATE subjects SET name_subject = :name_subject,details = :details,fk_year_subject=:fk_year_subject WHERE id_subject = :id_subject";
 		$stmt = model_sql::connectToDatabase()->prepare($sql);
 		$stmt->bindParam(':name_subject', $name, PDO::PARAM_STR);
 		$stmt->bindParam(':details', $details, PDO::PARAM_STR); // Aquí se corrigió $last_name por $details
+		$stmt->bindParam(':fk_year_subject', $id_year, PDO::PARAM_INT);
 		$stmt->bindParam(':id_subject', $id_subject, PDO::PARAM_INT);
 	
 		if ($stmt->execute()) {

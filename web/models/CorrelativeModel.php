@@ -207,4 +207,42 @@ GROUP BY
         $stmt = null;
     }
 
+    //muestras las correlativas asignadas a las materias por id
+    static public function showCorrelativeForSubject($id_subject){
+        $sql="SELECT 
+    c1.id_subject AS id_subject,
+    c1.name_subject AS name_subject,
+    GROUP_CONCAT(c2.name_subject ORDER BY c2.name_subject SEPARATOR ' - ') AS correlatives
+FROM 
+    correlatives
+JOIN 
+    subjects AS c1 ON correlatives.fk_subject_id = c1.id_subject
+JOIN 
+    subjects AS c2 ON correlatives.fk_correlative_id = c2.id_subject
+JOIN 
+    careers ON c1.fk_career_id = careers.id_career
+WHERE 
+    c1.id_subject = ?
+GROUP BY 
+    c1.id_subject
+";
+
+  $pdo = model_sql::connectToDatabase();
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(1, $id_subject, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $stmt = null; // Cierra la declaración
+
+            return $result;
+        } else {
+            print_r($stmt->errorInfo());
+            $stmt = null; // Asegúrate de cerrar la declaración en caso de error
+
+            return false;
+        }
+
+    }
+
 }

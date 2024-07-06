@@ -67,6 +67,7 @@ class SubjectController{
     static public function updateSubject($id_career, $name_career, $state) {
         $name_subject = ucwords(strtolower(trim($_POST['subject_name'])));
         $details_subject = trim($_POST['detail']);
+        $id_year=$_POST['id_year'];
         $id_subject = $_POST['id_subject'];
     
         if (preg_match('/[0-9]/', $name_subject) || strlen($name_subject) > 100) {
@@ -85,7 +86,7 @@ class SubjectController{
             return;
         }
     
-        $update = SubjectModel::updateSubjectData($name_subject, $details_subject, $id_subject);
+        $update = SubjectModel::updateSubjectData($name_subject, $details_subject,$id_year,$id_subject);
     
         if ($update) {
             // Si la actualización fue exitosa, redirige

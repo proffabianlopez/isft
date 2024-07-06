@@ -88,6 +88,23 @@ if ((isset($_GET['name_career'])) && (isset($_GET['id_career'])) && (isset($_GET
                                                 ?>
                                             </ul>
                                         </div>
+                                        <div class="mb-3">
+                                            <h5><strong>Correlativas:</strong></h5>
+                                            <ul class="list-unstyled">
+                                                <?php
+                                                $infoCorrelatives= CorrelativeModel:: showCorrelativeForSubject($subject['id_subject']);
+                                                if (!empty($infoCorrelatives)) {
+                                                    foreach ($infoCorrelatives as $correlative) {
+                                                        echo "<li>" . htmlspecialchars($correlative['correlatives']) . "</li>";
+                                                    }
+                                                } else if($subject['year_subject'] == "1º") {
+                                                    echo '<li>Las materias de primero no pueden tener correlativas</li>';
+                                                }else{
+                                                    echo '<li>No se asignaron correlativas todavia</li>';
+                                                }
+                                                ?>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -116,6 +133,13 @@ if ((isset($_GET['name_career'])) && (isset($_GET['id_career'])) && (isset($_GET
                             <div class="form-group">
                                 <label for="subject_name">Nombre de la Materia:</label>
                                 <input type="text" class="form-control mb-3" id="subject_name" name="subject_name" value="<?php echo $subject['name_subject'] ?>" maxlength="100" required>
+                                <div class="form-group">
+                                <label for="para_rendir">Año de la materia</label>
+                                <select class="custom-select" name="id_year">
+                                    <option selected><?php echo $subject['year_subject']?></option>
+                                    <?php (new SubjectController())-> yearSelect(); ?>
+                                </select>
+                            </div>
                                 <label for="detail">Carga Horaria:</label>
                                 <input type="text" class="form-control" id="detail" name="detail" value="<?php echo $subject['details'] ?>" maxlength="3" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" required>
                             </div>
