@@ -2,11 +2,12 @@
 
 class CorrelativeModel
 {
-    //Esta es para mostrar las materias en forma de select
+    //Esta es para mostrar las materias por carrera en forma de select
     static public function showSubjectCorrelative($id)
     {
         $sql = " SELECT subjects.id_subject  AS id_subject,
-       subjects.name_subject AS name_subject
+       subjects.name_subject AS name_subject,
+       subjects.fk_year_subject AS id_year
         FROM subjects
         JOIN careers ON subjects.fk_career_id = careers.id_career
         WHERE careers.id_career = ?  AND subjects.state=1";

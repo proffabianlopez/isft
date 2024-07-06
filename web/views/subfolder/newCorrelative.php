@@ -28,9 +28,9 @@ if ((isset($_GET['name_career'])) && (isset($_GET['id_career'])) && (isset($_GET
                             </div>
                         </form>
                         <?php $message = new MessageController();
-                        $message->show_messages_error('message', "No se puede seleccionar la misma materia para armar la correlativa") ?>
-                        <?php $message = new MessageController();
-                        $message->show_messages_error('correlative', "Esta correlativa ya existe") ?>
+                        $message->show_messages_error('message', "No se puede seleccionar la misma materia para armar la correlativa");
+                        $message->show_messages_error('correlative', "Esta correlativa ya existe");
+                        $message->show_messages_error('yearCorrelative', "No se pueden seleccionar materias del primer año"); ?>
                     </div>
                 </div>
             </div>

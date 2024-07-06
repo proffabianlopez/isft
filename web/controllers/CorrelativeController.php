@@ -20,9 +20,17 @@ class CorrelativeController
         $state = $state;
         $id_subject = $_POST["toRender"];
         $id_correlative = $_POST["subjectApproved"];
+        $id_year = SubjectModel::getIdSubject($id_subject);
+
+        if ($id_year["id_year"] == 1) {
+            echo '<script>
+            window.location.href = "index.php?pages=manageCorrelatives&id_career=' . $id_career . '&name_career=' . $name_career . '&state=' . $state . '&subfolder=newCorrelative&yearCorrelative=error";
+            </script>';
+            return;
+        }
 
         if ($id_subject != $id_correlative) {
-            $result = CorrelativeModel::addSubjectCorrelative($id_subject, $id_correlative); // RREBISAR DESPUES
+            $result = CorrelativeModel::addSubjectCorrelative($id_subject, $id_correlative);
 
             if ($result === "La relación se ha insertado correctamente.") {
                 echo '<script>
