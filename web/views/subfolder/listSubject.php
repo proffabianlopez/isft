@@ -134,10 +134,10 @@ if ((isset($_GET['name_career'])) && (isset($_GET['id_career'])) && (isset($_GET
                                 <label for="subject_name">Nombre de la Materia:</label>
                                 <input type="text" class="form-control mb-3" id="subject_name" name="subject_name" value="<?php echo $subject['name_subject'] ?>" maxlength="100" required>
                                 <div class="form-group">
-                                <label for="para_rendir">Año de la materia</label>
+                                <label for="para_rendir">Año de la materia actual <?php echo $subject['year_subject']?></label>
                                 <select class="custom-select" name="id_year">
-                                    <option selected><?php echo $subject['year_subject']?></option>
-                                    <?php (new SubjectController())-> yearSelect(); ?>
+                                     <option value="<?php echo $subject['id_year']; ?>" selected><?php echo $subject['year_subject']; ?></option>
+                                         <?php (new SubjectController())-> yearSelectSubject($subject['year_subject']); ?>
                                 </select>
                             </div>
                                 <label for="detail">Carga Horaria:</label>

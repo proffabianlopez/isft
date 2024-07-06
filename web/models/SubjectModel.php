@@ -39,8 +39,8 @@ class SubjectModel
 		
 		if ($success) {
 			// Obtener el ID generado después de la inserción
-			$lastInsertedId = $pdo->lastInsertId();
-			return $lastInsertedId; // Devolver el ID generado
+			
+			return true; // Devolver el ID generado
 		} else {
 			print_r($stmt->errorInfo());
 			return false;
@@ -53,6 +53,7 @@ class SubjectModel
 subjects.id_subject AS id_subject,
 subjects.name_subject,
 subjects.details AS details,
+subjects.fk_year_subject AS id_year,
 yearSubject.year AS year_subject,
 yearSubject.detail AS year_detail,
 careers.career_name AS career_name
