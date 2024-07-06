@@ -12,13 +12,13 @@
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label class="pt-1" for="lastName">Apellido <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" name="lastName" placeholder="Ingrese el apellido" value="<?php echo isset($_POST['lastName']) ? htmlspecialchars($_POST['lastName']) : ''; ?>" required>
+                                    <input type="text" maxlength="128" class="form-control" name="lastName" placeholder="Ingrese el apellido" value="<?php echo isset($_POST['lastName']) ? htmlspecialchars($_POST['lastName']) : ''; ?>" required>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label class="pt-1" for="name">Nombre <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" name="name" placeholder="Ingrese el nombre" value="<?php echo isset($_POST['name']) ? htmlspecialchars($_POST['name']) : ''; ?>" required>
+                                    <input type="text" maxlength="128" class="form-control" name="name" placeholder="Ingrese el nombre" value="<?php echo isset($_POST['name']) ? htmlspecialchars($_POST['name']) : ''; ?>" required>
                                 </div>
                             </div>
                         </div>
@@ -28,7 +28,7 @@
                         </div>
                         <div class="form-group px-2">
                             <label class="pt-1" for="mail">Correo electrónico <span class="text-danger">*</span></label>
-                            <input type="email" class="form-control" name="mail" placeholder="Ingrese el correo electrónico" value="<?php echo isset($_POST['mail']) ? htmlspecialchars($_POST['mail']) : ''; ?>" required>
+                            <input type="email" maxlength="255" class="form-control" name="mail" placeholder="Ingrese el correo electrónico" value="<?php echo isset($_POST['mail']) ? htmlspecialchars($_POST['mail']) : ''; ?>" required>
                         </div>
                         <div class="form-group px-2">
                             <label class="pt-1" for="gender">Género <span class="text-danger">*</span></label>
