@@ -44,9 +44,17 @@ class SubjectController{
                 return;
             }
 
-            if (!preg_match('/^[0-9]+$/', $details_subject)) {
+            if (!preg_match('/^[0-9]+$/', $details_subject) || intval($details_subject) <= 0) {
                 echo '<script>
-                    alert("La carga horaria debe contener solo números.");
+                    alert("La carga horaria debe contener solo números positivos mayores a 0.");
+                    window.history.back();
+                    </script>';
+                return;
+            }
+            
+            if (intval($details_subject) > 260) {
+                echo '<script>
+                    alert("La carga horaria no puede ser mayor a 260 horas.");
                     window.history.back();
                     </script>';
                 return;
@@ -91,9 +99,17 @@ class SubjectController{
             return;
         }
 
-        if (!preg_match('/^[0-9]+$/', $details_subject)) {
+        if (!preg_match('/^[0-9]+$/', $details_subject) || intval($details_subject) <= 0) {
             echo '<script>
-                alert("La carga horaria debe contener solo números.");
+                alert("La carga horaria debe contener solo números positivos mayores a 0.");
+                window.history.back();
+                </script>';
+            return;
+        }
+        
+        if (intval($details_subject) > 260) {
+            echo '<script>
+                alert("La carga horaria no puede ser mayor a 260 horas.");
                 window.history.back();
                 </script>';
             return;
