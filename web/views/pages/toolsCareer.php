@@ -169,7 +169,7 @@
 
 
             <div class="col-lg-6">
-                <a href="index.php?pages=manageSubjectStudent&id_career=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['name_career'] ?>&state=<?php echo $_GET['state'] ?>">
+                <a href="#" onclick="inDevelopment(event)">
                     <div class="small-box bg-info">
                         <div class="inner text-white">
                             <h3>Cursada</h3>
