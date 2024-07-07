@@ -19,12 +19,26 @@ class AssignmentController {
 
         // Verificar cantidad de carreras asignadas
         $assigned_count = AssignmentModel::preceptorAccountCareer($id_preceptor);
+        $count_preceptors =  AssignmentModel::preceptorAllAccountCareer($id_career);
+         
 
         if ($assigned_count >= 2) { // Verificar si es mayor o igual a 2
-            echo '<div class="alert alert-danger text-center" role="alert">
-                      No se puede asignar más de 2 carreras a un preceptor.
-                  </div>';
+            echo ' <div class="col-sm-12 pt-3">
+                    <div class="d-flex justify-content-center align-items-center">             
+                        <div class="alert alert-danger mt-2">No se puede asignar al mismo preceptor mas de 2 carreras</div>
+                    </div>
+                </div>';
             return; // Salir de la función si ya tiene dos carreras asignadas
+        }
+
+        if ($count_preceptors  >=2) { 
+            echo ' <div class="col-sm-12 pt-3">
+                    <div class="d-flex justify-content-center align-items-center">             
+                        <div class="alert alert-danger mt-2">No se puede asignar a mas de 2 Preceptores en una Carrera</div>
+                    </div>
+                </div>';
+                   
+            return; 
         }
 
         // Insertar asignación si no tiene dos carreras asignadas aún
