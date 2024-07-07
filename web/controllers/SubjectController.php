@@ -51,17 +51,19 @@ class SubjectController{
                 return;
             }                      
 
-            if (!preg_match('/^[0-9]+$/', $details_subject) || strlen($details_subject) > 3) {
+            if (!preg_match('/^[0-9]+$/', $details_subject) || intval($details_subject) <= 0) {
                 echo '<script>
-                if (window.history.replaceState) {
-                    window.history.replaceState(null, null, window.location.href);
-                }
-                </script>
-                <div class="col-sm-12 pt-3">
-                    <div class="d-flex justify-content-center align-items-center">
-                        <div class="alert alert-danger mt-2">La carga horaria debe contener solo números y no más de 3 caracteres.</div>
-                    </div>
-                </div>';
+                    alert("La carga horaria debe contener solo números positivos mayores a 0.");
+                    window.history.back();
+                    </script>';
+                return;
+            }
+            
+            if (intval($details_subject) > 260) {
+                echo '<script>
+                    alert("La carga horaria no puede ser mayor a 260 horas.");
+                    window.history.back();
+                    </script>';
                 return;
             }
             
@@ -112,17 +114,19 @@ class SubjectController{
             return;
         }                      
 
-        if (!preg_match('/^[0-9]+$/', $details_subject) || strlen($details_subject) > 3) {
+        if (!preg_match('/^[0-9]+$/', $details_subject) || intval($details_subject) <= 0) {
             echo '<script>
-            if (window.history.replaceState) {
-                window.history.replaceState(null, null, window.location.href);
-            }
-            </script>
-            <div class="col-sm-12 pt-3">
-                <div class="d-flex justify-content-center align-items-center">
-                    <div class="alert alert-danger mt-2">La carga horaria debe contener solo números y no más de 3 caracteres.</div>
-                </div>
-            </div>';
+                alert("La carga horaria debe contener solo números positivos mayores a 0.");
+                window.history.back();
+                </script>';
+            return;
+        }
+        
+        if (intval($details_subject) > 260) {
+            echo '<script>
+                alert("La carga horaria no puede ser mayor a 260 horas.");
+                window.history.back();
+                </script>';
             return;
         }
      

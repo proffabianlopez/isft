@@ -23,7 +23,7 @@ if (isset($_GET['name_career']) && isset($_GET['id_career'])&&isset($_GET['state
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label class="pt-1" for="lastName">Carga horaria<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" name="details" placeholder="Carga horaria anual" maxlength="3" oninput="this.value = this.value.replace(/[^0-9]/g, '');" required>
+                                    <input type="text" class="form-control" name="details" placeholder="Carga horaria anual" min= "1" maxlength="3" oninput="this.value = this.value.replace(/[^0-9]/g, '');" required>
                                 </div>
                             </div>
                         </div>
