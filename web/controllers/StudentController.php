@@ -29,6 +29,20 @@ class StudentController
                 return;
             }
 
+            if (strlen($name) > 128 || strlen($lastname) > 128) {
+                echo '<script>
+                if (window.history.replaceState) {
+                    window.history.replaceState(null, null, window.location.href);
+                }
+                </script>
+                <div class="col-sm-12 pt-3">
+                    <div class="d-flex justify-content-center align-items-center">             
+                        <div class="alert alert-danger mt-2">El nombre y/o apellido no pueden tener más de 128 caracteres.</div>
+                    </div>
+                </div>';
+                return;
+            }
+
             $email = strtolower(trim($_POST['mail']));
             $email = filter_var($email, FILTER_VALIDATE_EMAIL);
 
@@ -41,6 +55,20 @@ class StudentController
                 <div class="col-sm-12 pt-3">
                     <div class="d-flex justify-content-center align-items-center">                
                         <div class="alert alert-danger mt-2">Email inválido</div>
+                    </div>
+                </div>';
+                return;
+            }
+
+            if (strlen($email) > 255) {
+                echo '<script>
+                if (window.history.replaceState) {
+                    window.history.replaceState(null, null, window.location.href);
+                }
+                </script>
+                <div class="col-sm-12 pt-3">
+                    <div class="d-flex justify-content-center align-items-center">             
+                        <div class="alert alert-danger mt-2">El email no puede tener más de 255 caracteres.</div>
                     </div>
                 </div>';
                 return;
@@ -177,6 +205,7 @@ class StudentController
     {
         $name = ucwords(strtolower(trim($_POST['name_student'])));
         $lastname = ucwords(strtolower(trim($_POST['last_name_student'])));
+
         if (!preg_match("/^[a-zA-ZáéíóúÁÉÍÓÚ\s]+$/u", $name) || !preg_match("/^[a-zA-ZáéíóúÁÉÍÓÚ\s]+$/u", $lastname)) {
             echo '<script>
             if (window.history.replaceState) {
@@ -186,6 +215,19 @@ class StudentController
             <div class="col-sm-12 pt-3">
                 <div class="d-flex justify-content-center align-items-center">
                     <div class="alert alert-danger mt-2">El nombre y/o apellido solo pueden contener letras, espacios y tildes.</div>
+                </div>
+            </div>';
+            return;
+        }
+        if (strlen($name) > 128 || strlen($lastname) > 128) {
+            echo '<script>
+            if (window.history.replaceState) {
+                window.history.replaceState(null, null, window.location.href);
+            }
+            </script>
+            <div class="col-sm-12 pt-3">
+                <div class="d-flex justify-content-center align-items-center">             
+                    <div class="alert alert-danger mt-2">El nombre y/o apellido no pueden tener más de 128 caracteres.</div>
                 </div>
             </div>';
             return;

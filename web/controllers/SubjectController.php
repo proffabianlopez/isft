@@ -37,12 +37,19 @@ class SubjectController{
             $id_year = $_POST['id_year'];
 
             if (!preg_match('/^[A-Za-zÀ-ÿ0-9\s]+$/', $name_subject) || strlen($name_subject) > 100) {
-                echo '<script>
-                    alert("El nombre de la materia no puede contener caracteres especiales, y debe tener una longitud máxima de 100 caracteres.");
-                    window.history.back();
-                    </script>';
+                echo 
+                    '<script>
+                if (window.history.replaceState) {
+                    window.history.replaceState(null, null, window.location.href);
+                }
+                </script>
+                <div class="col-sm-12 pt-3">
+                    <div class="d-flex justify-content-center align-items-center">
+                        <div class="alert alert-danger mt-2">El nombre no puede tener caracteres especiales ni ser mayor a 100 caracteres.</div>
+                    </div>
+                </div>';
                 return;
-            }
+            }                      
 
             if (!preg_match('/^[0-9]+$/', $details_subject) || intval($details_subject) <= 0) {
                 echo '<script>
@@ -59,6 +66,7 @@ class SubjectController{
                     </script>';
                 return;
             }
+            
     
             // Llamar al método del modelo para crear una nueva materia
             $subject = SubjectModel::newSubject($name_subject, $details_subject, $id_year, $id_career);
@@ -91,13 +99,20 @@ class SubjectController{
         $id_year=$_POST['id_year'];
         $id_subject = $_POST['id_subject'];
     
-        if (preg_match('/[0-9]/', $name_subject) || strlen($name_subject) > 100) {
-            echo '<script>
-                alert("El nombre de la materia no puede contener números.");
-                window.history.back();
-                </script>';
+        if (!preg_match('/^[A-Za-zÀ-ÿ0-9\s]+$/', $name_subject) || strlen($name_subject) > 100) {
+            echo 
+                '<script>
+            if (window.history.replaceState) {
+                window.history.replaceState(null, null, window.location.href);
+            }
+            </script>
+            <div class="col-sm-12 pt-3">
+                <div class="d-flex justify-content-center align-items-center">
+                    <div class="alert alert-danger mt-2">El nombre no puede tener caracteres especiales ni ser mayor a 100 caracteres.</div>
+                </div>
+            </div>';
             return;
-        }
+        }                      
 
         if (!preg_match('/^[0-9]+$/', $details_subject) || intval($details_subject) <= 0) {
             echo '<script>
@@ -114,7 +129,6 @@ class SubjectController{
                 </script>';
             return;
         }
-
      
         $update = SubjectModel::updateSubjectData($name_subject, $details_subject,$id_year,$id_subject);
     
