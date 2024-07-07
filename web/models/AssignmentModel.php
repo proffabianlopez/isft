@@ -197,6 +197,7 @@ static public function preceptor_career($id_preceptor)
         return null; // Handle error as needed
     }
 }
+//esta cuenta cuantas veces el mismo preceptor esta en una carrera
 static public function preceptorAccountCareer($id_user)
 {
     $sql = "SELECT COUNT(*) AS count_assigned FROM career_person WHERE fk_user_id = :id_user";
@@ -212,6 +213,28 @@ static public function preceptorAccountCareer($id_user)
         return -1; // Return -1 or handle error as needed
     }
 }
+
+//cuenta cuanto preceptores hay en una carrera
+static public function preceptorAllAccountCareer($id_career)
+{
+    $sql = "SELECT COUNT(*) AS count_preceptors
+            FROM career_person
+            JOIN users ON career_person.fk_user_id = users.id_user
+            WHERE users.fk_rol_id = 2
+              AND career_person.fk_career_id = :id_career";
+    
+    $stmt = model_sql::connectToDatabase()->prepare($sql);
+    $stmt->bindParam(':id_career', $id_career, PDO::PARAM_INT);
+    
+    if ($stmt->execute()) {
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['count_preceptors'];
+    } else {
+        print_r($stmt->errorInfo());
+        return -1; // Return -1 or handle error as needed
+    }
+}
+
 
 }
 
