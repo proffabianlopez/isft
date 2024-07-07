@@ -51,6 +51,17 @@ if (isset($_GET['name_career']) && isset($_GET['id_career'])&&isset($_GET['state
         </div>
     </div>
 </div>
+
+<div class="container mt-2">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="alert alert-info text-center">
+                <p class="my-1"><b>NOTA: </b>Para crear la materia, la carga horaria debe ser superior a 0 con un máximo de 260.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
 <?php
 }
 ?>
