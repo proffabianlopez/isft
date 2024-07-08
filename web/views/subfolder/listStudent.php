@@ -108,10 +108,26 @@
                         <input type="text" maxlength="128" class="form-control" id="nam" pattern="[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+" title="Solo se permiten letras y espacios" name="name_student" required value="<?php echo $student['name_student']; ?>">
                     </div>
                     <div class="form-group">
+                        <label for="dni">DNI</label>
+                        <input type="text" maxlength="8" oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="form-control" name="dni" value="<?php echo $student['dni']; ?>" required>
+                    </div>
+
+                    <!-- HAY QUE SEPARAR LA PRIMERA PARTE DEL LEGAJO (AC, AS, etc) Y TRAER SOLO LOS ÚLTIMOS 4 NÚMEROS PARA QUE
+                    TE TOME EL VALUE, Y MODIFICAR LA CONSULTA DE LA BASE DE DATOS DE ACUERDO A ESE NÚMERO.
+                    <div class="form-group">
+                        <label for="fileNumber">Legajo</label>
+                        <input type="number" class="form-control" name="file" maxlength="4" max="9999" min="0" value=" echo $student['legajo']; ?>" required>
+                    </div> -->
+
+                    <div class="form-group">
                         <label for="roles">Carrera</label>
                         <select class="form-control" id="carrer" name="carrer" required>
                             <?php (new CareerController())->careerSelect($student['id_career']); ?>
                         </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="cohorte">Cohorte</label>
+                        <input type="text" maxlength="4" oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="form-control" name="date" value="<?php echo $student['startingYear']; ?>" required>
                     </div>
                     <button type="submit" name="savechange" class="btn btn-warning">Guardar cambios</button>
                 </form>
@@ -280,10 +296,30 @@ if (isset($_GET['action'])) {
                         <input type="text" class="form-control" id="nam" pattern="[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+" title="Solo se permiten letras y espacios" name="name_student" required value="<?php echo $student['name_student']; ?>">
                     </div>
                     <div class="form-group">
-                        <label for="roles">Carrera</label>
+                        <label for="dni">DNI</label>
+                        <input type="text" maxlength="8" oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="form-control" name="dni" value="<?php echo $student['dni']; ?>" required>
+                    </div>
+
+                    <!-- HAY QUE SEPARAR LA PRIMERA PARTE DEL LEGAJO (AC, AS, etc) Y TRAER SOLO LOS ÚLTIMOS 4 NÚMEROS PARA QUE
+                    TE TOME EL VALUE, Y MODIFICAR LA CONSULTA DE LA BASE DE DATOS DE ACUERDO A ESE NÚMERO.
+                    <div class="form-group">
+                        <label for="fileNumber">Legajo</label>
+                        <input type="number" class="form-control" name="file" maxlength="4" max="9999" min="0" value=" echo $student['legajo']; ?>" required>
+                    </div> -->
+
+                    <div class="form-group">
+                        <label for="carrer">Carrera</label>
                         <select class="form-control" id="carrer" name="carrer" required>
-                            <?php (new CareerController())->careerSelect($student['id_career']); ?>
+                            <?php
+                            $selectedCareer = isset($_POST['carrer']) ? htmlspecialchars($_POST['carrer']) : '';
+                            (new CareerController())->careerSelectPreceptor($_SESSION['id_user'], $selectedCareer);
+                            ?>
                         </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="cohorte">Cohorte</label>
+                        <input type="text" maxlength="4" oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="form-control" name="date" value="<?php echo $student['startingYear']; ?>" required>
                     </div>
                     <button type="submit" name="savechange" class="btn btn-warning">Guardar cambios</button>
                 </form>
