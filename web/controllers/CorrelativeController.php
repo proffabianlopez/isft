@@ -5,7 +5,7 @@ class CorrelativeController
     public function correlativeSelect($id)
     {
         $showCorrelative = CorrelativeModel::showSubjectCorrelative($id);
-    
+
         foreach ($showCorrelative as $key => $value) {
             $displayText = $value['name_subject'] . ' - ' . $value['year_subject'];
             echo '<option value="' . $value['id_subject'] . '">' . str_pad($displayText, 50, ' ', STR_PAD_RIGHT) . '</option>';
@@ -19,6 +19,13 @@ class CorrelativeController
         $state = $state;
         $id_subject = $_POST["toRender"];
         $id_correlative = $_POST["subjectApproved"];
+
+        if ($id_subject == 'Seleccione una materia' || $id_correlative == 'Seleccione correlativa') {
+            echo '<script>
+            window.location.href = "index.php?pages=manageCorrelatives&id_career=' . $id_career . '&name_career=' . $name_career . '&state=' . $state . '&subfolder=newCorrelative&invalidSelection=error";
+            </script>';
+            return;
+        }
 
         $id_year_subject = SubjectModel::getIdSubject($id_subject);
         $id_year_correlative = SubjectModel::getIdSubject($id_correlative);
