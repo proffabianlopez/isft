@@ -8,6 +8,7 @@
                     <tr class="text-center">
                         <th>Apellido</th>
                         <th>Nombre</th>
+                        <th>Dni</th>
                         <th>Legajo</th>
                         <th>Acciones</th>
                     </tr>
@@ -17,6 +18,8 @@
                         <tr>
                             <td class="text-center"><?php echo $student['last_name_student']; ?></td>
                             <td class="text-center"><?php echo $student['name_student']; ?></td>
+                            <td class="text-center"><?php echo $student['dni']; ?></td>
+
                             <td class="text-center">
                                 <?php if ($student['legajo'] == null) : ?>
                                     <a href="#assignFileModal<?php echo $student['id_student']; ?>" class="btn btn-secondary assign-file" data-toggle="modal" title="Asignar legajo">
