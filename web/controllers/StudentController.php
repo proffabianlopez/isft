@@ -75,7 +75,7 @@ class StudentController
             }
 
             $dni = trim($_POST['dni']);
-            if (!ctype_digit($dni) || strlen($dni) > 8 || strlen($dni) < 6) {
+            if (!ctype_digit($dni) || strlen($dni) > 8 || strlen($dni) < 6 || intval($dni) < 5000000) {
                 echo '<script>
                 if (window.history.replaceState) {
                     window.history.replaceState(null, null, window.location.href);
@@ -92,7 +92,7 @@ class StudentController
             $date = $_POST['date'];
             $id_career = $_POST['carrer'];
 
-            if (!ctype_digit($date) || strlen($date) > 4 || strlen($date) < 4) {
+            if (!ctype_digit($date) || strlen($date) != 4 || $date < 1992 || $date > ($currentYear = date('Y'))) {
                 echo '<script>
                     if (window.history.replaceState) {
                         window.history.replaceState(null, null, window.location.href);
@@ -100,7 +100,7 @@ class StudentController
                     </script>
                     <div class="col-sm-12 pt-3">
                         <div class="d-flex justify-content-center align-items-center">                
-                            <div class="alert alert-danger mt-2">Año inválido. Recuerde que deben ser 4 números.</div>
+                            <div class="alert alert-danger mt-2">Año inválido. Recuerde que deben ser 4 números, entre 1992 y el año actual.</div>
                         </div>
                     </div>';
                 return;
@@ -233,12 +233,41 @@ class StudentController
             return;
         }
 
+        $dni = trim($_POST['dni']);
+        if (!ctype_digit($dni) || strlen($dni) > 8 || strlen($dni) < 6 || intval($dni) < 5000000) {
+            echo '<script>
+            if (window.history.replaceState) {
+                window.history.replaceState(null, null, window.location.href);
+            }
+            </script>
+            <div class="col-sm-12 pt-3">
+                <div class="d-flex justify-content-center align-items-center">                
+                    <div class="alert alert-danger mt-2">DNI inválido. Debe ser un número entre 6 y 8 dígitos.</div>
+                </div>
+            </div>';
+            return;
+        }
+        
+        $date = $_POST['date'];
+        if (!ctype_digit($date) || strlen($date) != 4 || $date < 1992 || $date > ($currentYear = date('Y'))) {
+            echo '<script>
+                if (window.history.replaceState) {
+                    window.history.replaceState(null, null, window.location.href);
+                }
+                </script>
+                <div class="col-sm-12 pt-3">
+                    <div class="d-flex justify-content-center align-items-center">                
+                        <div class="alert alert-danger mt-2">Año inválido. Recuerde que deben ser 4 números, entre 1992 y el año actual.</div>
+                    </div>
+                </div>';
+            return;
+        }
 
         $id_student = $_POST['id_student'];
         $id_career_person = $_POST['id_career_person'];
         $id_career = $_POST['carrer'];
 
-        $execute = StudentModel::updateStudentData($name, $lastname, $id_student);
+        $execute = StudentModel::updateStudentData($name, $lastname, $id_student, $dni, $date);
         if ($execute) {
             AssignmentModel::updateCareerStudent($id_career, $id_career_person);
 
