@@ -194,11 +194,11 @@ GROUP BY
         $stmt->bindParam(':id_correlative', $id_correlative, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
-            return true; // Devolver true si la eliminación se realiza correctamente
+            return true;
         } else {
-            // Manejar cualquier error que pueda ocurrir durante la ejecución de la consulta
+
             print_r($stmt->errorInfo());
-            return false; // Devolver false en caso de error
+            return false;
         }
         $stmt = null;
     }
@@ -211,11 +211,11 @@ GROUP BY
         $stmt->bindParam(':id_subject', $id_subject, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
-            return true; // Devolver true si la eliminación se realiza correctamente
+            return true;
         } else {
-            // Manejar cualquier error que pueda ocurrir durante la ejecución de la consulta
+
             print_r($stmt->errorInfo());
-            return false; // Devolver false en caso de error
+            return false;
         }
         $stmt = null;
     }
@@ -247,14 +247,48 @@ GROUP BY
 
         if ($stmt->execute()) {
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            $stmt = null; // Cierra la declaración
+            $stmt = null;
 
             return $result;
         } else {
             print_r($stmt->errorInfo());
-            $stmt = null; // Asegúrate de cerrar la declaración en caso de error
+            $stmt = null;
 
             return false;
         }
+    }
+
+    static public function checkExistingCorrelative($subject_id_1, $subject_id_2)
+    {
+        $pdo = model_sql::connectToDatabase();
+
+        if ($pdo === null) {
+            return false;
+        }
+
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        $query = "
+        SELECT COUNT(*) AS count
+        FROM correlatives
+        WHERE (fk_subject_id = ? AND fk_correlative_id = ?)
+        OR (fk_subject_id = ? AND fk_correlative_id = ?)
+        ";
+
+        $stmt = $pdo->prepare($query);
+        $stmt->bindParam(1, $subject_id_1, PDO::PARAM_INT);
+        $stmt->bindParam(2, $subject_id_2, PDO::PARAM_INT);
+        $stmt->bindParam(3, $subject_id_2, PDO::PARAM_INT);
+        $stmt->bindParam(4, $subject_id_1, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            $count = $stmt->fetchColumn();
+            return $count > 0;
+        } else {
+            return false;
+        }
+
+        $stmt = null;
+        $pdo = null;
     }
 }
