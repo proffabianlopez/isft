@@ -28,12 +28,25 @@ if ((isset($_GET['name_career'])) && (isset($_GET['id_career'])) && (isset($_GET
                             </div>
                         </form>
                         <?php $message = new MessageController();
-                        $message->show_messages_error('message', "No se puede seleccionar la misma materia para armar la correlativa");
-                        $message->show_messages_error('correlative', "Esta correlativa ya existe");
-                        $message->show_messages_error('yearCorrelative', "No se pueden seleccionar materias del primer año"); ?>
+                        $message->show_messages_error('yearCorrelative', "No se pueden seleccionar materias del primer año.");
+                        $message->show_messages_error('sameSubject', "No se puede seleccionar la misma materia para armar la correlativa.");
+                        $message->show_messages_error('existCorrelative', "Esta correlativa ya existe.");
+                        $message->show_messages_error('yearOrderError', "Materias de años superiores no pueden ser correlativas de materias de años inferiores.");
+                        $message->showMessageVerify('success', "La correlativa se registró correctamente."); ?>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="d-flex justify-content-center">
+
+        <div class="col-lg-6 col-md-8 col-sm-10">
+            <?php $message = new MessageController();
+            $message->show_messages_error('editYearCorrelative', "<strong>Edición</strong>: No se pueden seleccionar materias del primer año.");
+            $message->show_messages_error('editSameSubject', "<strong>Edición</strong>: No se pueden seleccionar las mismas materias para armar la correlativa.");
+            $message->show_messages_error('editExistCorrelative', "<strong>Edición</strong>: Esta correlativa ya existe.");
+            $message->show_messages_error('editYearOrderError', "<strong>Edición</strong>: Materias de años superiores no pueden ser correlativas de materias de años inferiores.");
+            $message->showMessageVerify('editSuccess', "<strong>Edición</strong>: La correlativa se actualizó correctamente."); ?>
         </div>
     </div>
     <div class="d-flex justify-content-center">
