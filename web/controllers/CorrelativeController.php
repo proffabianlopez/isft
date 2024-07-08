@@ -4,50 +4,14 @@ class CorrelativeController
     //Llama al modelo para mostrar las materias en forma de input selectorios
     public function correlativeSelect($id)
     {
-
         $showCorrelative = CorrelativeModel::showSubjectCorrelative($id);
-
+    
         foreach ($showCorrelative as $key => $value) {
-            echo '<option value="' . $value['id_subject'] . '">' . $value['name_subject'] . '</option>';
+            $displayText = $value['name_subject'] . ' - ' . $value['year_subject'];
+            echo '<option value="' . $value['id_subject'] . '">' . str_pad($displayText, 50, ' ', STR_PAD_RIGHT) . '</option>';
         }
     }
-
-    //Controlador para insertar nueva correlativa
-    // static public function newCorrelative($id, $name, $state)
-    // {
-    //     $id_career = $id;
-    //     $name_career = $name;
-    //     $state = $state;
-    //     $id_subject = $_POST["toRender"];
-    //     $id_correlative = $_POST["subjectApproved"];
-    //     $id_year = SubjectModel::getIdSubject($id_subject);
-
-    //     if ($id_year["id_year"] == 1) {
-    //         echo '<script>
-    //         window.location.href = "index.php?pages=manageCorrelatives&id_career=' . $id_career . '&name_career=' . $name_career . '&state=' . $state . '&subfolder=newCorrelative&yearCorrelative=error";
-    //         </script>';
-    //         return;
-    //     }
-
-    //     if ($id_subject != $id_correlative) {
-    //         $result = CorrelativeModel::addSubjectCorrelative($id_subject, $id_correlative);
-
-    //         if ($result === "La relación se ha insertado correctamente.") {
-    //             echo '<script>
-    //         window.location.href = "index.php?pages=manageCorrelatives&id_career=' . $id_career . '&name_career=' . $name_career . '&state=' . $state . '&subfolder=newCorrelative&success=correcto";
-    //         </script>';
-    //         } else {
-    //             echo '<script>
-    //         window.location.href = "index.php?pages=manageCorrelatives&id_career=' . $id_career . '&name_career=' . $name_career . '&state=' . $state . '&subfolder=newCorrelative&existCorrelative=error";
-    //         </script>';
-    //         }
-    //     } else {
-    //         echo '<script>
-    //     window.location.href = "index.php?pages=manageCorrelatives&id_career=' . $id_career . '&name_career=' . $name_career . '&state=' . $state . '&subfolder=newCorrelative&sameSubject=error";
-    //     </script>';
-    //     }
-    // }
-
+    //Logica para crear o armar una nueva correlativa
     static public function newCorrelative($id, $name, $state)
     {
         $id_career = $id;

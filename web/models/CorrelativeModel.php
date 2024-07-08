@@ -5,12 +5,15 @@ class CorrelativeModel
     //Esta es para mostrar las materias por carrera en forma de select
     static public function showSubjectCorrelative($id)
     {
-        $sql = " SELECT subjects.id_subject  AS id_subject,
+        $sql = "SELECT subjects.id_subject AS id_subject,
        subjects.name_subject AS name_subject,
-       subjects.fk_year_subject AS id_year
+       subjects.fk_year_subject AS id_year,
+       CONCAT(yearSubject.year, ' ', yearSubject.detail) AS year_subject
         FROM subjects
         JOIN careers ON subjects.fk_career_id = careers.id_career
-        WHERE careers.id_career = ?  AND subjects.state=1";
+        JOIN yearSubject ON subjects.fk_year_subject = yearSubject.id_year_subject
+        WHERE careers.id_career = ? AND subjects.state = 1
+        ORDER BY year_subject ASC";
 
         $stmt = model_sql::connectToDatabase()->prepare($sql);
         $stmt->bindParam(1, $id, PDO::PARAM_INT);
