@@ -67,7 +67,7 @@ class TeacherController
             }
 
             $dni = trim($_POST['dni']);
-            if (!ctype_digit($dni) || strlen($dni) > 8 || strlen($dni) < 6) {
+            if (!ctype_digit($dni) || strlen($dni) > 8 || strlen($dni) < 6 || intval($dni) < 5000000) {
                 echo '<script>
                 if (window.history.replaceState) {
                     window.history.replaceState(null, null, window.location.href);

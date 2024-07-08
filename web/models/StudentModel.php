@@ -120,13 +120,15 @@ class StudentModel extends UserModel
     }
 
     //actualiza la informacion del estudiante
-    static public function updateStudentData($name, $last_name, $id_student)
+    static public function updateStudentData($name, $last_name, $id_student, $dni, $date)
     {
-        $sql = "UPDATE users SET name = :name, last_name = :last_name WHERE id_user = :id_student";
+        $sql = "UPDATE users SET name = :name, last_name = :last_name, dni = :dni, startingYear = :date WHERE id_user = :id_student";
         $stmt = model_sql::connectToDatabase()->prepare($sql);
         $stmt->bindParam(':name', $name, PDO::PARAM_STR);
         $stmt->bindParam(':last_name', $last_name, PDO::PARAM_STR);
         $stmt->bindParam(':id_student', $id_student, PDO::PARAM_INT);
+        $stmt->bindParam(':dni', $dni, PDO::PARAM_STR);
+        $stmt->bindParam(':date', $date, PDO::PARAM_STR);
 
         if ($stmt->execute()) {
             // Devolver true si la actualización se realiza correctamente
