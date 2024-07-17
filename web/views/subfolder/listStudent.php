@@ -57,7 +57,7 @@
 
 
    <!-- modal de asignar legajo -->
-<div id="assignFileModal<?php echo $student['id_student']; ?>" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="assignFileModalLabel<?php echo $student['id_student']; ?>" aria-hidden="true">
+<div id="assignFileModal<?php echo $student['id_student']; ?>" class="modal fade cierreModal" tabindex="-1" role="dialog" aria-labelledby="assignFileModalLabel<?php echo $student['id_student']; ?>" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-custom text-black ">
@@ -67,7 +67,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="post">
+                <form id="assignlegajo">
                     <input type="hidden" name="student_id" value="<?php echo $student['id_student']; ?>">
                     <input type="hidden" name="career_id" value="<?php echo $student['id_career']; ?>">
                     <div class="form-group">
@@ -79,6 +79,7 @@
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                         <button type="submit" class="btn btn-warning" name="save">Guardar</button>
                     </div>
+                    <div class="response-message text-center"></div>  
                 </form>
             </div>
         </div>
@@ -89,7 +90,7 @@
 
 
    <!-- Modal de edición de usuario -->
-<div class="modal fade" id="editUserModal<?php echo $student['id_student']; ?>" tabindex="-1" role="dialog" aria-labelledby="editUserModalLabel" aria-hidden="true">
+<div class="modal fade cierreModal" id="editUserModal<?php echo $student['id_student']; ?>" tabindex="-1" role="dialog" aria-labelledby="editUserModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header alert alert-warning">
@@ -99,7 +100,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="POST">
+                <form id="editstudent">
                     <input type="hidden" name="id_student" value="<?php echo $student['id_student']; ?>">
                     <input type="hidden" name="id_career_person" value="<?php echo $student['id_career_person']; ?>">
                     <div class="form-group">
@@ -133,6 +134,7 @@
                         <input type="text" maxlength="4" oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="form-control" name="date" value="<?php echo $student['startingYear']; ?>" required>
                     </div>
                     <button type="submit" name="savechange" class="btn btn-warning">Guardar cambios</button>
+                    <div class="response-message text-center"></div>  
                 </form>
             </div>
         </div>
@@ -169,16 +171,6 @@
 
 
 <?php
-if (isset($_POST['savechange'])) {
-    $controller = new StudentController();
-    $controller->editStudent();
-}
-
-if (isset($_POST['save'])) {
-    $controller = new StudentController();
-    $controller->AssingnamentLegajo();
-}
-
 
 if (isset($_GET['action'])) {
     if ($_GET['action'] == "activar_cuenta") {
@@ -247,7 +239,7 @@ if (isset($_GET['action'])) {
 
    
    <!-- modal de asignar legajo -->
-<div id="assignFileModal<?php echo $student['id_student']; ?>" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="assignFileModalLabel<?php echo $student['id_student']; ?>" aria-hidden="true">
+<div id="assignFileModal<?php echo $student['id_student']; ?>" class="modal fade cierreModal" tabindex="-1" role="dialog" aria-labelledby="assignFileModalLabel<?php echo $student['id_student']; ?>" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-custom text-black ">
@@ -257,7 +249,7 @@ if (isset($_GET['action'])) {
                 </button>
             </div>
             <div class="modal-body">
-                <form method="post">
+                <form id="assignlegajo">
                     <input type="hidden" name="student_id" value="<?php echo $student['id_student']; ?>">
                     <input type="hidden" name="career_id" value="<?php echo $student['id_career']; ?>">
                     <div class="form-group">
@@ -266,9 +258,10 @@ if (isset($_GET['action'])) {
                         <small class="form-text text-muted">El número de legajo debe ser un número de 4 dígitos.</small>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-secondary resetMessage" data-dismiss="modal">Cerrar</button>
                         <button type="submit" class="btn btn-warning" name="save">Guardar</button>
                     </div>
+                    <div class="response-message text-center"></div> 
                 </form>
             </div>
         </div>
@@ -279,7 +272,7 @@ if (isset($_GET['action'])) {
 
 
    <!-- Modal de edición de usuario -->
-<div class="modal fade" id="editUserModal<?php echo $student['id_student']; ?>" tabindex="-1" role="dialog" aria-labelledby="editUserModalLabel" aria-hidden="true">
+<div class="modal fade cierreModal" id="editUserModal<?php echo $student['id_student']; ?>" tabindex="-1" role="dialog" aria-labelledby="editUserModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header alert alert-warning">
@@ -289,7 +282,7 @@ if (isset($_GET['action'])) {
                 </button>
             </div>
             <div class="modal-body">
-                <form method="POST">
+                <form id="editstudent">
                     <input type="hidden" name="id_student" value="<?php echo $student['id_student']; ?>">
                     <input type="hidden" name="id_career_person" value="<?php echo $student['id_career_person']; ?>">
                     <div class="form-group">
@@ -327,6 +320,7 @@ if (isset($_GET['action'])) {
                         <input type="text" maxlength="4" oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="form-control" name="date" value="<?php echo $student['startingYear']; ?>" required>
                     </div>
                     <button type="submit" name="savechange" class="btn btn-warning">Guardar cambios</button>
+                    <div class="response-message text-center"></div> 
                 </form>
             </div>
         </div>
@@ -363,15 +357,7 @@ if (isset($_GET['action'])) {
 
 
 <?php
-if (isset($_POST['savechange'])) {
-    $controller = new StudentController();
-    $controller->editStudent();
-}
 
-if (isset($_POST['save'])) {
-    $controller = new StudentController();
-    $controller->AssingnamentLegajo();
-}
 
 
 if (isset($_GET['action'])) {

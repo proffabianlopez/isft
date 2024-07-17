@@ -1,4 +1,8 @@
 $(document).ready(function() {
+  $('.modal').on('hidden.bs.modal', function () {
+    // Reinicia el contenido de todos los elementos con la clase response-message
+    $('.response-message').html(''); 
+});
   function handleFormSubmit(formId, actionUrl, action) {
       $(document).on("submit", formId, function(e) {
           e.preventDefault();
@@ -66,9 +70,16 @@ $(document).ready(function() {
         $(".reset").val("");
       }
   }
-  // Manejar el formulario de edición del profesor
+  //edición del profesor
   handleFormSubmit("#editteacher", "/ajax/teacherAjax.php", "editteacher");
-
-  // Manejar el formulario de nuevo profesor
+  //nuevo profesor
   handleFormSubmit("#newteacher", "/ajax/teacherAjax.php", "newteacher");
+  
+  //edición del alumno
+  handleFormSubmit("#editstudent", "/ajax/studentAjax.php", "editstudent");
+  //nuevo alumno
+  handleFormSubmit("#newstudent", "/ajax/studentAjax.php", "newstudent");
+  //assignar legajo a alumno
+  handleFormSubmit("#assignlegajo", "/ajax/studentAjax.php", "assignlegajo");
+
 });
