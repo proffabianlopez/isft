@@ -82,4 +82,9 @@ $(document).ready(function() {
   //assignar legajo a alumno
   handleFormSubmit("#assignlegajo", "/ajax/studentAjax.php", "assignlegajo");
 
+  //nuevo user
+  handleFormSubmit("#newuser", "/ajax/userAjax.php", "newuser");
+ //editar user
+  handleFormSubmit("#edituser", "/ajax/userAjax.php", "edituser");
+
 });

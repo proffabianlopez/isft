@@ -94,7 +94,7 @@
 
 
     <!-- Modal de edición de usuario -->
-    <div class="modal fade" id="editUserModal<?php echo $user['id_user']; ?>" tabindex="-1" role="dialog" aria-labelledby="editUserModalLabel" aria-hidden="true">
+    <div class="modal fade cierreModal" id="editUserModal<?php echo $user['id_user']; ?>" tabindex="-1" role="dialog" aria-labelledby="editUserModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header alert alert-warning">
@@ -104,7 +104,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST">
+                    <form id="edituser" >
                         <input type="hidden" name="id_user" value="<?php echo $user['id_user']; ?>">
                         <div class="form-group">
                             <label for="apellido">Apellido</label>
@@ -122,6 +122,8 @@
                             </select>
                         </div>
                         <button type="submit" name="savechange" class="btn btn-warning">Guardar cambios</button>
+                        <div class="response-message text-center"></div>
+
                     </form>
                 </div>
             </div>
@@ -134,11 +136,5 @@
 if (isset($_POST['del_user'])) {
     $controller = new UserController();
     $controller->eliminatedUser();
-}
-?>
-
-<?php if (isset($_POST['savechange'])) {
-    $controller = new UserController();
-    $controller->editarUser();
 }
 ?>
