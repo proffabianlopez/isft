@@ -16,94 +16,47 @@ class StudentController
             $name = ucwords(strtolower(trim($_POST['name'])));
             $lastname = ucwords(strtolower(trim($_POST['lastName'])));
             if (!preg_match("/^[a-zA-ZáéíóúÁÉÍÓÚ\s]+$/u", $name) || !preg_match("/^[a-zA-ZáéíóúÁÉÍÓÚ\s]+$/u", $lastname)) {
-                echo '<script>
-                if (window.history.replaceState) {
-                    window.history.replaceState(null, null, window.location.href);
-                }
-                </script>
-                <div class="col-sm-12 pt-3">
-                    <div class="d-flex justify-content-center align-items-center">
-                        <div class="alert alert-danger mt-2">El nombre y/o apellido solo pueden contener letras, espacios y tildes.</div>
-                    </div>
-                </div>';
-                return;
+               
+                $response["status"] = "error";
+                $response["message"] = "El nombre y/o apellido solo pueden contener letras, espacios y tildes.";
+                return $response;
             }
 
             if (strlen($name) > 128 || strlen($lastname) > 128) {
-                echo '<script>
-                if (window.history.replaceState) {
-                    window.history.replaceState(null, null, window.location.href);
-                }
-                </script>
-                <div class="col-sm-12 pt-3">
-                    <div class="d-flex justify-content-center align-items-center">             
-                        <div class="alert alert-danger mt-2">El nombre y/o apellido no pueden tener más de 128 caracteres.</div>
-                    </div>
-                </div>';
-                return;
+                $response["status"] = "error";
+                $response["message"] = "El nombre y/o apellido no pueden tener más de 128 caracteres.";
+                return $response;
             }
 
             $email = strtolower(trim($_POST['mail']));
             $email = filter_var($email, FILTER_VALIDATE_EMAIL);
 
             if ($email === false) {
-                echo '<script>
-                if (window.history.replaceState) {
-                    window.history.replaceState(null, null, window.location.href);
-                }
-                </script>
-                <div class="col-sm-12 pt-3">
-                    <div class="d-flex justify-content-center align-items-center">                
-                        <div class="alert alert-danger mt-2">Email inválido</div>
-                    </div>
-                </div>';
-                return;
+                $response["status"] = "error";
+                $response["message"] = "Email invalido";
+                return $response;
             }
 
             if (strlen($email) > 255) {
-                echo '<script>
-                if (window.history.replaceState) {
-                    window.history.replaceState(null, null, window.location.href);
-                }
-                </script>
-                <div class="col-sm-12 pt-3">
-                    <div class="d-flex justify-content-center align-items-center">             
-                        <div class="alert alert-danger mt-2">El email no puede tener más de 255 caracteres.</div>
-                    </div>
-                </div>';
-                return;
+                $response["status"] = "error";
+                $response["message"] = "El email no puede tener más de 255 caracteres.";
+                return $response;
             }
 
             $dni = trim($_POST['dni']);
             if (!ctype_digit($dni) || strlen($dni) > 8 || strlen($dni) < 6 || intval($dni) < 5000000) {
-                echo '<script>
-                if (window.history.replaceState) {
-                    window.history.replaceState(null, null, window.location.href);
-                }
-                </script>
-                <div class="col-sm-12 pt-3">
-                    <div class="d-flex justify-content-center align-items-center">                
-                        <div class="alert alert-danger mt-2">DNI inválido. Debe ser un número entre 6 y 8 dígitos.</div>
-                    </div>
-                </div>';
-                return;
+                $response["status"] = "error";
+                $response["message"] = "DNI inválido. Debe ser un número entre 6 y 8 dígitos.";
+                return $response;
             }
             $gender = $_POST['gender'];
             $date = $_POST['date'];
             $id_career = $_POST['carrer'];
 
             if (!ctype_digit($date) || strlen($date) != 4 || $date < 1992 || $date > ($currentYear = date('Y'))) {
-                echo '<script>
-                    if (window.history.replaceState) {
-                        window.history.replaceState(null, null, window.location.href);
-                    }
-                    </script>
-                    <div class="col-sm-12 pt-3">
-                        <div class="d-flex justify-content-center align-items-center">                
-                            <div class="alert alert-danger mt-2">Año inválido. Recuerde que deben ser 4 números, entre 1992 y el año actual.</div>
-                        </div>
-                    </div>';
-                return;
+                $response["status"] = "error";
+                $response["message"] = "Año inválido. Recuerde que deben ser 4 números, entre 1992 y el año actual.";
+                return $response;
             }
 
 
@@ -111,17 +64,9 @@ class StudentController
             $checkCountDniOrEmail = StudentModel::checkForDuplicates($dni, $email);
 
             if ($checkCountDniOrEmail !== false) {
-                echo '<script>
-                if (window.history.replaceState) {
-                    window.history.replaceState(null, null, window.location.href);
-                }
-                </script>
-                <div class="col-sm-12 pt-3">
-                    <div class="d-flex justify-content-center align-items-center">                
-                        <div class="alert alert-danger mt-2">Ya existe el Email o el Dni</div>
-                    </div>
-                </div>';
-                return;
+                $response["status"] = "error";
+                $response["message"] = "Ya existe el Email o el DNI";
+                return $response;
             }
 
             $execute = StudentModel::newStudent($name, $lastname, $email, $dni, $date, $gender);
@@ -130,42 +75,20 @@ class StudentController
             if ($execute) {
                 AssignmentModel::insertCareerPerson($id_career, $execute);
 
-                echo '<script>
-                if (window.history.replaceState) {
-                    window.history.replaceState(null, null, window.location.href);
-                }
-                window.location="../index.php?pages=manageStudent&subfolder=newStudent&message=correcto";
-                </script>
-                <div class="col-sm-12 pt-3">
-                    <div class="d-flex justify-content-center align-items-center">                
-                        <div class="alert alert-succes mt-2">Se guardó el registro correctamente</div>
-                    </div>
-                </div>';
+                $response['title'] = "¡Éxito!";
+                $response["status"] = "successReset";
+                $response["message"] = "Se guardó los datos correctamente";
+                return $response;
             } else {
-                echo '<script>
-                if (window.history.replaceState) {
-                    window.history.replaceState(null, null, window.location.href);
-                }
-                window.location="../index.php?pages=manageStudent&subfolder=newStudent";
-                </script>
-                <div class="col-sm-12 pt-3">
-                    <div class="d-flex justify-content-center align-items-center">                
-                        <div class="alert alert-danger mt-2">Hubo un problema al crearlo</div>
-                    </div>
-                </div>';
+                $response["status"] = "error";
+                $response["message"] = "Hubo un problema al crearlo";
+                return $response;
             }
         } else {
-            echo '<script>
-            if (window.history.replaceState) {
-                window.history.replaceState(null, null, window.location.href);
-            }
-            </script>
-            <div class="col-sm-12 pt-3">
-                    <div class="d-flex justify-content-center align-items-center">                
-                        <div class="alert alert-danger mt-2">Debes completar los campos</div>
-                    </div>
-                </div>';
+            $response["status"] = "error";
+            $response["message"] = "Debes completar los campos";
         }
+        return $response;
     }
     //trae todo los datos del estudiante
     static public function getAllStudent()
@@ -207,60 +130,28 @@ class StudentController
         $lastname = ucwords(strtolower(trim($_POST['last_name_student'])));
 
         if (!preg_match("/^[a-zA-ZáéíóúÁÉÍÓÚ\s]+$/u", $name) || !preg_match("/^[a-zA-ZáéíóúÁÉÍÓÚ\s]+$/u", $lastname)) {
-            echo '<script>
-            if (window.history.replaceState) {
-                window.history.replaceState(null, null, window.location.href);
-            }
-            </script>
-            <div class="col-sm-12 pt-3">
-                <div class="d-flex justify-content-center align-items-center">
-                    <div class="alert alert-danger mt-2">El nombre y/o apellido solo pueden contener letras, espacios y tildes.</div>
-                </div>
-            </div>';
-            return;
+            $response["status"] = "error";
+            $response["message"] = "El nombre y/o apellido solo pueden contener letras, espacios y tildes.";
+            return $response;
         }
         if (strlen($name) > 128 || strlen($lastname) > 128) {
-            echo '<script>
-            if (window.history.replaceState) {
-                window.history.replaceState(null, null, window.location.href);
-            }
-            </script>
-            <div class="col-sm-12 pt-3">
-                <div class="d-flex justify-content-center align-items-center">             
-                    <div class="alert alert-danger mt-2">El nombre y/o apellido no pueden tener más de 128 caracteres.</div>
-                </div>
-            </div>';
-            return;
+            $response["status"] = "error";
+            $response["message"] = "El nombre y/o apellido no pueden tener más de 128 caracteres.";
+            return $response;
         }
 
         $dni = trim($_POST['dni']);
         if (!ctype_digit($dni) || strlen($dni) > 8 || strlen($dni) < 6 || intval($dni) < 5000000) {
-            echo '<script>
-            if (window.history.replaceState) {
-                window.history.replaceState(null, null, window.location.href);
-            }
-            </script>
-            <div class="col-sm-12 pt-3">
-                <div class="d-flex justify-content-center align-items-center">                
-                    <div class="alert alert-danger mt-2">DNI inválido. Debe ser un número entre 6 y 8 dígitos.</div>
-                </div>
-            </div>';
-            return;
+            $response["status"] = "error";
+            $response["message"] = "DNI inválido. Debe ser un número entre 6 y 8 dígitos.";
+            return $response;
         }
         
         $date = $_POST['date'];
         if (!ctype_digit($date) || strlen($date) != 4 || $date < 1992 || $date > ($currentYear = date('Y'))) {
-            echo '<script>
-                if (window.history.replaceState) {
-                    window.history.replaceState(null, null, window.location.href);
-                }
-                </script>
-                <div class="col-sm-12 pt-3">
-                    <div class="d-flex justify-content-center align-items-center">                
-                        <div class="alert alert-danger mt-2">Año inválido. Recuerde que deben ser 4 números, entre 1992 y el año actual.</div>
-                    </div>
-                </div>';
-            return;
+            $response["status"] = "error";
+            $response["message"] = "Año inválido. Recuerde que deben ser 4 números, entre 1992 y el año actual.";
+            return $response;
         }
 
         $id_student = $_POST['id_student'];
@@ -271,22 +162,14 @@ class StudentController
         if ($execute) {
             AssignmentModel::updateCareerStudent($id_career, $id_career_person);
 
-            echo '<script>
-                    if (window.history.replaceState) {
-                        window.history.replaceState(null, null, window.location.href);
-                    }
-                    
-                    window.location="../index.php?pages=manageStudent&subfolder=listStudent";
-                    </script>
-                    <div class="alert alert-succes mt-2">Se guardó el registro correctamente</div>';
+            $response['title'] = "¡Actualizado!";
+            $response["status"] = "successLoad";
+            $response["message"] = "Se guardó los datos correctamente";
+            return $response;
         } else {
-            echo '<script>
-                    if (window.history.replaceState) {
-                        window.history.replaceState(null, null, window.location.href);
-                    }
-                    window.location="../index.php?pages=newStudent";
-                    </script>
-                    <div class="alert alert-danger mt-2">Hubo un problema al crearlo</div>';
+            $response["status"] = "error";
+            $response["message"] = "Hubo un problema al crearlo";
+            return $response;
         }
     }
     //para crear la cuenta del estudiante usuario
@@ -365,8 +248,9 @@ class StudentController
     
             // Verificar que el legajo no supere los 4 dígitos
             if (strlen($file) > 4) {
-                echo '<div class="alert alert-danger mt-2">El legajo no puede tener más de 4 dígitos</div>';
-                return;
+                $response["status"] = "error";
+                $response["message"] = "El legajo no puede tener más de 4 dígitos.";
+                return $response;
             }
     
             // Obtener abreviatura de la carrera
@@ -381,35 +265,27 @@ class StudentController
     
             if ($execute === true) {
                 // Redireccionar con mensaje de éxito si la actualización fue exitosa
-                echo '<script>
-                    if (window.history.replaceState) {
-                        window.history.replaceState(null, null, window.location.href);
-                    }
-                    window.location="../index.php?pages=manageStudent&message=correcto";
-                    </script>';
+                $response['title'] = "¡Éxito!";
+                $response["status"] = "successReset";
+                $response["message"] = "Se guardó los datos correctamente";
+                return $response;
             } elseif ($execute === false) {
                 // Redireccionar con mensaje de error si el legajo ya existe
-                echo '<script>
-                    if (window.history.replaceState) {
-                        window.history.replaceState(null, null, window.location.href);
-                    }
-                    window.location="../index.php?pages=manageStudent&subfolder=listStudent&legajo=error";
-                    </script>
-                    <div class="alert alert-danger mt-2">El legajo ya está en uso por otro estudiante</div>';
+                $response["status"] = "error";
+                $response["message"] = "El legajo ya está en uso por otro estudiante.";
+                return $response;
             } else {
                 // Manejar otros posibles errores
-                echo '<script>
-                    if (window.history.replaceState) {
-                        window.history.replaceState(null, null, window.location.href);
-                    }
-                    window.location="../index.php?pages=manageStudent&subfolder=listStudent";
-                    </script>
-                    <div class="alert alert-danger mt-2">Hubo un problema al asignar legajo</div>';
+                $response["status"] = "error";
+                $response["message"] = "Hubo un problema al asignar legajo";
+                return $response;
             }
         } else {
             // Mostrar mensaje si algún campo está vacío
-            echo '<div class="alert alert-danger mt-2">Debes completar todos los campos</div>';
+            $response["status"] = "error";
+            $response["message"] = "Debes completar los campos";
         }
+        return $response;
     }
     
 

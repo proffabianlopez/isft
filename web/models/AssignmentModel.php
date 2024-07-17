@@ -1,5 +1,4 @@
 <?php
-include_once 'config/MysqlDb.php'; // Asegúrate de incluir el archivo que contiene la clase model_sql
 //aqui iran todas las consultas relacionada a las asignaciones de profesores preceptores y docentes
 class AssignmentModel {
 
