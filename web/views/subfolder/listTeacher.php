@@ -43,7 +43,7 @@
 
 
     <!-- Modal de edición de profesor -->
-    <div class="modal fade" id="editUserModal<?php echo $teacher['id_teacher']; ?>" tabindex="-1" role="dialog" aria-labelledby="editUserModalLabel" aria-hidden="true">
+    <div class="modal fade cierreModal" id="editUserModal<?php echo $teacher['id_teacher']; ?>" tabindex="-1" role="dialog" aria-labelledby="editUserModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header alert alert-warning">
@@ -53,7 +53,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST">
+                    <form id="editteacher">
 
                         <input type="hidden" name="id_teacher" value="<?php echo $teacher['id_teacher']; ?>">
                         <div class="form-group">
@@ -65,6 +65,7 @@
                             <input type="text" maxlength="128" class="form-control" id="nam" pattern="[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+" title="Solo se permiten letras y espacios" name="name_teacher" required value="<?php echo $teacher['name_teacher']; ?>">
                         </div>
                         <button type="submit" name="savechange" class="btn btn-warning">Guardar cambios</button>
+                        <div class="response-message text-center"></div>  
                     </form>
                 </div>
             </div>
@@ -96,18 +97,3 @@
 
 
 <?php endforeach; ?>
-
-
-<?php
-if (isset($_POST['savechange'])) {
-    $controller = new TeacherController();
-    $controller->editTeacher();
-}
-//por el momento no usaremos la creacion de usuarios en profesores
-// if (isset($_GET['action'])) {
-//     if ($_GET['action'] == "activar_cuenta") {
-//         $controller = new TeacherController();
-//         $controller->generateAccountTeacher();
-//     }
-// }
-?>

@@ -1,5 +1,4 @@
 <?php
-include_once 'config/MysqlDb.php';
 class TeacherModel extends UserModel
 {
     static public function newTeacher($value1, $value2, $value3, $value4, $value5)
