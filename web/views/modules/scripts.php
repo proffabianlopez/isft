@@ -18,6 +18,7 @@
 <script src="public/plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="public/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <script src="public/js/datatable.js"></script>
+<script src="public/plugins/toastr/toastr.min.js"></script> 
 <!---Script para manejar el sweet alert de cerrar session-->
 <script src="public/js/sweetAlertSession.js"></script>
 <!--ocultar barra lateral--->
@@ -26,3 +27,5 @@
 <script src="public/js/generateAccountTeacher.js"></script>
 <script src="public/js/generateAccountStudent.js"></script>
 <script src="public/js/inDevelopment.js"></script>
+
+<script src="public/js/main.js"></script>

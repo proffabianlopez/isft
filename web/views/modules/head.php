@@ -22,3 +22,5 @@
 <!--Nuestro csss-->
 <link rel="stylesheet" href="public/css/styles.css">
 <link rel="stylesheet" href="public/css/modal_career.css">
+<!-- Toastr -->
+<link rel="stylesheet" href="public/plugins/toastr/toastr.min.css">

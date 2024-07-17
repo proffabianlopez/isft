@@ -12,69 +12,38 @@ class TeacherController
             $name = ucwords(strtolower(trim($_POST['name'])));
             $lastname = ucwords(strtolower(trim($_POST['lastName'])));
             if (!preg_match("/^[a-zA-ZáéíóúÁÉÍÓÚ\s]+$/u", $name) || !preg_match("/^[a-zA-ZáéíóúÁÉÍÓÚ\s]+$/u", $lastname)) {
-                echo '<script>
-                if (window.history.replaceState) {
-                    window.history.replaceState(null, null, window.location.href);
-                }
-                </script>
-                <div class="col-sm-12 pt-3">
-                    <div class="d-flex justify-content-center align-items-center">
-                        <div class="alert alert-danger mt-2">El nombre y/o apellido solo pueden contener letras, espacios y tildes.</div>
-                    </div>
-                </div>';
-                return;
+             
+                $response["status"] = "error";
+                $response["message"] = "El nombre y/o apellido solo pueden contener letras, espacios y tildes.";
+                return $response;
             }
 
             if (strlen($name) > 128 || strlen($lastname) > 128) {
-                echo '<script>
-                if (window.history.replaceState) {
-                    window.history.replaceState(null, null, window.location.href);
-                }
-                </script>
-                <div class="col-sm-12 pt-3">
-                    <div class="d-flex justify-content-center align-items-center">             
-                        <div class="alert alert-danger mt-2">El nombre y/o apellido no pueden tener más de 128 caracteres.</div>
-                    </div>
-                </div>';
-                return;
+                $response["status"] = "error";
+                $response["message"] = "El nombre y/o apellido no pueden tener más de 128 caracteres.";
+                return $response;
             }
 
             $email = strtolower(trim($_POST['mail']));
             $email = filter_var($email, FILTER_VALIDATE_EMAIL);
 
             if ($email === false) {
-                echo '<script>
-                if (window.history.replaceState) {
-                    window.history.replaceState(null, null, window.location.href);
-                }
-                </script>
-                <div class="alert alert-danger mt-2">Email inválido</div>';
-                return;
+                $response["status"] = "error";
+                $response["message"] = "Email invalido";
+                return $response;
             }
 
             if (strlen($email) > 255) {
-                echo '<script>
-                if (window.history.replaceState) {
-                    window.history.replaceState(null, null, window.location.href);
-                }
-                </script>
-                <div class="col-sm-12 pt-3">
-                    <div class="d-flex justify-content-center align-items-center">             
-                        <div class="alert alert-danger mt-2">El email no puede tener más de 255 caracteres.</div>
-                    </div>
-                </div>';
-                return;
+                $response["status"] = "error";
+                $response["message"] = "El email no puede tener más de 255 caracteres.";
+                return $response;
             }
 
             $dni = trim($_POST['dni']);
             if (!ctype_digit($dni) || strlen($dni) > 8 || strlen($dni) < 6 || intval($dni) < 5000000) {
-                echo '<script>
-                if (window.history.replaceState) {
-                    window.history.replaceState(null, null, window.location.href);
-                }
-                </script>
-                <div class="alert alert-danger mt-2">DNI inválido. Debe ser un número entre 6 y 8 dígitos.</div>';
-                return;
+                $response["status"] = "error";
+                $response["message"] = "DNI inválido. Debe ser un número entre 6 y 8 dígitos.";
+                return $response;
             }
 
             $gender = $_POST['gender'];
@@ -83,41 +52,28 @@ class TeacherController
             $checkCountDniOrEmail = TeacherModel::checkForDuplicates($dni, $email);
 
             if ($checkCountDniOrEmail !== false) {
-                echo '<script>
-                if (window.history.replaceState) {
-                    window.history.replaceState(null, null, window.location.href);
-                }
-                </script>
-                <div class="alert alert-danger mt-2">Ya existe el Email o el DNI</div>';
-                return;
+                $response["status"] = "error";
+                $response["message"] = "Ya existe el Email o el DNI";
+                return $response;
             }
             $execute = TeacherModel::newTeacher($name, $lastname, $email, $dni, $gender);
 
             if ($execute) {
-                echo '<script>
-                if (window.history.replaceState) {
-                    window.history.replaceState(null, null, window.location.href);
-                }
-                window.location="../index.php?pages=manageTeacher&subfolder=newTeacher&message=correcto";
-                </script>
-                <div class="alert alert-succes mt-2">Se guardó el registro correctamente</div>';
+                $response['title'] = "¡Éxito!";
+                $response["status"] = "successReset";
+                $response["message"] = "Se guardó los datos correctamente";
+                return $response;
             } else {
-                echo '<script>
-                if (window.history.replaceState) {
-                    window.history.replaceState(null, null, window.location.href);
-                }
-                window.location="../index.php?pages=manageTeacher&subfolder=newTeacher";
-                </script>
-                <div class="alert alert-danger mt-2">Hubo un problema al crearlo</div>';
+                $response["status"] = "error";
+                $response["message"] = "Hubo un problema al crearlo";
+                return $response;
             }
         } else {
-            echo '<script>
-            if (window.history.replaceState) {
-                window.history.replaceState(null, null, window.location.href);
-            }
-            </script>
-            <div class="alert alert-danger mt-2">Debes completar los campos</div>';
+
+            $response["status"] = "error";
+            $response["message"] = "Debes completar los campos";
         }
+        return $response;
     }
 
     static public function getAllTeachers()
@@ -131,66 +87,31 @@ class TeacherController
         $lastname = ucwords(strtolower(trim($_POST['last_name_teacher'])));
 
         if (!preg_match("/^[a-zA-ZáéíóúÁÉÍÓÚ\s]+$/u", $name) || !preg_match("/^[a-zA-ZáéíóúÁÉÍÓÚ\s]+$/u", $lastname)) {
-            echo '<script>
-            if (window.history.replaceState) {
-                window.history.replaceState(null, null, window.location.href);
-            }
-            </script>
-            <div class="col-sm-12 pt-3">
-                <div class="d-flex justify-content-center align-items-center">
-                    <div class="alert alert-danger mt-2">El nombre y/o apellido solo pueden contener letras, espacios y tildes.</div>
-                </div>
-            </div>';
-            return;
+            $response["status"] = "error";
+            $response["message"] = "El nombre y/o apellido solo pueden contener letras, espacios y tildes.";
+            return $response;
         }
         if (strlen($name) > 128 || strlen($lastname) > 128) {
-            echo '<script>
-            if (window.history.replaceState) {
-                window.history.replaceState(null, null, window.location.href);
-            }
-            </script>
-            <div class="col-sm-12 pt-3">
-                <div class="d-flex justify-content-center align-items-center">             
-                    <div class="alert alert-danger mt-2">El nombre y/o apellido no pueden tener más de 128 caracteres.</div>
-                </div>
-            </div>';
-            return;
+            $response["status"] = "error";
+            $response["message"] = "El nombre y/o apellido no pueden tener más de 128 caracteres.";
+            return $response;
         }
 
 
         $id_teacher = $_POST['id_teacher'];
-        /*$checkCountEmail = TeacherModel::checkForDuplicatesEmail($id_teacher, $email);
-
-        if ($checkCountEmail !== false) {
-            echo '<script>
-                if (window.history.replaceState) {
-                    window.history.replaceState(null, null, window.location.href);
-                }
-                </script>
-                <div class="alert alert-danger mt-2">Ya existe el email</div>';
-            return;
-        }*/
 
         $execute = TeacherModel::updateTeacherData($name, $lastname, $id_teacher);
         if ($execute) {
-
-            echo '<script>
-                if (window.history.replaceState) {
-                    window.history.replaceState(null, null, window.location.href);
-                }
-                
-                window.location="../index.php?pages=manageTeacher&subfolder=listTeacher";
-                </script>
-                <div class="alert alert-succes mt-2">Se guardó el registro correctamente</div>';
+            $response['title'] = "¡Actualizado!";
+            $response["status"] = "successLoad";
+            $response["message"] = "Se guardó los datos correctamente";
+            return $response;
         } else {
-            echo '<script>
-                if (window.history.replaceState) {
-                    window.history.replaceState(null, null, window.location.href);
-                }
-                window.location="../index.php?pages=manageTeacher&subfolder=listTeacher";
-                </script>
-                <div class="alert alert-danger mt-2">Hubo un problema al editar</div>';
+            $response["status"] = "error";
+            $response["message"] = "Hubo un problema al crearlo";
+            return $response;
         }
+        
     }
 
 

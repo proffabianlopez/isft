@@ -1,5 +1,4 @@
 <?php
-include_once 'config/MysqlDb.php';
 class UserModel
 {
     static public function login($email, $password)
