@@ -1,6 +1,4 @@
 <?php
-include_once 'config/MysqlDb.php'; // Asegúrate de incluir el archivo que contiene la clase model_sql
-//crea un nuevo estudiante
 class StudentModel extends UserModel
 {
 
