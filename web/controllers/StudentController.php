@@ -254,7 +254,7 @@ class StudentController
             }
     
             // Obtener abreviatura de la carrera
-            $data_career = CareerModel::careerInfo($id_career);
+            $data_career = CareerModel::nameCareer($id_career);
             $abbreviation = $data_career['abbreviation'];
     
             // Concatenar abreviatura al nombre del archivo

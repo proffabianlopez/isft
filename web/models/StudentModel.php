@@ -1,5 +1,4 @@
 <?php
-//crea un nuevo estudiante
 class StudentModel extends UserModel
 {
 

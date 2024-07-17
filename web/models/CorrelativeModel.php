@@ -1,5 +1,4 @@
-<?php include_once 'config/MysqlDb.php';
-
+<?php 
 class CorrelativeModel
 {
     //Esta es para mostrar las materias por carrera en forma de select
