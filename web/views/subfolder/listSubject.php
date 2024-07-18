@@ -132,7 +132,7 @@ if ((isset($_GET['name_career'])) && (isset($_GET['id_career'])) && (isset($_GET
 <!-- Modales de editar -->
 <?php if ($_SESSION['fk_rol_id'] == 1) : ?>
     <?php foreach ($subjects as $subject) : ?>
-        <div class="modal fade" id="modal_edit_<?php echo $subject['id_subject'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade cierreModal" id="modal_edit_<?php echo $subject['id_subject'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header bg-warning">
@@ -142,7 +142,7 @@ if ((isset($_GET['name_career'])) && (isset($_GET['id_career'])) && (isset($_GET
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form method="post">
+                        <form id="editsubject" >
                             <input type="hidden" name="id_subject" value="<?php echo $subject['id_subject'] ?>">
                             <div class="form-group">
                                 <label for="subject_name">Nombre de la Materia:</label>
@@ -161,6 +161,7 @@ if ((isset($_GET['name_career'])) && (isset($_GET['id_career'])) && (isset($_GET
                                 <button type="submit" class="btn btn-warning" name="savechange">Guardar Cambios</button>
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                             </div>
+                            <div class="response-message text-center"></div>
                         </form>
                     </div>
                 </div>
@@ -171,7 +172,7 @@ if ((isset($_GET['name_career'])) && (isset($_GET['id_career'])) && (isset($_GET
 <!-- Modal de confirmación para eliminar materia -->
 <?php if ($_SESSION['fk_rol_id'] == 1) : ?>
     <?php foreach ($subjects as $subject) : ?>
-        <div class="modal fade" id="confirmDeleteModal_<?php echo $subject['id_subject'] ?>" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel_<?php echo $subject['id_subject'] ?>" aria-hidden="true">
+        <div class="modal fade cierreModal" id="confirmDeleteModal_<?php echo $subject['id_subject'] ?>" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel_<?php echo $subject['id_subject'] ?>" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
                 <div class="modal-content">
                     <div class="modal-header bg-danger text-white">
@@ -192,6 +193,7 @@ if ((isset($_GET['name_career'])) && (isset($_GET['id_career'])) && (isset($_GET
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                             <button type="submit" class="btn btn-danger" name="deleteButton">Eliminar</button>
                         </form>
+                        <div class="response-message text-center"></div>
                     </div>
                 </div>
             </div>
@@ -204,11 +206,6 @@ if ((isset($_GET['name_career'])) && (isset($_GET['id_career'])) && (isset($_GET
 $id_career = $_GET['id_career'];
 $name_career = $_GET['name_career'];
 $state = $_GET['state'];
-
-if (isset($_POST['savechange'])) {
-    $controller = new SubjectController();
-    $controller->updateSubject($id_career, $name_career, $state);
-}
 
 if (isset($_POST['deleteButton'])) {
     $controller = new SubjectController();
