@@ -24,7 +24,7 @@
 
 <?php
 if (isset($_GET['subfolder'])) {
-    if (($_GET['subfolder'] == "listTeacher" || $_GET['subfolder'] == "newTeacher")) {
+    if (($_GET['subfolder'] == "listTeacher" || $_GET['subfolder'] == "newTeacher")||$_GET['subfolder']=="teacherCareer") {
         include "views/subfolder/" . $_GET['subfolder'] . ".php";
     }
 } else {

@@ -26,8 +26,9 @@
                                     </a>
 
                                     <!-- <a href="#" class="btn btn-info" onclick="generateUser(<?php //echo $teacher['id_teacher'] 
-                                                                                                ?>)" title="Generar nuevo usuario"><i class="fas fa-user-plus"></i></a> -->
+                                    ?>)" title="Generar nuevo usuario"><i class="fas fa-user-plus"></i></a> -->
 
+                                    <a href="index.php?pages=manageTeacher&id_teacher=<?php echo $teacher['id_teacher']; ?>&name_teacher=<?php echo $teacher['name_teacher']; ?>&subfolder=teacherCareer" class="btn btn-dark" title="Asignar Carrera"><i class="fas fa-user-tag"></i></a>
                                 </td>
                             <?php endif; ?>
                         </tr>
