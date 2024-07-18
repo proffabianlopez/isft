@@ -44,21 +44,9 @@ $id_career = $_GET['id_career'];
 
     <script>
        <?php if (isset($id_career)): ?>
-            let idCareer = "<?php echo htmlspecialchars($id_career); ?>";
+            let id = "<?php echo htmlspecialchars($id_career); ?>";
         <?php endif; ?>
     </script>
 
 </body>
 </html>
-
-<?php
-// if (isset($_POST['savechange'])) {
-    
-//         $id_career = $_GET['id_career'];
-//         $name_career = $_GET['name_career'];
-//         $state = $_GET['state'];
-        
-//         CareerController::editCareer($id_career, $name_career, $state);
-//     }
-
-?>

@@ -44,11 +44,11 @@ $(document).ready(function () {
               };
               toastr.success(response.message, response.title);
             });
-           } else if (response.status === "successCareer") {
-            $(".cierreModal").modal("hide"); // Cierra el modal
-            window.location.href = "index.php?pages=allCareers";
             resetForm();
             messageContainer.html("");
+           } else if (response.status === "successCareer") {
+            $(".cierreModal").modal("hide"); // Cierra el modal
+            window.location.href = "index.php?pages=allCareers";;
           } else {
             messageContainer.html(
               '<div class="alert alert-danger mt-2">' +
@@ -91,6 +91,11 @@ $(document).ready(function () {
   //nueva carrera
   handleFormSubmit("#createCareerForm", "/ajax/careerAjax.php", "newcareer");
   //edit carrera
-  handleFormSubmit("#editcareer", "/ajax/careerAjax.php", "editcareer");
+  handleFormSubmit("#editcareer", "/ajax/careerAjax.php", "editcareer"); 
+  
+  //nueva materia
+  handleFormSubmit("#newsubject", "/ajax/subjectAjax.php", "newsubject");
+  //edit materia
+  handleFormSubmit("#editsubject", "/ajax/subjectAjax.php", "editsubject");
 
 });
