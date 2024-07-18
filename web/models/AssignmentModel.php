@@ -234,6 +234,46 @@ static public function preceptorAllAccountCareer($id_career)
     }
 }
 
+//para saber si un profesor no esta asignado a una carrera
+static public function teacherNoAssig($id_teacher, $id_career)
+{
+    $sql = "SELECT users.id_user, users.name, users.last_name, career_person.fk_career_id AS id_career
+            FROM users
+            LEFT JOIN career_person ON users.id_user = career_person.fk_user_id AND career_person.fk_career_id = :id_career
+            WHERE users.id_user = :id_user AND users.fk_rol_id = 4 AND career_person.fk_career_id IS NULL";
+    
+    $stmt = model_sql::connectToDatabase()->prepare($sql);
+    $stmt->bindParam(':id_user', $id_teacher, PDO::PARAM_INT);
+    $stmt->bindParam(':id_career', $id_career, PDO::PARAM_INT); // Bind career_id for comparison
+
+    if ($stmt->execute()) {
+        return $stmt->fetch(PDO::FETCH_ASSOC); // Fetch single row since we expect only one result
+    } else {
+        print_r($stmt->errorInfo());
+        return null; // Return null or handle error as needed
+    }
+}
+
+
+static public function teacherAssig($id_teacher, $id_career)
+{
+    $sql = "SELECT users.id_user, users.name, users.last_name, career_person.fk_career_id AS id_career
+            FROM users 
+            INNER JOIN career_person ON users.id_user = career_person.fk_user_id
+            WHERE users.id_user = :id_user AND career_person.fk_career_id = :id_career";
+    
+    $stmt = model_sql::connectToDatabase()->prepare($sql);
+    $stmt->bindParam(':id_user', $id_teacher, PDO::PARAM_INT);
+    $stmt->bindParam(':id_career', $id_career, PDO::PARAM_INT);
+
+    if ($stmt->execute()) {
+        return $stmt->fetch(PDO::FETCH_ASSOC); // Fetch single row since we expect only one result
+    } else {
+        print_r($stmt->errorInfo());
+        return null; // Return null or handle error as needed
+    }
+}
+
 
 }
 

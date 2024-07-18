@@ -93,6 +93,60 @@ class AssignmentController {
 
         }
 
+
+      
+  
+        //asigna a un profesor a una carrera
+        static public function assignTeacher($id_teacher,$name_teacher)
+        {
+            if (!empty($_POST['career_id'])) {
+                $id_career = $_POST['career_id'];
+        
+                // Insertar asignación si no tiene dos carreras asignadas aún
+                $insert = AssignmentModel::insertCareerPerson($id_career, $id_teacher);
+        
+                if ($insert) {
+                    // Redirigir después de una asignación exitosa
+                    echo '<script>
+                    window.location.href = "index.php?pages=manageTeacher&id_teacher=' . $id_teacher . '&name_teacher=' . $name_teacher  . '&subfolder=teacherCareer&message=correcto";
+                    </script>';
+                } else {
+                    echo "No se pudo asignar la carrera al profesor.";
+                }
+            }
+        }
+        
+        
+        
+         // Borra un profesor de la carrera en curso
+
+         static public function quitProfesor($id_teacher,$name_teacher){
+    
+            if(!empty($_POST['id_career_teacher'])){
+    
+                
+                $id_career_teacher=$_POST['id_career_teacher'];
+    
+                $delete=AssignmentModel::deleteAssign($id_career_teacher);
+    
+                if ($delete) {
+                  
+                    echo '<script>
+                    window.location.href = "index.php?pages=manageTeacher&id_teacher=' . $id_teacher . '&name_teacher=' . $name_teacher  . '&subfolder=teacherCareer&message=correcto";
+                    </script>';
+                } else {
+                    // Manejo de error si la inserción falla
+                    echo "No se pudo quitar Preceptor.";
+                }
+    
+            }
+
+
+        }
+
+              
+        
+        
         
     
     }

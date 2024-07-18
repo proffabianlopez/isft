@@ -17,6 +17,7 @@ if (
       ($_GET['pages'] == "manageUser") ||
       ($_GET['pages'] == "manageStudent") ||
       ($_GET['pages'] == "manageTeacher") ||
+      ($_GET['pages'] == "teacherCareer") ||
       # links simples
       ($_GET['pages'] == "changePassword")
 ) {
