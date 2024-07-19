@@ -12,19 +12,16 @@ class CorrelativeController
         }
     }
     //Logica para crear o armar una nueva correlativa
-    static public function newCorrelative($id, $name, $state)
+    static public function newCorrelative()
     {
-        $id_career = $id;
-        $name_career = $name;
-        $state = $state;
+        $id_career = $_POST['idCareer'];
         $id_subject = $_POST["toRender"];
         $id_correlative = $_POST["subjectApproved"];
 
         if ($id_subject == 'Seleccione una materia' || $id_correlative == 'Seleccione correlativa') {
-            echo '<script>
-            window.location.href = "index.php?pages=manageCorrelatives&id_career=' . $id_career . '&name_career=' . $name_career . '&state=' . $state . '&subfolder=newCorrelative&invalidSelection=error";
-            </script>';
-            return;
+            $response["status"] = "error";
+            $response["message"] = "No se seleccionó materia.";
+            return $response;
         }
 
         $id_year_subject = SubjectModel::getIdSubject($id_subject);
@@ -32,45 +29,43 @@ class CorrelativeController
 
         // Validacion que la materia en 'Para rendir...' no pueda ser de 1er año
         if ($id_year_subject["id_year"] == 1) {
-            echo '<script>
-            window.location.href = "index.php?pages=manageCorrelatives&id_career=' . $id_career . '&name_career=' . $name_career . '&state=' . $state . '&subfolder=newCorrelative&yearCorrelative=error";
-            </script>';
-            return;
+            $response["status"] = "error";
+            $response["message"] = "No se pueden seleccionar materias del primer año.";
+            return $response;
         }
 
         // Validación para que la materia no sea la misma
         if ($id_subject == $id_correlative) {
-            echo '<script>
-        window.location.href = "index.php?pages=manageCorrelatives&id_career=' . $id_career . '&name_career=' . $name_career . '&state=' . $state . '&subfolder=newCorrelative&sameSubject=error";
-        </script>';
-            return;
+            $response["status"] = "error";
+            $response["message"] = "No se puede seleccionar la misma materia para armar la correlativa.";
+            return $response;
         }
-
         // Validación materias de año superior no pueden ser correlativas de año inferior
         if ($id_year_correlative["id_year"] > $id_year_subject["id_year"]) {
-            echo '<script>
-        window.location.href = "index.php?pages=manageCorrelatives&id_career=' . $id_career . '&name_career=' . $name_career . '&state=' . $state . '&subfolder=newCorrelative&yearOrderError=error";
-        </script>';
-            return;
+            $response["status"] = "error";
+            $response["message"] = "Materias de años superiores no pueden ser correlativas de materias de años inferiores.";
+            return $response;
         }
 
         // Validación por si la correlativa ya existe
         $existingCorrelative = CorrelativeModel::checkExistingCorrelative($id_subject, $id_correlative);
         if ($existingCorrelative) {
-            echo '<script>
-        window.location.href = "index.php?pages=manageCorrelatives&id_career=' . $id_career . '&name_career=' . $name_career . '&state=' . $state . '&subfolder=newCorrelative&existCorrelative=error";
-        </script>';
-            return;
+            $response["status"] = "error";
+            $response["message"] = "Esta correlativa ya existe.";
+            return $response;
         }
 
         $execute = CorrelativeModel::addSubjectCorrelative($id_subject, $id_correlative);
 
         if ($execute) {
-            echo '<script>
-        window.location.href = "index.php?pages=manageCorrelatives&id_career=' . $id_career . '&name_career=' . $name_career . '&state=' . $state . '&subfolder=newCorrelative&success=correcto";
-        </script>';
+            $response['title'] = "¡EXITO!";
+            $response["status"] = "successLoad";
+            $response["message"] = "Se registro la correlativa correctamente.";
+            return $response;
         } else {
-            echo '<script>alert("Error al actualizar la correlativa.");</script>';
+            $response["status"] = "error";
+            $response["message"] = "Hubo un problema al crear la correlativa";
+            return $response;
         }
     }
 
@@ -88,60 +83,56 @@ class CorrelativeController
     }
 
     //Edita las correlativas
-    static public function editCorrelative($id, $name, $state)
+    static public function editCorrelative()
     {
-        $id_career = $id;
-        $name_career = $name;
-        $state = $state;
-        $id_correlative = $_POST["id_correlative"];
-        $new_id_subject = $_POST["toRender"];
-        $new_id_correlative = $_POST["subjectApproved"];
+        $id_correlative = $_POST["id_correlativeEdit"];
+        $new_id_subject = $_POST["toRenderEdit"];
+        $new_id_correlative = $_POST["subjectApprovedEdit"];
 
         $id_year_subject = SubjectModel::getIdSubject($new_id_subject);
         $id_year_correlative = SubjectModel::getIdSubject($new_id_correlative);
 
         // Validacion que la materia en 'Para rendir...' no pueda ser de 1er año
         if ($id_year_subject["id_year"] == 1) {
-            echo '<script>
-        window.location.href = "index.php?pages=manageCorrelatives&id_career=' . $id_career . '&name_career=' . $name_career . '&state=' . $state . '&subfolder=newCorrelative&editYearCorrelative=error";
-        </script>';
-            return;
+            $response["status"] = "error2";
+            $response["message"] = "No se pueden seleccionar materias del primer año.";
+            return $response;
         }
 
         // Validación para que la materia no sea la misma
         if ($new_id_subject == $new_id_correlative) {
-            echo '<script>
-        window.location.href = "index.php?pages=manageCorrelatives&id_career=' . $id_career . '&name_career=' . $name_career . '&state=' . $state . '&subfolder=newCorrelative&editSameSubject=error";
-        </script>';
-            return;
+            $response["status"] = "error2";
+            $response["message"] = "No se puede seleccionar la misma materia para armar la correlativa.";
+            return $response;
         }
 
         // Validación materias de año superior no pueden ser correlativas de año inferior
         if ($id_year_correlative["id_year"] > $id_year_subject["id_year"]) {
-            echo '<script>
-        window.location.href = "index.php?pages=manageCorrelatives&id_career=' . $id_career . '&name_career=' . $name_career . '&state=' . $state . '&subfolder=newCorrelative&editYearOrderError=error";
-        </script>';
-            return;
+            $response["status"] = "error2";
+            $response["message"] = "Materias de años superiores no pueden ser correlativas de materias de años inferiores.";
+            return $response;
         }
 
         // Validación por si la correlativa ya existe
         $existingCorrelative = CorrelativeModel::checkExistingCorrelative($new_id_subject, $new_id_correlative);
         if ($existingCorrelative) {
-            echo '<script>
-        window.location.href = "index.php?pages=manageCorrelatives&id_career=' . $id_career . '&name_career=' . $name_career . '&state=' . $state . '&subfolder=newCorrelative&editExistCorrelative=error";
-        </script>';
-            return;
+            $response["status"] = "error2";
+            $response["message"] = "Esta correlativa ya existe.";
+            return $response;
         }
 
         // Actualización
         $execute = CorrelativeModel::editCorrelative($new_id_subject, $new_id_correlative, $id_correlative);
 
         if ($execute) {
-            echo '<script>
-        window.location.href = "index.php?pages=manageCorrelatives&id_career=' . $id_career . '&name_career=' . $name_career . '&state=' . $state . '&subfolder=newCorrelative&editSuccess=correcto";
-        </script>';
+            $response['title'] = "¡EXITO!";
+            $response["status"] = "successLoad";
+            $response["message"] = "Se actualizó la correlativa correctamente.";
+            return $response;
         } else {
-            echo '<script>alert("Error al actualizar la correlativa.");</script>';
+            $response["status"] = "error2";
+            $response["message"] = "Hubo un problema al crear la correlativa";
+            return $response;
         }
     }
 

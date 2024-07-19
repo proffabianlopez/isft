@@ -7,7 +7,7 @@ if ((isset($_GET['name_career'])) && (isset($_GET['id_career'])) && (isset($_GET
             <div class="col-lg-6 col-md-8 col-sm-10">
                 <div class="card card-primary">
                     <div class="card-body">
-                        <form method="post">
+                        <form id="newcorrelative">
                             <div class="form-group">
                                 <label for="para_rendir">Para rendir... (Materia)</label>
                                 <select class="custom-select" name="toRender">
@@ -27,27 +27,10 @@ if ((isset($_GET['name_career'])) && (isset($_GET['id_career'])) && (isset($_GET
                                 <button type="submit" class="btn btn-warning btn-block w-50" name="loadCorrelative">Crear</button>
                             </div>
                         </form>
-                        <?php $message = new MessageController();
-                        $message->show_messages_error('invalidSelection', "No se seleccionó materia.");
-                        $message->show_messages_error('yearCorrelative', "No se pueden seleccionar materias del primer año.");
-                        $message->show_messages_error('sameSubject', "No se puede seleccionar la misma materia para armar la correlativa.");
-                        $message->show_messages_error('existCorrelative', "Esta correlativa ya existe.");
-                        $message->show_messages_error('yearOrderError', "Materias de años superiores no pueden ser correlativas de materias de años inferiores.");
-                        $message->showMessageVerify('success', "La correlativa se registró correctamente."); ?>
+                        <div class="response-message text-center"></div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="d-flex justify-content-center">
-
-        <div class="col-lg-6 col-md-8 col-sm-10">
-            <?php $message = new MessageController();
-            $message->show_messages_error('editYearCorrelative', "<strong>Edición</strong>: No se pueden seleccionar materias del primer año.");
-            $message->show_messages_error('editSameSubject', "<strong>Edición</strong>: No se pueden seleccionar las mismas materias para armar la correlativa.");
-            $message->show_messages_error('editExistCorrelative', "<strong>Edición</strong>: Esta correlativa ya existe.");
-            $message->show_messages_error('editYearOrderError', "<strong>Edición</strong>: Materias de años superiores no pueden ser correlativas de materias de años inferiores.");
-            $message->showMessageVerify('editSuccess', "<strong>Edición</strong>: La correlativa se actualizó correctamente."); ?>
         </div>
     </div>
     <div class="d-flex justify-content-center">
@@ -81,10 +64,6 @@ if ((isset($_GET['name_career'])) && (isset($_GET['id_career'])) && (isset($_GET
             </div>
         </div>
     </div>
-    <?php if (isset($_POST["loadCorrelative"])) {
-        $controller = new CorrelativeController();
-        $controller->newCorrelative($_GET["id_career"], $_GET["name_career"], $_GET["state"]);
-    } ?>
 <?php } ?>
 <?php foreach ($correlatives as $correlative) : ?>
     <div class="modal fade" id="modal_edit_<?php echo $correlative['id_correlative'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -97,11 +76,11 @@ if ((isset($_GET['name_career'])) && (isset($_GET['id_career'])) && (isset($_GET
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form method="post">
-                        <input type="hidden" name="id_correlative" value="<?php echo $correlative['id_correlative'] ?>">
+                    <form id="editcorrelative" >
+                        <input type="hidden" name="id_correlativeEdit" value="<?php echo $correlative['id_correlative'] ?>">
                         <div class="form-group">
                             <label for="para_rendir">Para rendir...(Materia)</label>
-                            <select class="custom-select" name="toRender">
+                            <select class="custom-select" name="toRenderEdit">
                                 <option value="<?php echo $correlative['id_subject'] ?>"><?php echo $correlative["name_subject"] ?></option>
                                 <?php
                                 (new CorrelativeController())->correlativeSelect($_GET["id_career"]);
@@ -110,7 +89,7 @@ if ((isset($_GET['name_career'])) && (isset($_GET['id_career'])) && (isset($_GET
                         </div>
                         <div class="form-group">
                             <label for="debe_aprobar">Debe aprobar...(Correlativa)</label>
-                            <select class="custom-select" name="subjectApproved">
+                            <select class="custom-select" name="subjectApprovedEdit">
                                 <option value="<?php echo $correlative['id_subject'] ?>"><?php echo $correlative["name_correlative_subject"] ?></option>
                                 <?php
                                 (new CorrelativeController())->correlativeSelect($_GET["id_career"]);
@@ -122,6 +101,7 @@ if ((isset($_GET['name_career'])) && (isset($_GET['id_career'])) && (isset($_GET
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                         </div>
                     </form>
+                    <div class="response-message2 text-center"></div>
                 </div>
             </div>
         </div>
@@ -155,10 +135,7 @@ if ((isset($_GET['name_career'])) && (isset($_GET['id_career'])) && (isset($_GET
     </div>
 <?php endforeach ?>
 
-<?php if (isset($_POST["savechange"])) {
-    $controller = new CorrelativeController();
-    $controller->editCorrelative($_GET["id_career"], $_GET["name_career"], $_GET["state"]);
-}
+<?php 
 if (isset($_POST["deleteButton"])) {
     $controller = new CorrelativeController();
     $controller->deleteCorrelative($_GET["id_career"], $_GET["name_career"], $_GET["state"]);
