@@ -7,7 +7,7 @@ $(document).ready(function () {
     $(document).on("submit", formId, function (e) {
       e.preventDefault();
       var formData = $(this).serialize();
-      if (typeof idCareer !== 'undefined' && idCareer !== "") {
+      if (typeof idCareer !== "undefined" && idCareer !== "") {
         formData += "&idCareer=" + encodeURIComponent(idCareer);
       }
       formData += "&action=" + encodeURIComponent(action);
@@ -18,6 +18,7 @@ $(document).ready(function () {
         dataType: "json",
         success: function (response) {
           var messageContainer = $(".response-message");
+          var messageContainer2 = $(".response-message2");
 
           if (response.status === "successLoad") {
             $(".cierreModal").modal("hide"); // Cierra el modal
@@ -46,15 +47,24 @@ $(document).ready(function () {
             });
             resetForm();
             messageContainer.html("");
-           } else if (response.status === "successCareer") {
+          } else if (response.status === "successCareer") {
             $(".cierreModal").modal("hide"); // Cierra el modal
-            window.location.href = "index.php?pages=allCareers";;
+            window.location.href = "index.php?pages=allCareers";
           } else {
-            messageContainer.html(
-              '<div class="alert alert-danger mt-2">' +
-                response.message +
-                "</div>"
-            );
+           
+            if (response.status === "error2") {
+              messageContainer2.html(
+                '<div class="alert alert-danger mt-2">' +
+                  response.message +
+                  "</div>"
+              );
+            }else {
+              messageContainer.html(
+                '<div class="alert alert-danger mt-2">' +
+                  response.message +
+                  "</div>"
+              );
+            }
           }
         },
         error: function (xhr, status, error) {
@@ -91,11 +101,23 @@ $(document).ready(function () {
   //nueva carrera
   handleFormSubmit("#createCareerForm", "/ajax/careerAjax.php", "newcareer");
   //edit carrera
-  handleFormSubmit("#editcareer", "/ajax/careerAjax.php", "editcareer"); 
-  
+  handleFormSubmit("#editcareer", "/ajax/careerAjax.php", "editcareer");
+
   //nueva materia
   handleFormSubmit("#newsubject", "/ajax/subjectAjax.php", "newsubject");
   //edit materia
   handleFormSubmit("#editsubject", "/ajax/subjectAjax.php", "editsubject");
 
+  //nueva correlaticva
+  handleFormSubmit(
+    "#newcorrelative",
+    "/ajax/correlativeAjax.php",
+    "newcorrelative"
+  );
+  //edit correlaticva
+  handleFormSubmit(
+    "#editcorrelative",
+    "/ajax/correlativeAjax.php",
+    "editcorrelative"
+  );
 });
