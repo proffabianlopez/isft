@@ -24,7 +24,7 @@ class MailerController
         $mail->CharSet = 'UTF-8';
         $mail->Subject = "¡Tu cuenta ha sido activada!";
 
-        $htmlFile = '../views/html/activateAccount.html';
+        $htmlFile = 'views/html/activateAccount.html';
 
 
         $htmlContent = file_get_contents($htmlFile);
@@ -60,7 +60,7 @@ class MailerController
         $mail->CharSet = 'UTF-8';
         $mail->Subject = "¡Se le genero una nueva clave aleatoria!";
 
-        $htmlFile = '../views/html/emailGeneratePassword.html';
+        $htmlFile = 'views/html/emailGeneratePassword.html';
         $htmlContent = file_get_contents($htmlFile);
         $htmlContent = str_replace('{{password}}', $password, $htmlContent);
         $mail->Body = $htmlContent;
