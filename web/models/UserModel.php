@@ -238,10 +238,7 @@ JOIN
     roles ON users.fk_rol_id = roles.id_rol
 WHERE
     users.state = 1
-    OR (users.state = 2 AND users.fk_rol_id = 1)  
-    OR (users.state = 2 AND users.fk_rol_id = 2) 
-    OR (users.state = 2 AND users.fk_rol_id = 3)  
-    OR (users.state = 2 AND users.fk_rol_id = 4)
+    OR users.state = 2 
 ";
 
         $stmt = model_sql::connectToDatabase()->prepare($sql);
