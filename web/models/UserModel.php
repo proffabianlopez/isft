@@ -238,10 +238,10 @@ JOIN
     roles ON users.fk_rol_id = roles.id_rol
 WHERE
     users.state = 1
-    OR (users.state = 2 AND users.fk_rol_id = 1)  -- Ajusta según los roles que quieres incluir cuando están deshabilitados
-    OR (users.state = 2 AND users.fk_rol_id = 2)  -- Ajusta según los roles que quieres incluir cuando están deshabilitados
-    OR (users.state = 2 AND users.fk_rol_id = 3)  -- Incluye los roles deshabilitados como estudiante
-    OR (users.state = 2 AND users.fk_rol_id = 4)  -- Incluye los roles deshabilitados como maestro
+    OR (users.state = 2 AND users.fk_rol_id = 1)  
+    OR (users.state = 2 AND users.fk_rol_id = 2) 
+    OR (users.state = 2 AND users.fk_rol_id = 3)  
+    OR (users.state = 2 AND users.fk_rol_id = 4)
 ";
 
         $stmt = model_sql::connectToDatabase()->prepare($sql);
