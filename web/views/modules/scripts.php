@@ -18,7 +18,8 @@
 <script src="public/plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="public/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <script src="public/js/datatable.js"></script>
-<script src="public/plugins/toastr/toastr.min.js"></script> 
+<script src="public/plugins/datatables-checkboxes/js/dataTables.checkboxes.min.js"></script>
+<script src="public/plugins/toastr/toastr.min.js"></script>
 <!---Script para manejar el sweet alert de cerrar session-->
 <script src="public/js/sweetAlertSession.js"></script>
 <!--ocultar barra lateral--->
