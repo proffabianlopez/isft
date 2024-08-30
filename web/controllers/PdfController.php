@@ -67,6 +67,8 @@ class PdfController {
 
     //controlador para controlar los datos de la materia
     public function dataCareerPdfSubject($career, $id_career) {
+        error_log('PDF CONTROLLER-> Entre a dataCareerPdfSubject');
+
         $header = array('Materia', 'Año','Carga Horaria');
         $subjects = SubjectModel::SubjectCareerAsc($id_career);
         $data = array();
