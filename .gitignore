@@ -2,3 +2,8 @@
 .yml
 Dockerfile
 .md
+/data
+/backup
+*.log
+*.gz
+*.sql
