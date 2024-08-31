@@ -2,7 +2,7 @@
     <?php $dataStudent = StudentController::getAllStudent(); ?>
     <div class="card">
         <div class="card-body">
-            <div class="table-responsive">
+            <div class="table-responsive overflow-hidden">
                 <form id="studentForm" method="POST" action="#">
                     <input type="hidden" name="student_ids" id="student_ids" value="">
                     <table id="exampleCheckboxes" class="table table-bordered table-striped table-hover table-sm custom-table-container" style="width: 90%;">
@@ -12,6 +12,7 @@
                                 <th>Apellido</th>
                                 <th>Nombre</th>
                                 <th>Dni</th>
+                                <th>Cohorte</th>
                                 <th>Legajo</th>
                                 <th>Acciones</th>
                             </tr>
@@ -23,6 +24,7 @@
                                     <td class="text-center"><?php echo $student['last_name_student']; ?></td>
                                     <td class="text-center"><?php echo $student['name_student']; ?></td>
                                     <td class="text-center"><?php echo $student['dni']; ?></td>
+                                    <td class="text-center"><?php echo $student['startingYear']; ?></td>
 
                                     <td class="text-center">
                                         <?php if ($student['legajo'] == null) : ?>

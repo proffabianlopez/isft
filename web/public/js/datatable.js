@@ -41,7 +41,8 @@ $(function () {
     .container()
     .appendTo("#example4_wrapper .col-md-6:eq(0)");
 
-  var table = $("#exampleCheckboxes").DataTable({
+  //Datatable checkboxes
+  $("#exampleCheckboxes").DataTable({
     paging: true,
     lengthChange: true,
     searching: true,
@@ -49,30 +50,40 @@ $(function () {
     info: true,
     autoWidth: false,
     responsive: true,
-    select: true,
-    columnDefs: [
-      {
-        targets: 0,
-        checkboxes: {
-          selectRow: true
-        },
-      },
-    ],
     select: {
       style: "multi",
     },
     order: [[1, "asc"]],
+
+    createdRow: function (row, data, dataIndex) {
+      var cohort = data[4];
+      var currentYear = new Date().getFullYear();
+
+      if (cohort == currentYear) {
+        var studentId = data[0];
+        $("td:eq(0)", row).html(
+          '<input type="checkbox" name="select_student[]" value="' +
+            studentId +
+            '">'
+        );
+      } else {
+        $("td:eq(0)", row).html("");
+      }
+    },
   });
 
-  $('#send-btn').on('click', function(){
-    var selected_rows = table.column(0).checkboxes.selected();
+  $("#send-btn").on("click", function () {
+    var selected_ids = [];
+    $('input[name="select_student[]"]:checked').each(function () {
+      selected_ids.push($(this).val());
+    });
 
-    var studentIds = selected_rows.join(",");
+    var studentIds = selected_ids.join(",");
 
-    $('#student_ids').val(studentIds);
+    $("#student_ids").val(studentIds);
 
-    console.log("Student IDs: " + $('#student_ids').val());
+    console.log("Student IDs: " + $("#student_ids").val());
 
-    $('#studentForm').submit();
+    $("#studentForm").submit();
   });
 });
