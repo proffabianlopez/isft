@@ -51,6 +51,10 @@ if ((isset($_GET['name_career'])) && (isset($_GET['id_career'])) && (isset($_GET
                                             data-target="#confirmDeleteModal_<?php echo $subject['id_subject'] ?>">
                                             <i class="fas fa-trash-alt"></i> <!-- Icono de eliminar -->
                                         </button>
+                                        <a class="btn btn-warning btn-sm" href="index.php?pages=manageTeacherAssignement&id_subject=<?php echo $subject['id_subject'] ?>&name_subject=<?php echo $subject['name_subject'] ?>">
+                                            <i class="fas fa-pen-alt"></i> 
+                                        </a>
+
                                     <?php endif ?>
                                 </td>
                             </tr>
