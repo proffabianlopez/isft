@@ -127,3 +127,9 @@ body {
     margin: 2px;
     /* Agrega un pequeño margen entre los botones */
 }
+
+/*Estilo centrado para las filas de las tablas*/
+
+.table td, .table th{
+    vertical-align: middle;
+}

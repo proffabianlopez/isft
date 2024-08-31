@@ -15,6 +15,7 @@
 <link rel="stylesheet" href="public/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
 <link rel="stylesheet" href="public/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
 <link rel="stylesheet" href="public/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+<link rel="stylesheet" href="public/plugins/datatables-checkboxes/css/dataTables.checkboxes.css">
 <!-- jQuery -->
 <script src="public/js/jquery-3.5.1.slim.min.js"></script>
 <!-- Agrega SweetAlert al HTML -->
