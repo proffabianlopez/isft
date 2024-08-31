@@ -225,19 +225,21 @@ class UserModel
     static public function getAllUser()
     {
         $sql = "SELECT
-        users.id_user AS id_user,
-        users.name AS name,
-        users.last_name AS last_name,
-        users.email AS email,
-        users.fk_rol_id AS fk_rol_id,
-        roles.name AS name_rol,
-        users.state AS state
-    FROM
-        users
-    JOIN
-        roles ON users.fk_rol_id = roles.id_rol
-    WHERE
-        (users.state = 1 OR (users.state = 2 AND users.fk_rol_id <> 3 AND users.fk_rol_id <> 4))";
+    users.id_user AS id_user,
+    users.name AS name,
+    users.last_name AS last_name,
+    users.email AS email,
+    users.fk_rol_id AS fk_rol_id,
+    roles.name AS name_rol,
+    users.state AS state
+FROM
+    users
+JOIN
+    roles ON users.fk_rol_id = roles.id_rol
+WHERE
+    users.state = 1
+    OR users.state = 2 
+";
 
         $stmt = model_sql::connectToDatabase()->prepare($sql);
 
