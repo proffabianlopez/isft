@@ -16,7 +16,7 @@ class ExcelModel {
         ];
 
         $xlsx = SimpleXLSXGen::fromArray($rows);
-        $route = "excels/" . $data['archive'];
+        $route = "fpdf/" . $data['archive'];
         $xlsx->saveAs($route);
 
         return $route;
@@ -26,7 +26,7 @@ class ExcelModel {
         $rows = array_merge([$header], $data);
 
         $xlsx = SimpleXLSXGen::fromArray($rows);
-        $route = "excels/Correlativas-" . $career . ".xlsx";
+        $route = "fpdf/Correlativas-" . $career . ".xlsx";
         $xlsx->saveAs($route);
 
         return $route;
@@ -36,7 +36,7 @@ class ExcelModel {
         $rows = array_merge([$header], $data);
 
         $xlsx = SimpleXLSXGen::fromArray($rows);
-        $route = "excels/Materias-" . $career . ".xlsx";
+        $route = "fpdf/Materias-" . $career . ".xlsx";
         $xlsx->saveAs($route);
 
         return $route;

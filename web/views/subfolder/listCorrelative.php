@@ -6,7 +6,7 @@ if ((isset($_GET['name_career'])) && (isset($_GET['id_career'])) && (isset($_GET
     <div class="d-flex justify-content-center">
         <div class="card w-75">
             <div class="card-body">
-                <table class="table table-bordered table-striped table-responsive-sm" id="example1">
+                <table class="table table-bordered table-striped table-responsive-sm" id="example3">
                     <thead>
                         <tr>
                             <th colspan="6">
@@ -16,9 +16,9 @@ if ((isset($_GET['name_career'])) && (isset($_GET['id_career'])) && (isset($_GET
                                 </button>
 
                             </form>
-                            <form method="post">
+                            <form method="post" class="d-inline-block">
                                 <button type="submit" name="correlative_excel" class="btn btn-success" title="Descargar Excel de correlativas">
-                                     <i class="far fa-file-pdf mr-1"></i> Descargar Excel
+                                <i class="far fa-file-excel mr-1"></i> Descargar Excel
                                 </button>
 
                             </form>

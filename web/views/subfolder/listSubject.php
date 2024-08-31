@@ -18,7 +18,7 @@ if ((isset($_GET['name_career'])) && (isset($_GET['id_career'])) && (isset($_GET
                                 <form method="post" class="d-inline-block">
                                     <input type="hidden" name="subject_excel" value="1">
                                     <button type="submit" class="btn btn-success" title="Descargar Excel de Materias">
-                                        <i class="far fa-file-pdf mr-1"></i> Descargar Excel
+                                    <i class="far fa-file-excel mr-1"></i> Descargar Excel
                                     </button>
                                 </form>
                             </th>
