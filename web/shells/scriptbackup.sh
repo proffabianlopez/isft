@@ -8,7 +8,7 @@ source ../../.env
 TIMESTAMP=$(date +"%Y-%m-%d_%H:%M:%S")
 BACKUP_FILE="$BACKUP_DIR/$DB_NAME_isft177$TIMESTAMP.sql"
 
-/usr/bin/docker exec $CONTAINER_NAME mysqldump -u $MYSQL_USER -p"$MYSQL_ROOT_PASSWORD" $DB_NAME_isft177 | sed 's/\t/-/g' > $BACKUP_FILE
+/usr/bin/docker exec $CONTAINER_NAME mysqldump -u $MYSQL_USER -p"$MYSQL_PASSWORD" $DB_NAME_isft177 | sed 's/\t/-/g' > $BACKUP_FILE
 
 gzip $BACKUP_FILE
 
