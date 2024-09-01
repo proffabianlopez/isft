@@ -63,8 +63,6 @@
 
     <?php foreach ($dataStudent as $student) : ?>
 
-
-        <!-- modal de asignar legajo -->
         <div id="assignFileModal<?php echo $student['id_student']; ?>" class="modal fade cierreModal" tabindex="-1" role="dialog" aria-labelledby="assignFileModalLabel<?php echo $student['id_student']; ?>" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -123,6 +121,10 @@
                                 <label for="dni">DNI</label>
                                 <input type="text" maxlength="8" oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="form-control" name="dni" value="<?php echo $student['dni']; ?>" required>
                             </div>
+                            <div class="form-group">
+                                <label for="tel">Teléfono</label>
+                                <input type="text" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="form-control" name="tel" value="<?php echo $student['phone_contact']; ?>" required>
+                            </div>
 
                             <!-- HAY QUE SEPARAR LA PRIMERA PARTE DEL LEGAJO (AC, AS, etc) Y TRAER SOLO LOS ÚLTIMOS 4 NÚMEROS PARA QUE
                     TE TOME EL VALUE, Y MODIFICAR LA CONSULTA DE LA BASE DE DATOS DE ACUERDO A ESE NÚMERO.
@@ -161,8 +163,9 @@
                     <div class="modal-body">
                         <p><strong>Apellido:</strong> <?php echo $student['last_name_student']; ?></p>
                         <p><strong>Nombre:</strong> <?php echo $student['name_student']; ?></p>
-                        <p><strong>Email:</strong> <?php echo $student['email_student']; ?></p>
                         <p><strong>DNI:</strong> <?php echo $student['dni']; ?></p>
+                        <p><strong>Teléfono:</strong> <?php echo $student['phone_contact']; ?></p>
+                        <p><strong>Email:</strong> <?php echo $student['email_student']; ?></p>
                         <p><strong>Numero de legajo:</strong> <?php echo $student['legajo']; ?></p>
                         <p><strong>Carrera:</strong> <?php echo $student['career_name']; ?></p>
                         <p><strong>Cohorte:</strong> <?php echo $student['startingYear']; ?></p>

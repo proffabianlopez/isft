@@ -2,31 +2,32 @@
 class StudentModel extends UserModel
 {
 
-    static public function newStudent($value1, $value2, $value3, $value4, $value5, $value6)
-{
-    $sql = "INSERT INTO users (name, last_name, email, dni, startingYear, file, password, 
-                            fk_gender_id, fk_rol_id, state)
-                            VALUES (:name, :lastName, :email, :dni, :dateYear, null, null, :gender, 3, 2)";
+    static public function newStudent($value1, $value2, $value3, $value4, $value5, $value6, $value7)
+    {
+        $sql = "INSERT INTO users (name, last_name, email, dni, startingYear, file, password, 
+                            fk_gender_id, fk_rol_id, state, phone_contact)
+                            VALUES (:name, :lastName, :email, :dni, :dateYear, null, null, :gender, 3, 2, :tel)";
 
-    $pdo = model_sql::connectToDatabase(); // Obtener la conexión PDO
-    $stmt = $pdo->prepare($sql);
-    $stmt->bindParam(':name', $value1, PDO::PARAM_STR);
-    $stmt->bindParam(':lastName', $value2, PDO::PARAM_STR);
-    $stmt->bindParam(':email', $value3, PDO::PARAM_STR);
-    $stmt->bindParam(':dni', $value4, PDO::PARAM_STR);
-    $stmt->bindParam(':dateYear', $value5, PDO::PARAM_STR);
-    $stmt->bindParam(':gender', $value6, PDO::PARAM_INT);
+        $pdo = model_sql::connectToDatabase(); // Obtener la conexión PDO
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':name', $value1, PDO::PARAM_STR);
+        $stmt->bindParam(':lastName', $value2, PDO::PARAM_STR);
+        $stmt->bindParam(':email', $value3, PDO::PARAM_STR);
+        $stmt->bindParam(':dni', $value4, PDO::PARAM_STR);
+        $stmt->bindParam(':dateYear', $value5, PDO::PARAM_STR);
+        $stmt->bindParam(':gender', $value6, PDO::PARAM_INT);
+        $stmt->bindParam(':tel', $value7, PDO::PARAM_STR);
 
-    $success = $stmt->execute(); // Ejecutar la consulta de inserción
+        $success = $stmt->execute(); // Ejecutar la consulta de inserción
 
-    if ($success) {
-        $lastInsertedId = $pdo->lastInsertId();
-        return $lastInsertedId; // Devolver el ID generado
-    } else {
-        print_r($stmt->errorInfo());
-        return false;
+        if ($success) {
+            $lastInsertedId = $pdo->lastInsertId();
+            return $lastInsertedId; // Devolver el ID generado
+        } else {
+            print_r($stmt->errorInfo());
+            return false;
+        }
     }
-}
     // trae los datos de los estudiantes de la tabla career person
     static public function getAllStudent()
     {
@@ -38,6 +39,7 @@ class StudentModel extends UserModel
         users.dni AS dni,
         users.file AS legajo,
         users.startingYear AS startingYear,
+        users.phone_contact AS phone_contact,
         users.fk_rol_id AS fk_rol_id,
 		careers.career_name AS career_name,
         careers.id_career AS  id_career,
@@ -85,19 +87,19 @@ class StudentModel extends UserModel
                             AND users.state IN (1, 2)
                     ";
 
-                    $stmt = model_sql::connectToDatabase()->prepare($sql);
-                    $stmt->bindParam(1, $id, PDO::PARAM_INT);
+        $stmt = model_sql::connectToDatabase()->prepare($sql);
+        $stmt->bindParam(1, $id, PDO::PARAM_INT);
 
 
-                    if ($stmt->execute()) {
+        if ($stmt->execute()) {
 
-                        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-                    } else {
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } else {
 
-                        print_r($stmt->errorInfo());
-                    }
+            print_r($stmt->errorInfo());
+        }
 
-                    $stmt = null;
+        $stmt = null;
     }
 
     //era como para borrar al estudiante
@@ -118,15 +120,16 @@ class StudentModel extends UserModel
     }
 
     //actualiza la informacion del estudiante
-    static public function updateStudentData($name, $last_name, $id_student, $dni, $date)
+    static public function updateStudentData($name, $last_name, $id_student, $dni, $date, $telephone)
     {
-        $sql = "UPDATE users SET name = :name, last_name = :last_name, dni = :dni, startingYear = :date WHERE id_user = :id_student";
+        $sql = "UPDATE users SET name = :name, last_name = :last_name, dni = :dni, startingYear = :date, phone_contact = :tel WHERE id_user = :id_student";
         $stmt = model_sql::connectToDatabase()->prepare($sql);
         $stmt->bindParam(':name', $name, PDO::PARAM_STR);
         $stmt->bindParam(':last_name', $last_name, PDO::PARAM_STR);
         $stmt->bindParam(':id_student', $id_student, PDO::PARAM_INT);
         $stmt->bindParam(':dni', $dni, PDO::PARAM_STR);
         $stmt->bindParam(':date', $date, PDO::PARAM_STR);
+        $stmt->bindParam(':tel', $telephone, PDO::PARAM_STR);
 
         if ($stmt->execute()) {
             // Devolver true si la actualización se realiza correctamente
@@ -162,7 +165,7 @@ class StudentModel extends UserModel
     {
         // Conectar a la base de datos
         $pdo = model_sql::connectToDatabase();
-    
+
         // Consulta para verificar si el legajo ya existe
         $sql_check = 'SELECT COUNT(*) FROM users WHERE file = :legajo AND id_user != :id_student';
         $stmt_check = $pdo->prepare($sql_check);
@@ -170,7 +173,7 @@ class StudentModel extends UserModel
         $stmt_check->bindParam(':id_student', $id, PDO::PARAM_INT);
         $stmt_check->execute();
         $count = $stmt_check->fetchColumn();
-    
+
         if ($count > 0) {
             // El legajo ya existe para otro usuario
             return false;
@@ -180,7 +183,7 @@ class StudentModel extends UserModel
             $stmt_update = $pdo->prepare($sql_update);
             $stmt_update->bindParam(':legajo', $file, PDO::PARAM_STR);
             $stmt_update->bindParam(':id_student', $id, PDO::PARAM_INT);
-    
+
             if ($stmt_update->execute()) {
                 // Devolver true si la actualización se realiza correctamente
                 return true;
@@ -191,5 +194,4 @@ class StudentModel extends UserModel
             }
         }
     }
-    
 }

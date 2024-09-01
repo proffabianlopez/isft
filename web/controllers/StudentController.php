@@ -16,7 +16,7 @@ class StudentController
             $name = ucwords(strtolower(trim($_POST['name'])));
             $lastname = ucwords(strtolower(trim($_POST['lastName'])));
             if (!preg_match("/^[a-zA-ZáéíóúÁÉÍÓÚ\s]+$/u", $name) || !preg_match("/^[a-zA-ZáéíóúÁÉÍÓÚ\s]+$/u", $lastname)) {
-               
+
                 $response["status"] = "error";
                 $response["message"] = "El nombre y/o apellido solo pueden contener letras, espacios y tildes.";
                 return $response;
@@ -25,6 +25,21 @@ class StudentController
             if (strlen($name) > 128 || strlen($lastname) > 128) {
                 $response["status"] = "error";
                 $response["message"] = "El nombre y/o apellido no pueden tener más de 128 caracteres.";
+                return $response;
+            }
+
+            $telephone = trim($_POST['tel']);
+            if (!ctype_digit($telephone) || strlen($telephone) != 10 || intval(substr($telephone, 0, 2)) < 11) {
+                $response["status"] = "error";
+                $response["message"] = "Número de teléfono inválido. Debe tener 10 dígitos y comenzar con un código de área válido.";
+                return $response;
+            }
+
+            $checkCountTel = StudentModel::checkForDuplicatesTel($telephone);
+
+            if ($checkCountTel !== false) {
+                $response["status"] = "error";
+                $response["message"] = "El teléfono ya está registrado.";
                 return $response;
             }
 
@@ -69,7 +84,7 @@ class StudentController
                 return $response;
             }
 
-            $execute = StudentModel::newStudent($name, $lastname, $email, $dni, $date, $gender);
+            $execute = StudentModel::newStudent($name, $lastname, $email, $dni, $date, $gender, $telephone);
 
 
             if ($execute) {
@@ -126,6 +141,7 @@ class StudentController
     //para editar los datos del estudiante
     static public function editStudent()
     {
+        $id_student = $_POST['id_student'];
         $name = ucwords(strtolower(trim($_POST['name_student'])));
         $lastname = ucwords(strtolower(trim($_POST['last_name_student'])));
 
@@ -146,7 +162,22 @@ class StudentController
             $response["message"] = "DNI inválido. Debe ser un número entre 6 y 8 dígitos.";
             return $response;
         }
-        
+
+        $telephone = trim($_POST['tel']);
+        if (!ctype_digit($telephone) || strlen($telephone) != 10 || intval(substr($telephone, 0, 2)) < 11) {
+            $response["status"] = "error";
+            $response["message"] = "Número de teléfono inválido. Debe tener 10 dígitos y comenzar con un código de área válido.";
+            return $response;
+        }
+
+        $checkDuplicatesEditionTel = StudentModel::checkForDuplicatesEditionTel($id_student, $telephone);
+
+        if ($checkDuplicatesEditionTel !== false) {
+            $response["status"] = "error";
+            $response["message"] = "El teléfono ya está registrado.";
+            return $response;
+        }
+
         $date = $_POST['date'];
         if (!ctype_digit($date) || strlen($date) != 4 || $date < 1992 || $date > ($currentYear = date('Y'))) {
             $response["status"] = "error";
@@ -154,11 +185,10 @@ class StudentController
             return $response;
         }
 
-        $id_student = $_POST['id_student'];
         $id_career_person = $_POST['id_career_person'];
         $id_career = $_POST['carrer'];
 
-        $execute = StudentModel::updateStudentData($name, $lastname, $id_student, $dni, $date);
+        $execute = StudentModel::updateStudentData($name, $lastname, $id_student, $dni, $date, $telephone);
         if ($execute) {
             AssignmentModel::updateCareerStudent($id_career, $id_career_person);
 
@@ -242,27 +272,27 @@ class StudentController
             $id_student = $_POST['student_id'];
             $id_career = $_POST['career_id'];
             $file = $_POST['file'];
-    
+
             // Validar y completar el número de legajo con ceros a la izquierda si es necesario
             $file = str_pad($file, 4, '0', STR_PAD_LEFT);
-    
+
             // Verificar que el legajo no supere los 4 dígitos
             if (strlen($file) > 4) {
                 $response["status"] = "error";
                 $response["message"] = "El legajo no puede tener más de 4 dígitos.";
                 return $response;
             }
-    
+
             // Obtener abreviatura de la carrera
             $data_career = CareerModel::nameCareer($id_career);
             $abbreviation = $data_career['abbreviation'];
-    
+
             // Concatenar abreviatura al nombre del archivo
             $file_with_abbreviation = $abbreviation . $file;
-    
+
             // Actualizar legajo en la base de datos
             $execute = StudentModel::updateLegajo($file_with_abbreviation, $id_student);
-    
+
             if ($execute === true) {
                 // Redireccionar con mensaje de éxito si la actualización fue exitosa
                 $response['title'] = "¡Éxito!";
@@ -287,7 +317,7 @@ class StudentController
         }
         return $response;
     }
-    
+
 
 
     //traer datos de los alumnos que maneja el preceptor segun las carreras que administre

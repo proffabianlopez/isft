@@ -96,25 +96,25 @@ class UserModel
 
     //consulta a la base de dato para poder editar los datos del usuario
     static public function updateData($newName, $newLastName, $id)
-{
-    $sql = "UPDATE users SET name = ?, last_name = ? WHERE id_user = ?";
+    {
+        $sql = "UPDATE users SET name = ?, last_name = ? WHERE id_user = ?";
 
-    $stmt = model_sql::connectToDatabase()->prepare($sql);
+        $stmt = model_sql::connectToDatabase()->prepare($sql);
 
-    // Corregir el enlace de parámetros
-    $stmt->bindParam(1, $newName, PDO::PARAM_STR);
-    $stmt->bindParam(2, $newLastName, PDO::PARAM_STR);
-    $stmt->bindParam(3, $id, PDO::PARAM_INT);  // El tercer parámetro es el ID
+        // Corregir el enlace de parámetros
+        $stmt->bindParam(1, $newName, PDO::PARAM_STR);
+        $stmt->bindParam(2, $newLastName, PDO::PARAM_STR);
+        $stmt->bindParam(3, $id, PDO::PARAM_INT);  // El tercer parámetro es el ID
 
-    if ($stmt->execute()) {
-        return true;
-    } else {
-        print_r($stmt->errorInfo());
-        return false;  // Importante devolver false en caso de error
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            print_r($stmt->errorInfo());
+            return false;  // Importante devolver false en caso de error
+        }
+
+        $stmt = null;  // Esto no es necesario porque el objeto $stmt se destruye automáticamente al salir de la función
     }
-
-    $stmt = null;  // Esto no es necesario porque el objeto $stmt se destruye automáticamente al salir de la función
-}
 
     static public function changePasswordStart($id, $newPassword)
     {
@@ -209,6 +209,50 @@ class UserModel
             return false;
         }
     }
+
+    static public function checkForDuplicatesTel($telephone)
+    {
+        try {
+            $checkQuery = "SELECT COUNT(*) FROM users WHERE phone_contact = ?";
+            $checkStatement = model_sql::connectToDatabase()->prepare($checkQuery);
+            $checkStatement->bindParam(1, $telephone, PDO::PARAM_STR);
+            $checkStatement->execute();
+
+            $count = $checkStatement->fetchColumn();
+
+            if ($count > 0) {
+                return true;
+            }
+
+            return false;
+        } catch (PDOException $e) {
+            echo "Error en la validación de duplicados: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    static public function checkForDuplicatesEditionTel($id, $telephone)
+    {
+        try {
+            $checkQuery = "SELECT COUNT(*) FROM users WHERE phone_contact = ? AND id_user <> ?";
+            $checkStatement = model_sql::connectToDatabase()->prepare($checkQuery);
+            $checkStatement->bindParam(1, $telephone, PDO::PARAM_STR);
+            $checkStatement->bindParam(2, $id, PDO::PARAM_INT);
+            $checkStatement->execute();
+
+            $count = $checkStatement->fetchColumn();
+
+            if ($count > 0) {
+                return true;
+            }
+
+            return false;
+        } catch (PDOException $e) {
+            echo "Error en la validación de duplicados: " . $e->getMessage();
+            return false;
+        }
+    }
+
 
     static public function getFirstValidCredential()
     {
