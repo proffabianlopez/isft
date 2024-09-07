@@ -336,4 +336,73 @@ class StudentController
             return [];
         }
     }
+
+    static public function subjectFirstYearStudent()
+    {
+        if (isset($_POST['student_id']) && is_array($_POST['student_id'])) {
+            $student_ids = $_POST['student_id']; 
+    
+            // Obtener la información de los estudiantes y sus carreras
+            $infoStudent = StudentModel::careerStudent($student_ids);
+    
+            // Extraer los IDs de las carreras
+            $careerIds = [];
+            if (!empty($infoStudent)) {
+                foreach ($infoStudent as $student) {
+                    if (isset($student['career'])) {
+                        $careerIds[] = $student['career'];
+                    }
+                }
+            }
+    
+            // Obtener las materias de primer año para las carreras encontradas
+            $careerIds = array_unique($careerIds);
+            $subjectInfo = StudentModel::careerSubject($careerIds);
+    
+            // Organizar las materias por carrera
+            $subjectsByCareer = [];
+            foreach ($subjectInfo as $subject) {
+                $careerId = $subject['career'];
+                if (!isset($subjectsByCareer[$careerId])) {
+                    $subjectsByCareer[$careerId] = [];
+                }
+                $subjectsByCareer[$careerId][] = $subject;
+            }
+    
+            // Asignar las materias a los estudiantes según su carrera
+            $result = StudentModel::assignSubjectsToStudents($infoStudent, $subjectsByCareer);
+    
+            if ($result === true) {
+                //  echo "Materias asignadas exitosamente.";
+                echo '<script>
+			if (window.history.replaceState) {
+				window.history.replaceState(null, null, window.location.href);
+			}
+			window.location="index.php?pages=manageStudent&subfolder=listStudent&message=correcto";
+			</script>
+			';
+                
+                
+            } else {
+                // echo "Hubo un error al asignar las materias.";
+                echo '<script>
+                if (window.history.replaceState) {
+                    window.history.replaceState(null, null, window.location.href);
+                }
+                window.location="index.php?pages=manageStudent&subfolder=listStudent&no=error";
+                </script>
+                ';
+            }
+    
+        } else {
+            echo '<script>
+                if (window.history.replaceState) {
+                    window.history.replaceState(null, null, window.location.href);
+                }
+                window.location="index.php?pages=manageStudent&subfolder=listStudent&id=error";
+                </script>
+                ';
+        }
+    }
+
 }

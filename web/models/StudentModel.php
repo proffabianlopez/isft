@@ -194,4 +194,135 @@ class StudentModel extends UserModel
             }
         }
     }
+
+
+    static public function careerStudent($ids_students)
+    {
+        if (empty($ids_students) || !is_array($ids_students)) {
+            return []; 
+        }
+    
+        $ids_students = array_map('intval', $ids_students); 
+        $ids_list_student = implode(',', $ids_students);
+    
+        $sql = "
+            SELECT careers.id_career AS career,
+                   users.id_user AS id_student,  /* Cambié el alias a id_student */
+                   users.name AS name,
+                   users.startingYear AS yearActual
+            FROM career_person
+            INNER JOIN careers ON career_person.fk_career_id = careers.id_career
+            INNER JOIN users ON career_person.fk_user_id = users.id_user
+            WHERE career_person.fk_user_id IN ($ids_list_student)
+        ";
+    
+        try {
+            $pdo = model_sql::connectToDatabase();
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute();
+            $career = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+            // error_log("Carreras asociadas a los IDs de estudiantes: " . print_r($career, true));
+    
+            return $career; 
+    
+        } catch (PDOException $e) {
+            error_log("Error en la consulta: " . $e->getMessage());
+            return []; 
+        }
+    }
+    
+
+    static public function careerSubject($ids)
+{
+    if (empty($ids) || !is_array($ids)) {
+        return []; 
+    }
+
+   
+    $ids = array_map('intval', $ids); 
+    $ids_list = implode(',', $ids);
+
+   
+    $sql = "SELECT careers.id_career AS career,
+                   careers.career_name AS name,
+                   subjects.name_subject AS subject,
+                   subjects.fk_year_subject AS yearSubject,
+                   subjects.id_subject AS id_subject
+            FROM subjects
+            INNER JOIN careers ON subjects.fk_career_id = careers.id_career
+            WHERE careers.id_career IN ($ids_list)
+            AND subjects.fk_year_subject = 1";
+
+    try {
+        $pdo = model_sql::connectToDatabase();
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        $subject = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        
+        // echo "<pre>";
+        // print_r($subject);
+        // echo "</pre>";
+
+        // error_log("Carreras asociadas a los IDs de estudiantes: " . print_r($subject, true));
+
+        return $subject; 
+
+    } catch (PDOException $e) {
+        // error_log("Error en la consulta: " . $e->getMessage());
+        return []; 
+    }
+}
+static public function assignSubjectsToStudents($students, $subjectsByCareer)
+{
+    if (empty($students) || empty($subjectsByCareer)) {
+        return false;
+    }
+
+    $pdo = model_sql::connectToDatabase();
+    $anyAssigned = false; // Variable para rastrear si se realizó alguna asignación
+
+    try {
+        $pdo->beginTransaction();
+
+        foreach ($students as $student) {
+            $studentId = $student['id_student'];  
+            $careerId = $student['career'];
+
+            if (!isset($subjectsByCareer[$careerId])) {
+                continue;
+            }
+
+            foreach ($subjectsByCareer[$careerId] as $subject) {
+                $sqlCheck = "SELECT COUNT(*) FROM asignament_students 
+                             WHERE fk_user_id = :studentId 
+                             AND fk_subject_id = :subjectId";
+                $stmtCheck = $pdo->prepare($sqlCheck);
+                $stmtCheck->bindParam(':studentId', $studentId, PDO::PARAM_INT);
+                $stmtCheck->bindParam(':subjectId', $subject['id_subject'], PDO::PARAM_INT);
+                $stmtCheck->execute();
+                $exists = $stmtCheck->fetchColumn();
+
+                if ($exists == 0) {
+                    $sqlInsert = "INSERT INTO asignament_students (fk_user_id, fk_subject_id, fk_school_year_id, state) 
+                                  VALUES (:studentId, :subjectId, 1, 1)";
+                    $stmtInsert = $pdo->prepare($sqlInsert);
+                    $stmtInsert->bindParam(':studentId', $studentId, PDO::PARAM_INT);
+                    $stmtInsert->bindParam(':subjectId', $subject['id_subject'], PDO::PARAM_INT);
+                    $stmtInsert->execute();
+                    $anyAssigned = true; // Se realizó al menos una asignación
+                }
+            }
+        }
+
+        $pdo->commit();
+        return $anyAssigned; // Retorna true si se hizo al menos una asignación, de lo contrario false
+    } catch (PDOException $e) {
+        $pdo->rollBack();
+        // error_log("Error al insertar materias: " . $e->getMessage());
+        return false;
+    }
+}
+
 }
