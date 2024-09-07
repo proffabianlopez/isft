@@ -3,9 +3,9 @@
     <div class="card">
         <div class="card-body">
             <div class="table-responsive overflow-hidden">
-                <form id="studentForm" method="POST" action="#">
+                <form id="studentForm" method="POST">
                     <input type="hidden" name="student_ids" id="student_ids" value="">
-                    <table id="exampleCheckboxes" class="table table-bordered table-striped table-hover table-sm custom-table-container" style="width: 90%;">
+                    <table id="example3" class="table table-bordered table-striped table-hover table-sm custom-table-container" style="width: 90%;">
                         <thead class="bg-yellow text-white">
                             <tr class="text-center">
                                 <th></th>
@@ -20,7 +20,13 @@
                         <tbody>
                             <?php foreach ($dataStudent as $student) : ?>
                                 <tr>
-                                    <td class="text-center"><?php echo $student['id_student']; ?></td>
+                                <?php if ($student['startingYear'] == date('Y')): ?>
+                                    <td class="text-center">
+                                        <input type="checkbox" name="student_id[]" value="<?php echo $student['id_student']; ?>">
+                                    </td>
+                                <?php else: ?>
+                                    <td></td>
+                                <?php endif; ?>
                                     <td class="text-center"><?php echo $student['last_name_student']; ?></td>
                                     <td class="text-center"><?php echo $student['name_student']; ?></td>
                                     <td class="text-center"><?php echo $student['dni']; ?></td>
@@ -52,9 +58,12 @@
                             <?php endforeach; ?>
                             <?php $message = new MessageController();
                             $message->show_messages_error('legajo', "No se permiten Legajos Duplicados"); ?>
+                            <?php $message->showMessageVerify('message', "se asignaron correctamente las materias"); ?> 
+                            <?php $message-> show_messages_error('no',"Error a cargar las materias.uno o mas alumnos ya las tienen cargada"); ?> 
+                            <?php $message->show_messages_error('id', "no se seleccionaron estudiantes para cargar materia"); ?>  
                         </tbody>
                     </table>
-                    <button id="send-btn" class="btn btn-primary">Cargar materias primer año</button>
+                    <button id="send-btn" name="send_btn" class="btn btn-primary">Cargar materias primer año</button>
                 </form>
             </div>
         </div>
@@ -189,6 +198,16 @@
             $controller->generateAccountStudent();
         }
     }
+
+
+    if (isset($_POST['send_btn'])) {
+        
+        $controller = new StudentController();
+        $controller->subjectFirstYearStudent();
+
+}
+
+
     ?>
 <? endif ?>
 
@@ -197,52 +216,73 @@
     <?php $dataStudent = StudentController::getStudentCareerPreceptor($_SESSION['id_user']); ?>
     <div class="card">
         <div class="card-body">
-            <div class="table-responsive">
-                <table id="example3" class="table table-bordered table-striped table-hover table-sm custom-table-container" style="width: 90%;">
-                    <thead class="bg-yellow text-white">
-                        <tr class="text-center">
-                            <th>Apellido</th>
-                            <th>Nombre</th>
-                            <th>Dni</th>
-                            <th>Legajo</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($dataStudent as $student) : ?>
-                            <tr>
-                                <td class="text-center"><?php echo $student['last_name_student']; ?></td>
-                                <td class="text-center"><?php echo $student['name_student']; ?></td>
-                                <td class="text-center"><?php echo $student['dni']; ?></td>
-                                <td class="text-center">
-                                    <?php if ($student['legajo'] == null) : ?>
-                                        <a href="#assignFileModal<?php echo $student['id_student']; ?>" class="btn btn-secondary assign-file" data-toggle="modal" title="Asignar legajo">
-                                            <i class="fas fa-file-medical"></i>
-                                        </a>
-                                    <?php else : ?>
-                                        <?php echo $student['legajo']; ?>
-                                    <?php endif; ?>
-                                </td>
-                                <td class="text-center">
-                                    <?php if (isset($_GET['pages']) && ($_GET['pages'] == 'manageStudent')) : ?>
-                                        <a href="#viewUserModal<?php echo $student['id_student']; ?>" class="btn btn-success view-user" data-toggle="modal" title="Ver detalles">
-                                            <i class="fas fa-eye"></i>
-                                        </a>
-                                        <a href="#editUserModal<?php echo $student['id_student']; ?>" class="btn btn-primary edit-user" data-toggle="modal" title="Editar">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-info" onclick="generateUser(<?php echo $student['id_student'] ?>)" title="Generar nuevo usuario">
-                                            <i class="fas fa-user-plus"></i>
-                                        </a>
-                                    <?php endif; ?>
-                                </td>
+            <div class="table-responsive overflow-hidden">
+                <form id="studentForm" method="POST">
+                    <input type="hidden" name="student_ids" id="student_ids" value="">
+                    <table id="example3" class="table table-bordered table-striped table-hover table-sm custom-table-container" style="width: 90%;">
+                        <thead class="bg-yellow text-white">
+                            <tr class="text-center">
+                                <th></th>
+                                <th>Apellido</th>
+                                <th>Nombre</th>
+                                <th>Dni</th>
+                                <th>Cohorte</th>
+                                <th>Legajo</th>
+                                <th>Acciones</th>
                             </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($dataStudent as $student) : ?>
+                                <tr>
+                                <?php if ($student['startingYear'] == date('Y')): ?>
+                                    <td class="text-center">
+                                        <input type="checkbox" name="student_id[]" value="<?php echo $student['id_student']; ?>">
+                                    </td>
+                                <?php else: ?>
+                                    <td></td>
+                                <?php endif; ?>
+                                    <td class="text-center"><?php echo $student['last_name_student']; ?></td>
+                                    <td class="text-center"><?php echo $student['name_student']; ?></td>
+                                    <td class="text-center"><?php echo $student['dni']; ?></td>
+                                    <td class="text-center"><?php echo $student['startingYear']; ?></td>
+
+                                    <td class="text-center">
+                                        <?php if ($student['legajo'] == null) : ?>
+                                            <a href="#assignFileModal<?php echo $student['id_student']; ?>" class="btn btn-secondary assign-file" data-toggle="modal" title="Asignar legajo">
+                                                <i class="fas fa-file-medical"></i>
+                                            </a>
+                                        <?php else : ?>
+                                            <?php echo $student['legajo']; ?>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td class="text-center">
+                                        <?php if (isset($_GET['pages']) && ($_GET['pages'] == 'manageStudent')) : ?>
+                                            <a href="#viewUserModal<?php echo $student['id_student']; ?>" class="btn btn-success view-user" data-toggle="modal" title="Ver detalles">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <a href="#editUserModal<?php echo $student['id_student']; ?>" class="btn btn-primary edit-user" data-toggle="modal" title="Editar">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <a href="#" class="btn btn-info" onclick="generateUser(<?php echo $student['id_student'] ?>)" title="Generar nuevo usuario">
+                                                <i class="fas fa-user-plus"></i>
+                                            </a>
+                                        <?php endif; ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                            <?php $message = new MessageController();
+                            $message->show_messages_error('legajo', "No se permiten Legajos Duplicados"); ?>
+                            <?php $message->showMessageVerify('message', "se asignaron correctamente las materias"); ?> 
+                            <?php $message-> show_messages_error('no',"Error a cargar las materias.uno o mas alumnos ya las tienen cargada"); ?> 
+                            <?php $message->show_messages_error('id', "no se seleccionaron estudiantes para cargar materia"); ?>  
+                        </tbody>
+                    </table>
+                    <button id="send-btn" name="send_btn" class="btn btn-primary">Cargar materias primer año</button>
+                </form>
             </div>
         </div>
     </div>
+
 
 
     <?php foreach ($dataStudent as $student) : ?>
@@ -377,5 +417,14 @@
             $controller->generateAccountStudent();
         }
     }
+
+     if (isset($_POST['send_btn'])) {
+        
+                    $controller = new StudentController();
+                    $controller->subjectFirstYearStudent();
+
+          }
+
+
     ?>
 <?php endif ?>
