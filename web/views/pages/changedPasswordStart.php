@@ -7,13 +7,25 @@
                 </div>
                 <div class="card-body">
                     <form method='POST'>
-                        <div class="form-group">
-                            <label for="newPassword">Nueva Contraseña</label>
-                            <input type="password" class="form-control" name="newPassword" placeholder="Introduce tu nueva contraseña" required>
+                        <div class="mb-3">
+                            <label for="newPassword" class="form-label fw-bold">Nueva contraseña</label>
+                            <div class="input-group input-group-merge">
+                                <input type="password" class="form-control password" name="newPassword"
+                                    placeholder="Introduzca tu nueva contraseña">
+                                <button class="btn btn-outline-primary togglePassword" type="button" data-bs-toggle="button">
+                                    <i class="bi bi-eye-slash"></i>
+                                </button>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="confirmPassword">Repetir Contraseña</label>
-                            <input type="password" class="form-control" name="confirmPassword" placeholder="Repite tu nueva contraseña" required>
+                        <div class="mb-3">
+                            <label for="confirmPassword" class="form-label fw-bold">Repetir contraseña</label>
+                            <div class="input-group input-group-merge">
+                                <input type="password" class="form-control password" name="confirmPassword"
+                                    placeholder="Repite tu nueva contraseña">
+                                <button class="btn btn-outline-primary togglePassword" type="button" data-bs-toggle="button">
+                                    <i class="bi bi-eye-slash"></i>
+                                </button>
+                            </div>
                         </div>
                         <button type="submit" name="send" class="btn bg-custom btn-warning btn-block">Cambiar Contraseña</button>
                         <?php
