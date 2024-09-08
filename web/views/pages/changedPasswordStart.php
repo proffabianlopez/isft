@@ -17,17 +17,6 @@
                                 </button>
                             </div>
                         </div>
-
-                        <!-- <div class="pt-3 mb-1">
-                            <label for="password" class="form-label fw-medium pl-2">Contraseña</label>
-                            <div class="input-group input-group-merge">
-                                <input type="password" class="form-control password" placeholder="Ingrese su contraseña" name="password" required>
-                                <button class="btn btn-outline-primary togglePassword" type="button" data-bs-toggle="button">
-                                    <i class="bi bi-eye-slash"></i>
-                                </button>
-                            </div>
-                        </div> -->
-                        
                         <div class="mb-3">
                             <label for="confirmPassword" class="form-label fw-bold">Repetir contraseña</label>
                             <div class="input-group input-group-merge">
