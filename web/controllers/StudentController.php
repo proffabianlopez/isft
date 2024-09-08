@@ -296,8 +296,8 @@ class StudentController
             if ($execute === true) {
                 // Redireccionar con mensaje de éxito si la actualización fue exitosa
                 $response['title'] = "¡Éxito!";
-                $response["status"] = "successReset";
-                $response["message"] = "Se guardó los datos correctamente";
+                $response["status"] = "successLoad";
+                $response["message"] = "Se guardaron los datos correctamente.";
                 return $response;
             } elseif ($execute === false) {
                 // Redireccionar con mensaje de error si el legajo ya existe
@@ -340,11 +340,11 @@ class StudentController
     static public function subjectFirstYearStudent()
     {
         if (isset($_POST['student_id']) && is_array($_POST['student_id'])) {
-            $student_ids = $_POST['student_id']; 
-    
+            $student_ids = $_POST['student_id'];
+
             // Obtener la información de los estudiantes y sus carreras
             $infoStudent = StudentModel::careerStudent($student_ids);
-    
+
             // Extraer los IDs de las carreras
             $careerIds = [];
             if (!empty($infoStudent)) {
@@ -354,11 +354,11 @@ class StudentController
                     }
                 }
             }
-    
+
             // Obtener las materias de primer año para las carreras encontradas
             $careerIds = array_unique($careerIds);
             $subjectInfo = StudentModel::careerSubject($careerIds);
-    
+
             // Organizar las materias por carrera
             $subjectsByCareer = [];
             foreach ($subjectInfo as $subject) {
@@ -368,10 +368,10 @@ class StudentController
                 }
                 $subjectsByCareer[$careerId][] = $subject;
             }
-    
+
             // Asignar las materias a los estudiantes según su carrera
             $result = StudentModel::assignSubjectsToStudents($infoStudent, $subjectsByCareer);
-    
+
             if ($result === true) {
                 //  echo "Materias asignadas exitosamente.";
                 echo '<script>
@@ -381,8 +381,6 @@ class StudentController
 			window.location="index.php?pages=manageStudent&subfolder=listStudent&message=correcto";
 			</script>
 			';
-                
-                
             } else {
                 // echo "Hubo un error al asignar las materias.";
                 echo '<script>
@@ -393,7 +391,6 @@ class StudentController
                 </script>
                 ';
             }
-    
         } else {
             echo '<script>
                 if (window.history.replaceState) {
@@ -404,5 +401,4 @@ class StudentController
                 ';
         }
     }
-
 }
