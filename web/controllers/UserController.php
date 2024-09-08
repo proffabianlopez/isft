@@ -215,11 +215,26 @@ class UserController
                 $response["status"] = "error";
                 $response["message"] = "El nombre y/o apellido solo pueden contener letras, espacios y tildes.";
                 return $response;
-            }            
+            }
 
             if (strlen($name) > 128 || strlen($lastname) > 128) {
                 $response["status"] = "error";
                 $response["message"] = "El nombre y/o apellido no pueden tener más de 128 caracteres.";
+                return $response;
+            }
+
+            $telephone = trim($_POST['tel']);
+            if (!ctype_digit($telephone) || strlen($telephone) != 10 || intval(substr($telephone, 0, 2)) < 11) {
+                $response["status"] = "error";
+                $response["message"] = "Número de teléfono inválido. Debe tener 10 dígitos y comenzar con un código de área válido.";
+                return $response;
+            }
+
+            $checkCountTel = UserModel::checkForDuplicatesTel($telephone);
+
+            if ($checkCountTel !== false) {
+                $response["status"] = "error";
+                $response["message"] = "El teléfono ya está registrado.";
                 return $response;
             }
 
@@ -256,7 +271,7 @@ class UserController
                 $response["message"] = "Ya existe el Email o el DNI";
                 return $response;
             } else {
-                $execute = UserModel::newUser($name, $lastname, $email, $dni, $hashedPassword, $gender, $roles);
+                $execute = UserModel::newUser($name, $lastname, $email, $dni, $hashedPassword, $gender, $roles, $telephone);
                 if ($execute) {
                     $mailController = MailerController::sendNewUser($generatePassword, $email, $name, $lastname);
                     $response['title'] = "¡Éxito!";
@@ -383,7 +398,7 @@ class UserController
             $response["status"] = "error";
             $response["message"] = "El nombre y/o apellido solo pueden contener letras, espacios y tildes.";
             return $response;
-        }  
+        }
 
         if (!preg_match("/^[a-zA-Z]+$/", $name) || !preg_match("/^[a-zA-Z]+$/", $lastname)) {
             $response["status"] = "error";
@@ -460,8 +475,8 @@ class UserController
     static public function showPreceptor()
     {
         return UserModel::getAllPreceptor();
-    } 
-     static public function showTeacherCareer($id_career)
+    }
+    static public function showTeacherCareer($id_career)
     {
         return UserModel::getTeacherCareer($id_career);
     }

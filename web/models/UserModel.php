@@ -137,11 +137,11 @@ class UserModel
     }
 
 
-    static public function newUser($value1, $value2, $value3, $value4, $value5, $value6, $value7)
+    static public function newUser($value1, $value2, $value3, $value4, $value5, $value6, $value7, $value8)
     {
         $sql = "INSERT INTO users (name, last_name, email, dni, startingYear, file, password, 
-                                fk_gender_id,fk_rol_id, state)
-                                VALUES (:name, :lastName, :email, :dni, NULL, NULL, :password, :gender, :fk_rol_id, 1)";
+                                fk_gender_id,fk_rol_id, state, phone_contact)
+                                VALUES (:name, :lastName, :email, :dni, NULL, NULL, :password, :gender, :fk_rol_id, 1, :tel)";
         $stmt = model_sql::connectToDatabase()->prepare($sql);
         $stmt->bindParam(':name', $value1, PDO::PARAM_STR);
         $stmt->bindParam(':lastName', $value2, PDO::PARAM_STR);
@@ -150,6 +150,7 @@ class UserModel
         $stmt->bindParam(':password', $value5, PDO::PARAM_STR);
         $stmt->bindParam(':gender', $value6, PDO::PARAM_INT);
         $stmt->bindParam(':fk_rol_id', $value7, PDO::PARAM_INT);
+        $stmt->bindParam(':tel', $value8, PDO::PARAM_STR);
 
         if ($stmt->execute()) {
             return $stmt;
@@ -438,7 +439,4 @@ WHERE
 
         $stmt = null;
     }
-
-
-
 }
