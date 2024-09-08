@@ -13,6 +13,7 @@ if (
       ($_GET['pages'] == "careerInfo") ||
       # links administracion de usuarios           
       ($_GET['pages'] == "myData") ||
+      ($_GET['pages'] == "autoEmail") ||
       ($_GET['pages'] == "changedPasswordStart") ||
       ($_GET['pages'] == "manageUser") ||
       ($_GET['pages'] == "manageStudent") ||

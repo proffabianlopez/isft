@@ -23,6 +23,11 @@
                     <a class="dropdown-item" href="index.php?pages=changePassword">
                         <i class="fas fa-key"></i> Cambiar Contraseña
                     </a>
+                    <?php if($_SESSION['fk_rol_id']==1):?>
+                    <a class="dropdown-item" href="index.php?pages=autoEmail">
+                    <i class="fas fa-cogs"></i> Configuración de email automático
+                    </a>
+                    <? endif;?>
                 </div>
         </li>
 
