@@ -53,8 +53,20 @@ class AssignmentController {
         }
     }
 }
+    static public function assignSubjectToTeacher($id_career, $name_career, $state, $id_subject, $name_subject){
+        if (!empty($_POST['id_subject_post']) && !empty($_POST['id_teacher'])) {
+        // Insertar asignación si no tiene dos carreras asignadas aún
+        $insert = AssignmentModel::insertSubjectTeacher($_POST['id_subject_post'], $_POST['id_teacher']);
 
-
+        if ($insert) {
+            echo '<script>
+            window.location.href = "index.php?pages=manageTeacherAssignement&id_career=' . $id_career . '&name_career=' . $name_career . '&state=' . $state .'&id_subject='. $id_subject .'&name_subject='.$name_subject.'&subfolder=listAssignTeacher&message=correcto";
+            </script>';
+        } else {
+            echo "No se pudo asignar Profesor.";
+        }
+    }
+    }
 
         // Borra un preceptor de la carrera en curso
 
@@ -85,40 +97,61 @@ class AssignmentController {
 
 
         }
+        static public function quitTeacherSubject($id_career, $name_career, $state, $id_subject, $name_subject){
+
+            error_log("quitTeacherSubject: ". $_POST['id_teacher']);
+    
+            if(!empty($_POST['id_teacher'])){
+    
+                
+                $id_teacher=$_POST['id_teacher'];
+
+                $delete=AssignmentModel::deleteTeacherSubject($id_teacher, $id_subject);
+    
+                if ($delete) {
+                  
+                    echo '<script>
+                    window.location.href = "index.php?pages=manageTeacherAssignement&id_career=' . $id_career . '&name_career=' . $name_career . '&state=' . $state .'&id_subject='. $id_subject .'&name_subject='.$name_subject.'&subfolder=listAssignTeacher&message=correcto";
+                    </script>';
+                } else {
+                    // Manejo de error si la inserción falla
+                    echo "No se pudo quitar Preceptor.";
+                }
+    
+            }
+
+
+        }
 
         static public function show_career_preceptor($id){
 
             return AssignmentModel::preceptor_career($id);
+        }  
+          static public function show_career_teacherSubject($id_teacher, $id_career){
 
-
+            return AssignmentModel::teacherSubject_career($id_teacher, $id_career);
         }
 
-
-      
-  
-        //asigna a un profesor a una carrera
-        static public function assignTeacher($id_teacher,$name_teacher)
-        {
-            if (!empty($_POST['career_id'])) {
-                $id_career = $_POST['career_id'];
-        
-                // Insertar asignación si no tiene dos carreras asignadas aún
-                $insert = AssignmentModel::insertCareerPerson($id_career, $id_teacher);
-        
-                if ($insert) {
-                    // Redirigir después de una asignación exitosa
-                    echo '<script>
-                    window.location.href = "index.php?pages=manageTeacher&id_teacher=' . $id_teacher . '&name_teacher=' . $name_teacher  . '&subfolder=teacherCareer&message=correcto";
-                    </script>';
-                } else {
-                    echo "No se pudo asignar la carrera al profesor.";
-                }
-            }
-        }
-        
-        
-        
-         // Borra un profesor de la carrera en curso
+ //asigna a un profesor a una carrera
+ static public function assignTeacher($id_teacher,$name_teacher)
+ {
+     if (!empty($_POST['career_id'])) {
+         $id_career = $_POST['career_id'];
+ 
+         // Insertar asignación si no tiene dos carreras asignadas aún
+         $insert = AssignmentModel::insertCareerPerson($id_career, $id_teacher);
+ 
+         if ($insert) {
+             // Redirigir después de una asignación exitosa
+             echo '<script>
+             window.location.href = "index.php?pages=manageTeacher&id_teacher=' . $id_teacher . '&name_teacher=' . $name_teacher  . '&subfolder=teacherCareer&message=correcto";
+             </script>';
+         } else {
+             echo "No se pudo asignar la carrera al profesor.";
+         }
+     }
+ }
+ 
 
          static public function quitProfesor($id_teacher,$name_teacher){
     
@@ -144,7 +177,10 @@ class AssignmentController {
 
         }
 
-              
+        static public function showTeacherSubejct($id_subject)
+        {
+            return AssignmentModel::model_showTeacherSubejct($id_subject);
+        }    
         
         
         

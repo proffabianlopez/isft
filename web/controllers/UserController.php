@@ -460,5 +460,9 @@ class UserController
     static public function showPreceptor()
     {
         return UserModel::getAllPreceptor();
+    } 
+     static public function showTeacherCareer($id_career)
+    {
+        return UserModel::getTeacherCareer($id_career);
     }
 }
