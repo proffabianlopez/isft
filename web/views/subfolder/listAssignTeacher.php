@@ -1,6 +1,6 @@
 <?php 
 if (isset($_GET['name_career']) && isset($_GET['id_career']) && isset($_GET['state'])) {  
-    //$dataTeacher = UserController::showPreceptor();
+    $dataTeacher = UserController::showTeacherCareer($_GET['id_career']);
     //Poner acá la función para mostrar todos los profesores que pueden ser asignados a X materia.
 ?>
 <div class="card">
@@ -23,15 +23,14 @@ if (isset($_GET['name_career']) && isset($_GET['id_career']) && isset($_GET['sta
                                 </button>
                                 
                                 <?php 
-                                    //$info = AssignmentModel::preceptorNoAssig($data['id_teacher']);
+                                     $info = AssignmentModel::teacherSubejectNoAssig($data['id_teacher'], $_GET['id_subject']);
                                     // Verificar si el profesor actual no tiene asignada ninguna carrera con la función de arriba.
-                                    if (!empty($info)) {
+                                    if ($info) {
                                         echo '<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal_edit_' . $data['id_teacher'] . '" title="Asignar profesores a la carrera">
                                                 <i class="fas fa-user-plus"></i>
                                               </button>';
                                     } else {
-                                        //$info_career = AssignmentModel::preceptorAssig($_GET['id_career'], $data['id_teachers']);
-                                        if (!empty($info_career)) {
+                                        if (!$info) {
                                             echo '<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#confirmDeleteModal_' . $data['id_teacher'] . '">
                                                     <i class="fas fa-user-alt-slash"></i> 
                                                   </button>';
@@ -75,11 +74,11 @@ if (isset($_GET['name_career']) && isset($_GET['id_career']) && isset($_GET['sta
                                 <h5><strong>Nombre:</strong> <?php echo htmlspecialchars($data['full_name']); ?></h5>
                                 <h5><strong>Materias a cargo:</strong></h5>
                                 <?php
-                                    //$careers = AssignmentController::show_career_preceptor($data['id_teacher']); 
+                                    $careers = AssignmentController::show_career_teacherSubject($data['id_teacher'], $_GET['id_career']); 
                                     if (!empty($careers)): ?>
                                         <ul class="list-unstyled">
                                         <?php foreach ($careers as $career): ?>
-                                            <li><?php //echo htmlspecialchars($career['career']); ?></li>
+                                            <li><?php echo htmlspecialchars($career['materias']); ?></li>
                                         <?php endforeach; ?>
                                         </ul>
                                     <?php else: ?>
@@ -118,7 +117,7 @@ if (isset($_GET['name_career']) && isset($_GET['id_career']) && isset($_GET['sta
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="career" class="font-weight-bold">Carrera:</label>
-                                    <p class="form-control-static"><?php //echo htmlspecialchars($_GET['name_career']) ?></p>
+                                    <p class="form-control-static"><?php echo htmlspecialchars($_GET['name_career']) ?></p>
                                 </div>
                             </div>
                         </div>
@@ -134,10 +133,10 @@ if (isset($_GET['name_career']) && isset($_GET['id_career']) && isset($_GET['sta
                 </div>
                 <div class="modal-footer">
                     <form method="post">
-                        <input type="hidden" name="id_subject_post" value="<?php //echo $_GET['id_subject'] ?>">
+                        <input type="hidden" name="id_subject_post" value="<?php echo $_GET['id_subject'] ?>">
                         <input type="hidden" name="id_teacher" value="<?php echo $data['id_teacher'] ?>">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                        <button type="submit" class="btn btn-primary" name="assignSubject">Asignar</button>
+                        <button type="submit" class="btn btn-primary" error_log("assignSubjectToTeacher: entre a assignar: " . $_POST['id_subject_post'].'-'.$_POST['id_teacher']); name="assignSubject">Asignar</button>
                     </form>
                 </div>
             </div>
@@ -160,12 +159,7 @@ if (isset($_GET['name_career']) && isset($_GET['id_career']) && isset($_GET['sta
                     <p class="text-center">¿Estás seguro de que deseas quitar al profesor <strong><?php echo $data['full_name']; ?></strong> de la materia <?php //echo $_GET['name_subject']; ?>?</p>
                     <p class="text-center">Esta acción no se puede deshacer.</p>
                     <form method="post">
-                        <?php 
-                        // Obtener la información de la asignación
-                        //$inf = AssignmentModel::captureId_Career_Person($data['id_teacher'],$_GET['id_career']);
-                        
-                       ?>
-                        <input type="hidden" name="id_teacher" value="<?php //echo $inf['career_person']; ?>">
+                        <input type="hidden" name="id_teacher" value="<?php echo $data['id_teacher'] ?>">
                         <div class="modal-footer justify-content-center">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                             <button type="submit" class="btn btn-danger" name="deleteTeacher">Eliminar</button>
@@ -181,20 +175,20 @@ if (isset($_GET['name_career']) && isset($_GET['id_career']) && isset($_GET['sta
     $id_career_get=$_GET['id_career'];
     $career_name_get=$_GET['name_career'];
     $state_get=$_GET['state'];
-    $id_subject = $GET_['id_subject'];
-    $name_subject = $GET_['name_subject'];
+    $id_subject = $_GET['id_subject'];
+    $name_subject = $_GET['name_subject'];
 
 if (isset($_POST['assignSubject'])) {
         
-    // $controller= new AssignmentController();
-    // $controller->assignPreceptor($id_career_get,$career_name_get,$state_get);
+     $controller= new AssignmentController();
+     $controller->assignSubjectToTeacher($id_career_get, $career_name_get, $state_get, $id_subject, $name_subject);
    
 }
 
 if (isset($_POST['deleteTeacher'])) {
     
-    // $controller= new AssignmentController();
-    // $controller->quitPreceptor($id_career_get,$career_name_get,$state_get);
+     $controller= new AssignmentController();
+     $controller->quitTeacherSubject($id_career_get, $career_name_get, $state_get, $id_subject, $name_subject);
 
 }
 ?>

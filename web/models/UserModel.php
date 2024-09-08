@@ -418,4 +418,27 @@ WHERE
 
         $stmt = null;
     }
+    static public function getTeacherCareer($id_career)
+    {
+        $sql = "SELECT users.id_user AS id_teacher,
+		CONCAT(users.name,' ',users.last_name) AS full_name
+            FROM users
+            JOIN career_person AS cp ON users.id_user = cp.fk_user_id
+            WHERE users.fk_rol_id=4 AND cp.fk_career_id =:id_career";
+
+        $stmt = model_sql::connectToDatabase()->prepare($sql);
+        $stmt->bindParam(':id_career', $id_career, PDO::PARAM_INT);
+        if ($stmt->execute()) {
+
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } else {
+
+            print_r($stmt->errorInfo());
+        }
+
+        $stmt = null;
+    }
+
+
+
 }
