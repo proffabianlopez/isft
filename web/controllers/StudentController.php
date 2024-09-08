@@ -276,6 +276,12 @@ class StudentController
             // Validar y completar el número de legajo con ceros a la izquierda si es necesario
             $file = str_pad($file, 4, '0', STR_PAD_LEFT);
 
+            if ($file === '0000') {
+                $response["status"] = "error";
+                $response["message"] = "El legajo debe ser mayor a 0.";
+                return $response;
+            }
+
             // Verificar que el legajo no supere los 4 dígitos
             if (strlen($file) > 4) {
                 $response["status"] = "error";
