@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "bootstrap-icons": "^1.11.3",
+    "intl-tel-input": "^23.3.2"
+  }
+}

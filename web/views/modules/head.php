@@ -25,3 +25,6 @@
 <link rel="stylesheet" href="public/css/modal_career.css">
 <!-- Toastr -->
 <link rel="stylesheet" href="public/plugins/toastr/toastr.min.css">
+<link rel="stylesheet" href="public/css/bootstrap.min.css">
+   <!-- Bootstrap CSS para icons-->
+   <link rel="stylesheet" href="public/dist/boostrap_icon/node_modules/bootstrap-icons/font/bootstrap-icons.css">

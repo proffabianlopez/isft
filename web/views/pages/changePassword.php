@@ -9,20 +9,42 @@
             <form method="POST">
                 <div class="mb-3">
                     <label for="currentPassword" class="form-label fw-bold">Contraseña actual</label>
-                    <input type="password" class="form-control border-primary" name="currentPassword" placeholder="Introduzca su contraseña actual">
+                    <div class="input-group input-group-merge">
+                        <input type="password" class="form-control border-primary password" name="currentPassword"
+                            placeholder="Introduzca su contraseña actual">
+                        <button class="btn btn-outline-primary togglePassword" type="button" data-bs-toggle="button">
+                            <i class="bi bi-eye-slash"></i>
+                        </button>
+                    </div>
                 </div>
+
                 <div class="mb-3">
                     <label for="newPassword" class="form-label fw-bold">Nueva contraseña</label>
-                    <input type="password" class="form-control border-primary" name="newPassword" placeholder="Introduzca su nueva contraseña">
+                    <div class="input-group input-group-merge">
+                        <input type="password" class="form-control border-primary password" name="newPassword"
+                            placeholder="Introduzca su nueva contraseña">
+                        <button class="btn btn-outline-primary togglePassword" type="button" data-bs-toggle="button">
+                            <i class="bi bi-eye-slash"></i>
+                        </button>
+                    </div>
                 </div>
+
                 <div class="mb-3">
                     <label for="confirmPassword" class="form-label fw-bold">Confirmar nueva contraseña</label>
-                    <input type="password" class="form-control border-primary" name="confirmPassword" placeholder="Confirme su nueva contraseña">
+                    <div class="input-group input-group-merge">
+                        <input type="password" class="form-control border-primary password" name="confirmPassword"
+                            placeholder="Confirme su nueva contraseña">
+                        <button class="btn btn-outline-primary togglePassword" type="button" data-bs-toggle="button">
+                            <i class="bi bi-eye-slash"></i>
+                        </button>
+                    </div>
                 </div>
+
                 <div class="d-flex justify-content-center">
                     <button type="submit" name="enviar" class="btn btn-warning text-dark w-50">Cambiar</button>
                 </div>
             </form>
+
             <?php
 
             if (isset($_POST['enviar'])) {

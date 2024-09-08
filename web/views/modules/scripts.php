@@ -29,4 +29,8 @@
 <script src="public/js/generateAccountStudent.js"></script>
 <script src="public/js/inDevelopment.js"></script>
 
+        <script src="public/js/showEyePassword.js"></script>
+        <script src="public/js/loginForm.js"></script>
+        <script src="public/js/bootstrap.bundle.min.js"></script>
+
 <script src="public/js/main.js"></script>
