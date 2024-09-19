@@ -9,16 +9,26 @@ class MailerController
     static public function sendNewUser($password, $email, $name, $last_name)
     {
         $credential = UserModel::getFirstValidCredential();
+        if ($credential === false) {
+            error_log("Error: No se pudo obtener la credencial.");
+            return false;
+        }
+        
+        if ($credential === null) {
+            error_log("Error: No se encontró ninguna credencial.");
+            return false;
+        }
+        
         $mail = new PHPMailer;
         $mail->isSMTP();
-        $mail->Host = 'smtp.gmail.com';
+        $mail->Host =$credential['host'];;
         $mail->SMTPAuth = true;
         $mail->Username = $credential['email'];
         $mail->Password = $credential['token'];
-        $mail->SMTPSecure = 'tls';
-        $mail->Port = 587;
+        $mail->SMTPSecure =$credential['certificatedSSL'];;
+        $mail->Port =$credential['port_email'];
 
-        $mail->setFrom('institutec16@gmail.com', 'ISFT 177');
+        $mail->setFrom($credential['email'], 'ISFT 177');
         $mail->addAddress($email, 'Usuario');
         $mail->isHTML(true);
         $mail->CharSet = 'UTF-8';
@@ -45,16 +55,28 @@ class MailerController
     static public function generateNewPasswordviaEmail($email,$password){
 
         $credential = UserModel::getFirstValidCredential();
+        if ($credential === false) {
+            error_log("Error: No se pudo obtener la credencial.");
+            return false;
+        }
+        
+        if ($credential === null) {
+            error_log("Error: No se encontró ninguna credencial.");
+            return false;
+        }
+        
+        // Depuración
+        error_log(print_r($credential, true));
         $mail = new PHPMailer;
         $mail->isSMTP();
-        $mail->Host = 'smtp.gmail.com';
+        $mail->Host =$credential['host'];;
         $mail->SMTPAuth = true;
         $mail->Username = $credential['email'];
         $mail->Password = $credential['token'];
-        $mail->SMTPSecure = 'tls';
-        $mail->Port = 587;
+        $mail->SMTPSecure =$credential['certificatedSSL'];;
+        $mail->Port =$credential['port_email'];
 
-        $mail->setFrom('institutec16@gmail.com', 'ISFT 177');
+        $mail->setFrom($credential['email'], 'ISFT 177');
         $mail->addAddress($email, 'Usuario');
         $mail->isHTML(true);
         $mail->CharSet = 'UTF-8';

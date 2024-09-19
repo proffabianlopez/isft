@@ -480,4 +480,145 @@ class UserController
     {
         return UserModel::getTeacherCareer($id_career);
     }
+
+
+    static public function insertCredentialEmail() {
+     
+        if (!empty($_POST['host']) && !empty($_POST['email']) && !empty($_POST['password']) && !empty($_POST['port_email'])) {
+            
+            
+            $email_host=$_POST['host'];
+            $email_validated_host=filter_var($email_host, FILTER_VALIDATE_EMAIL);
+            $email = strtolower(trim($_POST['email']));
+            $email_validated = filter_var($email, FILTER_VALIDATE_EMAIL);
+            
+            if (!$email_validated||strlen($email) > 255||!$email_validated_host||strlen($email_host)>255) { 
+                echo '<script>
+                if (window.history.replaceState) {
+                    window.history.replaceState(null, null, window.location.href);
+                }
+                window.location="index.php?pages=autoEmail&email=error";
+                </script>';
+                return; 
+            }
+
+            $port_email = $_POST['port_email'];
+
+            if (!ctype_digit($port_email) || strlen($port_email) < 2 || strlen($port_email) > 5) {
+                echo '<script>
+                if (window.history.replaceState) {
+                    window.history.replaceState(null, null, window.location.href);
+                }
+                window.location="index.php?pages=autoEmail&port=error";
+                </script>';
+                return;
+            }
+
+            $tls_optional = empty($_POST['certificate']) ? "tls" : $_POST['certificate'];
+            $token=$_POST['password'];
+            
+           $execute=UserModel::insertValidCredential($email_host,$email,$token,$port_email,$tls_optional,$_SESSION['id_user']);
+           
+           if($execute){
+            echo '<script>
+            if (window.history.replaceState) {
+                window.history.replaceState(null, null, window.location.href);
+            }
+            window.location="index.php?pages=autoEmail&insert=correcto";
+            </script>';
+          
+            return;
+           }else{
+            echo '<script>
+            if (window.history.replaceState) {
+                window.history.replaceState(null, null, window.location.href);
+            }
+            window.location="index.php?pages=autoEmail&save=error";
+            </script>';
+        
+            return;
+           }
+           
+            
+        } else {
+            echo '<script>
+                if (window.history.replaceState) {
+                    window.history.replaceState(null, null, window.location.href);
+                }
+                window.location="index.php?pages=autoEmail&void=error";
+                </script>';
+        }
+    
+    }
+
+    static public function updateCredentialEmail() {
+     
+        if (!empty($_POST['host_email']) && !empty($_POST['email']) && !empty($_POST['password']) && !empty($_POST['port_email'])) {
+            
+            
+            $email_host=$_POST['host_email'];
+            $email_validated_host=filter_var($email_host, FILTER_VALIDATE_EMAIL);
+            $email = strtolower(trim($_POST['email']));
+            $email_validated = filter_var($email, FILTER_VALIDATE_EMAIL);
+            
+            if (!$email_validated||strlen($email) > 255||!$email_validated_host||strlen($email_host)>255) { 
+                echo '<script>
+                if (window.history.replaceState) {
+                    window.history.replaceState(null, null, window.location.href);
+                }
+                window.location="index.php?pages=autoEmail&email=error";
+                </script>';
+                return; 
+            }
+
+            $port_email = $_POST['port_email'];
+
+            if (!ctype_digit($port_email) || strlen($port_email) < 2 || strlen($port_email) > 5) {
+                echo '<script>
+                if (window.history.replaceState) {
+                    window.history.replaceState(null, null, window.location.href);
+                }
+                window.location="index.php?pages=autoEmail&port=error";
+                </script>';
+                return;
+            }
+
+            $tls_optional = empty($_POST['certificate']) ? "tls" : $_POST['certificate'];
+            $token=$_POST['password'];
+            
+           $execute=UserModel::updateCredential($email_host,$email,$token,$port_email,$tls_optional,$_SESSION['id_user']);
+           error_log("ejecusion",$execute);
+           if($execute){
+            echo '<script>
+            if (window.history.replaceState) {
+                window.history.replaceState(null, null, window.location.href);
+            }
+            window.location="index.php?pages=autoEmail&insert=correcto";
+            </script>';
+          
+            return;
+           }else{
+            echo '<script>
+            if (window.history.replaceState) {
+                window.history.replaceState(null, null, window.location.href);
+            }
+            window.location="index.php?pages=autoEmail&save=error";
+            </script>';
+        
+            return;
+           }
+           
+            
+        } else {
+            echo '<script>
+                if (window.history.replaceState) {
+                    window.history.replaceState(null, null, window.location.href);
+                }
+                window.location="index.php?pages=autoEmail&void=error";
+                </script>';
+        }
+    
+    }
+
+
 }
