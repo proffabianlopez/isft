@@ -257,15 +257,79 @@ class UserModel
 
     static public function getFirstValidCredential()
     {
-        $sql = "SELECT email,token FROM credential_email";
+        $sql = "SELECT host,email, token, port_email, certificatedSSL, fk_id_user 
+                FROM credential_email
+                WHERE fk_id_user = :fk_id_user";
         $stmt = model_sql::connectToDatabase()->prepare($sql);
+        $stmt->bindParam(':fk_id_user', $_SESSION['id_user'], PDO::PARAM_INT);
+
+        try {
+            if ($stmt->execute()) {
+                $result = $stmt->fetch(PDO::FETCH_ASSOC);
+                if ($result) {
+                    return $result;
+                } else {
+                  
+                    return null;
+                }
+            } else {
+               
+                throw new Exception("Error al ejecutar la consulta: " . implode(" ", $stmt->errorInfo()));
+            }
+        } catch (Exception $e) {
+          
+            error_log($e->getMessage());
+            return false;
+        }
+    }
+
+    static public function insertValidCredential($value1, $value2, $value3, $value4, $value5,$value6)
+    {
+        $sql = "INSERT INTO credential_email (host,email,token,port_email,certificatedSSL,fk_id_user)
+                                VALUES (:host, :email, :token,:port_email,:certificatedSSL,:fk_id_user)";
+        $stmt = model_sql::connectToDatabase()->prepare($sql);
+        $stmt->bindParam(':host', $value1, PDO::PARAM_STR);
+        $stmt->bindParam(':email', $value2, PDO::PARAM_STR);
+        $stmt->bindParam(':token', $value3, PDO::PARAM_STR);
+        $stmt->bindParam(':port_email', $value4, PDO::PARAM_INT);
+        $stmt->bindParam(':certificatedSSL', $value5, PDO::PARAM_STR);
+        $stmt->bindParam(':fk_id_user', $value6, PDO::PARAM_INT);
+       
 
         if ($stmt->execute()) {
-            return $stmt->fetch(PDO::FETCH_ASSOC);
+            return $stmt;
         } else {
             print_r($stmt->errorInfo());
         }
     }
+    static public function updateCredential($value1, $value2, $value3, $value4, $value5, $user_id)
+{
+    $sql = "UPDATE credential_email SET host = :host, email = :email, token = :token, port_email = :port, certificatedSSL = :certificate WHERE fk_id_user = :id_user";
+
+    $stmt = model_sql::connectToDatabase()->prepare($sql);
+
+    // Asignar los valores a los parámetros
+    $stmt->bindParam(':host', $value1, PDO::PARAM_STR);
+    $stmt->bindParam(':email', $value2, PDO::PARAM_STR);
+    $stmt->bindParam(':token', $value3, PDO::PARAM_STR);
+    $stmt->bindParam(':port', $value4, PDO::PARAM_INT);
+    $stmt->bindParam(':certificate', $value5, PDO::PARAM_STR); // Cambié a ':certificate' en la consulta
+    $stmt->bindParam(':id_user', $user_id, PDO::PARAM_INT); // Corregido a ':id_user'
+
+    // Ejecutar la consulta
+    if ($stmt->execute()) {
+        return true;
+    } else {
+        // Mostrar detalles del error
+        print_r($stmt->errorInfo());
+        return false;
+    }
+
+    // Limpiar el statement
+    $stmt = null;
+}
+
+    
 
     static public function getAllUser()
     {
