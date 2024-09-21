@@ -33,6 +33,7 @@ class UserModel
                  users.change_password  AS change_password, 
                  users.fk_gender_id AS id_gender,
                  users.state AS state,
+                 users.phone_contact AS phone_contact,
                  genders.details AS gender_detail,              
                  users.fk_rol_id AS id_rol,
                  roles.name AS name_rol
@@ -44,7 +45,7 @@ class UserModel
                  roles ON users.fk_rol_id = roles.id_rol
              WHERE 
                  users.id_user = ?";
-        // Assuming you are using PDO for the prepared statement
+        
         $stmt = model_sql::connectToDatabase()->prepare($sql);
         $stmt->bindParam(1, $id, PDO::PARAM_INT);
         if ($stmt->execute()) {
@@ -95,25 +96,26 @@ class UserModel
     }
 
     //consulta a la base de dato para poder editar los datos del usuario
-    static public function updateData($newName, $newLastName, $id)
+    static public function updateData($newName, $newLastName, $id, $telephone)
     {
-        $sql = "UPDATE users SET name = ?, last_name = ? WHERE id_user = ?";
+        $sql = "UPDATE users SET name = ?, last_name = ?, phone_contact = ? WHERE id_user = ?";
 
         $stmt = model_sql::connectToDatabase()->prepare($sql);
 
         // Corregir el enlace de parámetros
         $stmt->bindParam(1, $newName, PDO::PARAM_STR);
         $stmt->bindParam(2, $newLastName, PDO::PARAM_STR);
-        $stmt->bindParam(3, $id, PDO::PARAM_INT);  // El tercer parámetro es el ID
+        $stmt->bindParam(3, $telephone, PDO::PARAM_STR);
+        $stmt->bindParam(4, $id, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
             return true;
         } else {
             print_r($stmt->errorInfo());
-            return false;  // Importante devolver false en caso de error
+            return false;  
         }
 
-        $stmt = null;  // Esto no es necesario porque el objeto $stmt se destruye automáticamente al salir de la función
+        $stmt = null;
     }
 
     static public function changePasswordStart($id, $newPassword)
