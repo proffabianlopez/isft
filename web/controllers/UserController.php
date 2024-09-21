@@ -139,10 +139,19 @@ class UserController
                 return;
             }
 
-
+            $telephone = trim($_POST['tel']);
+            if (!ctype_digit($telephone) || strlen($telephone) != 10 || intval(substr($telephone, 0, 2)) < 11) {
+                echo '<script>
+                if (window.history.replaceState) {
+                    window.history.replaceState(null, null, window.location.href);
+                }
+                </script>
+                <div class="alert alert-danger mt-2">El número telefónico es inválido.</div>';
+                return;
+            }
 
             // Actualización de datos sin incluir el email
-            $execute = UserModel::updateData($name, $lastname, $_SESSION['id_user']);
+            $execute = UserModel::updateData($name, $lastname, $_SESSION['id_user'], $telephone);
 
             if ($execute) {
                 echo '<script>
