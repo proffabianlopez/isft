@@ -23,6 +23,20 @@ class TeacherController
                 $response["message"] = "El nombre y/o apellido no pueden tener más de 128 caracteres.";
                 return $response;
             }
+            $telephone = trim($_POST['tel']);
+            if (!ctype_digit($telephone) || strlen($telephone) != 10 || intval(substr($telephone, 0, 2)) < 11) {
+                $response["status"] = "error";
+                $response["message"] = "Número de teléfono inválido. Debe tener 10 dígitos y comenzar con un código de área válido.";
+                return $response;
+            }
+
+            $checkCountTel = UserModel::checkForDuplicatesTel($telephone);
+
+            if ($checkCountTel !== false) {
+                $response["status"] = "error";
+                $response["message"] = "El teléfono ya está registrado.";
+                return $response;
+            }
 
             $email = strtolower(trim($_POST['mail']));
             $email = filter_var($email, FILTER_VALIDATE_EMAIL);
@@ -56,7 +70,7 @@ class TeacherController
                 $response["message"] = "Ya existe el Email o el DNI";
                 return $response;
             }
-            $execute = TeacherModel::newTeacher($name, $lastname, $email, $dni, $gender);
+            $execute = TeacherModel::newTeacher($name, $lastname, $email, $dni, $gender, $telephone);
 
             if ($execute) {
                 $response['title'] = "¡Éxito!";
