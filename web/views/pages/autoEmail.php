@@ -4,7 +4,7 @@
   <div class="row justify-content-center">
     <div class="col-md-6">
       <div class="card shadow-lg p-4 mt-5">
-        <h4 class="text-center mb-4">Configuración de Email Automático</h4>
+        <h4 class="text-center mb-4">Configurar correo</h4>
         <form id="formEmailInsert" method="Post">
           <div class="mb-3">
             <label for="host_email" class="form-label">Host Email*</label>
@@ -52,13 +52,21 @@
   $controller = new UserController();
   $controller->insertCredentialEmail();
 } ?>
-
+<div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-9">
+                <div class="alert alert-info text-center">
+                    <p class="mb-0 py-2"><b>NOTA: </b>Establecer los datos necesarios para el envío automático de correos</p>
+                </div>
+            </div>
+        </div>
+    </div>
 <?php else: ?>
 <div class="container">
   <div class="row justify-content-center">
     <div class="col-md-6">
       <div class="card shadow-lg p-4 mt-5">
-        <h4 class="text-center mb-4">Editar Configuración de Email Automático</h4>
+        <h4 class="text-center mb-4">Editar correo</h4>
         <form id="formEmail" method="post">
           <div class="mb-3">
             <label for="host_email" class="form-label">Host Email*</label>
@@ -104,4 +112,13 @@
   $controller = new UserController();
   $controller->updateCredentialEmail();
 } ?>
+ <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-9">
+                <div class="alert alert-info text-center">
+                    <p class="mb-0 py-2"><b>NOTA: </b>Editar la configuración para el envío automático de correos</p>
+                </div>
+            </div>
+        </div>
+    </div>
 <?php endif; ?>
