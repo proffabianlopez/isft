@@ -51,14 +51,13 @@ $(document).ready(function () {
             $(".cierreModal").modal("hide"); // Cierra el modal
             window.location.href = "index.php?pages=allCareers";
           } else {
-           
             if (response.status === "error2") {
               messageContainer2.html(
                 '<div class="alert alert-danger mt-2">' +
                   response.message +
                   "</div>"
               );
-            }else {
+            } else {
               messageContainer.html(
                 '<div class="alert alert-danger mt-2">' +
                   response.message +
@@ -120,4 +119,7 @@ $(document).ready(function () {
     "/ajax/correlativeAjax.php",
     "editcorrelative"
   );
+
+  //cambiar contraseña
+  handleFormSubmit("#changepassword", "/ajax/userAjax.php", "changepassword");
 });

@@ -102,14 +102,18 @@ class UserController
 
             // Verificar que las contraseñas nuevas coincidan
             if ($newPassword !== $confirmPassword) {
-                echo '<div class="alert alert-danger mt-2">Las contraseñas nuevas no coinciden.</div>';
-                return;
+                $response["status"] = "error";
+                $response["message"] = "Las contraseñas nuevas no coinciden.";
+                return $response;
+
             }
 
             // Verificar la longitud de la nueva contraseña
             if (strlen($newPassword) < 8) {
-                echo '<div class="alert alert-danger mt-2">La nueva contraseña debe tener al menos 8 caracteres.</div>';
-                return;
+                $response["status"] = "error";
+                $response["message"] = "La nueva contraseña debe tener al menos 8 caracteres.";
+                return $response;
+
             }
 
             // Obtener la contraseña actual del usuario
@@ -125,21 +129,27 @@ class UserController
                 $result = UserModel::updatePassword($_SESSION['id_user'], $hashedPassword);
 
                 if ($result) {
-                    echo '<script>
-                        if ( window.history.replaceState ) {
-                            window.history.replaceState(null, null, window.location.href);
-                        }
-                        window.location="../index.php?pages=changePassword";
-                        </script>
-                        <div class="alert alert-success mt-2">Se guardó el registro correctamente.</div>';
+                    $response['title'] = "¡Éxito!";
+                    $response["status"] = "successReset";
+                    $response["message"] = "Se guardó el registro correctamente.";
+                    return $response;
+
                 } else {
-                    echo '<div class="alert alert-danger mt-2">Error al actualizar la contraseña. Por favor, inténtalo de nuevo más tarde.</div>';
+                    $response["status"] = "error";
+                    $response["message"] = "Error al actualizar la contraseña. Por favor, inténtalo de nuevo más tarde.";
+                    return $response;
+
                 }
             } else {
-                echo '<div class="alert alert-danger mt-2">La contraseña actual es incorrecta.</div>';
+                $response["status"] = "error";
+                $response["message"] = "La contraseña actual es incorrecta.";
+                return $response;
+
             }
         } else {
-            echo '<div class="alert alert-danger mt-2">Por favor, completa todos los campos.</div>';
+            $response["status"] = "error";
+            $response["message"] = "Por favor, completa todos los campos.";
+            return $response;
         }
     }
 
@@ -230,12 +240,10 @@ class UserController
         }
     }
 
-
-
-
     static public function newUser()
     {
-        if ((!empty($_POST['name'])) && (!empty($_POST['lastName'])) &&
+        if (
+            (!empty($_POST['name'])) && (!empty($_POST['lastName'])) &&
             (!empty($_POST['mail'])) && (!empty($_POST['dni'])) && (!empty($_POST['gender'])) &&
             !empty($_POST['roles'])
         ) {
@@ -602,6 +610,7 @@ class UserController
 
                 return;
             }
+
         } else {
             echo '<script>
                 if (window.history.replaceState) {
@@ -610,6 +619,7 @@ class UserController
                 window.location="index.php?pages=autoEmail&void=error";
                 </script>';
         }
+
     }
 
     static public function updateCredentialEmail()
@@ -677,6 +687,7 @@ class UserController
 
                 return;
             }
+
         } else {
             echo '<script>
                 if (window.history.replaceState) {
@@ -685,5 +696,6 @@ class UserController
                 window.location="index.php?pages=autoEmail&void=error";
                 </script>';
         }
+
     }
 }
