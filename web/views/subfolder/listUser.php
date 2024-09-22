@@ -104,22 +104,38 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="edituser" >
+                    <form id="edituser">
                         <input type="hidden" name="id_user" value="<?php echo $user['id_user']; ?>">
-                        <div class="form-group">
-                            <label for="apellido">Apellido</label>
-                            <input type="text" maxlength="128" class="form-control" id="last_name" pattern="[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+" title="Solo se permiten letras y espacios" name="last_name" value="<?php echo $user['last_name']; ?>">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="apellido">Apellido</label>
+                                    <input type="text" maxlength="128" class="form-control" id="last_name" pattern="[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+" title="Solo se permiten letras y espacios" name="last_name" value="<?php echo $user['last_name']; ?>">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="nombre">Nombre</label>
+                                    <input type="text" maxlength="128" class="form-control" id="nam" pattern="[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+" title="Solo se permiten letras y espacios" name="name" required value="<?php echo $user['name']; ?>">
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="nombre">Nombre</label>
-                            <input type="text" maxlength="128" class="form-control" id="nam" pattern="[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+" title="Solo se permiten letras y espacios" name="name" required value="<?php echo $user['name']; ?>">
-                        </div>
-                        <div class="form-group">
-                            <label for="roles">Rol</label>
-                            <select class="form-control" id="roles" name="roles" required>
-                                <option value="<?php echo $user['fk_rol_id'] ?>"><?php echo $user["name_rol"] ?></option>
-                                <?php (new RolesController())->allRolesSelect(); ?>
-                            </select>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="pt-1" for="tel">Teléfono</label>
+                                    <input type="text" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="form-control reset" name="tel" value="<?php echo $user['tel']; ?>" required>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="roles">Rol</label>
+                                    <select class="form-control" id="roles" name="roles" required>
+                                        <option value="<?php echo $user['fk_rol_id'] ?>"><?php echo $user["name_rol"] ?></option>
+                                        <?php (new RolesController())->allRolesSelect(); ?>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                         <button type="submit" name="savechange" class="btn btn-warning">Guardar cambios</button>
                         <div class="response-message text-center"></div>

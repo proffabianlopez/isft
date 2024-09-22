@@ -45,7 +45,7 @@ class UserModel
                  roles ON users.fk_rol_id = roles.id_rol
              WHERE 
                  users.id_user = ?";
-        
+
         $stmt = model_sql::connectToDatabase()->prepare($sql);
         $stmt->bindParam(1, $id, PDO::PARAM_INT);
         if ($stmt->execute()) {
@@ -112,7 +112,7 @@ class UserModel
             return true;
         } else {
             print_r($stmt->errorInfo());
-            return false;  
+            return false;
         }
 
         $stmt = null;
@@ -271,21 +271,21 @@ class UserModel
                 if ($result) {
                     return $result;
                 } else {
-                  
+
                     return null;
                 }
             } else {
-               
+
                 throw new Exception("Error al ejecutar la consulta: " . implode(" ", $stmt->errorInfo()));
             }
         } catch (Exception $e) {
-          
+
             error_log($e->getMessage());
             return false;
         }
     }
 
-    static public function insertValidCredential($value1, $value2, $value3, $value4, $value5,$value6)
+    static public function insertValidCredential($value1, $value2, $value3, $value4, $value5, $value6)
     {
         $sql = "INSERT INTO credential_email (host,email,token,port_email,certificatedSSL,fk_id_user)
                                 VALUES (:host, :email, :token,:port_email,:certificatedSSL,:fk_id_user)";
@@ -296,7 +296,7 @@ class UserModel
         $stmt->bindParam(':port_email', $value4, PDO::PARAM_INT);
         $stmt->bindParam(':certificatedSSL', $value5, PDO::PARAM_STR);
         $stmt->bindParam(':fk_id_user', $value6, PDO::PARAM_INT);
-       
+
 
         if ($stmt->execute()) {
             return $stmt;
@@ -305,33 +305,33 @@ class UserModel
         }
     }
     static public function updateCredential($value1, $value2, $value3, $value4, $value5, $user_id)
-{
-    $sql = "UPDATE credential_email SET host = :host, email = :email, token = :token, port_email = :port, certificatedSSL = :certificate WHERE fk_id_user = :id_user";
+    {
+        $sql = "UPDATE credential_email SET host = :host, email = :email, token = :token, port_email = :port, certificatedSSL = :certificate WHERE fk_id_user = :id_user";
 
-    $stmt = model_sql::connectToDatabase()->prepare($sql);
+        $stmt = model_sql::connectToDatabase()->prepare($sql);
 
-    // Asignar los valores a los parámetros
-    $stmt->bindParam(':host', $value1, PDO::PARAM_STR);
-    $stmt->bindParam(':email', $value2, PDO::PARAM_STR);
-    $stmt->bindParam(':token', $value3, PDO::PARAM_STR);
-    $stmt->bindParam(':port', $value4, PDO::PARAM_INT);
-    $stmt->bindParam(':certificate', $value5, PDO::PARAM_STR); // Cambié a ':certificate' en la consulta
-    $stmt->bindParam(':id_user', $user_id, PDO::PARAM_INT); // Corregido a ':id_user'
+        // Asignar los valores a los parámetros
+        $stmt->bindParam(':host', $value1, PDO::PARAM_STR);
+        $stmt->bindParam(':email', $value2, PDO::PARAM_STR);
+        $stmt->bindParam(':token', $value3, PDO::PARAM_STR);
+        $stmt->bindParam(':port', $value4, PDO::PARAM_INT);
+        $stmt->bindParam(':certificate', $value5, PDO::PARAM_STR); // Cambié a ':certificate' en la consulta
+        $stmt->bindParam(':id_user', $user_id, PDO::PARAM_INT); // Corregido a ':id_user'
 
-    // Ejecutar la consulta
-    if ($stmt->execute()) {
-        return true;
-    } else {
-        // Mostrar detalles del error
-        print_r($stmt->errorInfo());
-        return false;
+        // Ejecutar la consulta
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            // Mostrar detalles del error
+            print_r($stmt->errorInfo());
+            return false;
+        }
+
+        // Limpiar el statement
+        $stmt = null;
     }
 
-    // Limpiar el statement
-    $stmt = null;
-}
 
-    
 
     static public function getAllUser()
     {
@@ -342,7 +342,8 @@ class UserModel
     users.email AS email,
     users.fk_rol_id AS fk_rol_id,
     roles.name AS name_rol,
-    users.state AS state
+    users.state AS state,
+    users.phone_contact AS tel
 FROM
     users
 JOIN
@@ -412,13 +413,14 @@ WHERE
         $stmt = null;
     }
 
-    static public function updateUserData($name, $last_name, $fk_rol_id, $id_user)
+    static public function updateUserData($name, $last_name, $fk_rol_id, $telephone, $id_user)
     {
-        $sql = "UPDATE users SET name  = :name,last_name=:last_name,fk_rol_id=:fk_id WHERE id_user = :id_user";
+        $sql = "UPDATE users SET name  = :name,last_name=:last_name,fk_rol_id=:fk_id,phone_contact=:phone_contact WHERE id_user = :id_user";
         $stmt = model_sql::connectToDatabase()->prepare($sql);
         $stmt->bindParam(':name', $name, PDO::PARAM_STR);
         $stmt->bindParam(':last_name', $last_name, PDO::PARAM_STR);
         $stmt->bindParam(':fk_id', $fk_rol_id, PDO::PARAM_INT);
+        $stmt->bindParam(':phone_contact', $telephone, PDO::PARAM_STR);
         $stmt->bindParam(':id_user', $id_user, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
