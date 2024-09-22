@@ -1,12 +1,15 @@
 <?php
-
 class UserController
 {
+    public function __construct() {
+        // Inicia la sesión si no está ya iniciada
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+    }
 
-    public function control_login()
-    {
-
-        if ((!empty($_POST['mail'])) && !empty($_POST['password'])) {
+    public function control_login() {
+        if (!empty($_POST['mail']) && !empty($_POST['password'])) {
 
             $mail = $_POST['mail'];
             $password = $_POST['password'];
@@ -19,46 +22,61 @@ class UserController
                 $changed = $verificar['change_password'];
 
                 if ($state == 1) {
-                    $_SESSION['state'] = $state;
-                    $_SESSION['email'] = $mail_user;
-                    $_SESSION['fk_rol_id'] = $rol;
-                    $_SESSION['id_user'] = $id_user;
-                    $_SESSION['change_password'] = $changed;
+                    $this->setSessionData('state', $state);
+                    $this->setSessionData('email', $mail_user);
+                    $this->setSessionData('fk_rol_id', $rol);
+                    $this->setSessionData('id_user', $id_user);
+                    $this->setSessionData('change_password', $changed);
+
                     if ($changed == 0) {
                         echo '<script>
-                    if ( window.history.replaceState ) {
-                        window.history.replaceState(null, null, window.location.href);
+                            if ( window.history.replaceState ) {
+                                window.history.replaceState(null, null, window.location.href);
+                            }
+                            window.location="../index.php?pages=changedPasswordStart";
+                        </script>';
                     }
 
-                    window.location="../index.php?pages=changedPasswordStart"; //AGREGAR VISTA CHANGEDPASSWORD
-                    </script>';
-                    }
-
-                    //if borra todos las variables post
+                    // Limpiar las variables POST y redireccionar
                     echo '<script>
-        if ( window.history.replaceState ) {
-            window.history.replaceState(null, null, window.location.href);
-        }
-        
-        window.location="../index.php?pages=home";
-        </script>';
+                        if ( window.history.replaceState ) {
+                            window.history.replaceState(null, null, window.location.href);
+                        }
+                        window.location="../index.php?pages=home";
+                    </script>';
                 }
             } else {
                 echo '<script>
                     if ( window.history.replaceState ) {
                         window.history.replaceState(null, null, window.location.href);
                     }
-                    </script>
-                    <div class="alert alert-danger mt-2">Usuario o Contraseña incorrecta</div>';
+                </script>
+                <div class="alert alert-danger mt-2">Usuario o Contraseña incorrecta</div>';
             }
         } else {
             echo '<script>
-			if ( window.history.replaceState ) {
-				window.history.replaceState(null, null, window.location.href);
-			}
-			alert("Debes completar los campos");
-			</script>';
+                if ( window.history.replaceState ) {
+                    window.history.replaceState(null, null, window.location.href);
+                }
+                alert("Debes completar los campos");
+            </script>';
         }
+    }
+
+
+
+     // Método estático para obtener datos de la sesión
+     public static function getSessionData($key) {
+        if (isset($_SESSION[$key])) {
+            return $_SESSION[$key];
+        } else {
+            return null;
+        }
+    }
+
+    // Método estático para establecer datos en la sesión
+    public static function setSessionData($key, $value) {
+        $_SESSION[$key] = $value;
     }
 
     static public function sessionDataUser($id)
@@ -283,10 +301,19 @@ class UserController
                 $execute = UserModel::newUser($name, $lastname, $email, $dni, $hashedPassword, $gender, $roles, $telephone);
                 if ($execute) {
                     $mailController = MailerController::sendNewUser($generatePassword, $email, $name, $lastname);
-                    $response['title'] = "¡Éxito!";
-                    $response["status"] = "successReset";
-                    $response["message"] = "Se guardó los datos correctamente";
-                    return $response;
+                    error_log('mailController '. $mailController );
+                    if($mailController){
+                        $response['title'] = "¡Éxito!";
+                        $response["status"] = "successReset";
+                        $response["message"] = "Se guardó los datos correctamente y envio email";
+                        return $response;
+                    }else{
+
+                        $response['title'] = "¡Éxito!";
+                        $response["status"] = "successReset";
+                        $response["message"] = "Se guardó los datos correctamente";
+                        return $response;
+                    }
                 } else {
                     $response["status"] = "error";
                     $response["message"] = "Hubo un problema al crearlo";

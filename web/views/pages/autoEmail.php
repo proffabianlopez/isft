@@ -1,4 +1,6 @@
-<?php $infoCredentialUser=UserModel::getFirstValidCredential();
+<?php 
+$id = $_SESSION['id_user'];
+$infoCredentialUser=UserModel::getFirstValidCredential($id);
  if(empty($infoCredentialUser)): ?>
 <div class="container">
   <div class="row justify-content-center">
