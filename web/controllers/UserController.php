@@ -1,14 +1,16 @@
 <?php
 class UserController
 {
-    public function __construct() {
+    public function __construct()
+    {
         // Inicia la sesión si no está ya iniciada
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
     }
 
-    public function control_login() {
+    public function control_login()
+    {
         if (!empty($_POST['mail']) && !empty($_POST['password'])) {
 
             $mail = $_POST['mail'];
@@ -65,8 +67,9 @@ class UserController
 
 
 
-     // Método estático para obtener datos de la sesión
-     public static function getSessionData($key) {
+    // Método estático para obtener datos de la sesión
+    public static function getSessionData($key)
+    {
         if (isset($_SESSION[$key])) {
             return $_SESSION[$key];
         } else {
@@ -75,7 +78,8 @@ class UserController
     }
 
     // Método estático para establecer datos en la sesión
-    public static function setSessionData($key, $value) {
+    public static function setSessionData($key, $value)
+    {
         $_SESSION[$key] = $value;
     }
 
@@ -98,14 +102,18 @@ class UserController
 
             // Verificar que las contraseñas nuevas coincidan
             if ($newPassword !== $confirmPassword) {
-                echo '<div class="alert alert-danger mt-2">Las contraseñas nuevas no coinciden.</div>';
-                return;
+                $response["status"] = "error";
+                $response["message"] = "Las contraseñas nuevas no coinciden.";
+                return $response;
+
             }
 
             // Verificar la longitud de la nueva contraseña
             if (strlen($newPassword) < 8) {
-                echo '<div class="alert alert-danger mt-2">La nueva contraseña debe tener al menos 8 caracteres.</div>';
-                return;
+                $response["status"] = "error";
+                $response["message"] = "La nueva contraseña debe tener al menos 8 caracteres.";
+                return $response;
+
             }
 
             // Obtener la contraseña actual del usuario
@@ -121,21 +129,27 @@ class UserController
                 $result = UserModel::updatePassword($_SESSION['id_user'], $hashedPassword);
 
                 if ($result) {
-                    echo '<script>
-                        if ( window.history.replaceState ) {
-                            window.history.replaceState(null, null, window.location.href);
-                        }
-                        window.location="../index.php?pages=changePassword";
-                        </script>
-                        <div class="alert alert-success mt-2">Se guardó el registro correctamente.</div>';
+                    $response['title'] = "¡Éxito!";
+                    $response["status"] = "successReset";
+                    $response["message"] = "Se guardó el registro correctamente.";
+                    return $response;
+
                 } else {
-                    echo '<div class="alert alert-danger mt-2">Error al actualizar la contraseña. Por favor, inténtalo de nuevo más tarde.</div>';
+                    $response["status"] = "error";
+                    $response["message"] = "Error al actualizar la contraseña. Por favor, inténtalo de nuevo más tarde.";
+                    return $response;
+
                 }
             } else {
-                echo '<div class="alert alert-danger mt-2">La contraseña actual es incorrecta.</div>';
+                $response["status"] = "error";
+                $response["message"] = "La contraseña actual es incorrecta.";
+                return $response;
+
             }
         } else {
-            echo '<div class="alert alert-danger mt-2">Por favor, completa todos los campos.</div>';
+            $response["status"] = "error";
+            $response["message"] = "Por favor, completa todos los campos.";
+            return $response;
         }
     }
 
@@ -226,12 +240,10 @@ class UserController
         }
     }
 
-
-
-
     static public function newUser()
     {
-        if ((!empty($_POST['name'])) && (!empty($_POST['lastName'])) &&
+        if (
+            (!empty($_POST['name'])) && (!empty($_POST['lastName'])) &&
             (!empty($_POST['mail'])) && (!empty($_POST['dni'])) && (!empty($_POST['gender'])) &&
             !empty($_POST['roles'])
         ) {
@@ -301,13 +313,13 @@ class UserController
                 $execute = UserModel::newUser($name, $lastname, $email, $dni, $hashedPassword, $gender, $roles, $telephone);
                 if ($execute) {
                     $mailController = MailerController::sendNewUser($generatePassword, $email, $name, $lastname);
-                    error_log('mailController '. $mailController );
-                    if($mailController){
+                    error_log('mailController ' . $mailController);
+                    if ($mailController) {
                         $response['title'] = "¡Éxito!";
                         $response["status"] = "successReset";
                         $response["message"] = "Se guardó los datos correctamente y envio email";
                         return $response;
-                    }else{
+                    } else {
 
                         $response['title'] = "¡Éxito!";
                         $response["status"] = "successReset";
@@ -518,33 +530,34 @@ class UserController
     }
 
 
-    static public function insertCredentialEmail() {
-     
+    static public function insertCredentialEmail()
+    {
+
         if (!empty($_POST['host']) && !empty($_POST['email']) && !empty($_POST['password']) && !empty($_POST['port_email'])) {
-            
-            
-            $email_host=$_POST['host'];
-            $email_validated_host=filter_var($email_host, FILTER_VALIDATE_EMAIL);
+
+
+            $email_host = $_POST['host'];
+            $email_validated_host = filter_var($email_host, FILTER_VALIDATE_EMAIL);
             $email = strtolower(trim($_POST['email']));
             $email_validated = filter_var($email, FILTER_VALIDATE_EMAIL);
-            
-            if(strlen($email)>255||strlen($email_host)>255){
+
+            if (strlen($email) > 255 || strlen($email_host) > 255) {
                 echo '<script>
                 if (window.history.replaceState) {
                     window.history.replaceState(null, null, window.location.href);
                 }
                 window.location="index.php?pages=autoEmail&caracter=error";
                 </script>';
-                return; 
-            }         
-            if (!$email_validated) { 
+                return;
+            }
+            if (!$email_validated) {
                 echo '<script>
                 if (window.history.replaceState) {
                     window.history.replaceState(null, null, window.location.href);
                 }
                 window.location="index.php?pages=autoEmail&email=error";
                 </script>';
-                return; 
+                return;
             }
             $port_email = $_POST['port_email'];
 
@@ -559,31 +572,31 @@ class UserController
             }
 
             $tls_optional = empty($_POST['certificate']) ? "tls" : $_POST['certificate'];
-            $token=$_POST['password'];
-            
-           $execute=UserModel::insertValidCredential($email_host,$email,$token,$port_email,$tls_optional,$_SESSION['id_user']);
-           
-           if($execute){
-            echo '<script>
+            $token = $_POST['password'];
+
+            $execute = UserModel::insertValidCredential($email_host, $email, $token, $port_email, $tls_optional, $_SESSION['id_user']);
+
+            if ($execute) {
+                echo '<script>
             if (window.history.replaceState) {
                 window.history.replaceState(null, null, window.location.href);
             }
             window.location="index.php?pages=autoEmail&insert=correcto";
             </script>';
-          
-            return;
-           }else{
-            echo '<script>
+
+                return;
+            } else {
+                echo '<script>
             if (window.history.replaceState) {
                 window.history.replaceState(null, null, window.location.href);
             }
             window.location="index.php?pages=autoEmail&save=error";
             </script>';
-        
-            return;
-           }
-           
-            
+
+                return;
+            }
+
+
         } else {
             echo '<script>
                 if (window.history.replaceState) {
@@ -592,35 +605,36 @@ class UserController
                 window.location="index.php?pages=autoEmail&void=error";
                 </script>';
         }
-    
+
     }
 
-    static public function updateCredentialEmail() {
-     
+    static public function updateCredentialEmail()
+    {
+
         if (!empty($_POST['host_email']) && !empty($_POST['email']) && !empty($_POST['password']) && !empty($_POST['port_email'])) {
-            
-            
-            $email_host=$_POST['host_email'];
-            $email_validated_host=filter_var($email_host, FILTER_VALIDATE_EMAIL);
+
+
+            $email_host = $_POST['host_email'];
+            $email_validated_host = filter_var($email_host, FILTER_VALIDATE_EMAIL);
             $email = strtolower(trim($_POST['email']));
-            $email_validated = filter_var($email, FILTER_VALIDATE_EMAIL); 
-            if(strlen($email)>255||strlen($email_host)>255){
+            $email_validated = filter_var($email, FILTER_VALIDATE_EMAIL);
+            if (strlen($email) > 255 || strlen($email_host) > 255) {
                 echo '<script>
                 if (window.history.replaceState) {
                     window.history.replaceState(null, null, window.location.href);
                 }
                 window.location="index.php?pages=autoEmail&caracter=error";
                 </script>';
-                return; 
-            }         
-            if (!$email_validated) { 
+                return;
+            }
+            if (!$email_validated) {
                 echo '<script>
                 if (window.history.replaceState) {
                     window.history.replaceState(null, null, window.location.href);
                 }
                 window.location="index.php?pages=autoEmail&email=error";
                 </script>';
-                return; 
+                return;
             }
 
             $port_email = $_POST['port_email'];
@@ -636,31 +650,31 @@ class UserController
             }
 
             $tls_optional = empty($_POST['certificate']) ? "tls" : $_POST['certificate'];
-            $token=$_POST['password'];
-            
-           $execute=UserModel::updateCredential($email_host,$email,$token,$port_email,$tls_optional,$_SESSION['id_user']);
-           error_log("ejecusion",$execute);
-           if($execute){
-            echo '<script>
+            $token = $_POST['password'];
+
+            $execute = UserModel::updateCredential($email_host, $email, $token, $port_email, $tls_optional, $_SESSION['id_user']);
+            error_log("ejecusion", $execute);
+            if ($execute) {
+                echo '<script>
             if (window.history.replaceState) {
                 window.history.replaceState(null, null, window.location.href);
             }
             window.location="index.php?pages=autoEmail&insert=correcto";
             </script>';
-          
-            return;
-           }else{
-            echo '<script>
+
+                return;
+            } else {
+                echo '<script>
             if (window.history.replaceState) {
                 window.history.replaceState(null, null, window.location.href);
             }
             window.location="index.php?pages=autoEmail&save=error";
             </script>';
-        
-            return;
-           }
-           
-            
+
+                return;
+            }
+
+
         } else {
             echo '<script>
                 if (window.history.replaceState) {
@@ -669,7 +683,7 @@ class UserController
                 window.location="index.php?pages=autoEmail&void=error";
                 </script>';
         }
-    
+
     }
 
 

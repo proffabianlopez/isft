@@ -18,6 +18,11 @@ class UserAjax {
             $result = $user->editarUser();
             echo json_encode($result, JSON_UNESCAPED_UNICODE);
         }
+         public function changePassword() {
+            $user = new UserController();
+            $result = $user->newPassword();
+            echo json_encode($result, JSON_UNESCAPED_UNICODE);
+        }
 
 }
 
@@ -27,4 +32,7 @@ if(isset($_POST['action']) && $_POST['action'] == 'newuser'){
 }else if(isset($_POST['action']) && $_POST['action'] == 'edituser'){
         $var = new UserAjax();
         $var->editUser();
+}else if(isset($_POST['action']) && $_POST['action'] == 'changepassword'){
+        $var = new UserAjax();
+        $var->changePassword();
 }
