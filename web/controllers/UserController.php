@@ -219,6 +219,7 @@ class UserController
                 echo '<div class="alert alert-danger mt-2">La nueva contraseña debe tener al menos 8 caracteres.</div>';
                 return;
             }
+            
 
             $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
 
