@@ -1,5 +1,4 @@
 <?php
-
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
@@ -8,7 +7,9 @@ class MailerController
 {
     static public function sendNewUser($password, $email, $name, $last_name)
     {
-        $credential = UserModel::getFirstValidCredential();
+        $id = UserController::getSessionData('id_user');
+
+        $credential = UserModel::getFirstValidCredential($id);
         if ($credential === false) {
             error_log("Error: No se pudo obtener la credencial.");
             return false;
@@ -34,7 +35,7 @@ class MailerController
         $mail->CharSet = 'UTF-8';
         $mail->Subject = "¡Tu cuenta ha sido activada!";
 
-        $htmlFile = 'views/html/activateAccount.html';
+        $htmlFile = '../views/html/activateAccount.html';
 
 
         $htmlContent = file_get_contents($htmlFile);
@@ -54,7 +55,8 @@ class MailerController
 
     static public function generateNewPasswordviaEmail($email,$password){
 
-        $credential = UserModel::getFirstValidCredential();
+        $id = UserController::getSessionData('id_user');
+        $credential = UserModel::getFirstValidCredential($id);
         if ($credential === false) {
             error_log("Error: No se pudo obtener la credencial.");
             return false;

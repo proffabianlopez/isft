@@ -255,13 +255,13 @@ class UserModel
     }
 
 
-    static public function getFirstValidCredential()
+    static public function getFirstValidCredential($id)
     {
         $sql = "SELECT host,email, token, port_email, certificatedSSL, fk_id_user 
                 FROM credential_email
                 WHERE fk_id_user = :fk_id_user";
         $stmt = model_sql::connectToDatabase()->prepare($sql);
-        $stmt->bindParam(':fk_id_user', $_SESSION['id_user'], PDO::PARAM_INT);
+        $stmt->bindParam(':fk_id_user', $id, PDO::PARAM_INT);
 
         try {
             if ($stmt->execute()) {
