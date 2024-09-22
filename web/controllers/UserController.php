@@ -440,6 +440,7 @@ class UserController
 
     static public function editarUser()
     {
+        $id = $_POST['id_user'];
         $name = ucwords(strtolower(trim($_POST['name'])));
         $lastname = ucwords(strtolower(trim($_POST['last_name'])));
         if (!preg_match("/^[a-zA-ZáéíóúÁÉÍÓÚ\s]+$/u", $name) || !preg_match("/^[a-zA-ZáéíóúÁÉÍÓÚ\s]+$/u", $lastname)) {
@@ -459,10 +460,24 @@ class UserController
             return $response;
         }
 
-        $roles = $_POST['roles'];
-        $id = $_POST['id_user'];
+        $telephone = trim($_POST['tel']);
+        if (!ctype_digit($telephone) || strlen($telephone) != 10 || intval(substr($telephone, 0, 2)) < 11) {
+            $response["status"] = "error";
+            $response["message"] = "Número de teléfono inválido. Debe tener 10 dígitos y comenzar con un código de área válido.";
+            return $response;
+        }
 
-        $execute = UserModel::updateUserData($name, $lastname, $roles, $id);
+        $checkDuplicatesEditionTel = UserModel::checkForDuplicatesEditionTel($id, $telephone);
+
+        if ($checkDuplicatesEditionTel !== false) {
+            $response["status"] = "error";
+            $response["message"] = "El teléfono ya está registrado.";
+            return $response;
+        }
+
+        $roles = $_POST['roles'];
+
+        $execute = UserModel::updateUserData($name, $lastname, $roles, $telephone, $id);
         if ($execute) {
 
             $response['title'] = "¡Actualizado!";
@@ -596,7 +611,6 @@ class UserController
                 return;
             }
 
-
         } else {
             echo '<script>
                 if (window.history.replaceState) {
@@ -674,7 +688,6 @@ class UserController
                 return;
             }
 
-
         } else {
             echo '<script>
                 if (window.history.replaceState) {
@@ -685,6 +698,4 @@ class UserController
         }
 
     }
-
-
 }
