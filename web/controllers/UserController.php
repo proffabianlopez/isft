@@ -528,7 +528,16 @@ class UserController
             $email = strtolower(trim($_POST['email']));
             $email_validated = filter_var($email, FILTER_VALIDATE_EMAIL);
             
-            if (!$email_validated||strlen($email) > 255||!$email_validated_host||strlen($email_host)>255) { 
+            if(strlen($email)>255||strlen($email_host)>255){
+                echo '<script>
+                if (window.history.replaceState) {
+                    window.history.replaceState(null, null, window.location.href);
+                }
+                window.location="index.php?pages=autoEmail&caracter=error";
+                </script>';
+                return; 
+            }         
+            if (!$email_validated) { 
                 echo '<script>
                 if (window.history.replaceState) {
                     window.history.replaceState(null, null, window.location.href);
@@ -537,7 +546,6 @@ class UserController
                 </script>';
                 return; 
             }
-
             $port_email = $_POST['port_email'];
 
             if (!ctype_digit($port_email) || strlen($port_email) < 2 || strlen($port_email) > 5) {
@@ -595,9 +603,17 @@ class UserController
             $email_host=$_POST['host_email'];
             $email_validated_host=filter_var($email_host, FILTER_VALIDATE_EMAIL);
             $email = strtolower(trim($_POST['email']));
-            $email_validated = filter_var($email, FILTER_VALIDATE_EMAIL);
-            
-            if (!$email_validated||strlen($email) > 255||!$email_validated_host||strlen($email_host)>255) { 
+            $email_validated = filter_var($email, FILTER_VALIDATE_EMAIL); 
+            if(strlen($email)>255||strlen($email_host)>255){
+                echo '<script>
+                if (window.history.replaceState) {
+                    window.history.replaceState(null, null, window.location.href);
+                }
+                window.location="index.php?pages=autoEmail&caracter=error";
+                </script>';
+                return; 
+            }         
+            if (!$email_validated) { 
                 echo '<script>
                 if (window.history.replaceState) {
                     window.history.replaceState(null, null, window.location.href);

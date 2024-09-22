@@ -41,7 +41,8 @@ $infoCredentialUser=UserModel::getFirstValidCredential($id);
       <?php 
         $message = new MessageController();
         $message->show_messages_error('void', "Debe completar los campos * Obligatorio"); 
-        $message->show_messages_error('email', "El email o el host debe ser válido y no superar los 255 caracteres.");
+        $message->show_messages_error('email', "El email debe ser válido");
+        $message->show_messages_error('caracter', "El email o el host no deben superar los 255 caracteres");
         $message->show_messages_error('port', "El puerto debe ser un número positivo sin caracteres especiales.");
         $message->showMessageVerify('insert', "Se guardaron los datos correctamente");
         $message->show_messages_error('save', "No se pudieron guardar los datos, error");
@@ -101,7 +102,8 @@ $infoCredentialUser=UserModel::getFirstValidCredential($id);
         <?php 
         $message = new MessageController();
         $message->show_messages_error('void', "Debe completar los campos * Obligatorio"); 
-        $message->show_messages_error('email', "El email o el host debe ser válido y no superar los 255 caracteres.");
+        $message->show_messages_error('email', "El email debe ser válido");
+        $message->show_messages_error('caracter', "El email o el host no deben superar los 255 caracteres");
         $message->show_messages_error('port', "El puerto debe ser un número positivo sin caracteres especiales.");
         $message->showMessageVerify('insert', "Se guardaron los datos correctamente");
         $message->show_messages_error('save', "No se pudieron guardar los datos, error");
