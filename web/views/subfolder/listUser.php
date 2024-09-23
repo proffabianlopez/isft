@@ -137,7 +137,7 @@
                                 </div>
                             </div>
                         </div>
-                        <button type="submit" name="savechange" class="btn btn-warning">Guardar cambios</button>
+                        <button type="submit" name="savechange" class="ladda-button btn btn-warning">Guardar cambios</button>
                         <div class="response-message text-center"></div>
 
                     </form>

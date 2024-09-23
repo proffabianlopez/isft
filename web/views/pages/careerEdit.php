@@ -31,7 +31,7 @@ $id_career = $_GET['id_career'];
 
                         <hr>
                         <div class="form-group text-center">
-                            <button type="submit" class="btn btn-warning" name="savechange">Actualizar</button>
+                            <button type="submit" class="btn btn-warning ladda-button" name="savechange">Actualizar</button>
                             <a href="index.php?pages=toolsCareer&id_career=<?php echo htmlspecialchars($_GET['id_career'] ?? '') ?>&name_career=<?php echo urlencode($_GET['name_career'] ?? '') ?>&state=<?php echo htmlspecialchars($_GET['state'] ?? '') ?>" class="btn btn-outline-danger">Volver</a>
                         </div>
                         <div class="response-message text-center"></div>  

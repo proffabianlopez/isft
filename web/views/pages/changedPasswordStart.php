@@ -27,7 +27,7 @@
                                 </button>
                             </div>
                         </div>
-                        <button type="submit" name="send" class="btn bg-custom btn-warning btn-block">Cambiar Contraseña</button>
+                        <button type="submit" name="send" class="btn bg-custom btn-warning btn-block ladda-button">Cambiar Contraseña</button>
                         <?php
                         if (isset($_POST['send'])) {
                             $controller = new UserController();

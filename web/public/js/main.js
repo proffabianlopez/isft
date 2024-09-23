@@ -6,6 +6,10 @@ $(document).ready(function () {
   function handleFormSubmit(formId, actionUrl, action) {
     $(document).on("submit", formId, function (e) {
       e.preventDefault();
+     // Usa el botón dentro del contexto del formulario actual
+     var laddaButton = Ladda.create(this.querySelector(".ladda-button"));
+     laddaButton.start();
+
       var formData = $(this).serialize();
       if (typeof idCareer !== "undefined" && idCareer !== "") {
         formData += "&idCareer=" + encodeURIComponent(idCareer);
@@ -19,7 +23,6 @@ $(document).ready(function () {
         success: function (response) {
           var messageContainer = $(".response-message");
           var messageContainer2 = $(".response-message2");
-
           if (response.status === "successLoad") {
             $(".cierreModal").modal("hide"); // Cierra el modal
             setTimeout(function () {
@@ -34,6 +37,7 @@ $(document).ready(function () {
               };
               toastr.success(response.message, response.title);
             });
+            
           } else if (response.status === "successReset") {
             $(".cierreModal").modal("hide"); // Cierra el modal
             setTimeout(function () {
@@ -46,18 +50,22 @@ $(document).ready(function () {
               toastr.success(response.message, response.title);
             });
             resetForm();
+            laddaButton.stop(); // Detener el spinner en cualquier caso
             messageContainer.html("");
           } else if (response.status === "successCareer") {
+            laddaButton.stop(); // Detener el spinner en cualquier caso
             $(".cierreModal").modal("hide"); // Cierra el modal
             window.location.href = "index.php?pages=allCareers";
           } else {
             if (response.status === "error2") {
+              laddaButton.stop(); // Detener el spinner en cualquier caso
               messageContainer2.html(
                 '<div class="alert alert-danger mt-2">' +
                   response.message +
                   "</div>"
               );
             } else {
+              laddaButton.stop(); // Detener el spinner en cualquier caso
               messageContainer.html(
                 '<div class="alert alert-danger mt-2">' +
                   response.message +
@@ -67,6 +75,7 @@ $(document).ready(function () {
           }
         },
         error: function (xhr, status, error) {
+          laddaButton.stop(); // Detener el spinner en cualquier caso
           console.log(xhr.responseText);
           $(".response-message").html(
             '<div class="alert alert-danger">Error en la solicitud: ' +
@@ -74,6 +83,7 @@ $(document).ready(function () {
               "</div>"
           );
         },
+      
       });
     });
     function resetForm() {
