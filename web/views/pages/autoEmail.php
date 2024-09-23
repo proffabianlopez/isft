@@ -33,7 +33,7 @@ $infoCredentialUser=UserModel::getFirstValidCredential($id);
             <label for="certificate" class="form-label">Certificado (opcional)</label>
             <input type="text" class="form-control" name="certificate" placeholder="por defecto tls">
           </div>
-          <button type="submit" name="saveData" class="btn btn-warning w-100">Guardar Datos</button>
+          <button type="submit" name="saveData" class="btn btn-warning w-100 ladda-button">Guardar Datos</button>
           <div class="response-message text-center mt-3"></div>
         </form>
       </div>

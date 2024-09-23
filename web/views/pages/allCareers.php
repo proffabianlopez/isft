@@ -71,7 +71,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <button type="submit" form="createCareerForm" class="btn btn-warning"
+                            <button type="submit" form="createCareerForm" class="btn btn-warning ladda-button"
                                 name="loadCareer">Guardar</button>
                         </div>
                         <div class="response-message text-center"></div>

@@ -44,7 +44,7 @@ if (isset($_GET['name_career']) && isset($_GET['id_career']) && isset($_GET['sta
                             </div>
                             <div class="d-flex justify-content-center align-items-center">
                                 <button type="submit" name='confirmNewSubject'
-                                    class="btn bg-custom btn-block w-50 btn-warning">Crear</button>
+                                    class="btn bg-custom btn-block w-50 btn-warning ladda-button">Crear</button>
                             </div>
                         </form>
                         <br>

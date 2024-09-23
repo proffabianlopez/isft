@@ -136,7 +136,7 @@ if (isset($_GET['name_career']) && isset($_GET['id_career']) && isset($_GET['sta
                         <input type="hidden" name="id_subject_post" value="<?php echo $_GET['id_subject'] ?>">
                         <input type="hidden" name="id_teacher" value="<?php echo $data['id_teacher'] ?>">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                        <button type="submit" class="btn btn-primary" error_log("assignSubjectToTeacher: entre a assignar: " . $_POST['id_subject_post'].'-'.$_POST['id_teacher']); name="assignSubject">Asignar</button>
+                        <button type="submit" class="btn btn-primary ladda-button" error_log("assignSubjectToTeacher: entre a assignar: " . $_POST['id_subject_post'].'-'.$_POST['id_teacher']); name="assignSubject">Asignar</button>
                     </form>
                 </div>
             </div>

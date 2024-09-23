@@ -92,7 +92,7 @@
                             </div>
                             <div class="col-sm-12 pt-3">
                                 <div class="d-flex justify-content-center align-items-center">
-                                    <button type="submit" name='loadUser' class="btn bg-custom btn-block w-25 btn-warning">Crear</button>
+                                    <button type="submit" name='loadUser' class="btn bg-custom btn-block w-25 btn-warning ladda-button">Crear</button>
                                 </div>
                             </div>
                         </div>

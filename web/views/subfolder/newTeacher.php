@@ -79,7 +79,7 @@
                         </div>
                         <div class="d-flex justify-content-center align-items-center">
                             <button type="submit" name='loadTeacher' id="submitBtn"
-                                class="btn bg-custom btn-block w-50 btn-warning">Crear</button>
+                                class="btn bg-custom btn-block w-50 btn-warning ladda-button">Crear</button>
                         </div>
                     </form>
 

@@ -41,19 +41,11 @@
                 </div>
 
                 <div class="d-flex justify-content-center">
-                    <button type="submit" name="enviar" class="btn btn-warning text-dark w-50">Cambiar</button>
+                    <button type="submit" name="enviar" class="btn btn-warning text-dark w-50 ladda-button">Cambiar</button>
                 </div>
             </form>
             <div class="response-message text-center"></div>
 
-            <?php
-
-            // if (isset($_POST['enviar'])) {
-            //     $controller = new UserController();
-            //     $controller->newPassword();
-            // }
-
-            ?>
         </div>
     </div>
 </div>

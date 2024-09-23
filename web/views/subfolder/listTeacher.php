@@ -65,7 +65,7 @@
                             <label for="nombre">Nombre</label>
                             <input type="text" maxlength="128" class="form-control" id="nam" pattern="[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+" title="Solo se permiten letras y espacios" name="name_teacher" required value="<?php echo $teacher['name_teacher']; ?>">
                         </div>
-                        <button type="submit" name="savechange" class="btn btn-warning">Guardar cambios</button>
+                        <button type="submit" name="savechange" class="btn btn-warning ladda-button">Guardar cambios</button>
                         <div class="response-message text-center"></div>  
                     </form>
                 </div>

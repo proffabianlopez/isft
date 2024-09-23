@@ -92,7 +92,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                <button type="submit" class="btn btn-warning" name="save">Guardar</button>
+                                <button type="submit" class="btn btn-warning ladda-button" name="save">Guardar</button>
                             </div>
                             <div class="response-message text-center"></div>
                         </form>
@@ -152,7 +152,7 @@
                                 <label for="cohorte">Cohorte</label>
                                 <input type="text" maxlength="4" oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="form-control" name="date" value="<?php echo $student['startingYear']; ?>" required>
                             </div>
-                            <button type="submit" name="savechange" class="btn btn-warning">Guardar cambios</button>
+                            <button type="submit" name="savechange" class="btn btn-warning ladda-button">Guardar cambios</button>
                             <div class="response-message text-center"></div>
                         </form>
                     </div>
@@ -310,7 +310,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary resetMessage" data-dismiss="modal">Cerrar</button>
-                                <button type="submit" class="btn btn-warning" name="save">Guardar</button>
+                                <button type="submit" class="btn btn-warning ladda-button" name="save">Guardar</button>
                             </div>
                             <div class="response-message text-center"></div>
                         </form>
@@ -370,7 +370,7 @@
                                 <label for="cohorte">Cohorte</label>
                                 <input type="text" maxlength="4" oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="form-control" name="date" value="<?php echo $student['startingYear']; ?>" required>
                             </div>
-                            <button type="submit" name="savechange" class="btn btn-warning">Guardar cambios</button>
+                            <button type="submit" name="savechange" class="btn btn-warning ladda-button">Guardar cambios</button>
                             <div class="response-message text-center"></div>
                         </form>
                     </div>

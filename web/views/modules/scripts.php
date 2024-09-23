@@ -34,3 +34,8 @@
         <script src="public/js/bootstrap.bundle.min.js"></script>
 
 <script src="public/js/main.js"></script>
+
+<!-- Ladda -->
+<script src="public/dist/js/ladda/spin.min.js"></script>js
+<script src="public/dist/js/ladda/ladda.min.js"></script>
+<script src="public/dist/js/ladda/ladda.jquery.min.js"></script>

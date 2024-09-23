@@ -97,7 +97,7 @@ if ((isset($_GET['name_career'])) && (isset($_GET['id_career'])) && (isset($_GET
                             </select>
                         </div>
                         <div class="text-center">
-                            <button type="submit" class="btn btn-warning" name="savechange">Guardar Cambios</button>
+                            <button type="submit" class="btn btn-warning ladda-button" name="savechange">Guardar Cambios</button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                         </div>
                     </form>

@@ -28,3 +28,6 @@
 <!-- <link rel="stylesheet" href="public/css/bootstrap.min.css"> -->
    <!-- Bootstrap CSS para icons-->
    <link rel="stylesheet" href="public/dist/boostrap_icon/node_modules/bootstrap-icons/font/bootstrap-icons.css">
+
+   <!-- LADDA -->
+    <link rel="stylesheet" href="public/dist/ladda/css/ladda-themeless.min.css">

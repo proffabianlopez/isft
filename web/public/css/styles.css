@@ -133,3 +133,14 @@ body {
 .table td, .table th{
     vertical-align: middle;
 }
+.ladda-button {
+    position: relative;
+    text-align: center;  /* Centra el contenido horizontalmente */
+}
+
+.ladda-spinner {
+    position: absolute;
+    top: 50%;            /* Centra verticalmente */
+    left: 50%;           /* Centra horizontalmente */
+    transform: translate(-50%, -50%);  /* Ajusta la posición para centrar */
+}
