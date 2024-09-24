@@ -131,8 +131,8 @@
                                 <input type="text" maxlength="8" oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="form-control" name="dni" value="<?php echo $student['dni']; ?>" required>
                             </div>
                             <div class="form-group">
-                                <label for="tel">Teléfono</label>
-                                <input type="text" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="form-control" name="tel" value="<?php echo $student['phone_contact']; ?>" required>
+                                <label for="tel">Teléfono (Opcional)</label>
+                                <input type="text" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="form-control" name="tel" placeholder="Formato 11 12345678" value="<?php echo $student['phone_contact']; ?>" >
                             </div>
 
                             <!-- HAY QUE SEPARAR LA PRIMERA PARTE DEL LEGAJO (AC, AS, etc) Y TRAER SOLO LOS ÚLTIMOS 4 NÚMEROS PARA QUE
@@ -348,7 +348,10 @@
                                 <label for="dni">DNI</label>
                                 <input type="text" maxlength="8" oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="form-control" name="dni" value="<?php echo $student['dni']; ?>" required>
                             </div>
-
+                            <div class="form-group">
+                                <label for="tel">Teléfono (Opcional)</label>
+                                <input type="text" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="form-control" name="tel" placeholder="Formato 11 12345678" value="<?php echo $student['phone_contact']; ?>" >
+                            </div>
                             <!-- HAY QUE SEPARAR LA PRIMERA PARTE DEL LEGAJO (AC, AS, etc) Y TRAER SOLO LOS ÚLTIMOS 4 NÚMEROS PARA QUE
                     TE TOME EL VALUE, Y MODIFICAR LA CONSULTA DE LA BASE DE DATOS DE ACUERDO A ESE NÚMERO.
                     <div class="form-group">

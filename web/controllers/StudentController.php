@@ -7,7 +7,8 @@ class StudentController
     static public function newStudent()
     {
 
-        if ((!empty($_POST['name'])) && (!empty($_POST['lastName'])) &&
+        if (
+            (!empty($_POST['name'])) && (!empty($_POST['lastName'])) &&
             (!empty($_POST['mail'])) && (!empty($_POST['dni'])) &&
             (!empty($_POST['gender'])) && (!empty($_POST['date']))
 
@@ -29,18 +30,22 @@ class StudentController
             }
 
             $telephone = trim($_POST['tel']);
-            if (!ctype_digit($telephone) || strlen($telephone) != 10 || intval(substr($telephone, 0, 2)) < 11) {
-                $response["status"] = "error";
-                $response["message"] = "Número de teléfono inválido. Debe tener 10 dígitos y comenzar con un código de área válido.";
-                return $response;
-            }
+            $telephone = empty($telephone) ? null : $telephone;
 
-            $checkCountTel = StudentModel::checkForDuplicatesTel($telephone);
+            if (!empty($telephone)) {
+                if (!ctype_digit($telephone) || strlen($telephone) != 10 || intval(substr($telephone, 0, 2)) < 11) {
+                    $response["status"] = "error";
+                    $response["message"] = "Número de teléfono inválido. Debe tener 10 dígitos y comenzar con un código de área válido.";
+                    return $response;
+                }
 
-            if ($checkCountTel !== false) {
-                $response["status"] = "error";
-                $response["message"] = "El teléfono ya está registrado.";
-                return $response;
+                $checkCountTel = StudentModel::checkForDuplicatesTel($telephone);
+
+                if ($checkCountTel !== false) {
+                    $response["status"] = "error";
+                    $response["message"] = "El teléfono ya está registrado.";
+                    return $response;
+                }
             }
 
             $email = strtolower(trim($_POST['mail']));
@@ -164,6 +169,9 @@ class StudentController
         }
 
         $telephone = trim($_POST['tel']);
+        $telephone = empty($telephone) ? null : $telephone;
+
+        if (!empty($telephone)) {
         if (!ctype_digit($telephone) || strlen($telephone) != 10 || intval(substr($telephone, 0, 2)) < 11) {
             $response["status"] = "error";
             $response["message"] = "Número de teléfono inválido. Debe tener 10 dígitos y comenzar con un código de área válido.";
@@ -176,6 +184,7 @@ class StudentController
             $response["status"] = "error";
             $response["message"] = "El teléfono ya está registrado.";
             return $response;
+        }
         }
 
         $date = $_POST['date'];

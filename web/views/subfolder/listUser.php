@@ -123,8 +123,8 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="pt-1" for="tel">Teléfono</label>
-                                    <input type="text" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="form-control reset" name="tel" value="<?php echo $user['tel']; ?>" required>
+                                    <label class="pt-1" for="tel">Teléfono (Opcional)</label>
+                                    <input type="text" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="form-control reset" name="tel"   placeholder="Formato 11 12345678"  value="<?php echo $user['tel']; ?>" >
                                 </div>
                             </div>
                             <div class="col-sm-6">

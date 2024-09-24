@@ -29,6 +29,7 @@ class TeacherModel extends UserModel
         users.last_name AS last_name_teacher,
         users.email AS email_teacher,
         users.dni AS dni,
+        users.phone_contact AS phone_contact,
         users.fk_rol_id AS fk_rol_id
         FROM users
         WHERE 
@@ -48,12 +49,13 @@ class TeacherModel extends UserModel
         $stmt = null;
     }
 
-    static public function updateTeacherData($name, $last_name, $id_teacher)
+    static public function updateTeacherData($name, $last_name, $telephone, $id_teacher)
     {
-        $sql = "UPDATE users SET name = :name, last_name = :last_name WHERE id_user = :id_teacher";
+        $sql = "UPDATE users SET name = :name, last_name = :last_name, phone_contact=:phone_contact WHERE id_user = :id_teacher";
         $stmt = model_sql::connectToDatabase()->prepare($sql);
         $stmt->bindParam(':name', $name, PDO::PARAM_STR);
         $stmt->bindParam(':last_name', $last_name, PDO::PARAM_STR);
+        $stmt->bindParam(':phone_contact', $telephone, PDO::PARAM_STR);
         $stmt->bindParam(':id_teacher', $id_teacher, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
