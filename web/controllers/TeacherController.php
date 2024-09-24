@@ -4,7 +4,8 @@ class TeacherController
     static public function newTeacher()
     {
 
-        if ((!empty($_POST['name'])) && (!empty($_POST['lastName'])) &&
+        if (
+            (!empty($_POST['name'])) && (!empty($_POST['lastName'])) &&
             (!empty($_POST['mail'])) && (!empty($_POST['dni'])) &&
             (!empty($_POST['gender']))
         ) {
@@ -12,7 +13,7 @@ class TeacherController
             $name = ucwords(strtolower(trim($_POST['name'])));
             $lastname = ucwords(strtolower(trim($_POST['lastName'])));
             if (!preg_match("/^[a-zA-ZáéíóúÁÉÍÓÚ\s]+$/u", $name) || !preg_match("/^[a-zA-ZáéíóúÁÉÍÓÚ\s]+$/u", $lastname)) {
-             
+
                 $response["status"] = "error";
                 $response["message"] = "El nombre y/o apellido solo pueden contener letras, espacios y tildes.";
                 return $response;
@@ -24,18 +25,22 @@ class TeacherController
                 return $response;
             }
             $telephone = trim($_POST['tel']);
-            if (!ctype_digit($telephone) || strlen($telephone) != 10 || intval(substr($telephone, 0, 2)) < 11) {
-                $response["status"] = "error";
-                $response["message"] = "Número de teléfono inválido. Debe tener 10 dígitos y comenzar con un código de área válido.";
-                return $response;
-            }
+            $telephone = empty($telephone) ? null : $telephone;
 
-            $checkCountTel = UserModel::checkForDuplicatesTel($telephone);
+            if (!empty($telephone)) {
+                if (!ctype_digit($telephone) || strlen($telephone) != 10 || intval(substr($telephone, 0, 2)) < 11) {
+                    $response["status"] = "error";
+                    $response["message"] = "Número de teléfono inválido. Debe tener 10 dígitos y comenzar con un código de área válido.";
+                    return $response;
+                }
 
-            if ($checkCountTel !== false) {
-                $response["status"] = "error";
-                $response["message"] = "El teléfono ya está registrado.";
-                return $response;
+                $checkCountTel = UserModel::checkForDuplicatesTel($telephone);
+
+                if ($checkCountTel !== false) {
+                    $response["status"] = "error";
+                    $response["message"] = "El teléfono ya está registrado.";
+                    return $response;
+                }
             }
 
             $email = strtolower(trim($_POST['mail']));
@@ -109,12 +114,31 @@ class TeacherController
             $response["status"] = "error";
             $response["message"] = "El nombre y/o apellido no pueden tener más de 128 caracteres.";
             return $response;
+        } 
+
+        $telephone = trim($_POST['tel']);
+        $telephone = empty($telephone) ? null : $telephone;
+
+        if (!empty($telephone)) {
+            if (!ctype_digit($telephone) || strlen($telephone) != 10 || intval(substr($telephone, 0, 2)) < 11) {
+                $response["status"] = "error";
+                $response["message"] = "Número de teléfono inválido. Debe tener 10 dígitos y comenzar con un código de área válido.";
+                return $response;
+            }
+
+            $checkCountTel = UserModel::checkForDuplicatesTel($telephone);
+
+            if ($checkCountTel !== false) {
+                $response["status"] = "error";
+                $response["message"] = "El teléfono ya está registrado.";
+                return $response;
+            }
         }
 
 
         $id_teacher = $_POST['id_teacher'];
 
-        $execute = TeacherModel::updateTeacherData($name, $lastname, $id_teacher);
+        $execute = TeacherModel::updateTeacherData($name, $lastname, $telephone,$id_teacher);
         if ($execute) {
             $response['title'] = "¡Actualizado!";
             $response["status"] = "successLoad";
@@ -125,11 +149,11 @@ class TeacherController
             $response["message"] = "Hubo un problema al crearlo";
             return $response;
         }
-        
+
     }
 
 
-     //no borrar por el momento no se usara
+    //no borrar por el momento no se usara
     // static public function generateAccountTeacher()
     // {
     //     if (isset($_GET['id_teacher'])) {

@@ -219,7 +219,7 @@ class UserController
                 echo '<div class="alert alert-danger mt-2">La nueva contraseña debe tener al menos 8 caracteres.</div>';
                 return;
             }
-            
+
 
             $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
 
@@ -264,18 +264,22 @@ class UserController
             }
 
             $telephone = trim($_POST['tel']);
-            if (!ctype_digit($telephone) || strlen($telephone) != 10 || intval(substr($telephone, 0, 2)) < 11) {
-                $response["status"] = "error";
-                $response["message"] = "Número de teléfono inválido. Debe tener 10 dígitos y comenzar con un código de área válido.";
-                return $response;
-            }
+            $telephone = empty($telephone) ? null : $telephone;
 
-            $checkCountTel = UserModel::checkForDuplicatesTel($telephone);
+            if (!empty($telephone)) {
+                if (!ctype_digit($telephone) || strlen($telephone) != 10 || intval(substr($telephone, 0, 2)) < 11) {
+                    $response["status"] = "error";
+                    $response["message"] = "Número de teléfono inválido. Debe tener 10 dígitos y comenzar con un código de área válido.";
+                    return $response;
+                }
 
-            if ($checkCountTel !== false) {
-                $response["status"] = "error";
-                $response["message"] = "El teléfono ya está registrado.";
-                return $response;
+                $checkCountTel = UserModel::checkForDuplicatesTel($telephone);
+
+                if ($checkCountTel !== false) {
+                    $response["status"] = "error";
+                    $response["message"] = "El teléfono ya está registrado.";
+                    return $response;
+                }
             }
 
             $email = strtolower(trim($_POST['mail']));
@@ -462,18 +466,22 @@ class UserController
         }
 
         $telephone = trim($_POST['tel']);
-        if (!ctype_digit($telephone) || strlen($telephone) != 10 || intval(substr($telephone, 0, 2)) < 11) {
-            $response["status"] = "error";
-            $response["message"] = "Número de teléfono inválido. Debe tener 10 dígitos y comenzar con un código de área válido.";
-            return $response;
-        }
+        $telephone = empty($telephone) ? null : $telephone;
 
-        $checkDuplicatesEditionTel = UserModel::checkForDuplicatesEditionTel($id, $telephone);
+        if (!empty($telephone)) {
+            if (!ctype_digit($telephone) || strlen($telephone) != 10 || intval(substr($telephone, 0, 2)) < 11) {
+                $response["status"] = "error";
+                $response["message"] = "Número de teléfono inválido. Debe tener 10 dígitos y comenzar con un código de área válido.";
+                return $response;
+            }
 
-        if ($checkDuplicatesEditionTel !== false) {
-            $response["status"] = "error";
-            $response["message"] = "El teléfono ya está registrado.";
-            return $response;
+            $checkDuplicatesEditionTel = UserModel::checkForDuplicatesEditionTel($id, $telephone);
+
+            if ($checkDuplicatesEditionTel !== false) {
+                $response["status"] = "error";
+                $response["message"] = "El teléfono ya está registrado.";
+                return $response;
+            }
         }
 
         $roles = $_POST['roles'];

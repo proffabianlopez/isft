@@ -65,6 +65,10 @@
                             <label for="nombre">Nombre</label>
                             <input type="text" maxlength="128" class="form-control" id="nam" pattern="[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+" title="Solo se permiten letras y espacios" name="name_teacher" required value="<?php echo $teacher['name_teacher']; ?>">
                         </div>
+                        <div class="form-group">
+                                <label for="tel">Teléfono (Opcional)</label>
+                                <input type="text" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="form-control" name="tel" placeholder="Formato 11 12345678" value="<?php echo $teacher['phone_contact']; ?>" >
+                            </div>
                         <button type="submit" name="savechange" class="btn btn-warning ladda-button">Guardar cambios</button>
                         <div class="response-message text-center"></div>  
                     </form>
