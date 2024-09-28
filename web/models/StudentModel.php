@@ -6,7 +6,7 @@ class StudentModel extends UserModel
     {
         $sql = "INSERT INTO users (name, last_name, email, dni, startingYear, file, password, 
                             fk_gender_id, fk_rol_id, state, phone_contact)
-                            VALUES (:name, :lastName, :email, :dni, :dateYear, null, null, :gender, 3, 2, :tel)";
+                            VALUES (:name, :lastName, :email, :dni, :dateYear, null, null, :gender, 3,2, :tel)";
 
         $pdo = model_sql::connectToDatabase(); // Obtener la conexión PDO
         $stmt = $pdo->prepare($sql);
@@ -49,7 +49,7 @@ class StudentModel extends UserModel
         JOIN users ON career_person.fk_user_id= users.id_user
         WHERE 
         users.fk_rol_id = 3
-        AND users.state IN (1, 2)";
+        AND users.state IN (1,2)";
 
         $stmt = model_sql::connectToDatabase()->prepare($sql);
 
@@ -63,6 +63,30 @@ class StudentModel extends UserModel
 
         $stmt = null;
     }
+
+    //servira para extraer la carrera del estudiante y ponerlo de asunto en el correo
+    static public function studentDataCarrer($id_user)
+    {
+        $sql = "SELECT careers.career_name AS name_c,
+                       career_person.fk_user_id AS id_user
+                FROM career_person
+                JOIN careers ON career_person.fk_career_id = careers.id_career
+                WHERE career_person.fk_user_id = ?";
+    
+       
+        $stmt = model_sql::connectToDatabase()->prepare($sql);
+        $stmt->bindParam(1, $id_user, PDO::PARAM_INT); 
+    
+        if ($stmt->execute()) {
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);  
+        } else {
+            print_r($stmt->errorInfo());  
+        }
+    
+        $stmt = null;
+    }
+    
+    
 
     //trae solo los datos de los alumnos que administra el preceptor
     static public function getAllStudentCareerPreceptor($id)
@@ -78,7 +102,7 @@ class StudentModel extends UserModel
                     users.startingYear AS startingYear,
                     careers.career_name AS career_name,
                     careers.id_career AS  id_career,
-                                        career_person.id_career_person AS id_career_person
+                    career_person.id_career_person AS id_career_person
                     FROM career_person
                             JOIN careers ON career_person.fk_career_id=careers.id_career
                             JOIN users ON career_person.fk_user_id= users.id_user
