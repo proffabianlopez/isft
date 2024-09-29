@@ -54,6 +54,8 @@ subjects.details AS details,
 subjects.fk_year_subject AS id_year,
 yearSubject.year AS year_subject,
 yearSubject.detail AS year_detail,
+careers.id_career AS id_career,
+careers.state AS state,
 careers.career_name AS career_name
 FROM subjects
 JOIN yearSubject ON subjects.fk_year_subject=yearSubject.id_year_subject

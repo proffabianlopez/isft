@@ -16,7 +16,7 @@
         <div class="row py-4">
             <?php foreach ($data as $key => $value): ?>
                 <div class="col-lg-4 col-md-4 col-sm-6 mb-4">
-                    <a href="index.php?pages=manageCourse&id_subject=<?php echo $value['id_subject']; ?>&name_subject=<?php echo $value['name_subject']; ?>" title="<?php echo $value['name_subject'] ?>">
+                    <a href="index.php?pages=manageCourse&id_career=<?php echo $value['id_career'] ?>&name_career=<?php echo $value['career_name'] ?>&state=<?php echo $value['state'] ?>&id_subject=<?php echo $value['id_subject']; ?>&name_subject=<?php echo $value['name_subject']; ?>" title="<?php echo $value['name_subject'] ?>">
                         <div class="small-box bg-secondary h-100 d-flex flex-column justify-content-between">
                             <div class="inner flex-grow-1">
                                 <h4 class="m-1 text-truncate" style="max-width: 100%;"><?php echo $value['name_subject'] ?></h4>
