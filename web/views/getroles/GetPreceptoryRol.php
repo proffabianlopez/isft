@@ -15,6 +15,7 @@ if(
 # links administracion de Usuarios    
       ($_GET['pages'] == "myData")||
       ($_GET['pages'] == "changedPasswordStart") ||
+      ($_GET['pages'] == "manageStudentAssignement") ||
       ($_GET['pages'] == "") || 
 # links simples
       ($_GET['pages'] == "changePassword") 
