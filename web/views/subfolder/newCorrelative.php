@@ -24,7 +24,7 @@ if ((isset($_GET['name_career'])) && (isset($_GET['id_career'])) && (isset($_GET
                             </div>
                             <hr>
                             <div class="form-group d-flex justify-content-center">
-                                <button type="submit" class="btn btn-warning btn-block w-50" name="loadCorrelative">Crear</button>
+                                <button type="submit" class="btn btn-warning btn-block w-50 ladda-button" name="loadCorrelative">Crear</button>
                             </div>
                         </form>
                         <div class="response-message text-center"></div>
