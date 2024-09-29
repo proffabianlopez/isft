@@ -38,24 +38,26 @@ if ((isset($_GET['name_career'])) && (isset($_GET['id_career'])) && (isset($_GET
                                 <td>
                                     <!-- Botón para abrir el modal -->
                                     <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
-                                        data-target="#modal_<?php echo $subject['id_subject'] ?>" title="ver info">
+                                        data-target="#modal_<?php echo $subject['id_subject'] ?>" title="Ver info">
                                         <i class="fas fa-eye"></i>
                                     </button>
                                     <?php if ($_SESSION['fk_rol_id'] == 1): ?>
                                         <!-- Botón para abrir el modal de editar -->
                                         <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                                            data-target="#modal_edit_<?php echo $subject['id_subject'] ?>" title="editar materia">
+                                            data-target="#modal_edit_<?php echo $subject['id_subject'] ?>" title="Editar materia">
                                             <i class="fas fa-edit"></i>
                                         </button>
                                         <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-                                            data-target="#confirmDeleteModal_<?php echo $subject['id_subject'] ?>">
+                                            data-target="#confirmDeleteModal_<?php echo $subject['id_subject'] ?>" title="Eliminar">
                                             <i class="fas fa-trash-alt"></i> <!-- Icono de eliminar -->
                                         </button>
-                                        <a class="btn btn-warning btn-sm" title="asignar profesor" href="index.php?pages=manageTeacherAssignement&id_career=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['name_career'] ?>&state=<?php echo $_GET['state'] ?>&id_subject=<?php echo $subject['id_subject'] ?>&name_subject=<?php echo $subject['name_subject'] ?>">
+                                        <a class="btn btn-warning btn-sm" title="Asignar profesor" href="index.php?pages=manageTeacherAssignement&id_career=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['name_career'] ?>&state=<?php echo $_GET['state'] ?>&id_subject=<?php echo $subject['id_subject'] ?>&name_subject=<?php echo $subject['name_subject'] ?>">
                                             <i class="fas fa-pen-alt"></i> 
                                         </a>
-
                                     <?php endif ?>
+                                    <a class="btn btn-dark btn-sm" title="Asignar alumnos" href="index.php?pages=manageStudentAssignement&id_career=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['name_career'] ?>&state=<?php echo $_GET['state'] ?>&id_subject=<?php echo $subject['id_subject'] ?>&name_subject=<?php echo $subject['name_subject'] ?>">
+                                        <i class="fas fa-pencil-alt"></i> 
+                                    </a>
                                 </td>
                             </tr>
                         <?php endforeach ?>
