@@ -422,6 +422,46 @@ static public function model_showTeacherSubejct($id_subject)
 }
 
 
+//modelo para ver esos alumnos que estan registrados en la materia
+static public function model_showStudentSubejct($id_subject)
+{
+    $sql = "SELECT u.name, u.last_name, u.dni, u.email
+    FROM asignament_students as ast
+    JOIN users as u ON ast.fk_user_id = u.id_user
+    WHERE ast.fk_subject_id = :id_subject";
+    
+    $stmt = model_sql::connectToDatabase()->prepare($sql);
+    $stmt->bindParam(':id_subject', $id_subject, PDO::PARAM_INT);
+
+    if ($stmt->execute()) {
+        return $stmt->fetchAll(PDO::FETCH_ASSOC); 
+    } else {
+        print_r($stmt->errorInfo());
+        return null; 
+    }
+}
+
+//pregunta mediante el id de estudiante y carrera que materias cursa
+static public function studentSubject_career($id_teacher, $id_career)
+{
+    $sql = "SELECT DISTINCT c.name_subject  AS materias
+        FROM subjects c
+        JOIN asignament_students p ON c.id_subject = p.fk_subject_id
+        JOIN users u ON p.fk_user_id = u.id_user
+        JOIN career_person cp ON u.id_user = cp.fk_user_id
+        WHERE u.id_user = :id_student AND c.fk_career_id = :id_career";
+    
+    $stmt = model_sql::connectToDatabase()->prepare($sql);
+    $stmt->bindParam(':id_student', $id_teacher, PDO::PARAM_INT);
+    $stmt->bindParam(':id_career', $id_career, PDO::PARAM_INT);
+    
+    if ($stmt->execute()) {
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } else {
+        print_r($stmt->errorInfo());
+        return null; 
+    }
+}
 
 }
 

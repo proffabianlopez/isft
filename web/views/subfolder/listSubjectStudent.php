@@ -1,6 +1,6 @@
 <?php 
 if (isset($_GET['name_career']) && isset($_GET['id_career']) && isset($_GET['state'])) {  
-    //$dataStudent = AssignmentController::showStudentSubejct($_GET['id_subject']);
+    $dataStudent = AssignmentController::showStudentSubejct($_GET['id_subject']);
 ?>
 <div class="card">
     <div class="card-body">

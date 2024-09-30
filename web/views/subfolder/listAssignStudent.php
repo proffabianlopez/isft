@@ -73,7 +73,7 @@ if (isset($_GET['name_career']) && isset($_GET['id_career']) && isset($_GET['sta
                                 <h5><strong>Nombre:</strong> <?php echo htmlspecialchars($data['full_name']); ?></h5>
                                 <h5><strong>Materias que cursa:</strong></h5>
                                 <?php
-                                    //$careers = AssignmentController::show_career_teacherSubject($data['id_student'], $_GET['id_career']); 
+                                    $careers = AssignmentController::show_career_StudentsSubject($data['id_student'], $_GET['id_career']); 
                                     if (!empty($careers)): ?>
                                         <ul class="list-unstyled">
                                         <?php foreach ($careers as $career): ?>

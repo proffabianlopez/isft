@@ -225,7 +225,18 @@ class AssignmentController {
         }    
 
 
+        //para ver los alumnos asignados a la materia
+        static public function showStudentSubejct($id_subject)
+        {
+            return AssignmentModel::model_showStudentSubejct($id_subject);
+        }    
+
+
         
+        static public function show_career_StudentsSubject($id_student, $id_career){
+
+            return AssignmentModel::studentSubject_career($id_student, $id_career);
+        }
         
     
     }

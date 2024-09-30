@@ -216,16 +216,24 @@ class StudentController
     {
         if (isset($_GET['id_student'])) {
             $id_student = $_GET['id_student'];
-
+    
             $dataStudent = StudentModel::dataUser($id_student);
-
+            $id_career = StudentModel::studentDataCarrer($id_student);
+            
+            if (!empty($id_career)) {
+                $career_name = $id_career[0]['name_c'];  // Acceder al primer resultado
+            } else {
+                $career_name = "Carrera no disponible";
+            }
+            
+            error_log(print_r($id_career, true));  // Corregir la escritura en el log
             $name = $dataStudent['name_user'];
             $lastname = $dataStudent['last_name_user'];
             $email = $dataStudent['email'];
             $state = $dataStudent['state'];
             $generatePassword = UserController::generateRandomPassword(14);
             $hashedPassword = password_hash($generatePassword, PASSWORD_DEFAULT);
-
+    
             $changeState = StudentModel::changeStateStudent($id_student);
             if ($state == 1) {
                 echo '<script>
@@ -238,13 +246,13 @@ class StudentController
             if ($changeState) {
                 $newPassword = StudentModel::updatePassword($id_student, $hashedPassword);
                 if ($newPassword) {
-                    $execute = MailerController::sendNewUser($generatePassword, $email, $name, $lastname);
+                    $execute = MailerController::sendNewStudent($generatePassword, $email, $name, $lastname, $career_name);
                     if ($execute) {
                         echo '<script>
                                     if (window.history.replaceState) {
                                         window.history.replaceState(null, null, window.location.href);
                                     }
-                                    window.location="../index.php?pages=manageStudent&message=correcto";
+                                    window.location="../index.php?pages=manageStudent";
                                     </script>';
                     } else {
                         echo '<script>
@@ -272,6 +280,7 @@ class StudentController
             }
         }
     }
+    
 
     //logica para darle al estudiante un legajo
     static public function AssingnamentLegajo()
