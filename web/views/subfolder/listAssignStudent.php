@@ -1,7 +1,6 @@
 <?php 
 if (isset($_GET['name_career']) && isset($_GET['id_career']) && isset($_GET['state'])) {  
-    //$dataStudent = UserController::showTeacherCareer($_GET['id_career']);
-    //Poner acá la función para mostrar todos los profesores que pueden ser asignados a X materia.
+    $dataStudent = UserController::showStudentCareer($_GET['id_career']);
 ?>
 <div class="card">
     <div class="card-body">
@@ -23,7 +22,7 @@ if (isset($_GET['name_career']) && isset($_GET['id_career']) && isset($_GET['sta
                                 </button>
                                 
                                 <?php 
-                                    //$info = AssignmentModel::teacherSubejectNoAssig($data['id_student'], $_GET['id_subject']);
+                                    $info = AssignmentModel::studentSubejectNoAssig($data['id_student'], $_GET['id_subject']);
                                     // Verificar si el alumno actual no tiene asignada ninguna materia con la función de arriba.
                                     if ($info) {
                                         echo '<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal_edit_' . $data['id_student'] . '" title="Asignar alumnos a la materia">
@@ -181,14 +180,14 @@ if (isset($_GET['name_career']) && isset($_GET['id_career']) && isset($_GET['sta
 if (isset($_POST['assignSubject'])) {
         
      $controller= new AssignmentController();
-     //$controller->assignSubjectToTeacher($id_career_get, $career_name_get, $state_get, $id_subject, $name_subject);
+     $controller->assignSubjectToStudent($id_career_get, $career_name_get, $state_get, $id_subject, $name_subject);
    
 }
 
 if (isset($_POST['deleteStudent'])) {
     
      $controller= new AssignmentController();
-     //$controller->quitTeacherSubject($id_career_get, $career_name_get, $state_get, $id_subject, $name_subject);
+     $controller->quitStudentSubject($id_career_get, $career_name_get, $state_get, $id_subject, $name_subject);
 
 }
 ?>

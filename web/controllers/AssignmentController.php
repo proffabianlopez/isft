@@ -68,6 +68,22 @@ class AssignmentController {
     }
     }
 
+    static public function assignSubjectToStudent($id_career, $name_career, $state, $id_subject, $name_subject){
+        if (!empty($_POST['id_subject_post']) && !empty($_POST['id_student'])) {
+        
+        $insert = AssignmentModel::insertSubjectStudent($_POST['id_subject_post'], $_POST['id_student']);
+        if ($insert) {
+            echo '<script>
+            window.location.href = "index.php?pages=manageStudentAssignement&id_career=' . $id_career . '&name_career=' . $name_career . '&state=' . $state .'&id_subject='. $id_subject .'&name_subject='.$name_subject.'&subfolder=listAssignStudent&message=correcto";
+            </script>';
+        } else {
+            echo "No se pudo asignar Profesor.";
+        }
+
+        
+    }
+    }
+
         // Borra un preceptor de la carrera en curso
 
         static public function quitPreceptor($career,$name,$state){
@@ -112,6 +128,32 @@ class AssignmentController {
                   
                     echo '<script>
                     window.location.href = "index.php?pages=manageTeacherAssignement&id_career=' . $id_career . '&name_career=' . $name_career . '&state=' . $state .'&id_subject='. $id_subject .'&name_subject='.$name_subject.'&subfolder=listAssignTeacher&message=correcto";
+                    </script>';
+                } else {
+                    // Manejo de error si la inserción falla
+                    echo "No se pudo quitar Preceptor.";
+                }
+    
+            }
+
+
+        }
+//quita al estudiante de la materia
+        static public function quitStudentSubject($id_career, $name_career, $state, $id_subject, $name_subject){
+
+            error_log("quitTeacherSubject: ". $_POST['id_student']);
+    
+            if(!empty($_POST['id_student'])){
+    
+                
+                $id_student=$_POST['id_student'];
+
+                $delete=AssignmentModel::deleteStudentSubject($id_student, $id_subject);
+                error_log("delete",$delete);
+                if ($delete) {
+                  
+                    echo '<script>
+                     window.location.href = "index.php?pages=manageStudentAssignement&id_career=' . $id_career . '&name_career=' . $name_career . '&state=' . $state .'&id_subject='. $id_subject .'&name_subject='.$name_subject.'&subfolder=listAssignStudent&message=correcto";
                     </script>';
                 } else {
                     // Manejo de error si la inserción falla
@@ -181,7 +223,8 @@ class AssignmentController {
         {
             return AssignmentModel::model_showTeacherSubejct($id_subject);
         }    
-        
+
+
         
         
     
