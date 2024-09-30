@@ -75,21 +75,39 @@ class AssignmentModel {
     }
     $stmt = null; // Liberar el statement
 }
+//inserta los estudiantes a la materia
+static public function insertSubjectStudent($subject_id, $userId)
+{
+    $sql = "INSERT INTO asignament_students(fk_subject_id,fk_user_id, state) VALUES (:fk_subject_id , :fk_user_id, 1)";
+    $stmt = model_sql::connectToDatabase()->prepare($sql);
+
+    $stmt->bindParam(":fk_subject_id", $subject_id, PDO::PARAM_INT);
+    $stmt->bindParam(":fk_user_id", $userId, PDO::PARAM_INT);
+
+    if ($stmt->execute()) {
+        return true;
+    } else {
+        print_r($stmt->errorInfo());
+        return false;
+    }
+    $stmt = null; // Liberar el statement
+}
+
+
 	static public function updateCareerStudent($id_career,$id_career_person){
 
 		$sql = "UPDATE career_person SET fk_career_id = :fk_career_id WHERE id_career_person = :id_career_person";
 		$stmt = model_sql::connectToDatabase()->prepare($sql);
 		$stmt->bindParam(':fk_career_id', $id_career, PDO::PARAM_STR);
-		$stmt->bindParam(':id_career_person', $id_career_person, PDO::PARAM_STR); // Aquí se corrigió $last_name por $details
+		$stmt->bindParam(':id_career_person', $id_career_person, PDO::PARAM_STR); 
 		
 	
 		if ($stmt->execute()) {
-			// Devolver true si la actualización se realiza correctamente
+			
 			return true;
 		} else {
-			// Manejar cualquier error que pueda ocurrir durante la ejecución de la consulta
 			print_r($stmt->errorInfo());
-			return false; // Devolver false en caso de error
+			return false;
 		}
 		$stmt = null;
 		
@@ -103,13 +121,13 @@ class AssignmentModel {
             WHERE users.id_user = :id_user AND users.fk_rol_id = 2 AND career_person.fk_career_id IS NULL";
     
     $stmt = model_sql::connectToDatabase()->prepare($sql);
-    $stmt->bindParam(':id_user', $id, PDO::PARAM_INT); // Assuming id_user is an integer, use PARAM_INT
+    $stmt->bindParam(':id_user', $id, PDO::PARAM_INT); 
     
     if ($stmt->execute()) {
-        return $stmt->fetch(PDO::FETCH_ASSOC); // Fetch single row since we expect only one result
+        return $stmt->fetch(PDO::FETCH_ASSOC); 
     } else {
         print_r($stmt->errorInfo());
-        return null; // Return null or handle error as needed
+        return null; 
     }
 
     $stmt = null;
@@ -122,41 +140,85 @@ class AssignmentModel {
             WHERE at.fk_user_id = :id_teacher && at.fk_subject_id = :id_subject;";
     
     $stmt = model_sql::connectToDatabase()->prepare($sql);
-    $stmt->bindParam(':id_teacher', $id_teacher, PDO::PARAM_INT); // Assuming id_user is an integer, use PARAM_INT
-    $stmt->bindParam(':id_subject', $id_subject, PDO::PARAM_INT); // Assuming id_user is an integer, use PARAM_INT
+    $stmt->bindParam(':id_teacher', $id_teacher, PDO::PARAM_INT); 
+    $stmt->bindParam(':id_subject', $id_subject, PDO::PARAM_INT);
     
     if ($stmt->execute()) {
         if($stmt->rowCount() == 0) {
             return true; //
         }
-        return false; // Fetch single row since we expect only one result
+        return false; 
     } else {
         print_r($stmt->errorInfo());
-        return null; // Return null or handle error as needed
+        return null; 
     }
 
     $stmt = null;
 }
+
+static public function studentSubejectNoAssig($id_student, $id_subject)
+{
+    $sql = "SELECT * 
+            FROM asignament_students AS at
+            WHERE at.fk_user_id = :id_student && at.fk_subject_id = :id_subject;";
+    
+    $stmt = model_sql::connectToDatabase()->prepare($sql);
+    $stmt->bindParam(':id_student', $id_student, PDO::PARAM_INT);
+    $stmt->bindParam(':id_subject', $id_subject, PDO::PARAM_INT); 
+    
+    if ($stmt->execute()) {
+        if($stmt->rowCount() == 0) {
+            return true; //
+        }
+        return false;
+    } else {
+        print_r($stmt->errorInfo());
+        return null; 
+    }
+
+    $stmt = null;
+}
+
 static public function deleteTeacherSubject($id_teacher, $id_subject){
 
     $sql = "DELETE FROM asignament_teachers AS at
             WHERE at.fk_user_id = :id_teacher && at.fk_subject_id = :id_subject;";
 
 $stmt = model_sql::connectToDatabase()->prepare($sql);
-$stmt->bindParam(':id_teacher', $id_teacher, PDO::PARAM_INT); // Assuming id_user is an integer, use PARAM_INT
+$stmt->bindParam(':id_teacher', $id_teacher, PDO::PARAM_INT); 
 $stmt->bindParam(':id_subject', $id_subject, PDO::PARAM_INT); 
 
     if ($stmt->execute()) {
-        return true; // Devolver true si la eliminación se realiza correctamente
+        return true; 
     } else {
-        // Manejar cualquier error que pueda ocurrir durante la ejecución de la consulta
+       
         print_r($stmt->errorInfo());
-        return false; // Devolver false en caso de error
+        return false; 
     }
     $stmt = null;
 
 
 }
+
+//quitar estudiante
+static public function deleteStudentSubject($id_student, $id_subject) {
+
+    $sql = "DELETE FROM asignament_students 
+            WHERE fk_user_id = :id_student AND fk_subject_id = :id_subject;";
+
+    $stmt = model_sql::connectToDatabase()->prepare($sql);
+    $stmt->bindParam(':id_student', $id_student, PDO::PARAM_INT); 
+    $stmt->bindParam(':id_subject', $id_subject, PDO::PARAM_INT); 
+
+    if ($stmt->execute()) {
+        return true; 
+    } else {
+        print_r($stmt->errorInfo());
+        return false; 
+    }
+    $stmt = null; // Liberar el statement
+}
+
 //ASignar un preceptor
 static public function preceptorAssig($id_career, $id_user)
 {
@@ -179,27 +241,7 @@ static public function preceptorAssig($id_career, $id_user)
     $stmt = null;
 }
 
-static public function assignSubjectToTeacher($id_career, $id_user)
-{
-    $sql = " SELECT GROUP_CONCAT(c.name_subject SEPARATOR ', ') AS materias
-FROM subjects c
-JOIN asignament_teachers p ON c.id_subject = p.fk_subject_id
-JOIN users u ON p.fk_user_id = u.id_user
-WHERE u.id_user = 31 AND c.fk_year_subject = :id_carrer";
-    
-    $stmt = model_sql::connectToDatabase()->prepare($sql);
-    $stmt->bindParam(':id_career', $id_career, PDO::PARAM_INT);
-    $stmt->bindParam(':id_user', $id_user, PDO::PARAM_INT);
-    
-    if ($stmt->execute()) {
-        return $stmt->fetch(PDO::FETCH_ASSOC); // Fetch single row since we expect only one result
-    } else {
-        print_r($stmt->errorInfo());
-        return null; // Return null or handle error as needed
-    }
 
-    $stmt = null;
-}
 
 	// QUita el preceptor de la carrera asignada
 	static public function deleteAssign($id){
@@ -263,6 +305,7 @@ static public function preceptor_career($id_preceptor)
         return null; // Handle error as needed
     }
 }
+//asignado a una carrera
 static public function teacherSubject_career($id_teacher, $id_career)
 {
     $sql = "SELECT DISTINCT c.name_subject  AS materias
@@ -341,7 +384,7 @@ static public function teacherNoAssig($id_teacher, $id_career)
     }
 }
 
-
+//teacher sobre carrera
 static public function teacherAssig($id_teacher, $id_career)
 {
     $sql = "SELECT users.id_user, users.name, users.last_name, career_person.fk_career_id AS id_career
@@ -377,6 +420,7 @@ static public function model_showTeacherSubejct($id_subject)
         return null; // Return null or handle error as needed
     }
 }
+
 
 
 }

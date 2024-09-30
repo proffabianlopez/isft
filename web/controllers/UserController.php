@@ -553,6 +553,11 @@ class UserController
         return UserModel::getTeacherCareer($id_career);
     }
 
+    static public function showStudentCareer($id_career)
+    {
+        return UserModel::getStudentCareer($id_career);
+    }
+
 
     static public function insertCredentialEmail()
     {
