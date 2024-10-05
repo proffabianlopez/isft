@@ -90,5 +90,36 @@ class ExcelController {
             die('El archivo Excel no existe.');
         }
     }
+    
+    public function excelDataCareerSubjectStudent($id_subject, $id_career) {
+
+        error_log('EXCEL CONTROLLER-> Entre a excelDataCareerSubject');
+        $header = array('Apellido', 'Nombre');
+        $subjects =AssignmentController::showStudentSubejct($id_subject);
+        $data = array();
+
+        foreach ($subjects as $subject) {
+            $data[] = array(
+                $subject['last_name'],
+                $subject['name'],
+            );
+        }
+
+        $route = ExcelModel::dataCareerExcelSubjectStudent($header, $data);
+
+        if (file_exists($route)) {
+            header('Content-Description: File Transfer');
+            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            header('Content-Disposition: attachment; filename="' . basename($route) . '"');
+            header('Content-Length: ' . filesize($route));
+            ob_clean();
+            flush();
+            readfile($route);
+            unlink($route);
+            exit;
+        } else {
+            die('El archivo Excel no existe.');
+        }
+    }
 }
 ?>
