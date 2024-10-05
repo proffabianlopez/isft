@@ -78,20 +78,27 @@ class AssignmentModel {
 //inserta los estudiantes a la materia
 static public function insertSubjectStudent($subject_id, $userId)
 {
-    $sql = "INSERT INTO asignament_students(fk_subject_id,fk_user_id, state) VALUES (:fk_subject_id , :fk_user_id, 1)";
-    $stmt = model_sql::connectToDatabase()->prepare($sql);
+    // Obtener una única conexión a la base de datos
+    $db = model_sql::connectToDatabase();
+    
+    $sql = "INSERT INTO asignament_students(fk_subject_id, fk_user_id, state) VALUES (:fk_subject_id, :fk_user_id, 1)";
+    $stmt = $db->prepare($sql);
 
     $stmt->bindParam(":fk_subject_id", $subject_id, PDO::PARAM_INT);
     $stmt->bindParam(":fk_user_id", $userId, PDO::PARAM_INT);
 
     if ($stmt->execute()) {
-        return true;
+        // Recuperar el ID del registro recién insertado usando la misma conexión
+        $lastId = $db->lastInsertId();
+        return $lastId;
     } else {
         print_r($stmt->errorInfo());
         return false;
     }
+    
     $stmt = null; // Liberar el statement
 }
+
 
 
 	static public function updateCareerStudent($id_career,$id_career_person){
@@ -462,6 +469,7 @@ static public function studentSubject_career($id_teacher, $id_career)
         return null; 
     }
 }
+
 
 }
 

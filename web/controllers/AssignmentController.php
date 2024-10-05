@@ -68,21 +68,39 @@ class AssignmentController {
     }
     }
 
-    static public function assignSubjectToStudent($id_career, $name_career, $state, $id_subject, $name_subject){
+    static public function assignSubjectToStudent($id_career, $name_career, $state, $id_subject, $name_subject) {
         if (!empty($_POST['id_subject_post']) && !empty($_POST['id_student'])) {
-        
-        $insert = AssignmentModel::insertSubjectStudent($_POST['id_subject_post'], $_POST['id_student']);
-        if ($insert) {
-            echo '<script>
-            window.location.href = "index.php?pages=manageStudentAssignement&id_career=' . $id_career . '&name_career=' . $name_career . '&state=' . $state .'&id_subject='. $id_subject .'&name_subject='.$name_subject.'&subfolder=listAssignStudent&message=correcto";
-            </script>';
-        } else {
-            echo "No se pudo asignar Profesor.";
-        }
+            
 
-        
+
+        $currentYear = date('Y');
+        $currentMonth = date('m');
+        if ($currentMonth >= 10) {  
+            $cycle_year = $currentYear + 1;
+        } else {
+            $cycle_year = $currentYear;
+        }
+    
+            // Insertar la asignación del estudiante a la materia
+            $insert = AssignmentModel::insertSubjectStudent($_POST['id_subject_post'], $_POST['id_student']);
+            
+            if ($insert) {
+                // Usar el ID de la asignación recién creada para insertar en la tabla 'cursada'
+                $insertCourse = CourseModel::insertCourseStudent($insert, $cycle_year);
+                
+                if ($insertCourse) {
+                    // Redireccionar usando header para evitar resubmissions
+                    header('Location: index.php?pages=manageStudentAssignement&id_career=' . $id_career . '&name_career=' . $name_career . '&state=' . $state .'&id_subject='. $id_subject .'&name_subject=' . $name_subject . '&subfolder=listAssignStudent&message=correcto');
+                    exit();
+                } else {
+                    echo "No se pudo registrar el curso del alumno.";
+                }
+            } else {
+                echo "No se pudo asignar al alumno a la materia.";
+            }
+        }
     }
-    }
+    
 
         // Borra un preceptor de la carrera en curso
 
