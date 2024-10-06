@@ -148,6 +148,60 @@ class PdfModel{
         return $route;
     }
 
+    static public function dataPdfSubjectStudent($header, $data, $subject) {
+        
+        
+      
+        $pdf = new FPDF();
+        $pdf->AddPage();
+        $pdf->SetFont('Arial', 'B', 10); 
+        
+       
+        $pdf->Cell(0, 10, 'Lista de estudiantes: ' . $subject, 0, 1, 'C');
+        
+       
+        $pdf->SetFillColor(100, 149, 237); 
+        $pdf->SetTextColor(255, 255, 255);
+        $pdf->SetDrawColor(50, 50, 100);  
+        $pdf->SetLineWidth(.3);            
+        
+       
+        $cellWidth = 60;
+        $tableWidth = count($header) * $cellWidth;
+        $pageWidth = $pdf->GetPageWidth();
+        $marginLeft = ($pageWidth - $tableWidth) / 2;
+        
+        $pdf->SetX($marginLeft);
+        
+      
+        foreach ($header as $col) {
+            $pdf->Cell($cellWidth, 8, $col, 1, 0, 'C', true);  
+        }
+        $pdf->Ln();
+        
+       
+        $pdf->SetFillColor(255, 255, 255);
+        $pdf->SetTextColor(0, 0, 0);
+        
+       
+        foreach ($data as $row) {
+            // Centrar las filas de datos
+            $pdf->SetX($marginLeft);
+            
+            foreach ($row as $column) {
+                $pdf->Cell($cellWidth, 7, $column, 1, 0, 'C');  
+            }
+            $pdf->Ln();
+        }
+        
+       
+        $route = "fpdf/" . "Correlativas-" . $subject . ".pdf";
+        $pdf->Output('F', $route);
+        
+      
+        return $route;
+    }
+
     }
     
     
