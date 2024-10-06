@@ -132,4 +132,5 @@ $(document).ready(function () {
 
   //cambiar contraseña
   handleFormSubmit("#changepassword", "/ajax/userAjax.php", "changepassword");
+  handleFormSubmit("#addNote", "/ajax/courseAjax.php", "addNote");
 });
