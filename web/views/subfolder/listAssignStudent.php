@@ -182,6 +182,7 @@ if (isset($_POST['assignSubject'])) {
      $controller= new AssignmentController();
      $controller->assignSubjectToStudent($id_career_get, $career_name_get, $state_get, $id_subject, $name_subject);
    
+   
 }
 
 if (isset($_POST['deleteStudent'])) {

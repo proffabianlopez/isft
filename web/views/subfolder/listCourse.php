@@ -1,16 +1,5 @@
 <?php
-$dataStudent = [
-    [
-        'id_student' => 1,
-        'last_name_student' => 'González',
-        'name_student' => 'Carlos',
-    ],
-    [
-        'id_student' => 2,
-        'last_name_student' => 'Pérez',
-        'name_student' => 'María',
-    ]
-];
+$dataStudent = CourseController::getCourseDataStudentSubject($_GET['id_subject']);
 ?>
 <div class="card">
     <div class="card-body">
@@ -48,75 +37,170 @@ $dataStudent = [
 </div>
 
 <?php foreach ($dataStudent as $student) : ?>
-    <!-- Modal de vista de usuario -->
-    <div class="modal fade" id="viewStudentModal<?php echo $student['id_student']; ?>" tabindex="-1" role="dialog" aria-labelledby="viewStudentModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header alert alert-success">
-                    <h5 class="modal-title" id="viewStudentModalLabel"><strong>Notas del estudiante</strong></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p><strong>Parcial 1:</strong> <?php echo $student['note1']; ?></p>
-                    <p><strong>Recuperatorio 1:</strong> <?php echo $student['note2']; ?></p>
-                    <p><strong>Parcial 2:</strong> <?php echo $student['recuperatory1']; ?></p>
-                    <p><strong>Recuperatorio 2:</strong> <?php echo $student['recuperatory2']; ?></p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                </div>
+<!-- Modal de vista de usuario -->
+<div class="modal fade" id="viewStudentModal<?php echo $student['id_student']; ?>" tabindex="-1" role="dialog" aria-labelledby="viewStudentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header alert alert-success">
+                <h5 class="modal-title" id="viewStudentModalLabel"><strong>Notas del estudiante</strong></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-        </div>
-    </div>
+            <div class="modal-body">
+                <p><strong>Parcial 1:</strong> 
+                    <span class="<?php echo ($student['nota1'] === null) ? 'text-dark' : (($student['nota1'] < 4) ? 'text-danger' : (($student['nota1'] == 10) ? 'text-success' : '')); ?>">
+                        <?php echo ($student['nota1'] === null) ? 'Nota no asignada' : $student['nota1'] . ' (' . CourseController::numeroATexto($student['nota1']) . ')'; ?>
+                    </span>
+                </p>
+                <?php if ($student['nota1'] < 4 && $student['nota1'] !== null): ?>
+                    <p><strong>Recuperatorio 1:</strong> 
+                        <span class="<?php echo ($student['recuperatorio1'] === null) ? 'text-dark' : (($student['recuperatorio1'] < 4) ? 'text-danger' : (($student['recuperatorio1'] == 10) ? 'text-success' : '')); ?>">
+                            <?php echo ($student['recuperatorio1'] === null) ? 'Nota no asignada' : $student['recuperatorio1'] . ' (' . CourseController::numeroATexto($student['recuperatorio1']) . ')'; ?>
+                        </span>
+                    </p>
+                <?php endif; ?>
+                
+                <p><strong>Parcial 2:</strong> 
+                    <span class="<?php echo ($student['nota2'] === null) ? 'text-dark' : (($student['nota2'] < 4) ? 'text-danger' : (($student['nota2'] == 10) ? 'text-success' : '')); ?>">
+                        <?php echo ($student['nota2'] === null) ? 'Nota no asignada' : $student['nota2'] . ' (' . CourseController::numeroATexto($student['nota2']) . ')'; ?>
+                    </span>
+                </p>
+                <?php if ($student['nota2'] < 4 && $student['nota2'] !== null): ?>
+                    <p><strong>Recuperatorio 2:</strong> 
+                        <span class="<?php echo ($student['recuperatorio2'] === null) ? 'text-dark' : (($student['recuperatorio2'] < 4) ? 'text-danger' : (($student['recuperatorio2'] == 10) ? 'text-success' : '')); ?>">
+                            <?php echo ($student['recuperatorio2'] === null) ? 'Nota no asignada' : $student['recuperatorio2'] . ' (' . CourseController::numeroATexto($student['recuperatorio2']) . ')'; ?>
+                        </span>
+                    </p>
+                <?php endif; ?>
 
-    <div class="modal fade cierreModal" id="addNoteModal<?php echo $student['id_student']; ?>" tabindex="-1" role="dialog" aria-labelledby="addNoteModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header alert alert-warning">
-                    <h5 class="modal-title" id="addNoteModalLabel"><strong>Asignar notas</strong></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="addNote">
-                        <input type="hidden" name="id_student" value="<?php echo $student['id_student']; ?>">
-                        <div class="row">
-                            <div class="col">
-                                <div class="form-group">
-                                    <label for="note_one">Parcial 1</label>
-                                    <input type="number" maxlength="2" class="form-control" id="note_one" name="note_one" value="<?php echo $student['note_one']; ?>" title="">
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="form-group">
-                                    <label for="recuperatory_one">Recuperatorio</label>
-                                    <input type="number" maxlength="2" class="form-control" id="recuperatory_one" pattern="[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+" title="Solo se permiten letras y espacios" name="recuperatory_one" required value="<?php echo $student['recuperatory_one']; ?>">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="form-group">
-                                    <label for="note_two">Parcial 2</label>
-                                    <input type="number" maxlength="2" class="form-control" name="note_two" value="<?php echo $student['note_two']; ?>">
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="form-group">
-                                    <label for="note_two">Recuperatorio 2</label>
-                                    <input type="number" maxlength="2" class="form-control" name="recuperatory_two" value="<?php echo $student['recuperatory_two']; ?>">
-                                </div>
-                            </div>
-                        </div>
-                        <button type="submit" name="savechange" class="btn btn-warning ladda-button">Guardar</button>
-                        <div class="response-message text-center"></div>
-                    </form>
-                </div>
+                <!-- Condición para mostrar mensaje "Deberá rendir integrador" -->
+                <?php 
+                $debeIntegrador = false;
+                if (($student['recuperatorio1'] !== null && $student['recuperatorio1'] < 4) || 
+                    ($student['recuperatorio2'] !== null && $student['recuperatorio2'] < 4)) {
+                    $debeIntegrador = true;
+                }
+                ?>
+
+                <?php if ($debeIntegrador): ?>
+                    <div class="alert alert-warning mt-3">
+                        <strong>Deberá rendir integrador.</strong>
+                    </div>
+                <?php endif; ?>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>
+</div>
+
+
+
+<div class="modal fade cierreModal" id="addNoteModal<?php echo $student['id_student']; ?>" tabindex="-1" role="dialog" aria-labelledby="addNoteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header alert alert-warning">
+                <h5 class="modal-title" id="addNoteModalLabel"><strong>Asignar notas</strong></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="addNote" method="post">
+                    <input type="hidden" name="id_student" value="<?php echo $student['id_student']; ?>"> 
+                    <input type="hidden" name="id_subject" value="<?php echo $_GET['id_subject']; ?>">
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="note_one">Parcial 1</label>
+                                <input type="number" maxlength="2" class="form-control" id="note_one" name="note1" value="<?php echo $student['nota1']; ?>">
+                            </div>
+                        </div>
+                        <!-- Solo mostrar el recuperatorio 1 si note1 no es null y es menor que 4 -->
+                        <?php if (!is_null($student['nota1']) && $student['nota1'] < 4): ?>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="recuperatory_one">Recuperatorio 1</label>
+                                <input type="number" maxlength="2" class="form-control" id="recuperatory_one" name="recuperatory1" value="<?php echo $student['recuperatorio1']; ?>">
+                            </div>
+                        </div>
+                        <?php endif; ?>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="note_two">Parcial 2</label>
+                                <input type="number" maxlength="2" class="form-control" name="note2" value="<?php echo $student['nota2']; ?>">
+                            </div>
+                        </div>
+                        <!-- Solo mostrar el recuperatorio 2 si note2 no es null y es menor que 4 -->
+                        <?php if (!is_null($student['nota2']) && $student['nota2'] < 4): ?>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="recuperatory_two">Recuperatorio 2</label>
+                                <input type="number" maxlength="2" class="form-control" name="recuperatory2" value="<?php echo $student['recuperatorio2']; ?>">
+                            </div>
+                        </div>
+                        <?php endif; ?>
+                         <!-- Condición para mostrar mensaje "Deberá rendir integrador" -->
+                
+                    </div>
+                    <?php 
+                $debeIntegrador = false;
+                if (($student['recuperatorio1'] !== null && $student['recuperatorio1'] < 4) || 
+                    ($student['recuperatorio2'] !== null && $student['recuperatorio2'] < 4)) {
+                    $debeIntegrador = true;
+                }
+                ?>
+
+                <?php if ($debeIntegrador): ?>
+                    <div class="alert alert-warning mt-3">
+                        <strong>Deberá rendir integrador.</strong>
+                    </div>
+                <?php endif; ?>
+                    <button type="submit" name="savechange" class="btn btn-warning ladda-button">Guardar</button>
+                    <div class="response-message text-center"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+// Validación con JavaScript
+// function validateForm(event) {
+//     // Evitar envío del formulario si hay errores
+//     event.preventDefault();
+
+//     const noteOne = document.getElementById('note_one').value;
+//     const recuperatoryOne = document.getElementById('recuperatory_one').value;
+//     const noteTwo = document.getElementById('note_two').value;
+//     const recuperatoryTwo = document.getElementById('recuperatory_two').value;
+//     const responseMessage = document.querySelector('.response-message');
+
+//     // Reiniciar el mensaje
+//     responseMessage.innerHTML = '';
+//     responseMessage.classList.remove('alert', 'alert-danger');
+
+//     // Validar que todas las notas estén entre 0 y 10
+//     if (isInvalid(noteOne) || isInvalid(recuperatoryOne) || isInvalid(noteTwo) || isInvalid(recuperatoryTwo)) {
+//         responseMessage.innerHTML = 'Las notas deben estar entre 0 y 10.';
+//         responseMessage.classList.add('alert', 'alert-danger');
+//         return false;  // Detener el envío
+//     }
+
+//     // Si todo está bien, puedes proceder a enviar el formulario
+//     document.getElementById('addNote').submit();  // O el código que desees para continuar
+// }
+
+// // Función que valida si una nota está fuera del rango permitido
+// function isInvalid(note) {
+//     return note === "" || note < 0 || note > 10;
+// }
+</script>
+
 
 <?php endforeach; ?>

@@ -41,4 +41,13 @@ class ExcelModel {
 
         return $route;
     }
+    static public function dataCareerExcelSubjectStudent($header, $data) {
+        $rows = array_merge([$header], $data);
+
+        $xlsx = SimpleXLSXGen::fromArray($rows);
+        $route = "fpdf/Lista-Estudiantes.xlsx";
+        $xlsx->saveAs($route);
+
+        return $route;
+    }
 }
