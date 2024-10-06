@@ -1,6 +1,11 @@
 <?php
 class CourseController
 {
+    public static function getCourseDataStudentSubject($id_subject)
+    {
+        $data = CourseModel::getAllCoursesSubjectStudent($id_subject);
+        return $data;
+    }
 
     public static function asinngNotesCoursesSubjectStudent($id_subject, $id_student, $note1, $note2, $recuperatory1, $recuperatory2) {
         // Asignar null si el valor está vacío
@@ -66,6 +71,7 @@ class CourseController
         }
     }
     
+
         public static function numeroATexto($numero) {
         $numerosEnTexto = [
             1 => 'Uno',

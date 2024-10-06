@@ -1,16 +1,5 @@
 <?php
-$dataStudent = [
-    [
-        'id_student' => 1,
-        'last_name_student' => 'González',
-        'name_student' => 'Carlos',
-    ],
-    [
-        'id_student' => 2,
-        'last_name_student' => 'Pérez',
-        'name_student' => 'María',
-    ]
-];
+$dataStudent = CourseController::getCourseDataStudentSubject($_GET['id_subject']);
 ?>
 <div class="card">
     <div class="card-body">
