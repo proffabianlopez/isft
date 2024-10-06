@@ -109,53 +109,109 @@ $dataStudent = [
 
 
 
+<div class="modal fade cierreModal" id="addNoteModal<?php echo $student['id_student']; ?>" tabindex="-1" role="dialog" aria-labelledby="addNoteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header alert alert-warning">
+                <h5 class="modal-title" id="addNoteModalLabel"><strong>Asignar notas</strong></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="addNote" method="post">
+                    <input type="hidden" name="id_student" value="<?php echo $student['id_student']; ?>"> 
+                    <input type="hidden" name="id_subject" value="<?php echo $_GET['id_subject']; ?>">
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="note_one">Parcial 1</label>
+                                <input type="number" maxlength="2" class="form-control" id="note_one" name="note1" value="<?php echo $student['nota1']; ?>">
+                            </div>
+                        </div>
+                        <!-- Solo mostrar el recuperatorio 1 si note1 no es null y es menor que 4 -->
+                        <?php if (!is_null($student['nota1']) && $student['nota1'] < 4): ?>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="recuperatory_one">Recuperatorio 1</label>
+                                <input type="number" maxlength="2" class="form-control" id="recuperatory_one" name="recuperatory1" value="<?php echo $student['recuperatorio1']; ?>">
+                            </div>
+                        </div>
+                        <?php endif; ?>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="note_two">Parcial 2</label>
+                                <input type="number" maxlength="2" class="form-control" name="note2" value="<?php echo $student['nota2']; ?>">
+                            </div>
+                        </div>
+                        <!-- Solo mostrar el recuperatorio 2 si note2 no es null y es menor que 4 -->
+                        <?php if (!is_null($student['nota2']) && $student['nota2'] < 4): ?>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="recuperatory_two">Recuperatorio 2</label>
+                                <input type="number" maxlength="2" class="form-control" name="recuperatory2" value="<?php echo $student['recuperatorio2']; ?>">
+                            </div>
+                        </div>
+                        <?php endif; ?>
+                         <!-- Condición para mostrar mensaje "Deberá rendir integrador" -->
+                
+                    </div>
+                    <?php 
+                $debeIntegrador = false;
+                if (($student['recuperatorio1'] !== null && $student['recuperatorio1'] < 4) || 
+                    ($student['recuperatorio2'] !== null && $student['recuperatorio2'] < 4)) {
+                    $debeIntegrador = true;
+                }
+                ?>
 
-    <div class="modal fade cierreModal" id="addNoteModal<?php echo $student['id_student']; ?>" tabindex="-1" role="dialog" aria-labelledby="addNoteModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header alert alert-warning">
-                    <h5 class="modal-title" id="addNoteModalLabel"><strong>Asignar notas</strong></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="addNote">
-                        <input type="hidden" name="id_student" value="<?php echo $student['id_student']; ?>">
-                        <div class="row">
-                            <div class="col">
-                                <div class="form-group">
-                                    <label for="note_one">Parcial 1</label>
-                                    <input type="number" maxlength="2" class="form-control" id="note_one" name="note_one" value="<?php echo $student['note_one']; ?>" title="">
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="form-group">
-                                    <label for="recuperatory_one">Recuperatorio</label>
-                                    <input type="number" maxlength="2" class="form-control" id="recuperatory_one" pattern="[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+" title="Solo se permiten letras y espacios" name="recuperatory_one" required value="<?php echo $student['recuperatory_one']; ?>">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="form-group">
-                                    <label for="note_two">Parcial 2</label>
-                                    <input type="number" maxlength="2" class="form-control" name="note_two" value="<?php echo $student['note_two']; ?>">
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="form-group">
-                                    <label for="note_two">Recuperatorio 2</label>
-                                    <input type="number" maxlength="2" class="form-control" name="recuperatory_two" value="<?php echo $student['recuperatory_two']; ?>">
-                                </div>
-                            </div>
-                        </div>
-                        <button type="submit" name="savechange" class="btn btn-warning ladda-button">Guardar</button>
-                        <div class="response-message text-center"></div>
-                    </form>
-                </div>
+                <?php if ($debeIntegrador): ?>
+                    <div class="alert alert-warning mt-3">
+                        <strong>Deberá rendir integrador.</strong>
+                    </div>
+                <?php endif; ?>
+                    <button type="submit" name="savechange" class="btn btn-warning ladda-button">Guardar</button>
+                    <div class="response-message text-center"></div>
+                </form>
             </div>
         </div>
     </div>
+</div>
+
+
+<script>
+// Validación con JavaScript
+// function validateForm(event) {
+//     // Evitar envío del formulario si hay errores
+//     event.preventDefault();
+
+//     const noteOne = document.getElementById('note_one').value;
+//     const recuperatoryOne = document.getElementById('recuperatory_one').value;
+//     const noteTwo = document.getElementById('note_two').value;
+//     const recuperatoryTwo = document.getElementById('recuperatory_two').value;
+//     const responseMessage = document.querySelector('.response-message');
+
+//     // Reiniciar el mensaje
+//     responseMessage.innerHTML = '';
+//     responseMessage.classList.remove('alert', 'alert-danger');
+
+//     // Validar que todas las notas estén entre 0 y 10
+//     if (isInvalid(noteOne) || isInvalid(recuperatoryOne) || isInvalid(noteTwo) || isInvalid(recuperatoryTwo)) {
+//         responseMessage.innerHTML = 'Las notas deben estar entre 0 y 10.';
+//         responseMessage.classList.add('alert', 'alert-danger');
+//         return false;  // Detener el envío
+//     }
+
+//     // Si todo está bien, puedes proceder a enviar el formulario
+//     document.getElementById('addNote').submit();  // O el código que desees para continuar
+// }
+
+// // Función que valida si una nota está fuera del rango permitido
+// function isInvalid(note) {
+//     return note === "" || note < 0 || note > 10;
+// }
+</script>
+
 
 <?php endforeach; ?>
