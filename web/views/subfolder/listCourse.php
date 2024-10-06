@@ -48,28 +48,67 @@ $dataStudent = [
 </div>
 
 <?php foreach ($dataStudent as $student) : ?>
-    <!-- Modal de vista de usuario -->
-    <div class="modal fade" id="viewStudentModal<?php echo $student['id_student']; ?>" tabindex="-1" role="dialog" aria-labelledby="viewStudentModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header alert alert-success">
-                    <h5 class="modal-title" id="viewStudentModalLabel"><strong>Notas del estudiante</strong></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p><strong>Parcial 1:</strong> <?php echo $student['note1']; ?></p>
-                    <p><strong>Recuperatorio 1:</strong> <?php echo $student['note2']; ?></p>
-                    <p><strong>Parcial 2:</strong> <?php echo $student['recuperatory1']; ?></p>
-                    <p><strong>Recuperatorio 2:</strong> <?php echo $student['recuperatory2']; ?></p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                </div>
+<!-- Modal de vista de usuario -->
+<div class="modal fade" id="viewStudentModal<?php echo $student['id_student']; ?>" tabindex="-1" role="dialog" aria-labelledby="viewStudentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header alert alert-success">
+                <h5 class="modal-title" id="viewStudentModalLabel"><strong>Notas del estudiante</strong></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Parcial 1:</strong> 
+                    <span class="<?php echo ($student['nota1'] === null) ? 'text-dark' : (($student['nota1'] < 4) ? 'text-danger' : (($student['nota1'] == 10) ? 'text-success' : '')); ?>">
+                        <?php echo ($student['nota1'] === null) ? 'Nota no asignada' : $student['nota1'] . ' (' . CourseController::numeroATexto($student['nota1']) . ')'; ?>
+                    </span>
+                </p>
+                <?php if ($student['nota1'] < 4 && $student['nota1'] !== null): ?>
+                    <p><strong>Recuperatorio 1:</strong> 
+                        <span class="<?php echo ($student['recuperatorio1'] === null) ? 'text-dark' : (($student['recuperatorio1'] < 4) ? 'text-danger' : (($student['recuperatorio1'] == 10) ? 'text-success' : '')); ?>">
+                            <?php echo ($student['recuperatorio1'] === null) ? 'Nota no asignada' : $student['recuperatorio1'] . ' (' . CourseController::numeroATexto($student['recuperatorio1']) . ')'; ?>
+                        </span>
+                    </p>
+                <?php endif; ?>
+                
+                <p><strong>Parcial 2:</strong> 
+                    <span class="<?php echo ($student['nota2'] === null) ? 'text-dark' : (($student['nota2'] < 4) ? 'text-danger' : (($student['nota2'] == 10) ? 'text-success' : '')); ?>">
+                        <?php echo ($student['nota2'] === null) ? 'Nota no asignada' : $student['nota2'] . ' (' . CourseController::numeroATexto($student['nota2']) . ')'; ?>
+                    </span>
+                </p>
+                <?php if ($student['nota2'] < 4 && $student['nota2'] !== null): ?>
+                    <p><strong>Recuperatorio 2:</strong> 
+                        <span class="<?php echo ($student['recuperatorio2'] === null) ? 'text-dark' : (($student['recuperatorio2'] < 4) ? 'text-danger' : (($student['recuperatorio2'] == 10) ? 'text-success' : '')); ?>">
+                            <?php echo ($student['recuperatorio2'] === null) ? 'Nota no asignada' : $student['recuperatorio2'] . ' (' . CourseController::numeroATexto($student['recuperatorio2']) . ')'; ?>
+                        </span>
+                    </p>
+                <?php endif; ?>
+
+                <!-- Condición para mostrar mensaje "Deberá rendir integrador" -->
+                <?php 
+                $debeIntegrador = false;
+                if (($student['recuperatorio1'] !== null && $student['recuperatorio1'] < 4) || 
+                    ($student['recuperatorio2'] !== null && $student['recuperatorio2'] < 4)) {
+                    $debeIntegrador = true;
+                }
+                ?>
+
+                <?php if ($debeIntegrador): ?>
+                    <div class="alert alert-warning mt-3">
+                        <strong>Deberá rendir integrador.</strong>
+                    </div>
+                <?php endif; ?>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>
+</div>
+
+
+
 
     <div class="modal fade cierreModal" id="addNoteModal<?php echo $student['id_student']; ?>" tabindex="-1" role="dialog" aria-labelledby="addNoteModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
