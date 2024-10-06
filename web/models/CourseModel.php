@@ -1,5 +1,32 @@
 <?php
-class CourseModel{
+class CourseModel
+{
+    static public function asinngNotesCoursesSubjectStudent($id_subject, $id_student, $note1, $note2, $recuperatory1, $recuperatory2)
+    {
+        $sql = "UPDATE cursada AS c
+                JOIN asignament_students AS ass ON ass.id = c.id_asignementStudent
+                SET c.note1 = :note1, 
+                    c.note2 = :note2, 
+                    c.recuperatory1 = :recuperatory1, 
+                    c.recuperatory2 = :recuperatory2
+                WHERE ass.fk_user_id = :id_student AND ass.fk_subject_id= :fk_subject_id AND c.state = 1";
+
+        $stmt = model_sql::connectToDatabase()->prepare($sql);
+        $stmt->bindParam(':id_student', $id_student, PDO::PARAM_INT);
+        $stmt->bindParam(':fk_subject_id', $id_subject, PDO::PARAM_INT);
+        $stmt->bindParam(':note1', $note1, PDO::PARAM_INT);
+        $stmt->bindParam(':note2', $note2, PDO::PARAM_INT);
+        $stmt->bindParam(':recuperatory1', $recuperatory1, PDO::PARAM_INT);
+        $stmt->bindParam(':recuperatory2', $recuperatory2, PDO::PARAM_INT);
+        if ($stmt->execute()) {
+			// Devolver true si la actualización se realiza correctamente
+			return true;
+		} else {
+			// Manejar cualquier error que pueda ocurrir durante la ejecución de la consulta
+			print_r($stmt->errorInfo());
+			return false; // Devolver false en caso de error
+		}
+    }
 
     static public function getAllCoursesSubjectStudent($id_subject)
     {
@@ -52,12 +79,12 @@ class CourseModel{
 //             WHERE 
 //                 asignament_students.fk_user_id = :fk_student_id
 //                 AND asignament_students.fk_subject_id = :fk_subject_id";
-    
-//     $stmt = model_sql::connectToDatabase()->prepare($sql);
+
+    //     $stmt = model_sql::connectToDatabase()->prepare($sql);
 //     $stmt->bindParam(':fk_student_id', $id_student, PDO::PARAM_INT);
 //     $stmt->bindParam(':fk_subject_id', $id_subject, PDO::PARAM_INT);
 
-//     if ($stmt->execute()) {
+    //     if ($stmt->execute()) {
 //         return $stmt->fetch(PDO::FETCH_ASSOC); 
 //     } else {
 //         print_r($stmt->errorInfo());
@@ -67,22 +94,22 @@ class CourseModel{
 
 
     //inserta en automatico cuando se agregue la asignacion del alumno y materia
-static public function insertCourseStudent($id,$cycle_year)
-{
-    $sql = "INSERT INTO cursada(id_asignementStudent,cycle_year,state) VALUES (:id , :cycle_year, 1)";
-    $stmt = model_sql::connectToDatabase()->prepare($sql);
+    static public function insertCourseStudent($id, $cycle_year)
+    {
+        $sql = "INSERT INTO cursada(id_asignementStudent,cycle_year,state) VALUES (:id , :cycle_year, 1)";
+        $stmt = model_sql::connectToDatabase()->prepare($sql);
 
-    $stmt->bindParam(":id", $id, PDO::PARAM_INT);
-    $stmt->bindParam(":cycle_year", $cycle_year, PDO::PARAM_INT);
+        $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+        $stmt->bindParam(":cycle_year", $cycle_year, PDO::PARAM_INT);
 
-    if ($stmt->execute()) {
-        return true;
-    } else {
-        print_r($stmt->errorInfo());
-        return false;
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            print_r($stmt->errorInfo());
+            return false;
+        }
+        $stmt = null; // Liberar el statement
     }
-    $stmt = null; // Liberar el statement
-}
 
 
 }
