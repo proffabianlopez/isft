@@ -1,6 +1,11 @@
 <?php
 class CourseController
 {
+    public static function getCourseDataStudentSubject($id_subject)
+    {
+        $data = CourseModel::getAllCoursesSubjectStudent($id_subject);
+        return $data;
+    }
         public static function numeroATexto($numero) {
         $numerosEnTexto = [
             1 => 'Uno',
