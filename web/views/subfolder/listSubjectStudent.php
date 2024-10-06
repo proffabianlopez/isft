@@ -1,3 +1,4 @@
+
 <?php
 if (isset($_GET['name_career']) && isset($_GET['id_career']) && isset($_GET['state'])) {
     $dataStudent = AssignmentController::showStudentSubejct($_GET['id_subject']);
@@ -15,7 +16,10 @@ if (isset($_GET['name_career']) && isset($_GET['id_career']) && isset($_GET['sta
                                         <i class="far fa-file-excel mr-1"></i> Descargar Excel
                                     </button>
 
-                                </form>
+                                    <button type="submit" name="studentSubject" class="btn btn-danger"
+                                        title="Descargar Pdf de estudiamtes">
+                                        <i class="far fa-file-pdf mr-1"></i> Descargar PDF
+                                    </button>
                             </th>
                         </tr>
                         <tr class="bg-warning">
@@ -39,7 +43,13 @@ if (isset($_GET['name_career']) && isset($_GET['id_career']) && isset($_GET['sta
             </div>
         </div>
     </div>
-<?php } 
+<?php }
+
+if (isset($_POST['studentSubject'])) {
+    (new PdfController())->dataCareerPdfSubjectStudent($_GET['id_subject'],$_GET['name_subject']);
+}
+
+
 if (isset($_POST['studentSubject_excel'])) {
     (new ExcelController())->excelDataCareerSubjectStudent($_GET['id_subject'], $_GET['id_career']);
 }

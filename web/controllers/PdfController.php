@@ -99,6 +99,42 @@ class PdfController {
             die('El archivo PDF no existe.');
         }
     }
+
+    public function dataCareerPdfSubjectStudent($subject_id,$name_subject) {
+        $header = array('Nombre', 'Apellido', 'DNI');
+        $students = AssignmentModel::model_showStudentSubejct($subject_id);
+        $data = array();
+        
+        foreach ($students as $student) {
+            $data[] = array(
+                'Nombre' => $student['name'],
+                'Apellido' => $student['last_name'],
+                'DNI' => $student['dni'],
+                
+            );
+        }
+    
+     
+        $route = PdfModel::dataPdfSubjectStudent($header, $data, $name_subject);
+    
+   
+        if ($route && file_exists($route)) {
+            header('Content-Description: File Transfer');
+            header('Content-Type: application/pdf');
+            header('Content-Disposition: attachment; filename="estudiantes-' . $name_subject . '.pdf"');
+            header('Content-Length: ' . filesize($route));
+            ob_clean();
+            flush();
+            readfile($route);
+            unlink($route);
+            exit;
+        } else {
+            error_log('No se pudo generar el archivo PDF.');  
+            die('El archivo PDF no existe o no se pudo generar.');
+        }
+    }
+
+
     
 }
     
