@@ -256,34 +256,43 @@ class UserModel
         }
     }
 
-
     static public function getFirstValidCredential($id)
     {
-        $sql = "SELECT host,email, token, port_email, certificatedSSL, fk_id_user 
+        // Primer intento: buscar por el ID proporcionado
+        $sql = "SELECT host, email, token, port_email, certificatedSSL, fk_id_user 
                 FROM credential_email
                 WHERE fk_id_user = :fk_id_user";
         $stmt = model_sql::connectToDatabase()->prepare($sql);
         $stmt->bindParam(':fk_id_user', $id, PDO::PARAM_INT);
-
+    
         try {
             if ($stmt->execute()) {
                 $result = $stmt->fetch(PDO::FETCH_ASSOC);
                 if ($result) {
-                    return $result;
+                    return $result; // Si encontró el correo con ese ID, lo retorna
                 } else {
-
-                    return null;
+                    // Si no encontró, buscar el último registro en la tabla
+                    $sql_last = "SELECT host, email, token, port_email, certificatedSSL, fk_id_user 
+                                 FROM credential_email 
+                                 ORDER BY id_contact DESC LIMIT 1";
+                    $stmt_last = model_sql::connectToDatabase()->prepare($sql_last);
+    
+                    if ($stmt_last->execute()) {
+                        $lastResult = $stmt_last->fetch(PDO::FETCH_ASSOC);
+                        return $lastResult ? $lastResult : null; // Si encuentra el último, lo retorna; si no, retorna null
+                    } else {
+                        return null;
+                    }
                 }
             } else {
-
                 throw new Exception("Error al ejecutar la consulta: " . implode(" ", $stmt->errorInfo()));
             }
         } catch (Exception $e) {
-
             error_log($e->getMessage());
             return false;
         }
     }
+    
 
     static public function insertValidCredential($value1, $value2, $value3, $value4, $value5, $value6)
     {

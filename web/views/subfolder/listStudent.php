@@ -263,9 +263,13 @@
                                             <a href="#editUserModal<?php echo $student['id_student']; ?>" class="btn btn-primary edit-user" data-toggle="modal" title="Editar">
                                                 <i class="fas fa-edit"></i>
                                             </a>
+                                            <?php if (1 == null){?>
+
                                             <a href="#" class="btn btn-info" onclick="generateUser(<?php echo $student['id_student'] ?>)" title="Generar nuevo usuario">
-                                                <i class="fas fa-user-plus"></i>
+                                            <i class="fas fa-user-plus"></i>
                                             </a>
+                                            <?php }?>
+                                         
                                         <?php endif; ?>
                                     </td>
                                 </tr>
