@@ -365,10 +365,10 @@ class StudentController
     {
         if (isset($_POST['student_id']) && is_array($_POST['student_id'])) {
             $student_ids = $_POST['student_id'];
-
+    
             // Obtener la información de los estudiantes y sus carreras
             $infoStudent = StudentModel::careerStudent($student_ids);
-
+    
             // Extraer los IDs de las carreras
             $careerIds = [];
             if (!empty($infoStudent)) {
@@ -378,12 +378,12 @@ class StudentController
                     }
                 }
             }
-
+    
             // Obtener las materias de primer año para las carreras encontradas
             $careerIds = array_unique($careerIds);
             $subjectInfo = StudentModel::careerSubject($careerIds);
-
-            // Organizar las materias por carrera
+    
+          
             $subjectsByCareer = [];
             foreach ($subjectInfo as $subject) {
                 $careerId = $subject['career'];
@@ -392,37 +392,58 @@ class StudentController
                 }
                 $subjectsByCareer[$careerId][] = $subject;
             }
-
-            // Asignar las materias a los estudiantes según su carrera
+    
+         
             $result = StudentModel::assignSubjectsToStudents($infoStudent, $subjectsByCareer);
-
-            if ($result === true) {
-                //  echo "Materias asignadas exitosamente.";
+    
+            if ($result['anyAssigned'] === true && !empty($result['insertedIds'])) {
+                // Recorrer los IDs insertados y asignarles un ciclo en la tabla 'cursada'
+                $currentYear = date('Y');
+                $currentMonth = date('m');
+                if ($currentMonth >= 10) {  
+                    $cycle_year = $currentYear + 1;
+                } else {
+                    $cycle_year = $currentYear;
+                }
+                foreach ($result['insertedIds'] as $idAsignement) {
+                    $courseResult = CourseModel::insertCourseStudent($idAsignement, $cycle_year);
+                    if (!$courseResult) {
+                      
+                        echo '<script>
+                        if (window.history.replaceState) {
+                            window.history.replaceState(null, null, window.location.href);
+                        }
+                        window.location="index.php?pages=manageStudent&subfolder=listStudent&no=error";
+                        </script>';
+                        return; 
+                    }
+                }
+    
+               
                 echo '<script>
-			if (window.history.replaceState) {
-				window.history.replaceState(null, null, window.location.href);
-			}
-			window.location="index.php?pages=manageStudent&subfolder=listStudent&message=correcto";
-			</script>
-			';
+                if (window.history.replaceState) {
+                    window.history.replaceState(null, null, window.location.href);
+                }
+                window.location="index.php?pages=manageStudent&subfolder=listStudent&message=correcto";
+                </script>';
             } else {
-                // echo "Hubo un error al asignar las materias.";
+              
                 echo '<script>
                 if (window.history.replaceState) {
                     window.history.replaceState(null, null, window.location.href);
                 }
                 window.location="index.php?pages=manageStudent&subfolder=listStudent&no=error";
-                </script>
-                ';
+                </script>';
             }
         } else {
+            
             echo '<script>
-                if (window.history.replaceState) {
-                    window.history.replaceState(null, null, window.location.href);
-                }
-                window.location="index.php?pages=manageStudent&subfolder=listStudent&id=error";
-                </script>
-                ';
+            if (window.history.replaceState) {
+                window.history.replaceState(null, null, window.location.href);
+            }
+            window.location="index.php?pages=manageStudent&subfolder=listStudent&id=error";
+            </script>';
         }
     }
+    
 }

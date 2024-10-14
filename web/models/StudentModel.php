@@ -306,6 +306,7 @@ static public function assignSubjectsToStudents($students, $subjectsByCareer)
 
     $pdo = model_sql::connectToDatabase();
     $anyAssigned = false; // Variable para rastrear si se realizó alguna asignación
+    $insertedIds = []; // Array para almacenar los IDs insertados
 
     try {
         $pdo->beginTransaction();
@@ -329,24 +330,30 @@ static public function assignSubjectsToStudents($students, $subjectsByCareer)
                 $exists = $stmtCheck->fetchColumn();
 
                 if ($exists == 0) {
-                    $sqlInsert = "INSERT INTO asignament_students (fk_user_id, fk_subject_id, fk_school_year_id, state) 
-                                  VALUES (:studentId, :subjectId, 1, 1)";
+                    $sqlInsert = "INSERT INTO asignament_students (fk_user_id, fk_subject_id, state) 
+                                  VALUES (:studentId, :subjectId, 1)";
                     $stmtInsert = $pdo->prepare($sqlInsert);
                     $stmtInsert->bindParam(':studentId', $studentId, PDO::PARAM_INT);
                     $stmtInsert->bindParam(':subjectId', $subject['id_subject'], PDO::PARAM_INT);
                     $stmtInsert->execute();
+                    
+                    // Recuperar el ID insertado
+                    $lastInsertId = $pdo->lastInsertId();
+                    $insertedIds[] = $lastInsertId; // Almacenar el ID insertado
+
                     $anyAssigned = true; // Se realizó al menos una asignación
                 }
             }
         }
 
         $pdo->commit();
-        return $anyAssigned; // Retorna true si se hizo al menos una asignación, de lo contrario false
+        return ['anyAssigned' => $anyAssigned, 'insertedIds' => $insertedIds]; // Retornar los IDs insertados
     } catch (PDOException $e) {
         $pdo->rollBack();
         // error_log("Error al insertar materias: " . $e->getMessage());
         return false;
     }
 }
+
 
 }
