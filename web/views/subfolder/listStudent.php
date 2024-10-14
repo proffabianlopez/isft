@@ -281,7 +281,7 @@
                             <?php $message->show_messages_error('id', "no se seleccionaron estudiantes para cargar materia"); ?>  
                         </tbody>
                     </table>
-                    <button id="send-btn" name="send_btn" class="btn btn-primary">Cargar materias primer año</button>
+                    <button id="send-btn" name="send_btn" class="btn btn-primary ladda-button">Cargar materias primer año</button>
                 </form>
             </div>
         </div>
@@ -399,6 +399,7 @@
                         <p><strong>Nombre:</strong> <?php echo $student['name_student']; ?></p>
                         <p><strong>Email:</strong> <?php echo $student['email_student']; ?></p>
                         <p><strong>DNI:</strong> <?php echo $student['dni']; ?></p>
+                        <p><strong>Telefono:</strong> <?php echo $student['phone_contact']; ?></p>
                         <p><strong>Numero de legajo:</strong> <?php echo $student['legajo']; ?></p>
                         <p><strong>Carrera:</strong> <?php echo $student['career_name']; ?></p>
                         <p><strong>Cohorte:</strong> <?php echo $student['startingYear']; ?></p>

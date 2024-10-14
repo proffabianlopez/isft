@@ -99,6 +99,7 @@ class StudentModel extends UserModel
                     users.dni AS dni,
                     users.file AS legajo,
                     users.fk_rol_id AS fk_rol_id,
+                     users.phone_contact AS phone_contact,
                     users.startingYear AS startingYear,
                     careers.career_name AS career_name,
                     careers.id_career AS  id_career,
