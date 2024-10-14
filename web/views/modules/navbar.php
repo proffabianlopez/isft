@@ -2,7 +2,7 @@
     <!-- Left navbar links -->
     <ul class="navbar-nav">
         <li class="nav-item">
-            <a class="nav-link" data-widget="pushmenu" href="#" role="button" title="Ocultar Barra Lateral"><i class="fas fa-bars"></i></a>
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button" title="Ocultar barra lateral"><i class="fas fa-bars"></i></a>
         </li>
     </ul>
     <!-- Right navbar links -->
@@ -20,8 +20,11 @@
                     <a class="dropdown-item" href="index.php?pages=myData">
                         <i class="fas fa-id-card"></i> Mis datos
                     </a>
+                    <a class="dropdown-item" href="/public/img/Manual de uso - ISFT 177.pdf" download="Manual de uso - ISFT 177">
+                        <i class="fas fa-book"></i> Descargar manual de usuario
+                    </a>
                     <a class="dropdown-item" href="index.php?pages=changePassword">
-                        <i class="fas fa-key"></i> Cambiar Contraseña
+                        <i class="fas fa-key"></i> Cambiar contraseña
                     </a>
                     <?php if($_SESSION['fk_rol_id']==1):?>
                     <a class="dropdown-item" href="index.php?pages=autoEmail">
@@ -33,7 +36,7 @@
 
         <!-- Botón de Cerrar Sesión con SweetAlert -->
         <li class="nav-item">
-            <a class="nav-link btn btn-danger" id="logout-button" href="#" role="button" title="Cerrar Sesión">
+            <a class="nav-link btn btn-danger" id="logout-button" href="#" role="button" title="Cerrar sesión">
                 <i class="text-white fas fa-power-off"></i>
             </a>
         </li>
