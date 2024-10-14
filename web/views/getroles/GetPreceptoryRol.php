@@ -6,6 +6,7 @@ if (
       ($_GET['pages'] == "allCareers") ||
       ($_GET['pages'] == "toolsCareer") ||
       ($_GET['pages'] == "careerInfo") ||
+      ($_GET['pages'] == "manageFinals") ||
       # links administracion de materias           
       ($_GET['pages'] == "manageSubject") ||
       ($_GET['pages'] == "manageCorrelatives") ||

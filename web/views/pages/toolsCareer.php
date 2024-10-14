@@ -17,7 +17,7 @@
                         <div class="small-box bg-primary">
                             <div class="inner">
                                 <h3>Materias</h3>
-                                <p>Agregar o Editar</p>
+                                <p>Ver o crear árbol de materias</p>
                             </div>
                             <div class="icon">
                                 <i class="fas fa-chalkboard"></i>
@@ -34,7 +34,7 @@
                         <div class="small-box bg-secondary">
                             <div class="inner">
                                 <h3>Correlativas</h3>
-                                <p>Crear árbol de materias</p>
+                                <p>Ver o crear las materias correlativas</p>
                             </div>
                             <div class="icon">
                                 <i class="fas fa-network-wired"></i>
@@ -51,7 +51,7 @@
                         <div class="small-box badge-warning">
                             <div class="inner">
                                 <h3>Preceptores</h3>
-                                <p>Gestionar Preceptores,quita y agrega a la carrera</p>
+                                <p>Gestionar preceptores, quita y agrega a la carrera</p>
                             </div>
                             <div class="icon">
                                 <i class="fas fa-user-tie"></i>
@@ -74,7 +74,7 @@
                                 <i class="fas fa-edit"></i>
                             </div>
                             <div class="small-box-footer">
-                                ir a Edición<i class="fas fa-arrow-circle-right ml-2"></i>
+                                Ir a Edición<i class="fas fa-arrow-circle-right ml-2"></i>
                             </div>
                         </div>
                     </a>
@@ -103,13 +103,30 @@
                         <div class="small-box bg-info">
                             <div class="inner text-white">
                                 <h3>Cursada</h3>
-                                <p>Asignar Alumnos a la Materia</p>
+                                <p>Asignar alumnos a la materia</p>
                             </div>
                             <div class="icon">
                                 <i class="fas fa-chalkboard-teacher"></i>
                             </div>
                             <div class="small-box-footer text-white">
                                 Asignar Alumnos<i class="fas fa-arrow-circle-right ml-2"></i>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-lg-6">
+                    <a href="index.php?pages=manageFinals&id_career=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['name_career'] ?>&state=<?php echo $_GET['state'] ?>">
+                        <div class="small-box bg-success">
+                            <div class="inner text-white">
+                                <h3>Finales</h3>
+                                <p>Ver y cargar finales</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-award"></i>
+                            </div>
+                            <div class="small-box-footer text-white">
+                                Gestionar Finales<i class="fas fa-arrow-circle-right ml-2"></i>
                             </div>
                         </div>
                     </a>
@@ -139,13 +156,13 @@
                     <div class="small-box bg-primary">
                         <div class="inner">
                             <h3>Materias</h3>
-                            <p>Ver Materias</p>
+                            <p>Ver árbol de materias</p>
                         </div>
                         <div class="icon">
                             <i class="fas fa-chalkboard"></i>
                         </div>
                         <div class="small-box-footer">
-                            entrar<i class="fas fa-arrow-circle-right ml-2"></i>
+                            Gestionar Materias<i class="fas fa-arrow-circle-right ml-2"></i>
                         </div>
                     </div>
                 </a>
@@ -156,13 +173,13 @@
                     <div class="small-box bg-secondary">
                         <div class="inner">
                             <h3>Correlativas</h3>
-                            <p>ver las materias correlativas</p>
+                            <p>Ver las materias correlativas</p>
                         </div>
                         <div class="icon">
                             <i class="fas fa-network-wired"></i>
                         </div>
                         <div class="small-box-footer">
-                            entrar<i class="fas fa-arrow-circle-right ml-2"></i>
+                            Gestionar Correlativas<i class="fas fa-arrow-circle-right ml-2"></i>
                         </div>
                     </div>
                 </a>
@@ -191,7 +208,7 @@
                     <div class="small-box bg-info">
                         <div class="inner text-white">
                             <h3>Cursada</h3>
-                            <p>Asignar Alumnos a la Materia</p>
+                            <p>Asignar alumnos a la materia</p>
                         </div>
                         <div class="icon">
                             <i class="fas fa-chalkboard-teacher"></i>
@@ -202,6 +219,24 @@
                     </div>
                 </a>
             </div>
+
+            <div class="col-lg-6">
+                    <a href="index.php?pages=manageFinals&id_career=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['name_career'] ?>&state=<?php echo $_GET['state'] ?>">
+                        <div class="small-box bg-success">
+                            <div class="inner text-white">
+                                <h3>Finales</h3>
+                                <p>Ver y cargar finales</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-award"></i>
+                            </div>
+                            <div class="small-box-footer text-white">
+                                Gestionar Finales<i class="fas fa-arrow-circle-right ml-2"></i>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
 
     </section>
 
