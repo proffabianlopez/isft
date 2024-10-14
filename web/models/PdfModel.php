@@ -157,7 +157,7 @@ class PdfModel{
         $pdf->SetFont('Arial', 'B', 10); 
         
        
-        $pdf->Cell(0, 10, 'Lista de estudiantes : ' . $subject, 0, 1, 'C');
+        $pdf->Cell(0, 10, 'Lista de estudiantes: ' . $subject, 0, 1, 'C');
         
        
         $pdf->SetFillColor(100, 149, 237); 

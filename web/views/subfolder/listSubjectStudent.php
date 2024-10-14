@@ -12,12 +12,12 @@ if (isset($_GET['name_career']) && isset($_GET['id_career']) && isset($_GET['sta
                             <th colspan="6">
                                 <form method="post" class="d-inline-block">
                                     <button type="submit" name="studentSubject_excel" class="btn btn-success"
-                                        title="Descargar Excel de correlativas">
+                                        title="Descargar Excel de estudiantes">
                                         <i class="far fa-file-excel mr-1"></i> Descargar Excel
                                     </button>
 
                                     <button type="submit" name="studentSubject" class="btn btn-danger"
-                                        title="Descargar Pdf de estudiamtes">
+                                        title="Descargar PDF de estudiantes">
                                         <i class="far fa-file-pdf mr-1"></i> Descargar PDF
                                     </button>
                             </th>
