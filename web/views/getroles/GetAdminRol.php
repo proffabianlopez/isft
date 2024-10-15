@@ -11,6 +11,7 @@ if (
       ($_GET['pages'] == "viewsCorrelatives") ||
       ($_GET['pages'] == "careerEdit") ||
       ($_GET['pages'] == "careerInfo") ||
+      ($_GET['pages'] == "manageFinals") ||
       # links administracion de usuarios           
       ($_GET['pages'] == "myData") ||
       ($_GET['pages'] == "autoEmail") ||
