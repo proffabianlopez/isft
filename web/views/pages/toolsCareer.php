@@ -81,7 +81,7 @@
                 </div>
 
                 <div class="col-lg-6">
-                    <a href="index.php?pages=careerInfo&id_career=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['career_name'] ?>&state=<?php echo $_GET['state'] ?>">
+                    <a href="index.php?pages=careerInfo&id_career=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['name_career'] ?>&state=<?php echo $_GET['state'] ?>">
                         <div class="small-box bg-white">
                             <div class="inner">
                                 <h3>Info</h3>
@@ -186,7 +186,7 @@
             </div>
 
             <div class="col-lg-6">
-                <a href="index.php?pages=careerInfo&id_career=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['career_name'] ?>&state=<?php echo $_GET['state'] ?>">
+                <a href="index.php?pages=careerInfo&id_career=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['name_career'] ?>&state=<?php echo $_GET['state'] ?>">
                     <div class="small-box bg-white">
                         <div class="inner">
                             <h3>Info</h3>
