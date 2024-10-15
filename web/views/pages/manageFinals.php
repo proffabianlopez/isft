@@ -4,11 +4,11 @@
 		<ul class="nav nav-pills nav-justified mb-2">
 				<?php if ((isset($_GET['subfolder'])) && ($_GET['subfolder'] == 'newFinal')) : ?>
 					<li class="nav-item">
-						<a class="nav-link active" href="index.php?pages=manageFinals&id_career=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['name_career'] ?>&state=<?php echo $_GET['state'] ?>&subfolder=newFinal">Cargar fecha de final</a>
+						<a class="nav-link active" href="index.php?pages=manageFinals&id_career=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['name_career'] ?>&state=<?php echo $_GET['state'] ?>&subfolder=newFinal">Cargar fechas de final</a>
 					</li>
 				<?php else : ?>
 					<li class="nav-item">
-						<a class="nav-link" href="index.php?pages=manageFinals&id_career=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['name_career'] ?>&state=<?php echo $_GET['state'] ?>&subfolder=newFinal">Cargar fecha de final</a>
+						<a class="nav-link" href="index.php?pages=manageFinals&id_career=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['name_career'] ?>&state=<?php echo $_GET['state'] ?>&subfolder=newFinal">Cargar fechas de final</a>
 					</li>
 				<?php endif ?>
 
