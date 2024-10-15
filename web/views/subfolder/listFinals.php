@@ -5,6 +5,7 @@ if ((isset($_GET['name_career'])) && (isset($_GET['id_career'])) && (isset($_GET
             'id_final' => 1,
             'name_subject' => 'Inglés',
             'name_teacher' => 'Gabriela Costela',
+            'name_accomp_teacher' => 'Walter Carnero',
             'first_final_date' => '10/10/2024',
             'second_final_date' => '11/10/2024'
         ],
@@ -12,6 +13,7 @@ if ((isset($_GET['name_career'])) && (isset($_GET['id_career'])) && (isset($_GET
             'id_final' => 2,
             'name_subject' => 'Matemática',
             'name_teacher' => 'Javier Pereyra',
+            'name_accomp_teacher' => 'Andres Romano',
             'first_final_date' => '12/10/2024',
             'second_final_date' => '1/11/2024'
         ]
@@ -24,7 +26,8 @@ if ((isset($_GET['name_career'])) && (isset($_GET['id_career'])) && (isset($_GET
                     <thead>
                         <tr class="bg-warning">
                             <th>Materia</th>
-                            <th>Profesor/es</th>
+                            <th>Profesor</th>
+                            <th>Acompañante</th>
                             <th>1er Fecha</th>
                             <th>2da Fecha</th>
                             <th>Acciones</th>
@@ -35,6 +38,7 @@ if ((isset($_GET['name_career'])) && (isset($_GET['id_career'])) && (isset($_GET
                             <tr>
                                 <td><?php echo $final['name_subject'] ?></td>
                                 <td><?php echo $final['name_teacher'] ?></td>
+                                <td><?php echo $final['name_accomp_teacher'] ?></td>
                                 <td><?php echo $final['first_final_date'] ?></td>
                                 <td><?php echo $final['second_final_date'] ?></td>
                                 <td class="text-center">
@@ -76,9 +80,9 @@ if ((isset($_GET['name_career'])) && (isset($_GET['id_career'])) && (isset($_GET
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label for="teacher_name">Profesor:</label>
-                                    <select class="form-control mb-3" id="teacher_name" name="teacher_name">
-                                        <option value="<?php echo $final['id_final'] ?>" selected><?php echo $final['name_teacher']; ?></option>
+                                    <label for="accomp_teacher_name">Profesor acompañante:</label>
+                                    <select class="form-control mb-3" id="accomp_teacher_name" name="accomp_teacher_name">
+                                        <option value="<?php echo $final['id_final'] ?>" selected><?php echo $final['name_accomp_teacher']; ?></option>
                                     </select>
                                 </div>
                             </div>

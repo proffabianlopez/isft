@@ -16,7 +16,7 @@ if (isset($_GET['name_career']) && isset($_GET['id_career']) && isset($_GET['sta
                             <div class="row px-2">
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label class="pt-1" for="name">Materia <span
+                                        <label class="pt-1" for="subject">Materia<span
                                                 class="text-danger">*</span></label>
                                         <select class="form-control" id="id_subject" name="id_subject" required>
                                             <?php
@@ -27,7 +27,7 @@ if (isset($_GET['name_career']) && isset($_GET['id_career']) && isset($_GET['sta
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label class="pt-1" for="lastName">Profesor<span
+                                        <label class="pt-1" for="accomp_prof">Profesor acompañante<span
                                                 class="text-danger">*</span></label>
                                         <select class="form-control" id="id_teacher" name="id_teacher" required>
                                             <?php
@@ -47,9 +47,8 @@ if (isset($_GET['name_career']) && isset($_GET['id_career']) && isset($_GET['sta
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label class="pt-1" for="first_date">2da Fecha<span
-                                                class="text-danger">*</span></label>
-                                        <input class="form-control mb-3" type="date" name="first_date" id="first_date">
+                                        <label class="pt-1" for="second_date">2da Fecha</label>
+                                        <input class="form-control mb-3" type="date" name="second_date" id="second_date">
                                     </div>
                                 </div>
                             </div>
