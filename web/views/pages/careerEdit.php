@@ -14,6 +14,8 @@ $id_career = $_GET['id_career'];
                 </div>
                 <form class="needs-validation" novalidate id="editcareer" >
                     <div class="card-body">
+                        <input type="hidden" name="idCareer" value="<?php echo htmlspecialchars($id_career ?? '') ?>">
+
                         <div class="form-group">
                             <label for="up_nombre">Nombre de la Carrera:</label>
                             <input type="text" maxlength="100" class="form-control" placeholder="Ingrese nombre de la carrera" name="name_career" value="<?php echo htmlspecialchars($info['name_career'] ?? '') ?>" pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚ.- ]+" required>
