@@ -34,8 +34,8 @@ if ((isset($_GET['name_career'])) && (isset($_GET['id_career'])) && (isset($_GET
                     <tbody>
                         <?php foreach ($correlatives as $correlative) : ?>
                             <tr>
-                                <td><?php echo $correlative['name_subject'] ?></td>
-                                <td><?php echo $correlative['correlatives'] ?></td>
+                                <td><?php echo $correlative['name_subject'] . " (" . $correlative['year'] . " " . $correlative['detail'] . ")"; ?></td>
+                                <td><?php echo $correlative['correlatives']; ?></td>
                             </tr>
 
             </div>
