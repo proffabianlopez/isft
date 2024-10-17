@@ -223,14 +223,14 @@ class CorrelativeModel
     //borras las correlativas asociadas por materias
     static public function deleteCorrelativeForSubject($id_subject)
     {
-        $sql = "DELETE FROM correlatives WHERE fk_subject_id =:id_subject";
+        $sql = "DELETE FROM correlatives WHERE fk_subject_id = :id_subject1 OR fk_correlative_id = :id_subject2";
         $stmt = model_sql::connectToDatabase()->prepare($sql);
-        $stmt->bindParam(':id_subject', $id_subject, PDO::PARAM_INT);
+        $stmt->bindParam(':id_subject1', $id_subject, PDO::PARAM_INT);
+        $stmt->bindParam(':id_subject2', $id_subject, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
             return true;
         } else {
-
             print_r($stmt->errorInfo());
             return false;
         }
