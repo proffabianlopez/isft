@@ -1,5 +1,5 @@
 <?php
-$dataStudent = CourseController::getCourseDataStudentSubject($_GET['id_subject']);
+$dataStudent = CourseController::getAllCourseDataStudentSubject($_GET['id_subject']);
 ?>
 <div class="card">
     <div class="card-body">
@@ -9,6 +9,7 @@ $dataStudent = CourseController::getCourseDataStudentSubject($_GET['id_subject']
                     <tr class="text-center">
                         <th>Apellido</th>
                         <th>Nombre</th>
+                        <th>Legajo</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -17,6 +18,11 @@ $dataStudent = CourseController::getCourseDataStudentSubject($_GET['id_subject']
                         <tr>
                             <td class="text-center"><?php echo $student['last_name_student']; ?></td>
                             <td class="text-center"><?php echo $student['name_student']; ?></td>
+                            <?php if(!empty($student['file_number'])):?>
+                            <td class="text-center"><?php echo $student['file_number']; ?></td>
+                            <?php else:?>
+                            <td class="text-center">Sin legajo</td>
+                            <?php endif; ?>
                             <?php if (isset($_GET['pages']) && ($_GET['pages'] == 'manageCourse')) : ?>
                                 <td class="text-center">
                                     <a href="#viewStudentModal<?php echo $student['id_student']; ?>" class="btn btn-success view-student" data-toggle="modal" title="Ver detalles">

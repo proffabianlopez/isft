@@ -41,7 +41,8 @@ class CourseModel
             c.recuperatory2 as recuperatorio2,
             c.cycle_year as ciclo_lectivo,
             c.state as estado_cursada,
-            users.fk_rol_id AS fk_rol_id
+            users.fk_rol_id AS fk_rol_id,
+             users.file as file_number
             FROM users
             JOIN asignament_students as ass ON ass.fk_user_id = users.id_user
             JOIN cursada as c ON c.id_asignementStudent = ass.id
@@ -56,6 +57,36 @@ class CourseModel
         $stmt->bindParam(':fk_subject_id', $id_subject, PDO::PARAM_INT);
         $stmt->bindParam(':currentYear', $currentYear, PDO::PARAM_INT);
         
+        if ($stmt->execute()) {
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } else {
+            print_r($stmt->errorInfo());
+        }
+    
+        $stmt = null;
+    }
+
+    static public function getHistoryCoursesSubjectStudent($id_subject)
+    {
+        
+    
+        $sql = "SELECT users.id_user AS id_student, users.name AS name_student, 
+                users.last_name AS last_name_student, 
+                cursada.note1 AS nota1, 
+                cursada.note2 AS nota2, 
+                cursada.recuperatory1 AS recuperatorio1, 
+                cursada.recuperatory2 AS recuperatorio2, 
+                cursada.cycle_year AS ciclo_lectivo, 
+                cursada.state AS estado_cursada, 
+                users.fk_rol_id AS fk_rol_id,
+                users.file as file_number
+                FROM cursada 
+                JOIN asignament_students AS ass ON cursada.id_asignementStudent = ass.id 
+                JOIN users ON ass.fk_user_id = users.id_user 
+                WHERE users.fk_rol_id = 3 AND ass.fk_subject_id =:fk_subject_id";
+    
+        $stmt = model_sql::connectToDatabase()->prepare($sql);
+        $stmt->bindParam(':fk_subject_id', $id_subject, PDO::PARAM_INT);
         if ($stmt->execute()) {
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } else {
