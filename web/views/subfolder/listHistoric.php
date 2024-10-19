@@ -10,6 +10,7 @@ $dataStudent = CourseController::getAllCourseDataStudentSubject($_GET['id_subjec
                         <th>Apellido</th>
                         <th>Nombre</th>
                         <th>Legajo</th>
+                        <th>Estado</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -20,8 +21,13 @@ $dataStudent = CourseController::getAllCourseDataStudentSubject($_GET['id_subjec
                             <td class="text-center"><?php echo $student['name_student']; ?></td>
                             <?php if(!empty($student['file_number'])):?>
                             <td class="text-center"><?php echo $student['file_number']; ?></td>
-                            <?php else:?>
+                            <?php else:?>                         
                             <td class="text-center">Sin legajo</td>
+                            <?php endif; ?>
+                            <?php if(($student['state'])==1):?>
+                            <td class="text-center">en curso</td>
+                            <?php else:?>                         
+                            <td class="text-center">finalizado</td>
                             <?php endif; ?>
                             <?php if (isset($_GET['pages']) && ($_GET['pages'] == 'manageCourse')) : ?>
                                 <td class="text-center">

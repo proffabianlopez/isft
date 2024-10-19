@@ -116,7 +116,7 @@ $(document).ready(function () {
   handleFormSubmit("#newsubject", "/ajax/subjectAjax.php", "newsubject");
   //edit materia
   handleFormSubmit("#editsubject", "/ajax/subjectAjax.php", "editsubject");
-
+  
   //nueva correlaticva
   handleFormSubmit(
     "#newcorrelative",
@@ -133,4 +133,5 @@ $(document).ready(function () {
   //cambiar contraseña
   handleFormSubmit("#changepassword", "/ajax/userAjax.php", "changepassword");
   handleFormSubmit("#addNote", "/ajax/courseAjax.php", "addNote");
+  handleFormSubmit("#finish", "/ajax/courseAjax.php", "finish");
 });

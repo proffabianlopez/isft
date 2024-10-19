@@ -66,12 +66,13 @@ $dataStudent = CourseController::getCourseDataStudentSubject($_GET['id_subject']
                 </p>
             </div>
             <div class="modal-footer">
-                <form method="post">
-                    <input type="hidden" name="confirmFinish" value="1">
+                <form id="finish" method="post">
+                    <input type="hidden" name="id_career" value="<?php echo $_GET['id_career']; ?>">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Confirmar</button>
+                    <button type="submit" name="course" class="btn btn-primary ladda-button">Confirmar</button>
                 </form>
             </div>
+            <div class="response-message text-center"></div>
         </div>
     </div>
 </div>
@@ -209,40 +210,4 @@ $dataStudent = CourseController::getCourseDataStudentSubject($_GET['id_subject']
             </div>
         </div>
     </div>
-
-
-    <script>
-        // Validación con JavaScript
-        // function validateForm(event) {
-        //     // Evitar envío del formulario si hay errores
-        //     event.preventDefault();
-
-        //     const noteOne = document.getElementById('note_one').value;
-        //     const recuperatoryOne = document.getElementById('recuperatory_one').value;
-        //     const noteTwo = document.getElementById('note_two').value;
-        //     const recuperatoryTwo = document.getElementById('recuperatory_two').value;
-        //     const responseMessage = document.querySelector('.response-message');
-
-        //     // Reiniciar el mensaje
-        //     responseMessage.innerHTML = '';
-        //     responseMessage.classList.remove('alert', 'alert-danger');
-
-        //     // Validar que todas las notas estén entre 0 y 10
-        //     if (isInvalid(noteOne) || isInvalid(recuperatoryOne) || isInvalid(noteTwo) || isInvalid(recuperatoryTwo)) {
-        //         responseMessage.innerHTML = 'Las notas deben estar entre 0 y 10.';
-        //         responseMessage.classList.add('alert', 'alert-danger');
-        //         return false;  // Detener el envío
-        //     }
-
-        //     // Si todo está bien, puedes proceder a enviar el formulario
-        //     document.getElementById('addNote').submit();  // O el código que desees para continuar
-        // }
-
-        // // Función que valida si una nota está fuera del rango permitido
-        // function isInvalid(note) {
-        //     return note === "" || note < 0 || note > 10;
-        // }
-    </script>
-
-
 <?php endforeach; ?>
