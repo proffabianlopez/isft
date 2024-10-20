@@ -41,7 +41,7 @@ $dataStudent = CourseController::getCourseDataStudentSubject($_GET['id_subject']
             <?php
             $currentMonth = date('m');
 
-            if ($currentMonth == '10') {
+            if ($currentMonth == '12') {
                 echo '<button id="send-btn" name="send_btn" class="btn btn-primary" data-toggle="modal" data-target="#confirmFinishModal">Finalizar cursada</button>';
             }
             ?>
@@ -51,7 +51,7 @@ $dataStudent = CourseController::getCourseDataStudentSubject($_GET['id_subject']
 
 <!-- Modal -->
 <div class="modal fade cierreModal" id="confirmFinishModal" tabindex="-1" role="dialog" aria-labelledby="confirmFinishModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+    <div class="modal-dialog modal-dialog-centered modal" role="document">
         <div class="modal-content">
             <div class="modal-header bg-warning text-white">
                 <h5 class="modal-title" id="confirmFinishModalLabel">Confirmar acción</h5>
@@ -60,21 +60,25 @@ $dataStudent = CourseController::getCourseDataStudentSubject($_GET['id_subject']
                 </button>
             </div>
             <div class="modal-body text-center">
-                <p>¿Estás seguro de que deseas finalizar la cursada?</p>
-                <p class="alert alert-danger">Esta acción no se puede deshacer y
-                    eliminará a todos los alumnos de todas las materias del año actual.
+                <p>¿Estás seguro de que deseas finalizar la cursada de Esta Carrera?</p>
+                <p class="alert alert-danger">
+                    <strong>Advertencia:</strong> Esta acción es irreversible y eliminará a todos los alumnos de todas las materias del año actual.<br>
+                    La información de los alumnos se archivará en un historial, por lo que podrás consultarla en el futuro, pero no podrás editar ningún registro asociado.
                 </p>
+                <p>Revisa cuidadosamente todos los detalles antes de continuar.</p>
             </div>
             <div class="modal-footer">
-                <form method="post">
-                    <input type="hidden" name="confirmFinish" value="1">
+                <form id="finish" method="post">
+                    <input type="hidden" name="id_career" value="<?php echo $_GET['id_career']; ?>">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Confirmar</button>
+                    <button type="submit" name="course" class="btn btn-primary ladda-button">Confirmar</button>
                 </form>
             </div>
+            <div class="response-message text-center"></div>
         </div>
     </div>
 </div>
+
 
 <?php foreach ($dataStudent as $student) : ?>
     <!-- Modal de vista de usuario -->
@@ -209,40 +213,15 @@ $dataStudent = CourseController::getCourseDataStudentSubject($_GET['id_subject']
             </div>
         </div>
     </div>
-
-
-    <script>
-        // Validación con JavaScript
-        // function validateForm(event) {
-        //     // Evitar envío del formulario si hay errores
-        //     event.preventDefault();
-
-        //     const noteOne = document.getElementById('note_one').value;
-        //     const recuperatoryOne = document.getElementById('recuperatory_one').value;
-        //     const noteTwo = document.getElementById('note_two').value;
-        //     const recuperatoryTwo = document.getElementById('recuperatory_two').value;
-        //     const responseMessage = document.querySelector('.response-message');
-
-        //     // Reiniciar el mensaje
-        //     responseMessage.innerHTML = '';
-        //     responseMessage.classList.remove('alert', 'alert-danger');
-
-        //     // Validar que todas las notas estén entre 0 y 10
-        //     if (isInvalid(noteOne) || isInvalid(recuperatoryOne) || isInvalid(noteTwo) || isInvalid(recuperatoryTwo)) {
-        //         responseMessage.innerHTML = 'Las notas deben estar entre 0 y 10.';
-        //         responseMessage.classList.add('alert', 'alert-danger');
-        //         return false;  // Detener el envío
-        //     }
-
-        //     // Si todo está bien, puedes proceder a enviar el formulario
-        //     document.getElementById('addNote').submit();  // O el código que desees para continuar
-        // }
-
-        // // Función que valida si una nota está fuera del rango permitido
-        // function isInvalid(note) {
-        //     return note === "" || note < 0 || note > 10;
-        // }
-    </script>
-
-
 <?php endforeach; ?>
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-9">
+            <div class="alert alert-info text-center">
+                <p class="mb-0 py-2"><b>NOTA:</b> Recuerden que podrán finalizar la cursada de esta carrera **únicamente** en diciembre y solo para el año actual. Es importante que revisen todos los detalles y los registros de los alumnos antes de proceder.</p>
+                
+            </div>
+        </div>
+    </div>
+</div>

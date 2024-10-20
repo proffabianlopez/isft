@@ -400,10 +400,11 @@ class StudentController
                 // Recorrer los IDs insertados y asignarles un ciclo en la tabla 'cursada'
                 $currentYear = date('Y');
                 $currentMonth = date('m');
-                if ($currentMonth >= 10) {  
-                    $cycle_year = $currentYear + 1;
+              
+              if ($currentMonth == 12) {  
+                    $cycle_year = $currentYear + 1; 
                 } else {
-                    $cycle_year = $currentYear;
+                    $cycle_year = $currentYear; 
                 }
                 foreach ($result['insertedIds'] as $idAsignement) {
                     $courseResult = CourseModel::insertCourseStudent($idAsignement, $cycle_year);

@@ -94,5 +94,43 @@ class CourseController
 
         return isset($numerosEnTexto[$numero]) ? $numerosEnTexto[$numero] : $numero;
     }
+    static public function finishCourse($id_career) {
+        $year = date('Y');
+        
+      
+        $studentsAssigned = CourseModel::checkAssignedStudents($id_career, $year);
+        
+        if ($studentsAssigned) {
+           
+            $execute = CourseModel::deleteAllAssignStudents($id_career);
+            
+            if ($execute) {
+               
+                $changeState = CourseModel::changeCourseState($id_career, $year);
+                
+                if ($changeState) {
+                    $response['title'] = "¡Actualizado!";
+                    $response["status"] = "successLoad";
+                    $response["message"] = "Se cerró correctamente la cursada";
+                    return $response;
+                } else {
+                    $response["status"] = "error";
+                    $response["message"] = "Hubo un problema al actualizar el estado de cursada";
+                    return $response;
+                }
+            } else {
+                $response["status"] = "error";
+                $response["message"] = "Hubo un problema al borrar alumnos";
+                return $response;
+            }
+        } else {
+           
+            $response["status"] = "error";
+            $response["message"] = "La cursada Actual ya ha sido limpiada, no hay estudiantes para borrar.";
+            return $response;
+        }
+    }
+    
+    
 
 }
