@@ -41,7 +41,7 @@ if (isset($_GET['name_career']) && isset($_GET['id_career']) && isset($_GET['sta
                                             <option value="" >Ninguno</option>
                                             <?php
                                             foreach ($allTeachers as $key => $teacher) {
-                                                echo '<option value="' . $teacher['id_teacher'] . '">' . $teacher['name_teacher'] . '</option>';
+                                                echo '<option value="' . $teacher['id_teacher'] . '">' .$teacher['last_name_teacher'].' '. $teacher['name_teacher'] . '</option>';
                                             }
                                             ?>
                                         </select>
