@@ -8,7 +8,8 @@ class FinalModel
                         CONCAT(u_asignado.last_name, ' ', u_asignado.name) AS profesor_titular,
                         CONCAT(u_vocal.last_name, ' ', u_vocal.name) AS profesor_vocal,
                         et.date_final1,
-                        et.date_final2
+                        et.date_final2,
+                        et.is_open
                     FROM exam_table AS et
                     JOIN asignament_teachers AS ast ON ast.id = et.fk_asignament_teacher
                     JOIN users AS u_asignado ON u_asignado.id_user = ast.fk_user_id
@@ -177,4 +178,39 @@ class FinalModel
 
     }
 
-}
+    //va a cerrar una mesa de examen
+    static public function CloseExam($id_exam_table)
+    {
+        $sql = "UPDATE exam_table
+                SET is_open = 0
+                WHERE 	id_exam_table = :id_exam_table";
+
+        $stmt = model_sql::connectToDatabase()->prepare($sql);
+        $stmt->bindParam(':id_exam_table', $id_exam_table, PDO::PARAM_INT);
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    //va a verificar el estado de la mesa de examen
+    static public function verifyIsOpenOrClose($id)
+    {
+        
+        $sql = "SELECT et.is_open
+            FROM exam_table as et 
+                WHERE  et.id_exam_table= :id";
+
+        $stmt = model_sql::connectToDatabase()->prepare($sql);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        if ($stmt->execute()) {
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } else {
+            print_r($stmt->errorInfo());
+        }
+        $stmt = null;
+    }
+      
+    }
+

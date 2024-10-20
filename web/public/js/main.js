@@ -138,6 +138,8 @@ $(document).ready(function () {
   
   //New final
   handleFormSubmit("#newfinal", "/ajax/finalAjax.php", "newfinal");
+  //cerrar mesa de examen
+  handleFormSubmit("#closeExamForm", "/ajax/finalAjax.php", "closeExamTable");
 
   handleFormSubmit("#finish", "/ajax/courseAjax.php", "finish");
 });
