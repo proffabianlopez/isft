@@ -41,7 +41,7 @@ $dataStudent = CourseController::getCourseDataStudentSubject($_GET['id_subject']
             <?php
             $currentMonth = date('m');
 
-            if ($currentMonth == '10') {
+            if ($currentMonth == '12') {
                 echo '<button id="send-btn" name="send_btn" class="btn btn-primary" data-toggle="modal" data-target="#confirmFinishModal">Finalizar cursada</button>';
             }
             ?>
@@ -51,7 +51,7 @@ $dataStudent = CourseController::getCourseDataStudentSubject($_GET['id_subject']
 
 <!-- Modal -->
 <div class="modal fade cierreModal" id="confirmFinishModal" tabindex="-1" role="dialog" aria-labelledby="confirmFinishModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+    <div class="modal-dialog modal-dialog-centered modal" role="document">
         <div class="modal-content">
             <div class="modal-header bg-warning text-white">
                 <h5 class="modal-title" id="confirmFinishModalLabel">Confirmar acción</h5>
@@ -60,10 +60,12 @@ $dataStudent = CourseController::getCourseDataStudentSubject($_GET['id_subject']
                 </button>
             </div>
             <div class="modal-body text-center">
-                <p>¿Estás seguro de que deseas finalizar la cursada?</p>
-                <p class="alert alert-danger">Esta acción no se puede deshacer y
-                    eliminará a todos los alumnos de todas las materias del año actual.
+                <p>¿Estás seguro de que deseas finalizar la cursada de Esta Carrera?</p>
+                <p class="alert alert-danger">
+                    <strong>Advertencia:</strong> Esta acción es irreversible y eliminará a todos los alumnos de todas las materias del año actual.<br>
+                    La información de los alumnos se archivará en un historial, por lo que podrás consultarla en el futuro, pero no podrás editar ningún registro asociado.
                 </p>
+                <p>Revisa cuidadosamente todos los detalles antes de continuar.</p>
             </div>
             <div class="modal-footer">
                 <form id="finish" method="post">
@@ -76,6 +78,7 @@ $dataStudent = CourseController::getCourseDataStudentSubject($_GET['id_subject']
         </div>
     </div>
 </div>
+
 
 <?php foreach ($dataStudent as $student) : ?>
     <!-- Modal de vista de usuario -->
@@ -211,3 +214,14 @@ $dataStudent = CourseController::getCourseDataStudentSubject($_GET['id_subject']
         </div>
     </div>
 <?php endforeach; ?>
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-9">
+            <div class="alert alert-info text-center">
+                <p class="mb-0 py-2"><b>NOTA:</b> Recuerden que podrán finalizar la cursada de esta carrera **únicamente** en diciembre y solo para el año actual. Es importante que revisen todos los detalles y los registros de los alumnos antes de proceder.</p>
+                <p class="mb-0 py-2">Si tienen alguna duda, no duden en consultar a sus superiores.</p>
+            </div>
+        </div>
+    </div>
+</div>
