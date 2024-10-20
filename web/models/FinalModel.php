@@ -1,7 +1,31 @@
 <?php
 class FinalModel
 {
-    
+    static public function showFinal($id_carrer)
+    {
+        $sql = "SELECT  et.id_exam_table,
+                        s.name_subject, 
+                        CONCAT(u_asignado.last_name, ' ', u_asignado.name) AS profesor_titular,
+                        CONCAT(u_vocal.last_name, ' ', u_vocal.name) AS profesor_vocal,
+                        et.date_final1,
+                        et.date_final2
+                    FROM exam_table AS et
+                    JOIN asignament_teachers AS ast ON ast.id = et.fk_asignament_teacher
+                    JOIN users AS u_asignado ON u_asignado.id_user = ast.fk_user_id
+                    JOIN users AS u_vocal ON u_vocal.id_user = et.fk_teacher_vocal_id
+                    JOIN subjects AS s ON s.id_subject = ast.fk_subject_id
+                    JOIN careers AS c ON c.id_career = s.fk_career_id
+                    WHERE c.id_career = :id_carrer";
+        $stmt = model_sql::connectToDatabase()->prepare($sql);
+        $stmt->bindParam(':id_carrer', $id_carrer, PDO::PARAM_INT);
+        if ($stmt->execute()) {
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } else {
+            print_r($stmt->errorInfo());
+        }
+        $stmt = null;
+    }
+
     static public function isOpenFinal($id)
     {
         $id = $id['id_assigment_teacher'];
@@ -17,8 +41,8 @@ class FinalModel
             print_r($stmt->errorInfo());
         }
         $stmt = null;
-    } 
-    static public function isDuplicateTeacher($id )
+    }
+    static public function isDuplicateTeacher($id)
     {
         $id = $id['id_assigment_teacher'];
         $sql = "SELECT ast.fk_user_id as id_teacher
@@ -68,7 +92,7 @@ class FinalModel
     {
         $id_teacher = $id_teacher['id_assigment_teacher'];
         $id_teacher = empty($id_teacher) ? NULL : trim($id_teacher);
-            $query = "SELECT 
+        $query = "SELECT 
                             s.name_subject,
                             CONCAT(u_vocal.name, ' ', u_vocal.last_name) AS Vocal,
                             CONCAT(u_asignado.name, ' ', u_asignado.last_name) AS Asignado,
@@ -84,15 +108,15 @@ class FinalModel
                       WHERE (et.fk_teacher_vocal_id = :id_teacher_vocal)
                       AND (et.date_final1 = :first_date OR et.date_final2 = :second_date)
                       AND ast.id = :id_teacher";
-    
-            $stmt = model_sql::connectToDatabase()->prepare($query);
-    
-            // Enlace de parámetros, asegurando que se use un nombre diferente si el valor se repite
-            $stmt->bindParam(':id_teacher_vocal', $id_teacher_vocal, PDO::PARAM_INT);
-            $stmt->bindParam(':first_date', $first_date, PDO::PARAM_STR);
-            $stmt->bindParam(':second_date', $second_date, PDO::PARAM_STR);
-            $stmt->bindParam(':id_teacher', $id_teacher, PDO::PARAM_INT);
-        
+
+        $stmt = model_sql::connectToDatabase()->prepare($query);
+
+        // Enlace de parámetros, asegurando que se use un nombre diferente si el valor se repite
+        $stmt->bindParam(':id_teacher_vocal', $id_teacher_vocal, PDO::PARAM_INT);
+        $stmt->bindParam(':first_date', $first_date, PDO::PARAM_STR);
+        $stmt->bindParam(':second_date', $second_date, PDO::PARAM_STR);
+        $stmt->bindParam(':id_teacher', $id_teacher, PDO::PARAM_INT);
+
 
         if (!$stmt->execute()) {
             error_log("Error al ejecutar la consulta: " . print_r($stmt->errorInfo(), true));
