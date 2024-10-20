@@ -13,6 +13,13 @@ body {
     /* Color de fondo personalizado */
 }
 
+.select2-selection--single {
+    height: 40px !important;
+    padding: 8px !important;
+    display: flex;
+    align-items: center;
+}
+
 .account-pages {
     width: 100%;
     max-width: 420px;

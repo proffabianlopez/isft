@@ -29,13 +29,31 @@
 <script src="public/js/generateAccountStudent.js"></script>
 <script src="public/js/inDevelopment.js"></script>
 
-        <script src="public/js/showEyePassword.js"></script>
-        <script src="public/js/loginForm.js"></script>
-        <script src="public/js/bootstrap.bundle.min.js"></script>
+<script src="public/js/showEyePassword.js"></script>
+<script src="public/js/loginForm.js"></script>
+<script src="public/js/bootstrap.bundle.min.js"></script>
 
-<script src="public/js/main.js"></script>
 
 <!-- Ladda -->
 <script src="public/dist/js/ladda/spin.min.js"></script>
 <script src="public/dist/js/ladda/ladda.min.js"></script>
 <script src="public/dist/js/ladda/ladda.jquery.min.js"></script>
+<!-- Select2 -->
+<script src="public/plugins/select2/js/select2.full.min.js"></script>
+
+<script src="public/js/main.js"></script>
+
+<script>
+        // Obtener la fecha actual
+        const today = new Date().toISOString().split('T')[0];
+
+        // Seleccionar todos los inputs con la clase 'date-today'
+        const dateInputs = document.querySelectorAll('.date-today');
+
+        // Asignar la fecha mínima a cada input
+        dateInputs.forEach(input => {
+                input.setAttribute('min', today);
+        });
+
+        $('.select2').select2()
+</script>
