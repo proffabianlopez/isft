@@ -28,17 +28,14 @@ class SubjectController{
    //logica para crear una nueva materia
     static public function newSubject() {
         $id_career = $_POST['idCareer'];
-        // $name_career = $name;
-        // $state = $state;
         if (!empty($_POST['name_subject']) && !empty($_POST['details']) && !empty($_POST['id_year'])) {
-            // Recoger los datos del formulario
             $name_subject = ucwords(strtolower(trim($_POST['name_subject'])));
             $details_subject = trim($_POST['details']);
             $id_year = $_POST['id_year'];
 
-            if (!preg_match('/^[A-Za-zÀ-ÿ0-9,\s]+$/', $name_subject) || strlen($name_subject) > 100) {
+            if (!preg_match('/^[A-Za-zÀ-ÿ0-9,\s]+$/', $name_subject) || strlen($name_subject) > 80) {
                 $response["status"] = "error";
-            $response["message"] = "El nombre no puede tener ciertos caracteres especiales ni ser mayor a 100 caracteres.";
+            $response["message"] = "El nombre no puede tener ciertos caracteres especiales ni ser mayor a 70 caracteres.";
             return $response;
             }                                 
 
@@ -89,9 +86,9 @@ class SubjectController{
         $id_year=$_POST['id_year'];
         $id_subject = $_POST['id_subject'];
     
-        if (!preg_match('/^[A-Za-zÀ-ÿ0-9,\s]+$/', $name_subject) || strlen($name_subject) > 100) {
+        if (!preg_match('/^[A-Za-zÀ-ÿ0-9,\s]+$/', $name_subject) || strlen($name_subject) > 80) {
             $response["status"] = "error";
-            $response["message"] = "El nombre no puede tener ciertos caracteres especiales ni ser mayor a 100 caracteres.";
+            $response["message"] = "El nombre no puede tener ciertos caracteres especiales ni ser mayor a 70 caracteres.";
             return $response;
         }                       
 
