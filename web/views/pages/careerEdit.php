@@ -18,12 +18,12 @@ $id_career = $_GET['id_career'];
 
                         <div class="form-group">
                             <label for="up_nombre">Nombre de la Carrera:</label>
-                            <input type="text" maxlength="100" class="form-control" placeholder="Ingrese nombre de la carrera" name="name_career" value="<?php echo htmlspecialchars($info['name_career'] ?? '') ?>" pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚ.- ]+" required>
+                            <input type="text" maxlength="70" class="form-control" placeholder="Ingrese nombre de la carrera" name="name_career" value="<?php echo htmlspecialchars($info['name_career'] ?? '') ?>" pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚ.- ]+" required>
                             <div class="invalid-feedback">Por favor ingrese un nombre válido.</div>
                         </div>
                         <div class="form-group">
                             <label for="up_titulo">Título de la Carrera:</label>
-                            <input type="text" maxlength="100" class="form-control" placeholder="Ingrese el título que se obtiene al finalizar la carrera" name="title" value="<?php echo htmlspecialchars($info['description'] ?? '') ?>" pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚ.\- ]+" required>
+                            <input type="text" maxlength="70" class="form-control" placeholder="Ingrese el título que se obtiene al finalizar la carrera" name="title" value="<?php echo htmlspecialchars($info['description'] ?? '') ?>" pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚ.\- ]+" required>
                             <div class="invalid-feedback">Por favor ingrese un título válido.</div>
                         </div>
                         <div class="form-group">

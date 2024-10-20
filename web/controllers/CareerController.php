@@ -31,17 +31,23 @@ class CareerController
 			(!empty($_POST['abbreviation']))
 		) {
 			$careerName = ucwords(trim($_POST['careerName']));
-			if (!preg_match("/^[a-zA-ZáéíóúÁÉÍÓÚ\s]+$/", $careerName)) {
+			if (!preg_match("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/", $careerName)) {
 				$response["status"] = "error";
-            $response["message"] = "El nombre de la carrera sólo puede contener letras y espacios.";
-            return $response;
+				$response["message"] = "El nombre de la carrera sólo puede contener letras, y espacios.";
+				return $response;
 			}
 
 			$description = ucfirst(trim($_POST['description']));
-			if (!preg_match("/^[a-zA-ZáéíóúÁÉÍÓÚ\s]+$/", $description)) {
+			if (!preg_match("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/", $description)) {
 				$response["status"] = "error";
-            $response["message"] = "La descripción sólo puede contener letras y espacios.";
-            return $response;
+				$response["message"] = "La descripción sólo puede contener letras y espacios.";
+				return $response;
+			}
+
+			if (strlen($careerName) > 90 || strlen($description) > 90) {
+				$response["status"] = "error";
+				$response["message"] = "El nombre y/o título no pueden tener más de 70 caracteres.";
+				return $response;
 			}
 
 			$abbreviation = strtoupper(trim($_POST['abbreviation']));
@@ -90,23 +96,29 @@ class CareerController
 		$title = ucfirst(trim($_POST['title']));
 		$abbreviation = strtoupper(trim($_POST['abbreviation']));
 
-		if (!preg_match("/^[a-zA-ZáéíóúÁÉÍÓÚ\s]+$/", $careerName)) {
+		if (!preg_match("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/", $careerName)) {
 			$response["status"] = "error";
-            $response["message"] = "El nombre de la carrera sólo puede contener letras y espacios.";
-            return $response;
+			$response["message"] = "El nombre de la carrera sólo puede contener letras y espacios.";
+			return $response;
 		}
 
-		if (!preg_match("/^[a-zA-ZáéíóúÁÉÍÓÚ\s]+$/", $title)) {
+		if (!preg_match("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/", $title)) {
 			$response["status"] = "error";
-            $response["message"] = "El titulo sólo puede contener letras y espacios.";
-            return $response;
-		}
+			$response["message"] = "El título sólo puede contener letras y espacios.";
+			return $response;
+		}		
 
 		$abbreviation = strtoupper(trim($_POST['abbreviation']));
 		if (!preg_match("/^[A-Z]{2}$/", $abbreviation)) {
 			$response["status"] = "error";
             $response["message"] = "Abreviación de carrera inválida.";
             return $response;
+		}
+
+		if (strlen($careerName) > 90 || strlen($title) > 90) {
+			$response["status"] = "error";
+			$response["message"] = "El nombre y/o título no pueden tener más de 70 caracteres.";
+			return $response;
 		}
 
 		$execute = CareerModel::editCareer($careerName, $title, $abbreviation, $id_career);
