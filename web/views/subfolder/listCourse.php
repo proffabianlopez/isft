@@ -65,7 +65,7 @@ $dataStudent = CourseController::getCourseDataStudentSubject($_GET['id_subject']
                     <strong>Advertencia:</strong> Esta acción es irreversible y eliminará a todos los alumnos de todas las materias del año actual.<br>
                     La información de los alumnos se archivará en un historial, por lo que podrás consultarla en el futuro, pero no podrás editar ningún registro asociado.
                 </p>
-                
+                <p>Revisa cuidadosamente todos los detalles antes de continuar.</p>
             </div>
             <div class="modal-footer">
                 <form id="finish" method="post">
@@ -220,7 +220,7 @@ $dataStudent = CourseController::getCourseDataStudentSubject($_GET['id_subject']
         <div class="col-md-9">
             <div class="alert alert-info text-center">
                 <p class="mb-0 py-2"><b>NOTA:</b> Recuerden que podrán finalizar la cursada de esta carrera **únicamente** en diciembre y solo para el año actual. Es importante que revisen todos los detalles y los registros de los alumnos antes de proceder.</p>
-                <p class="mb-0 py-2">Si tienen alguna duda, no duden en consultar a sus superiores.</p>
+                
             </div>
         </div>
     </div>
