@@ -48,11 +48,11 @@ $user_data = UserController::sessionDataUser($_SESSION['id_user']);
                     <form method="POST">
                         <div class="form-group">
                             <label for="newName">Nombre:</label>
-                            <input type="text" class="form-control" id="newName" name="name" required value="<?php echo $user_data['name_user'] ?>">
+                            <input type="text" maxlength="50" class="form-control" id="newName" name="name" required value="<?php echo $user_data['name_user'] ?>">
                         </div>
                         <div class="form-group">
                             <label for="newLastName">Apellido:</label>
-                            <input type="text" class="form-control" id="newLastName" name="last_name" required value="<?php echo $user_data['last_name_user'] ?>">
+                            <input type="text" maxlength="50" class="form-control" id="newLastName" name="last_name" required value="<?php echo $user_data['last_name_user'] ?>">
                         </div>
                         <div class="form-group">
                             <label for="tel">Teléfono</label>

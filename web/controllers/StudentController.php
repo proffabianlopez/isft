@@ -16,16 +16,15 @@ class StudentController
 
             $name = ucwords(strtolower(trim($_POST['name'])));
             $lastname = ucwords(strtolower(trim($_POST['lastName'])));
-            if (!preg_match("/^[a-zA-ZáéíóúÁÉÍÓÚ\s]+$/u", $name) || !preg_match("/^[a-zA-ZáéíóúÁÉÍÓÚ\s]+$/u", $lastname)) {
-
+            if (!preg_match("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/u", $name) || !preg_match("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/u", $lastname)) {
                 $response["status"] = "error";
                 $response["message"] = "El nombre y/o apellido solo pueden contener letras, espacios y tildes.";
                 return $response;
-            }
+            }  
 
-            if (strlen($name) > 128 || strlen($lastname) > 128) {
+            if (strlen($name) > 70 || strlen($lastname) > 70) {
                 $response["status"] = "error";
-                $response["message"] = "El nombre y/o apellido no pueden tener más de 128 caracteres.";
+                $response["message"] = "El nombre y/o apellido no pueden tener más de 50 caracteres.";
                 return $response;
             }
 
@@ -150,14 +149,14 @@ class StudentController
         $name = ucwords(strtolower(trim($_POST['name_student'])));
         $lastname = ucwords(strtolower(trim($_POST['last_name_student'])));
 
-        if (!preg_match("/^[a-zA-ZáéíóúÁÉÍÓÚ\s]+$/u", $name) || !preg_match("/^[a-zA-ZáéíóúÁÉÍÓÚ\s]+$/u", $lastname)) {
+        if (!preg_match("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/u", $name) || !preg_match("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/u", $lastname)) {
             $response["status"] = "error";
             $response["message"] = "El nombre y/o apellido solo pueden contener letras, espacios y tildes.";
             return $response;
         }
-        if (strlen($name) > 128 || strlen($lastname) > 128) {
+        if (strlen($name) > 70 || strlen($lastname) > 70) {
             $response["status"] = "error";
-            $response["message"] = "El nombre y/o apellido no pueden tener más de 128 caracteres.";
+            $response["message"] = "El nombre y/o apellido no pueden tener más de 50 caracteres.";
             return $response;
         }
 

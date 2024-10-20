@@ -120,11 +120,11 @@
                             <input type="hidden" name="id_career_person" value="<?php echo $student['id_career_person']; ?>">
                             <div class="form-group">
                                 <label for="apellido">Apellido</label>
-                                <input type="text" maxlength="128" class="form-control" id="last_name_student" pattern="[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+" title="Solo se permiten letras y espacios" name="last_name_student" value="<?php echo $student['last_name_student']; ?>">
+                                <input type="text" maxlength="50" class="form-control" id="last_name_student" pattern="[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+" title="Solo se permiten letras y espacios" name="last_name_student" value="<?php echo $student['last_name_student']; ?>">
                             </div>
                             <div class="form-group">
                                 <label for="nombre">Nombre</label>
-                                <input type="text" maxlength="128" class="form-control" id="nam" pattern="[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+" title="Solo se permiten letras y espacios" name="name_student" required value="<?php echo $student['name_student']; ?>">
+                                <input type="text" maxlength="50" class="form-control" id="nam" pattern="[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+" title="Solo se permiten letras y espacios" name="name_student" required value="<?php echo $student['name_student']; ?>">
                             </div>
                             <div class="form-group">
                                 <label for="dni">DNI</label>
@@ -134,14 +134,6 @@
                                 <label for="tel">Teléfono (Opcional)</label>
                                 <input type="text" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="form-control" name="tel" placeholder="Formato 11 12345678" value="<?php echo $student['phone_contact']; ?>" >
                             </div>
-
-                            <!-- HAY QUE SEPARAR LA PRIMERA PARTE DEL LEGAJO (AC, AS, etc) Y TRAER SOLO LOS ÚLTIMOS 4 NÚMEROS PARA QUE
-                    TE TOME EL VALUE, Y MODIFICAR LA CONSULTA DE LA BASE DE DATOS DE ACUERDO A ESE NÚMERO.
-                    <div class="form-group">
-                        <label for="fileNumber">Legajo</label>
-                        <input type="number" class="form-control" name="file" maxlength="4" max="9999" min="0" value=" echo $student['legajo']; ?>" required>
-                    </div> -->
-
                             <div class="form-group">
                                 <label for="roles">Carrera</label>
                                 <select class="form-control" id="carrer" name="carrer" required>

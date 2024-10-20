@@ -161,15 +161,25 @@ class UserController
             $lastname = ucwords(strtolower(trim($_POST['last_name'])));
 
             // Validación de nombre y apellido
-            if (!preg_match("/^[a-zA-Z]+$/", $name) || !preg_match("/^[a-zA-Z]+$/", $lastname)) {
+            if (!preg_match("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/", $name) || !preg_match("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/", $lastname)) {
                 echo '<script>
                 if (window.history.replaceState) {
                     window.history.replaceState(null, null, window.location.href);
                 }
                 </script>
-                <div class="alert alert-danger mt-2">El nombre y/o apellido solo pueden contener letras.</div>';
+                <div class="alert alert-danger mt-2">El nombre y/o apellido solo pueden contener letras y espacios.</div>';
                 return;
             }
+
+            if (strlen($name) > 70 || strlen($lastname) > 70) {
+                echo '<script>
+                if (window.history.replaceState) {
+                    window.history.replaceState(null, null, window.location.href);
+                }
+                </script>
+                <div class="alert alert-danger mt-2">El nombre y/o apellido no pueden tener más de 50 caracteres.</div>';
+                return;
+            }            
 
             $telephone = trim($_POST['tel']);
             if (!ctype_digit($telephone) || strlen($telephone) != 10 || intval(substr($telephone, 0, 2)) < 11) {
@@ -251,15 +261,15 @@ class UserController
 
             $name = ucwords(strtolower(trim($_POST['name'])));
             $lastname = ucwords(strtolower(trim($_POST['lastName'])));
-            if (!preg_match("/^[a-zA-ZáéíóúÁÉÍÓÚ\s]+$/u", $name) || !preg_match("/^[a-zA-ZáéíóúÁÉÍÓÚ\s]+$/u", $lastname)) {
+            if (!preg_match("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/u", $name) || !preg_match("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/u", $lastname)) {
                 $response["status"] = "error";
                 $response["message"] = "El nombre y/o apellido solo pueden contener letras, espacios y tildes.";
                 return $response;
             }
 
-            if (strlen($name) > 128 || strlen($lastname) > 128) {
+            if (strlen($name) > 70 || strlen($lastname) > 70) {
                 $response["status"] = "error";
-                $response["message"] = "El nombre y/o apellido no pueden tener más de 128 caracteres.";
+                $response["message"] = "El nombre y/o apellido no pueden tener más de 50 caracteres.";
                 return $response;
             }
 
@@ -367,7 +377,7 @@ class UserController
         if (isset($_POST['id_user'])) {
             $id = $_POST['id_user'];
 
-            $execute = UserModel::updateUserState($id); // Agregar el punto y coma (;) aquí
+            $execute = UserModel::updateUserState($id); 
 
             if ($execute) {
                 echo '<script>
@@ -377,14 +387,14 @@ class UserController
                 
                 window.location="../index.php?pages=manageUser";
                 </script>
-                <div class="alert alert-success mt-2">Se borró el registro correctamente</div>'; // Corregir la palabra "success"
+                <div class="alert alert-success mt-2">Se borró el registro correctamente</div>';
             } else {
                 echo '<script>
                 if (window.history.replaceState) {
                     window.history.replaceState(null, null, window.location.href);
                 }
                 </script>
-                <div class="alert alert-danger mt-2">No se pudo borrar</div>'; // Corregir la palabra "pudo"
+                <div class="alert alert-danger mt-2">No se pudo borrar</div>'; 
             }
         }
     }
@@ -392,9 +402,9 @@ class UserController
 
     static public function disableAccountUser()
     {
-        if (isset($_GET['id_user'])) { // Cambiar $_POST a $_GET
-            $id = $_GET['id_user']; // Cambiar $_POST a $_GET
-            $execute = UserModel::disableUser($id); // Agregar el punto y coma (;) aquí
+        if (isset($_GET['id_user'])) { 
+            $id = $_GET['id_user']; 
+            $execute = UserModel::disableUser($id); 
 
             if ($execute) {
                 echo '<script>
@@ -404,14 +414,14 @@ class UserController
                 
                 window.location="../index.php?pages=manageUser";
                 </script>
-                <div class="alert alert-success mt-2">Se desabilito la cuenta</div>'; // Corregir la palabra "success"
+                <div class="alert alert-success mt-2">Se desabilito la cuenta</div>'; 
             } else {
                 echo '<script>
                 if (window.history.replaceState) {
                     window.history.replaceState(null, null, window.location.href);
                 }
                 </script>
-                <div class="alert alert-danger mt-2">No se pudo borrar</div>'; // Corregir la palabra "pudo"
+                <div class="alert alert-danger mt-2">No se pudo borrar</div>'; 
             }
         }
     }
@@ -419,9 +429,9 @@ class UserController
 
     static public function enableAccountUser()
     {
-        if (isset($_GET['id_user'])) { // Cambiar $_POST a $_GET
-            $id = $_GET['id_user']; // Cambiar $_POST a $_GET
-            $execute = UserModel::activateUser($id); // Agregar el punto y coma (;) aquí
+        if (isset($_GET['id_user'])) { 
+            $id = $_GET['id_user']; 
+            $execute = UserModel::activateUser($id); 
 
             if ($execute) {
                 echo '<script>
@@ -438,7 +448,7 @@ class UserController
                     window.history.replaceState(null, null, window.location.href);
                 }
                 </script>
-                <div class="alert alert-danger mt-2">No se pudo borrar</div>'; // Corregir la palabra "pudo"
+                <div class="alert alert-danger mt-2">No se pudo borrar</div>';
             }
         }
     }
@@ -448,20 +458,15 @@ class UserController
         $id = $_POST['id_user'];
         $name = ucwords(strtolower(trim($_POST['name'])));
         $lastname = ucwords(strtolower(trim($_POST['last_name'])));
-        if (!preg_match("/^[a-zA-ZáéíóúÁÉÍÓÚ\s]+$/u", $name) || !preg_match("/^[a-zA-ZáéíóúÁÉÍÓÚ\s]+$/u", $lastname)) {
+        if (!preg_match("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/u", $name) || !preg_match("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/u", $lastname)) {
             $response["status"] = "error";
             $response["message"] = "El nombre y/o apellido solo pueden contener letras, espacios y tildes.";
             return $response;
         }
 
-        if (!preg_match("/^[a-zA-Z]+$/", $name) || !preg_match("/^[a-zA-Z]+$/", $lastname)) {
+        if (strlen($name) > 70 || strlen($lastname) > 70) {
             $response["status"] = "error";
-            $response["message"] = "El nombre y/o apellido solo pueden contener letras.";
-            return $response;
-        }
-        if (strlen($name) > 128 || strlen($lastname) > 128) {
-            $response["status"] = "error";
-            $response["message"] = "El nombre y/o apellido no pueden tener más de 128 caracteres.";
+            $response["message"] = "El nombre y/o apellido no pueden tener más de 50 caracteres.";
             return $response;
         }
 

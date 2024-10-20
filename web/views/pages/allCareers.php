@@ -56,12 +56,12 @@
                         <div class="form-group">
                             <label for="careerName">Nombre <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="careerName" name="careerName"
-                                placeholder="Ingrese el nombre de la carrera" required>
+                                placeholder="Ingrese el nombre de la carrera" maxlength="70" required>
                         </div>
                         <div class="form-group">
                             <label for="careerTitle">Título <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="careerTitle" name="description"
-                                placeholder="Ingrese el título de la carrera" required>
+                                placeholder="Ingrese el título de la carrera" maxlength="70" required>
                         </div>
                         <div class="form-group">
                             <label for="careerAbbreviation">Abreviación <span class="text-danger">*</span></label>
