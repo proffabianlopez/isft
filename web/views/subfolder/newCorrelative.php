@@ -47,8 +47,8 @@ if ((isset($_GET['name_career'])) && (isset($_GET['id_career'])) && (isset($_GET
                     <tbody>
                         <?php foreach ($correlatives as $correlative) : ?>
                             <tr>
-                                <td><?php echo htmlspecialchars($correlative['name_subject']) ?></td>
-                                <td><?php echo htmlspecialchars($correlative['name_correlative_subject']) ?></td>
+                                <td><?php echo htmlspecialchars($correlative['name_subject']) . " (" . ($correlative['year_subject']) . " " . ($correlative['detail_subject']) . ") "?></td>
+                                <td><?php echo htmlspecialchars($correlative['name_correlative_subject']) . " (" . ($correlative['year_correlative']) . " " . ($correlative['detail_correlative']) . ") "?></td>
                                 <td>
                                     <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal_edit_<?php echo $correlative['id_correlative'] ?>" title="editar materia">
                                         <i class="fas fa-edit"></i>

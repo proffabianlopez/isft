@@ -25,9 +25,26 @@ error_log('Contenido de $data: ' . print_r($data, true));
         ?>
     </h5>
     <ul class="nav nav-pills nav-fill mb-2">
+        <?php if ((isset($_GET['subfolder'])) && ($_GET['subfolder'] == 'listCourse')) : ?>
             <li class="nav-item">
                 <a class="nav-link active" href="index.php?pages=manageCourse&id_career=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['name_career'] ?>&state=<?php echo $_GET['state'] ?>&id_subject=<?php echo $_GET['id_subject'] ?>&name_subject=<?php echo $_GET['name_subject'] ?>&subfolder=listCourse">Lista de la cursada</a>
             </li>
+        <?php else : ?>
+            <li class="nav-item">
+                <a class="nav-link" href="index.php?pages=manageCourse&id_career=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['name_career'] ?>&state=<?php echo $_GET['state'] ?>&id_subject=<?php echo $_GET['id_subject'] ?>&name_subject=<?php echo $_GET['name_subject'] ?>&subfolder=listCourse">Lista de la cursada</a>
+            </li>
+        <?php endif ?>
+
+        <?php if ((isset($_GET['subfolder'])) && ($_GET['subfolder'] == 'listHistoric')) : ?>
+            <li class="nav-item">
+                <a class="nav-link active" href="index.php?pages=manageCourse&id_career=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['name_career'] ?>&state=<?php echo $_GET['state'] ?>&id_subject=<?php echo $_GET['id_subject'] ?>&name_subject=<?php echo $_GET['name_subject'] ?>&subfolder=listHistoric">Historial de la cursada</a>
+            </li>
+        <?php else : ?>
+            <li class="nav-item">
+                <a class="nav-link" href="index.php?pages=manageCourse&id_career=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['name_career'] ?>&state=<?php echo $_GET['state'] ?>&id_subject=<?php echo $_GET['id_subject'] ?>&name_subject=<?php echo $_GET['name_subject'] ?>&subfolder=listHistoric">Historial de la cursada</a>
+            </li>
+        <?php endif ?>
+
         <li class="nav-item">
             <a href="index.php?pages=previewCourse&id_career=<?php echo $_GET['id_career'] ?>&name_career=<?php echo $_GET['name_career'] ?>&state=<?php echo $_GET['state'] ?>" class="nav-link">Volver a herramientas <i class="fas fa-arrow-circle-left ml-2"></i></a>
         </li>
@@ -37,10 +54,12 @@ error_log('Contenido de $data: ' . print_r($data, true));
 <?php
 if (isset($_GET['subfolder'])) {
     # links administracion de materias
-    if (($_GET['subfolder'] == "listCourse")) {
+    if (($_GET['subfolder'] == "listCourse") ||
+        ($_GET['subfolder'] == "listHistoric")
+    ) {
         include "views/subfolder/" . $_GET['subfolder'] . ".php";
     }
 } else {
-    include "views/subfolder/listCourse.php";
+    include "views/subfolder/listHistoric.php";
 }
 ?>

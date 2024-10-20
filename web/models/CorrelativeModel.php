@@ -94,59 +94,74 @@ class CorrelativeModel
     static public function showDataCorrelative($id)
     {
         $sql = "SELECT 
-                correlatives.id_correlative AS id_correlative,
-                c1.id_subject AS id_correlative_subject,
-                c1.name_subject AS name_correlative_subject,
-                c2.id_subject AS id_subject,
-                c2.name_subject AS name_subject
-            FROM 
-                correlatives
-            JOIN 
-                subjects AS c1 ON correlatives.fk_correlative_id = c1.id_subject
-            JOIN 
-                subjects AS c2 ON correlatives.fk_subject_id = c2.id_subject
-            JOIN 
-                careers ON c1.fk_career_id = careers.id_career
-            WHERE 
-                careers.id_career = ?";
+        correlatives.id_correlative AS id_correlative,
+        c1.id_subject AS id_correlative_subject,
+        c1.name_subject AS name_correlative_subject,
+        ys1.year AS year_correlative,
+        ys1.detail AS detail_correlative,
+        c2.id_subject AS id_subject,
+        c2.name_subject AS name_subject,
+        ys2.year AS year_subject,
+        ys2.detail AS detail_subject
+        FROM 
+            correlatives
+        JOIN 
+            subjects AS c1 ON correlatives.fk_correlative_id = c1.id_subject
+        JOIN 
+            subjects AS c2 ON correlatives.fk_subject_id = c2.id_subject
+        JOIN 
+            careers ON c1.fk_career_id = careers.id_career
+        JOIN 
+            yearSubject AS ys1 ON c1.fk_year_subject = ys1.id_year_subject
+        JOIN 
+            yearSubject AS ys2 ON c2.fk_year_subject = ys2.id_year_subject
+        WHERE 
+            careers.id_career = ?
+        ";
 
         $stmt = model_sql::connectToDatabase()->prepare($sql);
         $stmt->bindParam(1, $id, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            $stmt = null; // Cierra la declaración
+            $stmt = null; 
 
             return $result;
         } else {
             print_r($stmt->errorInfo());
-            $stmt = null; // Asegúrate de cerrar la declaración en caso de error
+            $stmt = null;
 
             return false;
         }
     }
 
-    //Esta función muestra todas las correlativas de la materia una al lado de la otra
+    // Esta función muestra todas las correlativas de la materia una al lado de la otra
     // separada por guión y concatenadas.
     static public function showMultipleCorrelatives($id)
     {
         $sql = "SELECT 
-    c1.id_subject AS id_subject,
-    c1.name_subject AS name_subject,
-    GROUP_CONCAT(c2.name_subject ORDER BY c2.name_subject SEPARATOR ' - ') AS correlatives
-FROM 
-    correlatives
-JOIN 
-    subjects AS c1 ON correlatives.fk_subject_id = c1.id_subject
-JOIN 
-    subjects AS c2 ON correlatives.fk_correlative_id = c2.id_subject
-JOIN 
-    careers ON c1.fk_career_id = careers.id_career
-WHERE 
-    c1.fk_career_id = ?
-GROUP BY
-    c1.id_subject
-"; // Corregir aquí el alias de la tabla subjects
+        c1.id_subject AS id_subject,
+        c1.name_subject AS name_subject,
+        ys1.year AS year,
+        ys1.detail AS detail,
+        GROUP_CONCAT(CONCAT(c2.name_subject, ' (', ys2.year, ' ', ys2.detail, ')') ORDER BY c2.name_subject SEPARATOR ' - ') AS correlatives
+        FROM 
+            correlatives
+        JOIN 
+            subjects AS c1 ON correlatives.fk_subject_id = c1.id_subject
+        JOIN 
+            subjects AS c2 ON correlatives.fk_correlative_id = c2.id_subject
+        JOIN 
+            careers ON c1.fk_career_id = careers.id_career
+        JOIN 
+            yearSubject AS ys1 ON c1.fk_year_subject = ys1.id_year_subject
+        JOIN 
+            yearSubject AS ys2 ON c2.fk_year_subject = ys2.id_year_subject
+        WHERE 
+            c1.fk_career_id = ?
+        GROUP BY
+            c1.id_subject, ys1.year, ys1.detail   
+        "; 
 
         $pdo = model_sql::connectToDatabase();
         $stmt = $pdo->prepare($sql);
@@ -154,12 +169,12 @@ GROUP BY
 
         if ($stmt->execute()) {
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            $stmt = null; // Cierra la declaración
+            $stmt = null; 
 
             return $result;
         } else {
             print_r($stmt->errorInfo());
-            $stmt = null; // Asegúrate de cerrar la declaración en caso de error
+            $stmt = null; 
 
             return false;
         }
@@ -208,14 +223,14 @@ GROUP BY
     //borras las correlativas asociadas por materias
     static public function deleteCorrelativeForSubject($id_subject)
     {
-        $sql = "DELETE FROM correlatives WHERE fk_subject_id =:id_subject";
+        $sql = "DELETE FROM correlatives WHERE fk_subject_id = :id_subject1 OR fk_correlative_id = :id_subject2";
         $stmt = model_sql::connectToDatabase()->prepare($sql);
-        $stmt->bindParam(':id_subject', $id_subject, PDO::PARAM_INT);
+        $stmt->bindParam(':id_subject1', $id_subject, PDO::PARAM_INT);
+        $stmt->bindParam(':id_subject2', $id_subject, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
             return true;
         } else {
-
             print_r($stmt->errorInfo());
             return false;
         }

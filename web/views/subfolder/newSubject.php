@@ -19,7 +19,7 @@ if (isset($_GET['name_career']) && isset($_GET['id_career']) && isset($_GET['sta
                                         <label class="pt-1" for="name">Nombre de la materia <span
                                                 class="text-danger">*</span></label>
                                         <input type="text" class="form-control reset" name="name_subject"
-                                            placeholder="Ingrese el nombre" maxlength="100" required>
+                                            placeholder="Ingrese el nombre" maxlength="70" required>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">

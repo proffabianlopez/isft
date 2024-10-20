@@ -41,7 +41,8 @@ class CourseModel
             c.recuperatory2 as recuperatorio2,
             c.cycle_year as ciclo_lectivo,
             c.state as estado_cursada,
-            users.fk_rol_id AS fk_rol_id
+            users.fk_rol_id AS fk_rol_id,
+             users.file as file_number
             FROM users
             JOIN asignament_students as ass ON ass.fk_user_id = users.id_user
             JOIN cursada as c ON c.id_asignementStudent = ass.id
@@ -64,33 +65,61 @@ class CourseModel
     
         $stmt = null;
     }
+
+    static public function getHistoryCoursesSubjectStudent($id_subject)
+    {
+        
+    
+        $sql = "SELECT users.id_user AS id_student, users.name AS name_student, 
+                users.last_name AS last_name_student, 
+                cursada.note1 AS nota1, 
+                cursada.note2 AS nota2, 
+                cursada.recuperatory1 AS recuperatorio1, 
+                cursada.recuperatory2 AS recuperatorio2, 
+                cursada.cycle_year AS ciclo_lectivo, 
+                cursada.state AS estado_cursada, 
+                users.fk_rol_id AS fk_rol_id,
+                users.file as file_number,
+                cursada.state as state
+                FROM cursada 
+                JOIN asignament_students_history AS ass ON cursada.id_asignementStudent = ass.id 
+                JOIN users ON ass.fk_user_id = users.id_user 
+                WHERE users.fk_rol_id = 3 AND ass.fk_subject_id =:fk_subject_id";
+    
+        $stmt = model_sql::connectToDatabase()->prepare($sql);
+        $stmt->bindParam(':fk_subject_id', $id_subject, PDO::PARAM_INT);
+        if ($stmt->execute()) {
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } else {
+            print_r($stmt->errorInfo());
+        }
+    
+        $stmt = null;
+    }
+
+
+    static public function deleteAllAssignStudents($id_career)
+    {
+        $sql = "DELETE ass
+        FROM asignament_students AS ass
+        JOIN subjects AS s ON ass.fk_subject_id = s.id_subject
+        JOIN careers AS c ON s.fk_career_id = c.id_career
+        WHERE c.id_career = :id_career";
+    
+        $stmt = model_sql::connectToDatabase()->prepare($sql);
+        $stmt->bindParam(':id_career', $id_career, PDO::PARAM_INT);
+        if ($stmt->execute()) {
+            return true; 
+        } else {
+            print_r($stmt->errorInfo());
+            return false;
+        }
+    
+        $stmt = null;
+    }
     
 
-
-    //nos traera el fk de id_assignamente student para meterlo en cursadas
-//     static public function id_assignamentStudent($id_subject, $id_student)
-// {
-//     $sql = "SELECT 
-//                 asignament_students.id AS id,
-//                 asignament_students.fk_user_id,
-//                 asignament_students.fk_subject_id
-//             FROM 
-//                 asignament_students
-//             WHERE 
-//                 asignament_students.fk_user_id = :fk_student_id
-//                 AND asignament_students.fk_subject_id = :fk_subject_id";
-
-    //     $stmt = model_sql::connectToDatabase()->prepare($sql);
-//     $stmt->bindParam(':fk_student_id', $id_student, PDO::PARAM_INT);
-//     $stmt->bindParam(':fk_subject_id', $id_subject, PDO::PARAM_INT);
-
-    //     if ($stmt->execute()) {
-//         return $stmt->fetch(PDO::FETCH_ASSOC); 
-//     } else {
-//         print_r($stmt->errorInfo());
-//         return null; 
-//     }
-// }
+   
 
 
     //inserta en automatico cuando se agregue la asignacion del alumno y materia
@@ -108,8 +137,44 @@ class CourseModel
             print_r($stmt->errorInfo());
             return false;
         }
-        $stmt = null; // Liberar el statement
+        $stmt = null;
     }
+
+//verifica si hay alguna asignacion de alumnos en la cursada    
+    static public function checkAssignedStudents($id_career, $cycle_year) {
+        $sql = "SELECT COUNT(*) 
+                FROM asignament_students AS ash 
+                JOIN subjects AS s ON ash.fk_subject_id = s.id_subject 
+                JOIN cursada AS c ON c.id_asignementStudent = ash.id 
+                WHERE s.fk_career_id = :id_career AND c.cycle_year = :cycle_year";
+        
+        $stmt = model_sql::connectToDatabase()->prepare($sql);
+        $stmt->bindParam(":id_career", $id_career, PDO::PARAM_INT);
+        $stmt->bindParam(":cycle_year", $cycle_year, PDO::PARAM_INT);
+        $stmt->execute();
+        
+        return $stmt->fetchColumn() > 0;
+    }
+    
+    
+//cambia el estado de la cursada finalizado 0
+    static public function changeCourseState($id_career, $cycle_year) {
+        $sql = "
+            UPDATE cursada
+            INNER JOIN asignament_students_history AS ash ON cursada.id_asignementStudent = ash.id
+            INNER JOIN subjects AS s ON ash.fk_subject_id = s.id_subject
+            SET cursada.state = 0
+            WHERE s.fk_career_id = :id_career AND cursada.cycle_year = :cycle_year
+        ";
+    
+        $stmt = model_sql::connectToDatabase()->prepare($sql);
+        $stmt->bindParam(":id_career", $id_career, PDO::PARAM_INT);
+        $stmt->bindParam(":cycle_year", $cycle_year, PDO::PARAM_INT);
+        
+        return $stmt->execute();
+    }
+    
+    
 
 
 }

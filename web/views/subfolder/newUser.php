@@ -16,13 +16,13 @@
                                 <div class="form-group">
                                     <label class="pt-1" for="lastName">Apellido <span
                                             class="text-danger">*</span></label>
-                                    <input type="text" maxlength="128" class="form-control reset" name="lastName"
+                                    <input type="text" maxlength="50" class="form-control reset" name="lastName"
                                         value="<?php echo isset($_POST['lastName']) ? htmlspecialchars($_POST['lastName']) : ''; ?>"
                                         required>
                                 </div>
                                 <div class="form-group">
                                     <label class="pt-1" for="name">Nombre <span class="text-danger">*</span></label>
-                                    <input type="text" maxlength="128" class="form-control reset" name="name"
+                                    <input type="text" maxlength="50" class="form-control reset" name="name"
                                         value="<?php echo isset($_POST['name']) ? htmlspecialchars($_POST['name']) : ''; ?>"
                                         required>
                                 </div>
