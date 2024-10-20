@@ -3,6 +3,7 @@ $(document).ready(function () {
     // Reinicia el contenido de todos los elementos con la clase response-message
     $(".response-message").html("");
   });
+  
   function handleFormSubmit(formId, actionUrl, action) {
     $(document).on("submit", formId, function (e) {
       e.preventDefault();
@@ -133,5 +134,10 @@ $(document).ready(function () {
   //cambiar contraseña
   handleFormSubmit("#changepassword", "/ajax/userAjax.php", "changepassword");
   handleFormSubmit("#addNote", "/ajax/courseAjax.php", "addNote");
+
+  
+  //New final
+  handleFormSubmit("#newfinal", "/ajax/finalAjax.php", "newfinal");
+
   handleFormSubmit("#finish", "/ajax/courseAjax.php", "finish");
 });
