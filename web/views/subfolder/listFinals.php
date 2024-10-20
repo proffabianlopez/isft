@@ -1,23 +1,6 @@
 <?php
 if ((isset($_GET['name_career'])) && (isset($_GET['id_career'])) && (isset($_GET['state']))) {
-    $finals = [
-        [
-            'id_final' => 1,
-            'name_subject' => 'Inglés',
-            'name_teacher' => 'Gabriela Costela',
-            'name_accomp_teacher' => 'Walter Carnero',
-            'first_final_date' => '10/10/2024',
-            'second_final_date' => '11/10/2024'
-        ],
-        [
-            'id_final' => 2,
-            'name_subject' => 'Matemática',
-            'name_teacher' => 'Javier Pereyra',
-            'name_accomp_teacher' => 'Andres Romano',
-            'first_final_date' => '12/10/2024',
-            'second_final_date' => '1/11/2024'
-        ]
-    ];
+    $finals = FinalController::getAllFinal($_GET['id_career']);
 ?>
     <div class="card">
         <div class="card-body">
@@ -30,25 +13,36 @@ if ((isset($_GET['name_career'])) && (isset($_GET['id_career'])) && (isset($_GET
                             <th>Acompañante</th>
                             <th>1er Fecha</th>
                             <th>2da Fecha</th>
-                            <th>Acciones</th>
+                            <!-- <th>Acciones</th> -->
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($finals as $final): ?>
-                            <tr>
-                                <td><?php echo $final['name_subject'] ?></td>
-                                <td><?php echo $final['name_teacher'] ?></td>
-                                <td><?php echo $final['name_accomp_teacher'] ?></td>
-                                <td><?php echo $final['first_final_date'] ?></td>
-                                <td><?php echo $final['second_final_date'] ?></td>
-                                <td class="text-center">
-                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                                        data-target="#modal_edit_<?php echo $final['id_final'] ?>" title="Editar final">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                        <?php endforeach ?>
+                    <?php foreach ($finals as $final): ?>
+    <tr>
+        <td><?php echo $final['name_subject'] ?></td>
+        <td><?php echo $final['profesor_titular'] ?></td>
+        <td>
+            <?php 
+            // Verificar si el profesor vocal es NULL y mostrar "NO asignado"
+            echo is_null($final['profesor_vocal']) ? 'NO asignado' : $final['profesor_vocal']; 
+            ?>
+        </td>
+        <td><?php echo $final['date_final1'] ?></td>
+        <td>
+            <?php 
+            // Verificar si la fecha final2 es NULL y mostrar "NO asignado"
+            echo is_null($final['date_final2']) ? 'Sin Fecha' : $final['date_final2']; 
+            ?>
+        </td>
+        <!-- <td class="text-center">
+            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                data-target="#modal_edit_<?php //echo $final['id_exam_table'] ?>" title="Editar final">
+                <i class="fas fa-edit"></i>
+            </button>
+        </td> -->
+    </tr>
+<?php endforeach ?>
+
                     </tbody>
                 </table>
             </div>

@@ -1,6 +1,10 @@
 <?php
 class FinalController
 {
+    static public function getAllFinal($id_carrer)
+    {
+        return FinalModel::showFinal($id_carrer);
+    }
 
     static public function getAllSubjectFinal($id)
     {
@@ -19,7 +23,7 @@ class FinalController
             $response["message"] = "Debes completar los campos";
             return $response;
         }
-        if (strtotime($second_date) <= strtotime($first_date)) {
+        if (strtotime($second_date) <= strtotime($first_date)  && !empty($second_date)) {
             $response["status"] = "error";
             $response["message"] = "La 2da fecha no puede ser inferior o igual a la 1ra fecha.";
             return $response;
