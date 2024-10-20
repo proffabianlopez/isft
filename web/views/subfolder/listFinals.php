@@ -46,13 +46,23 @@ if ((isset($_GET['name_career'])) && (isset($_GET['id_career'])) && (isset($_GET
                 <i class="fas fa-edit"></i>
             </button>
         </td> -->
-            <td class="text-center">
+
+    <?php if($final['is_open'] == 1):?>
+        <td class="text-center">
+    <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
+        data-target="#modal_close_<?php echo $final['id_exam_table']; ?>" title="Cerrar mesa">
+        <i class="fas fa-lock-open"></i> <!-- Icono de candado abierto y color verde -->
+    </button>
+</td>
+
+<?php else: ?>
+    <td class="text-center">
         <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
             data-target="#modal_close_<?php echo $final['id_exam_table']; ?>" title="Cerrar mesa">
             <i class="fas fa-lock"></i> <!-- Icono de candado cerrado -->
         </button>
     </td>
-
+<?php endif ?>
     </tr>
 <?php endforeach ?>
 
