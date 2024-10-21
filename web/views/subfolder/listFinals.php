@@ -8,7 +8,7 @@ if ((isset($_GET['name_career'])) && (isset($_GET['id_career'])) && (isset($_GET
                 <table class="table table-bordered" style="width: 80%; margin: 0 auto;" id="example3">
                     <thead>
                         <tr class="bg-warning">
-                            <th>Materia</th>
+                            <th>Materia - Año</th>
                             <th>Profesor</th>
                             <th>Acompañante</th>
                             <th>1er Fecha</th>
@@ -20,7 +20,7 @@ if ((isset($_GET['name_career'])) && (isset($_GET['id_career'])) && (isset($_GET
                     <tbody>
                     <?php foreach ($finals as $final): ?>
     <tr>
-        <td><?php echo $final['name_subject'] ?></td>
+        <td><?php echo $final['name_subject']." - ".$final['year']; ?></td>
         <td><?php echo $final['profesor_titular'] ?></td>
         <td>
             <?php 
