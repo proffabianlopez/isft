@@ -105,4 +105,28 @@ class FinalController
         }
     }
 
+    static public function closeExamTable($id_exam_table){
+
+        $verifyIsClose = FinalModel::verifyIsOpenOrClose($id_exam_table);
+
+        if ($verifyIsClose['is_open'] == 0) {
+            $response["status"] = "error";
+            $response["message"] = "La mesa de examen ya se encuentra cerrada";
+            return $response;
+        }
+
+        $execute = FinalModel::CloseExam($id_exam_table);
+        if ($execute) {
+            $response["status"] = "successLoad";
+            $response["title"] = "Exito";
+            $response["message"] = "Se cerró exitosamente la mesa de examen";
+            return $response;
+        } else {
+            $response["status"] = "error";
+            $response["message"] = "Carga fallida";
+            return $response;
+        }
+
+    }
+
 }

@@ -13,7 +13,8 @@ if ((isset($_GET['name_career'])) && (isset($_GET['id_career'])) && (isset($_GET
                             <th>Acompañante</th>
                             <th>1er Fecha</th>
                             <th>2da Fecha</th>
-                            <!-- <th>Acciones</th> -->
+                            <th>Mesa</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -34,12 +35,34 @@ if ((isset($_GET['name_career'])) && (isset($_GET['id_career'])) && (isset($_GET
             echo is_null($final['date_final2']) ? 'Sin Fecha' : $final['date_final2']; 
             ?>
         </td>
+
+        <td>
+           <?php if($final['is_open'] == 1) echo 'Abierta'; else echo 'Cerrada'; ?>
+        </td>
+
         <!-- <td class="text-center">
             <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
                 data-target="#modal_edit_<?php //echo $final['id_exam_table'] ?>" title="Editar final">
                 <i class="fas fa-edit"></i>
             </button>
         </td> -->
+
+    <?php if($final['is_open'] == 1):?>
+        <td class="text-center">
+    <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
+        data-target="#modal_close_<?php echo $final['id_exam_table']; ?>" title="Cerrar mesa">
+        <i class="fas fa-lock-open"></i> <!-- Icono de candado abierto y color verde -->
+    </button>
+</td>
+
+<?php else: ?>
+    <td class="text-center">
+        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+            data-target="#modal_close_<?php echo $final['id_exam_table']; ?>" title="Cerrar mesa">
+            <i class="fas fa-lock"></i> <!-- Icono de candado cerrado -->
+        </button>
+    </td>
+<?php endif ?>
     </tr>
 <?php endforeach ?>
 
@@ -106,3 +129,31 @@ if ((isset($_GET['name_career'])) && (isset($_GET['id_career'])) && (isset($_GET
         </div>
     </div>
 <?php endforeach ?>
+
+<?php foreach ($finals as $final): ?>
+    <!-- Modal para cerrar la mesa de examen -->
+    <div class="modal fade cierreModal" id="modal_close_<?php echo $final['id_exam_table']; ?>" tabindex="-1" role="dialog"
+        aria-labelledby="modalCloseLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-danger">
+                    <h5 class="modal-title" id="modalCloseLabel">Cerrar Mesa de Examen</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>¿Estás seguro de que deseas cerrar la mesa de examen para <strong><?php echo $final['name_subject']; ?></strong>?</p>
+                    <form id="closeExamForm" method="POST" >
+                        <input type="hidden" name="id_exam_table" value="<?php echo $final['id_exam_table']; ?>">
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-danger ladda-button">Cerrar Mesa</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        </div>
+                        <div class="response-message text-center"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php endforeach; ?>
