@@ -3,23 +3,23 @@ class FinalModel
 {
     static public function showFinal($id_carrer)
     {
-        $sql = "SELECT  et.id_exam_table,
-                        s.name_subject, 
-                        CONCAT(u_asignado.last_name, ' ', u_asignado.name) AS profesor_titular,
-                        CONCAT(u_vocal.last_name, ' ', u_vocal.name) AS profesor_vocal,
-                        et.date_final1,
-                        et.date_final2,
-                        et.is_open,
-                        ys.year,
-                        ys.detail
-                    FROM exam_table AS et
-                    JOIN asignament_teachers AS ast ON ast.id = et.fk_asignament_teacher
-                    JOIN users AS u_asignado ON u_asignado.id_user = ast.fk_user_id
-                    JOIN users AS u_vocal ON u_vocal.id_user = et.fk_teacher_vocal_id
-                    JOIN subjects AS s ON s.id_subject = ast.fk_subject_id
-                    JOIN careers AS c ON c.id_career = s.fk_career_id
-                    JOIN yearSubject AS ys ON ys.id_year_subject = s.fk_year_subject
-                    WHERE c.id_career = :id_carrer";
+        $sql = "SELECT et.id_exam_table,
+                    s.name_subject, 
+                    CONCAT(u_asignado.last_name, ' ', u_asignado.name) AS profesor_titular,
+                    CONCAT(u_vocal.last_name, ' ', u_vocal.name) AS profesor_vocal,
+                    et.date_final1,
+                    et.date_final2,
+                    et.is_open,
+                    ys.year,
+                    ys.detail
+                FROM exam_table AS et
+                LEFT JOIN asignament_teachers AS ast ON ast.id = et.fk_asignament_teacher
+                LEFT JOIN users AS u_asignado ON u_asignado.id_user = ast.fk_user_id
+                LEFT JOIN users AS u_vocal ON u_vocal.id_user = et.fk_teacher_vocal_id
+                LEFT JOIN subjects AS s ON s.id_subject = ast.fk_subject_id
+                LEFT JOIN careers AS c ON c.id_career = s.fk_career_id
+                LEFT JOIN yearSubject AS ys ON ys.id_year_subject = s.fk_year_subject
+                WHERE c.id_career = :id_carrer";
         $stmt = model_sql::connectToDatabase()->prepare($sql);
         $stmt->bindParam(':id_carrer', $id_carrer, PDO::PARAM_INT);
         if ($stmt->execute()) {
@@ -200,7 +200,7 @@ class FinalModel
     //va a verificar el estado de la mesa de examen
     static public function verifyIsOpenOrClose($id)
     {
-        
+
         $sql = "SELECT et.is_open
             FROM exam_table as et 
                 WHERE  et.id_exam_table= :id";
@@ -214,6 +214,6 @@ class FinalModel
         }
         $stmt = null;
     }
-      
-    }
+
+}
 
